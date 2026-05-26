@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import PasswordGate from '@/app/components/PasswordGate'
+import SideNav from '@/app/components/SideNav'
 
 const INSIDE = [
   'Qualitative interview findings',
@@ -13,7 +14,7 @@ const INSIDE = [
 function FullCaseStudy() {
   return (
     <div style={{ maxWidth: 680 }}>
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-context" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Context</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>A free service that millions of people were turning down</h2>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>Signify Health partners with health plans to offer eligible Medicare members a licensed clinician who comes to your home, reviews your medications and medical history, checks your vitals, and coordinates findings with your primary care provider — at no cost. The program operates at scale, with over 10,000 clinicians performing evaluations across the country. But sign-up rates weren't reflecting that potential.</p>
@@ -27,13 +28,13 @@ function FullCaseStudy() {
         </div>
       </section>
 
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-research" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Research</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Listening before designing</h2>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>Before anyone touched a wireframe, I needed to understand what was happening in members' minds when they declined. I ran a qualitative research initiative — interviews with members who had been offered an IHE and turned it down. The sessions were structured around one core question: not "why didn't you want this?" but "help me understand what you were thinking when you made that decision." The distinction matters. The first question invites defensiveness. The second invites honesty.</p>
       </section>
 
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-findings" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Findings</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>It wasn't about strangers in the home</h2>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.5rem' }}>Six distinct barrier categories emerged from the research.</p>
@@ -55,20 +56,20 @@ function FullCaseStudy() {
         </div>
       </section>
 
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-reframe" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Reframe</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>From "will you let us in?" to "here's what's in it for you"</h2>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85 }}>The original portal was organized around what Signify Health needed from members. It assumed members already understood the value and just needed a way to book. The research said otherwise. Members needed the value case made first. Only then would they be willing to give anything back. That reframe drove every design decision in the redesign.</p>
       </section>
 
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-design" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Design</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Trust-first, member-controlled</h2>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>Four principles from the research shaped every design decision: lead with value not process; give members real-time scheduling control instead of a callback request; establish legitimacy early with clear trust signals; and pair every request for information with a clear explanation of what the member would receive in return.</p>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85 }}>The shift from a callback-request model to real-time self-scheduling was the most impactful single change — removing a friction point that, combined with scam skepticism, was causing significant drop-off.</p>
       </section>
 
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-outcomes" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Outcomes</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Research that informed real scale</h2>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', margin: '2rem 0' }}>
@@ -108,7 +109,7 @@ export default function IHEPortalPage() {
             <span className="tag">UX Research</span>
             <span className="tag">UX Design</span>
           </div>
-          <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem', maxWidth: 780 }}>IHE Scheduling Portal</h1>
+          <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>IHE Scheduling Portal</h1>
           <p style={{ fontSize: 13, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Signify Health · CVS Health</p>
           <p style={{ fontSize: 18, color: 'var(--text)', lineHeight: 1.7, maxWidth: 680 }}>A free in-home health evaluation sounds like an obvious yes. A licensed clinician comes to your home, reviews your medications, checks your vitals, and coordinates with your doctor — at no cost. So why were millions of eligible members saying no?</p>
         </header>
@@ -128,16 +129,7 @@ export default function IHEPortalPage() {
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '4rem 3rem', display: 'grid', gridTemplateColumns: '200px 1fr', gap: '5rem', alignItems: 'start' }}>
-        <aside style={{ position: 'sticky', top: '5rem' }}>
-          <p style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '1rem' }}>Contents</p>
-          <ul style={{ listStyle: 'none' }}>
-            {['The Context', 'The Research', 'The Findings', 'The Reframe', 'The Design', 'The Outcomes', 'The Reflection'].map(item => (
-              <li key={item}>
-                <a href="#the-context" style={{ fontSize: 13, color: 'var(--text-muted)', textDecoration: 'none', display: 'block', padding: '0.5rem 0 0.5rem 0.75rem', borderLeft: '2px solid var(--border)', lineHeight: 1.4 }}>{item}</a>
-              </li>
-            ))}
-          </ul>
-        </aside>
+        <SideNav sections={["the-context", "the-research", "the-findings", "the-reframe", "the-design", "the-outcomes", "the-reflection"]} />
         <div>
           <PasswordGate password="4likh4n" title="Ready to see what the research uncovered?" cta="The full case study walks through the research methodology, all six barrier categories, and the design principles that shaped the portal redesign." inside={INSIDE}>
             <FullCaseStudy />

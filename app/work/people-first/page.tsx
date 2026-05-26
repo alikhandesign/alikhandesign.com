@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import PasswordGate from '@/app/components/PasswordGate'
+import SideNav from '@/app/components/SideNav'
 
 const INSIDE = [
   'FullStory analysis and rage click findings',
@@ -13,7 +14,7 @@ const INSIDE = [
 function FullCaseStudy() {
   return (
     <div style={{ maxWidth: 680 }}>
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-context" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Context</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>A legacy product built for the business, not the user</h2>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>Via Benefits is Willis Towers Watson's individual benefits marketplace, used by Medicare-eligible retirees to shop for health insurance coverage. The platform handles hundreds of thousands of enrollments annually, making every friction point in the funnel a meaningful business problem.</p>
@@ -28,7 +29,7 @@ function FullCaseStudy() {
         </div>
       </section>
 
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-problem" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Problem</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>A technical gate that stopped users before they could start</h2>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The first thing a user encountered on the Via Benefits shopping site was a selector asking them to choose between Medicare Plans and Individual and Family Plans. On the surface, a reasonable starting point. In practice, a wall.</p>
@@ -38,13 +39,13 @@ function FullCaseStudy() {
         </div>
       </section>
 
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-research" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Research</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Diagnosing the failure with data and listening</h2>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>I ran a dual-track research initiative. First, FullStory sessions revealed a dense cluster of rage clicks at exactly the plan type selector — users weren't just confused, they were frustrated. Second, moderated user interviews confirmed the core insight: users didn't want to select a plan category. They wanted to see what was available for someone like them.</p>
       </section>
 
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-insight" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Insight</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>The product was asking users to think like the business</h2>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The entry point was organized around WTW's product taxonomy, not around how a human being shops for insurance. The fix was clear: stop asking users what they want to buy, and start asking who they are. Age, date of birth, and zip code were all the system actually needed. Everything else was complexity we were making the user carry.</p>
@@ -53,13 +54,13 @@ function FullCaseStudy() {
         </div>
       </section>
 
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-design" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Design</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>An identity-first entry point that removed the technical gate</h2>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The redesigned selector led with a simple question: who are you shopping for? From there, users provided age and zip code, and the system handled eligibility filtering entirely in the background. I also designed an "Escape Hatch" for users who already knew their plan type, satisfying sophisticated users without making that the default path for everyone.</p>
       </section>
 
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-outcomes" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Outcomes</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Every key metric moved in the right direction</h2>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', margin: '2rem 0' }}>
@@ -99,7 +100,7 @@ export default function PeopleFirstPage() {
             <span className="tag">UX Research</span>
             <span className="tag">Product Strategy</span>
           </div>
-          <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem', maxWidth: 780 }}>People-First Enrollment Redesign</h1>
+          <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>People-First Enrollment Redesign</h1>
           <p style={{ fontSize: 13, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Via Benefits · WTW · 2023</p>
           <p style={{ fontSize: 18, color: 'var(--text)', lineHeight: 1.7, maxWidth: 680 }}>What happens when a product is designed around how the business works instead of how people think? For Medicare enrollees navigating health insurance, the answer was abandonment, frustration, and a flood of support calls that didn't need to happen.</p>
         </header>
@@ -119,16 +120,7 @@ export default function PeopleFirstPage() {
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '4rem 3rem', display: 'grid', gridTemplateColumns: '200px 1fr', gap: '5rem', alignItems: 'start' }}>
-        <aside style={{ position: 'sticky', top: '5rem' }}>
-          <p style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '1rem' }}>Contents</p>
-          <ul style={{ listStyle: 'none' }}>
-            {['The Context', 'The Problem', 'The Research', 'The Insight', 'The Design', 'The Outcomes', 'The Reflection'].map(item => (
-              <li key={item}>
-                <a href={`#${item.toLowerCase().replace(' ', '-')}`} style={{ fontSize: 13, color: 'var(--text-muted)', textDecoration: 'none', display: 'block', padding: '0.5rem 0 0.5rem 0.75rem', borderLeft: '2px solid var(--border)', lineHeight: 1.4 }}>{item}</a>
-              </li>
-            ))}
-          </ul>
-        </aside>
+        <SideNav sections={["the-context", "the-problem", "the-research", "the-insight", "the-design", "the-outcomes", "the-reflection"]} />
 
         <div>
           <PasswordGate

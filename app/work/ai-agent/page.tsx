@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import PasswordGate from '@/app/components/PasswordGate'
+import SideNav from '@/app/components/SideNav'
 
 const INSIDE = [
   'Compliance-first design approach and legal workshops',
@@ -13,7 +14,7 @@ const INSIDE = [
 function FullCaseStudy() {
   return (
     <div style={{ maxWidth: 680 }}>
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-context" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Context</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>A billion-dollar book of business generating feedback nobody could keep up with</h2>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>Willis Towers Watson managed an annual book of business exceeding $1B in the Medicare and individual benefits space. That scale generated a constant stream of user feedback — website surveys, mobile app surveys, post-call feedback, NPS and CSAT scores — flowing in from hundreds of thousands of users.</p>
@@ -28,7 +29,7 @@ function FullCaseStudy() {
         </div>
       </section>
 
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-problem" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Problem</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>The Synthesis Tax</h2>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The research team operated within a fragmented, labor-intensive feedback loop. Researchers manually downloaded data from multiple sources, aggregated it, cleaned it, redacted sensitive information, tagged and categorized every comment by hand, and packaged it into a static spreadsheet posted to a Teams channel once a week.</p>
@@ -38,28 +39,28 @@ function FullCaseStudy() {
         </div>
       </section>
 
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-reframe" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Reframe</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>The real question wasn't speed</h2>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The obvious framing was: "Can AI do this faster?" But that wasn't the right question. The real problem was the Expert Gap — the mismatch between the people doing the categorization and the product knowledge required to do it accurately. A faster version of the same process would just produce wrong answers more quickly.</p>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85 }}>The right question was: "Can AI close the Expert Gap while handling sensitive healthcare data responsibly?" That reframe changed everything about how I designed the system.</p>
       </section>
 
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-compliance-challenge" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Compliance Challenge</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Before AI could touch the data, the data had to be safe</h2>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The first design challenge wasn't building anything. It was earning the right to build. I ran workshops with Legal and Compliance to define exactly what constituted PII and PHI in our context and where the line was that the system could not cross.</p>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85 }}>From those workshops, I engineered a layered redaction approach. Qualtrics queries handled structured patterns. An LLM-based redaction layer caught names and edge cases. Legal signed off before production deployment. That sign-off wasn't just a checkbox — it was what made the whole project possible.</p>
       </section>
 
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-build" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Build</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>A hybrid system designed around the Expert Gap</h2>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>I started with Dataverse as the single source of truth — a structured taxonomy table grounded in WTW's specific product documentation and internal knowledge base. On top of that, two categorization approaches worked in parallel: Qualtrics Text IQ for known patterns, and Microsoft CoPilot Studio (GPT) for ambiguous cases requiring intent interpretation.</p>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85 }}>Power Automate connected the pipeline in real time. I also built a conversational interface in Teams so stakeholders could ask direct questions — "What were the top three complaints from Medicare users this week?" — and get instant synthesized answers.</p>
       </section>
 
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-validation" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Validation</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>78% to 95% — earning trust through evidence</h2>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>I didn't ask stakeholders to trust the AI. I built a methodology to prove it deserved trust. A double-blind accuracy audit: I manually categorized a full week of raw feedback. The AI categorized the same feedback independently. Both sets were stripped of origin labels and reviewed blind by Product Owners.</p>
@@ -69,7 +70,7 @@ function FullCaseStudy() {
         </div>
       </section>
 
-      <section style={{ marginBottom: '4rem' }}>
+      <section id="the-outcomes" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Outcomes</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>From Synthesis Tax to strategic asset</h2>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', margin: '2rem 0' }}>
@@ -108,7 +109,7 @@ export default function AIAgentPage() {
             <span className="tag">Agentic Workflow Design</span>
             <span className="tag">AI Design</span>
           </div>
-          <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem', maxWidth: 780 }}>AI Feedback & Insights Agent</h1>
+          <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>AI Feedback & Insights Agent</h1>
           <p style={{ fontSize: 13, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Willis Towers Watson · 2025–2026</p>
           <p style={{ fontSize: 18, color: 'var(--text)', lineHeight: 1.7, maxWidth: 680 }}>Nobody asked me to build this. I noticed that the research team was spending entire days doing work a well-designed system could do in minutes, and I couldn't stop thinking about what they could be doing instead.</p>
         </header>
@@ -128,16 +129,7 @@ export default function AIAgentPage() {
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '4rem 3rem', display: 'grid', gridTemplateColumns: '200px 1fr', gap: '5rem', alignItems: 'start' }}>
-        <aside style={{ position: 'sticky', top: '5rem' }}>
-          <p style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '1rem' }}>Contents</p>
-          <ul style={{ listStyle: 'none' }}>
-            {['The Context', 'The Problem', 'The Reframe', 'The Compliance Challenge', 'The Build', 'The Validation', 'The Outcomes', 'The Reflection'].map(item => (
-              <li key={item}>
-                <a href="#the-context" style={{ fontSize: 13, color: 'var(--text-muted)', textDecoration: 'none', display: 'block', padding: '0.5rem 0 0.5rem 0.75rem', borderLeft: '2px solid var(--border)', lineHeight: 1.4 }}>{item}</a>
-              </li>
-            ))}
-          </ul>
-        </aside>
+        <SideNav sections={["the-context", "the-problem", "the-reframe", "the-compliance-challenge", "the-build", "the-validation", "the-outcomes", "the-reflection"]} />
         <div>
           <PasswordGate password="4likh4n" title="Ready to see how it came together?" cta="The full case study covers the compliance-first design approach, the hybrid categorization architecture, and the validation methodology that took accuracy from 78% to 95%." inside={INSIDE}>
             <FullCaseStudy />
