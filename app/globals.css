@@ -191,6 +191,11 @@ a { color: inherit; }
 /* Hero image */
 .hero-img { width: 340px; height: 400px; object-fit: cover; object-position: center top; border-radius: var(--radius); display: block; }
 
+/* ─── Desktop Nav Defaults ──────────────────────────────── */
+.site-nav { padding: 1.25rem 3rem; }
+.nav-links { gap: 2rem; }
+.nav-links a { font-size: 14px; letter-spacing: 0.02em; }
+
 /* ─── Tablet (max 900px) ─────────────────────────────────── */
 @media (max-width: 900px) {
   .grid-proj { grid-template-columns: repeat(2, 1fr); }
