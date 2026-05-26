@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const metrics = [
   { company: 'Via Benefits', value: '45%', desc: 'Faster time-to-convert after replacing a product-first gate with an identity-driven enrollment flow.', link: '/work/people-first' },
-  { company: 'WTW', value: '1 day → min', desc: 'Research synthesis time slashed using an agentic AI pipeline with 95% categorization accuracy.', link: '/work/ai-agent' },
+  { company: 'WTW', value: '8 hrs → 8 min', desc: 'Research synthesis time slashed using an agentic AI pipeline with 95% categorization accuracy.', link: '/work/ai-agent' },
   { company: 'Signify Health', value: '73 NPS', desc: 'Post-visit member satisfaction score for a program whose scheduling portal I redesigned to remove trust and access barriers.', link: '/work/ihe-portal' },
 ]
 

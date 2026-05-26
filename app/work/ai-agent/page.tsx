@@ -119,7 +119,7 @@ export default function AIAgentPage() {
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem', display: 'flex', gap: '3rem', flexWrap: 'wrap' as const, borderBottom: '1px solid var(--border)' }}>
-        {[['95%', 'Categorization accuracy'], ['1 day → min', 'Synthesis time'], ['5 days → same day', 'Insight delivery'], ['20%', 'Capacity returned']].map(([val, label]) => (
+        {[['95%', 'Categorization accuracy'], ['8 hrs → 8 min', 'Synthesis time'], ['5 days → same day', 'Insight delivery'], ['20%', 'Capacity returned']].map(([val, label]) => (
           <div key={label}>
             <div className="font-serif" style={{ fontSize: '2.4rem', color: 'var(--accent)', lineHeight: 1 }}>{val}</div>
             <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4, lineHeight: 1.4 }}>{label}</div>

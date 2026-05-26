@@ -34,8 +34,8 @@ export default function AboutPage() {
             ))}
           </div>
           <div className="hero-img-wrap">
-            <Image src="/images/ali.jpg" alt="Ali Khan" width={480} height={420} style={{ width: '100%', height: 420, objectFit: 'cover', objectPosition: '75% top', borderRadius: 'var(--radius)' }} />
-            <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: '0.75rem', textAlign: 'center', letterSpacing: '0.02em' }}>Austin, TX</p>
+            <Image src="/images/ali-loverboy.jpg" alt="Ali Khan with his dog Loverboy" width={480} height={420} style={{ width: '100%', height: 420, objectFit: 'cover', objectPosition: 'center top', borderRadius: 'var(--radius)' }} />
+            <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: '0.75rem', textAlign: 'center', letterSpacing: '0.02em' }}>Me and Loverboy</p>
           </div>
         </div>
       </section>
