@@ -1,6 +1,8 @@
+'use client'
 import Link from 'next/link'
 import PasswordGate from '@/app/components/PasswordGate'
 import SideNav from '@/app/components/SideNav'
+import { useState } from 'react'
 
 const INSIDE = [
   'Qualitative interview findings',
@@ -95,6 +97,7 @@ function FullCaseStudy() {
 }
 
 export default function IHEPortalPage() {
+  const [unlocked, setUnlocked] = useState(false)
   return (
     <main>
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
@@ -128,10 +131,10 @@ export default function IHEPortalPage() {
         ))}
       </div>
 
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '4rem 3rem', display: 'grid', gridTemplateColumns: '200px 1fr', gap: '5rem', alignItems: 'start' }}>
-        <SideNav sections={["the-context", "the-research", "the-findings", "the-reframe", "the-design", "the-outcomes", "the-reflection"]} />
+      <div className="article-layout" style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '4rem 3rem' }}>
+        <SideNav unlocked={unlocked} sections={["the-context", "the-research", "the-findings", "the-reframe", "the-design", "the-outcomes", "the-reflection"]} />
         <div>
-          <PasswordGate password="4likh4n" title="Ready to see what the research uncovered?" cta="The full case study walks through the research methodology, all six barrier categories, and the design principles that shaped the portal redesign." inside={INSIDE}>
+          <PasswordGate password="4likh4n" onUnlock={() => setUnlocked(true)} title="Ready to see what the research uncovered?" cta="The full case study walks through the research methodology, all six barrier categories, and the design principles that shaped the portal redesign." inside={INSIDE}>
             <FullCaseStudy />
           </PasswordGate>
         </div>

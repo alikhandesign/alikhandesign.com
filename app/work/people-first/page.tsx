@@ -1,6 +1,8 @@
+'use client'
 import Link from 'next/link'
 import PasswordGate from '@/app/components/PasswordGate'
 import SideNav from '@/app/components/SideNav'
+import { useState } from 'react'
 
 const INSIDE = [
   'FullStory analysis and rage click findings',
@@ -85,6 +87,7 @@ function FullCaseStudy() {
 }
 
 export default function PeopleFirstPage() {
+  const [unlocked, setUnlocked] = useState(false)
   return (
     <main>
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
@@ -119,8 +122,8 @@ export default function PeopleFirstPage() {
         ))}
       </div>
 
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '4rem 3rem', display: 'grid', gridTemplateColumns: '200px 1fr', gap: '5rem', alignItems: 'start' }}>
-        <SideNav sections={["the-context", "the-problem", "the-research", "the-insight", "the-design", "the-outcomes", "the-reflection"]} />
+      <div className="article-layout" style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '4rem 3rem' }}>
+        <SideNav unlocked={unlocked} sections={["the-context", "the-problem", "the-research", "the-insight", "the-design", "the-outcomes", "the-reflection"]} />
 
         <div>
           <PasswordGate

@@ -7,9 +7,10 @@ interface PasswordGateProps {
   title: string
   cta: string
   inside: string[]
+  onUnlock?: () => void
 }
 
-export default function PasswordGate({ password, children, title, cta, inside }: PasswordGateProps) {
+export default function PasswordGate({ password, children, title, cta, inside, onUnlock }: PasswordGateProps) {
   const [input, setInput] = useState('')
   const [unlocked, setUnlocked] = useState(false)
   const [error, setError] = useState(false)
@@ -18,6 +19,7 @@ export default function PasswordGate({ password, children, title, cta, inside }:
     if (input === password) {
       setUnlocked(true)
       setError(false)
+      onUnlock?.()
     } else {
       setError(true)
       setTimeout(() => setError(false), 2000)
@@ -56,7 +58,9 @@ export default function PasswordGate({ password, children, title, cta, inside }:
             style={{ border: error ? '1.5px solid #e53e3e' : undefined }}
             aria-label="Case study password"
           />
-          <button onClick={handleSubmit} className="btn-primary" style={{ whiteSpace: 'nowrap' }}>View →</button>
+          <button onClick={handleSubmit} className="btn-primary" style={{ whiteSpace: 'nowrap' }}>
+            View <span aria-hidden="true">→</span>
+          </button>
         </div>
         {error && <p style={{ fontSize: 12, color: '#e53e3e' }}>Incorrect password. Try again or request access below.</p>}
         <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>

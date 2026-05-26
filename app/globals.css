@@ -309,3 +309,11 @@ button:focus-visible {
   outline-offset: 3px;
   border-radius: 2px;
 }
+
+/* ─── Side Nav — desktop only ────────────────────────────── */
+.article-layout { display: grid; grid-template-columns: 200px 1fr; gap: 5rem; align-items: start; }
+
+@media (max-width: 900px) {
+  .article-layout { display: block; }
+  .article-layout aside { display: none; }
+}
