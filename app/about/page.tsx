@@ -21,7 +21,7 @@ export default function AboutPage() {
         <header className="page-header">
           <p className="eyebrow" style={{ marginBottom: '0.6rem' }}>About Me</p>
           <h1 className="font-serif page-title-lg" style={{ fontSize: '2.8rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.75rem' }}>The person behind the work.</h1>
-          <p style={{ fontSize: 16, color: 'var(--text-muted)', lineHeight: 1.6, maxWidth: 580 }}>Senior Product Designer and Researcher based in Austin, TX. Open to remote and in-person opportunities anywhere.</p>
+          <p style={{ fontSize: 16, color: 'var(--text-muted)', lineHeight: 1.6, maxWidth: 580 }}>Senior Product Designer and Researcher. Open to remote and in-person opportunities anywhere.</p>
         </header>
       </div>
 
@@ -34,8 +34,8 @@ export default function AboutPage() {
             ))}
           </div>
           <div className="hero-img-wrap">
-            <Image src="/images/ali.jpg" alt="Ali Khan with his dog Chappie" width={480} height={420} style={{ width: '100%', height: 420, objectFit: 'cover', objectPosition: 'center top', borderRadius: 'var(--radius)' }} />
-            <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: '0.75rem', textAlign: 'center', letterSpacing: '0.02em' }}>Me and Chappie, Austin TX</p>
+            <Image src="/images/ali.jpg" alt="Ali Khan" width={480} height={420} style={{ width: '100%', height: 420, objectFit: 'cover', objectPosition: '75% top', borderRadius: 'var(--radius)' }} />
+            <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: '0.75rem', textAlign: 'center', letterSpacing: '0.02em' }}>Austin, TX</p>
           </div>
         </div>
       </section>

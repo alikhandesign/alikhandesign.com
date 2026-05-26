@@ -39,15 +39,15 @@ export default function Home() {
           <div className="hero-img-wrap" style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
             <Image
               src="/images/ali.jpg"
-              alt="Ali Khan smiling with his dog Chappie in a park"
+              alt="Ali Khan"
               width={340} height={400}
               className="hero-img"
-              style={{ objectFit: 'cover', objectPosition: 'center top', borderRadius: 'var(--radius)' }}
+              style={{ objectFit: 'cover', objectPosition: '75% top', borderRadius: 'var(--radius)' }}
               priority
             />
             <div style={{ position: 'absolute', bottom: '-1.5rem', left: '-1rem', background: 'var(--bg)', border: '1px solid var(--border)', padding: '0.75rem 1rem', borderRadius: 'var(--radius)' }}>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>Based in</div>
-              <div className="font-serif" style={{ fontSize: 22, color: 'var(--accent)', lineHeight: 1.2 }}>Austin, TX</div>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>Status</div>
+              <div className="font-serif" style={{ fontSize: 22, color: 'var(--accent)', lineHeight: 1.2 }}>Available now</div>
             </div>
           </div>
         </div>
