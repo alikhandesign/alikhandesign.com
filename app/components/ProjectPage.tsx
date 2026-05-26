@@ -1,30 +1,20 @@
 import Link from 'next/link'
 
-interface Section {
-  label: string
-  title: string
-  body: string[]
-}
-
+interface Section { label: string; title: string; body: string[] }
 interface ProjectPageProps {
-  title: string
-  company: string
-  tags: string[]
-  hook: string
-  details: { label: string; value: string }[]
-  sections: Section[]
-  gallery: string[]
-  cta: { title: string; href: string }
-  next: { title: string; href: string }
+  title: string; company: string; tags: string[]; hook: string;
+  details: { label: string; value: string }[];
+  sections: Section[];
+  gallery: string[];
+  cta: { title: string; href: string };
+  next: { title: string; href: string };
 }
 
-export default function ProjectPage({
-  title, company, tags, hook, details, sections, gallery, cta, next
-}: ProjectPageProps) {
+export default function ProjectPage({ title, company, tags, hook, details, sections, gallery, cta, next }: ProjectPageProps) {
   return (
     <main>
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-        <nav style={{ padding: '1.25rem 3rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <nav style={{ padding: '1.25rem 3rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' as const }}>
           <Link href="/work" style={{ fontSize: 13, color: 'var(--text-muted)', textDecoration: 'none' }}>My Work</Link>
           <span style={{ fontSize: 13, color: '#C4BDB7' }}>›</span>
           <span style={{ fontSize: 13, color: 'var(--text)', fontWeight: 500 }}>{title}</span>
@@ -33,7 +23,7 @@ export default function ProjectPage({
           <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem', flexWrap: 'wrap' as const }}>
             {tags.map(t => <span key={t} className="tag">{t}</span>)}
           </div>
-          <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem', maxWidth: 780 }}>{title}</h1>
+          <h1 className="font-serif page-title-lg" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem', maxWidth: 780 }}>{title}</h1>
           <p style={{ fontSize: 13, color: 'var(--text-faint)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>{company}</p>
           <p style={{ fontSize: 18, color: 'var(--text)', lineHeight: 1.7, maxWidth: 680 }}>{hook}</p>
         </header>
@@ -43,13 +33,15 @@ export default function ProjectPage({
         <div style={{ width: '100%', height: 400, background: 'var(--border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Hero Project Image</div>
       </div>
 
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 2rem', display: 'flex', gap: '3rem', flexWrap: 'wrap' as const, borderBottom: '1px solid var(--border)' }}>
-        {details.map(d => (
-          <div key={d.label}>
-            <p style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--text-faint)', fontWeight: 500, marginBottom: '0.35rem' }}>{d.label}</p>
-            <p style={{ fontSize: 14, color: 'var(--text)', fontWeight: 500 }}>{d.value}</p>
-          </div>
-        ))}
+      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
+        <div className="details-bar">
+          {details.map(d => (
+            <div key={d.label}>
+              <p style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--text-faint)', fontWeight: 500, marginBottom: '0.35rem' }}>{d.label}</p>
+              <p style={{ fontSize: 14, color: 'var(--text)', fontWeight: 500 }}>{d.value}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div style={{ maxWidth: 780, margin: '0 auto', padding: '4rem 3rem' }}>
@@ -88,12 +80,14 @@ export default function ProjectPage({
       </section>
 
       <div className="divider" />
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '2.5rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '1rem' }}>
-        <div>
-          <p style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-faint)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Project</p>
-          <p className="font-serif" style={{ fontSize: '1.2rem', fontWeight: 400 }}>{next.title}</p>
+      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
+        <div className="next-project">
+          <div>
+            <p style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-faint)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Project</p>
+            <p className="font-serif" style={{ fontSize: '1.2rem', fontWeight: 400 }}>{next.title}</p>
+          </div>
+          <Link href={next.href} style={{ fontSize: 13, color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
         </div>
-        <Link href={next.href} style={{ fontSize: 13, color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
       </div>
     </main>
   )
