@@ -33,7 +33,7 @@ export default function PasswordGate({ password, children, title, cta, inside }:
       <h3 className="font-serif" style={{ fontSize: '1.3rem', fontWeight: 400, lineHeight: 1.25, marginBottom: '0.75rem' }}>{title}</h3>
       <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '1.5rem' }}>{cta}</p>
       <div style={{ marginBottom: '1.5rem' }}>
-        <p style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '0.6rem' }}>What's inside</p>
+        <p style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '0.6rem' }}>What's inside</p>
         <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
           {inside.map(item => (
             <li key={item} style={{ fontSize: 13, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

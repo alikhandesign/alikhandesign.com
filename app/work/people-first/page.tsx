@@ -21,7 +21,7 @@ function FullCaseStudy() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', margin: '2rem 0', padding: '1.5rem', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)' }}>
           {[['My Role', 'Lead UX Designer & Researcher'], ['Timeline', 'Q2 2023'], ['Team', '1 Designer, 1 PM, 4 Engineers'], ['Methods', 'FullStory Analysis, User Interviews, Usability Testing']].map(([label, val]) => (
             <div key={label}>
-              <p style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--text-faint)', fontWeight: 500, marginBottom: '0.35rem' }}>{label}</p>
+              <p style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>{label}</p>
               <p style={{ fontSize: 14, color: 'var(--text)', fontWeight: 500, lineHeight: 1.5 }}>{val}</p>
             </div>
           ))}
@@ -100,7 +100,7 @@ export default function PeopleFirstPage() {
             <span className="tag">Product Strategy</span>
           </div>
           <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem', maxWidth: 780 }}>People-First Enrollment Redesign</h1>
-          <p style={{ fontSize: 13, color: 'var(--text-faint)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Via Benefits · WTW · 2023</p>
+          <p style={{ fontSize: 13, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Via Benefits · WTW · 2023</p>
           <p style={{ fontSize: 18, color: 'var(--text)', lineHeight: 1.7, maxWidth: 680 }}>What happens when a product is designed around how the business works instead of how people think? For Medicare enrollees navigating health insurance, the answer was abandonment, frustration, and a flood of support calls that didn't need to happen.</p>
         </header>
       </div>
@@ -120,7 +120,7 @@ export default function PeopleFirstPage() {
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '4rem 3rem', display: 'grid', gridTemplateColumns: '200px 1fr', gap: '5rem', alignItems: 'start' }}>
         <aside style={{ position: 'sticky', top: '5rem' }}>
-          <p style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-faint)', fontWeight: 500, marginBottom: '1rem' }}>Contents</p>
+          <p style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '1rem' }}>Contents</p>
           <ul style={{ listStyle: 'none' }}>
             {['The Context', 'The Problem', 'The Research', 'The Insight', 'The Design', 'The Outcomes', 'The Reflection'].map(item => (
               <li key={item}>
@@ -145,7 +145,7 @@ export default function PeopleFirstPage() {
       <div className="divider" />
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '2.5rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '1rem' }}>
         <div>
-          <p style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-faint)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
+          <p style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
           <p className="font-serif" style={{ fontSize: '1.2rem', fontWeight: 400 }}>AI Feedback & Insights Agent</p>
         </div>
         <Link href="/work/ai-agent" style={{ fontSize: 13, color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>

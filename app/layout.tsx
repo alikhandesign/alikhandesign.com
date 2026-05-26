@@ -6,6 +6,7 @@ import Footer from './components/Footer'
 export const metadata: Metadata = {
   title: 'Ali Khan — Senior Product Designer & Researcher',
   description: 'I help product teams understand their users at scale — combining mixed-methods research, strategic synthesis, and AI-native workflows to turn insight into action.',
+  metadataBase: new URL('https://alikhandesign.com'),
   openGraph: {
     title: 'Ali Khan — Senior Product Designer & Researcher',
     description: 'Portfolio of Ali Khan, Senior Product Designer & Researcher based in Austin, TX.',
@@ -20,7 +21,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <Nav />
-        {children}
+        <main id="main-content" tabIndex={-1}>
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

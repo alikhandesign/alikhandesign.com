@@ -21,7 +21,7 @@ function FullCaseStudy() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', margin: '2rem 0', padding: '1.5rem', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)' }}>
           {[['My Role', 'Senior UX Designer (self-initiated)'], ['Stack', 'Copilot Studio, Qualtrics API, Dataverse, Power Automate'], ['Timeline', '2025–2026'], ['Outcome', 'Deployed to production, 95% accuracy']].map(([label, val]) => (
             <div key={label}>
-              <p style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--text-faint)', fontWeight: 500, marginBottom: '0.35rem' }}>{label}</p>
+              <p style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>{label}</p>
               <p style={{ fontSize: 14, color: 'var(--text)', fontWeight: 500, lineHeight: 1.5 }}>{val}</p>
             </div>
           ))}
@@ -109,7 +109,7 @@ export default function AIAgentPage() {
             <span className="tag">AI Design</span>
           </div>
           <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem', maxWidth: 780 }}>AI Feedback & Insights Agent</h1>
-          <p style={{ fontSize: 13, color: 'var(--text-faint)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Willis Towers Watson · 2025–2026</p>
+          <p style={{ fontSize: 13, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Willis Towers Watson · 2025–2026</p>
           <p style={{ fontSize: 18, color: 'var(--text)', lineHeight: 1.7, maxWidth: 680 }}>Nobody asked me to build this. I noticed that the research team was spending entire days doing work a well-designed system could do in minutes, and I couldn't stop thinking about what they could be doing instead.</p>
         </header>
       </div>
@@ -129,11 +129,11 @@ export default function AIAgentPage() {
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '4rem 3rem', display: 'grid', gridTemplateColumns: '200px 1fr', gap: '5rem', alignItems: 'start' }}>
         <aside style={{ position: 'sticky', top: '5rem' }}>
-          <p style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-faint)', fontWeight: 500, marginBottom: '1rem' }}>Contents</p>
+          <p style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '1rem' }}>Contents</p>
           <ul style={{ listStyle: 'none' }}>
             {['The Context', 'The Problem', 'The Reframe', 'The Compliance Challenge', 'The Build', 'The Validation', 'The Outcomes', 'The Reflection'].map(item => (
               <li key={item}>
-                <a href="#" style={{ fontSize: 13, color: 'var(--text-muted)', textDecoration: 'none', display: 'block', padding: '0.5rem 0 0.5rem 0.75rem', borderLeft: '2px solid var(--border)', lineHeight: 1.4 }}>{item}</a>
+                <a href="#the-context" style={{ fontSize: 13, color: 'var(--text-muted)', textDecoration: 'none', display: 'block', padding: '0.5rem 0 0.5rem 0.75rem', borderLeft: '2px solid var(--border)', lineHeight: 1.4 }}>{item}</a>
               </li>
             ))}
           </ul>
@@ -148,7 +148,7 @@ export default function AIAgentPage() {
       <div className="divider" />
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '2.5rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '1rem' }}>
         <div>
-          <p style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-faint)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
+          <p style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
           <p className="font-serif" style={{ fontSize: '1.2rem', fontWeight: 400 }}>IHE Scheduling Portal</p>
         </div>
         <Link href="/work/ihe-portal" style={{ fontSize: 13, color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>

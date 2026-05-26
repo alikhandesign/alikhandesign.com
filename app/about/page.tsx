@@ -35,7 +35,7 @@ export default function AboutPage() {
           </div>
           <div className="hero-img-wrap">
             <Image src="/images/ali.jpg" alt="Ali Khan with his dog Chappie" width={480} height={420} style={{ width: '100%', height: 420, objectFit: 'cover', objectPosition: 'center top', borderRadius: 'var(--radius)' }} />
-            <p style={{ fontSize: 12, color: 'var(--text-faint)', marginTop: '0.75rem', textAlign: 'center', letterSpacing: '0.02em' }}>Me and Chappie, Austin TX</p>
+            <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: '0.75rem', textAlign: 'center', letterSpacing: '0.02em' }}>Me and Chappie, Austin TX</p>
           </div>
         </div>
       </section>
@@ -51,7 +51,7 @@ export default function AboutPage() {
           {pillars.map((p, i) => (
             <div key={p.num} className="pillar-grid" style={{ padding: '2.5rem 0', borderTop: '1px solid var(--border)', ...(i === pillars.length - 1 ? { borderBottom: '1px solid var(--border)' } : {}) }}>
               <div>
-                <p style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--accent)', fontWeight: 500, marginBottom: '0.5rem' }}>{p.num}</p>
+                <p style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--accent)', fontWeight: 500, marginBottom: '0.5rem' }}>{p.num}</p>
                 <h3 className="font-serif" style={{ fontSize: '1.4rem', fontWeight: 400, lineHeight: 1.2 }}>{p.title}</h3>
               </div>
               <p style={{ fontSize: 15, color: 'var(--text-muted)', lineHeight: 1.8 }}>{p.text}</p>
@@ -68,7 +68,7 @@ export default function AboutPage() {
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
           <div className="grid-2-wide" style={{ alignItems: 'start' }}>
             <div>
-              <p className="eyebrow" style={{ marginBottom: '0.75rem' }}>AI-Native Mindset</p>
+              <p style={{ fontSize: '12px', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C4BDB7', fontWeight: 500, marginBottom: '0.75rem' }}>AI-Native Mindset</p>
               <h2 className="font-serif" style={{ fontSize: '2rem', fontWeight: 400, color: 'var(--bg)', lineHeight: 1.15, marginBottom: '1.75rem' }}>AI that earns its place on the team.</h2>
               {["AI doesn't intimidate me, it excites me. But not uncritically.", "I've built agentic research pipelines from scratch. I've seen what happens when AI gets deployed without a validation framework, without transparency, without a human in the loop.", "The thing that frustrates me most about AI products is false confidence. When a system gives me a wrong answer like it's completely certain, that's a design failure. Not just a technical one.", "My goal is always the same: AI that scales what humans do well, that knows its limits, and signals them clearly. AI that earns the trust of the people using it."].map((p, i, arr) => (
                 <p key={i} style={{ fontSize: 15, color: 'var(--bg)', lineHeight: 1.8, marginBottom: i < arr.length - 1 ? '1.25rem' : 0 }}>{p}</p>
@@ -102,7 +102,7 @@ export default function AboutPage() {
               <p className="eyebrow" style={{ marginBottom: '0.6rem' }}>Open to Opportunities</p>
               <h3 className="font-serif" style={{ fontSize: '1.6rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '0.75rem' }}>Let's work together.</h3>
               <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '1.75rem' }}>I'm actively looking for senior product design and AI-focused roles. If you think there's a fit, I'd love to talk.</p>
-              <a href="mailto:ali@alikhandesign.com" className="btn-primary">Get in touch →</a>
+              <a href="mailto:ali@alikhandesign.com" className="btn-primary">Get in touch <span aria-hidden="true">→</span></a>
               <Link href="/work" style={{ display: 'block', marginTop: '1rem', fontSize: 13, color: 'var(--text-muted)', textDecoration: 'none' }}>View my work instead →</Link>
             </div>
           </div>

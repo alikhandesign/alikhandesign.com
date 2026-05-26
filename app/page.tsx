@@ -34,7 +34,7 @@ export default function Home() {
             <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--text-muted)', marginBottom: '2rem' }}>
               I help product teams understand their users at scale — combining mixed-methods research, strategic synthesis, and AI-native workflows to turn insight into action.
             </p>
-            <Link href="/work" className="btn-primary">View My Work →</Link>
+            <Link href="/work" className="btn-primary">View My Work <span aria-hidden="true">→</span></Link>
           </div>
           <div className="hero-img-wrap" style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
             <Image
@@ -46,7 +46,7 @@ export default function Home() {
               priority
             />
             <div style={{ position: 'absolute', bottom: '-1.5rem', left: '-1rem', background: 'var(--bg)', border: '1px solid var(--border)', padding: '0.75rem 1rem', borderRadius: 'var(--radius)' }}>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>Based in</div>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>Based in</div>
               <div className="font-serif" style={{ fontSize: 22, color: 'var(--accent)', lineHeight: 1.2 }}>Austin, TX</div>
             </div>
           </div>
@@ -71,7 +71,7 @@ export default function Home() {
           {metrics.map(m => (
             <article key={m.company} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '2rem 1.75rem', position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--accent)' }} />
-              <p style={{ fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', marginBottom: '1rem', fontWeight: 500 }}>{m.company}</p>
+              <p style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', marginBottom: '1rem', fontWeight: 500 }}>{m.company}</p>
               <p className="font-serif" style={{ fontSize: '2.8rem', color: 'var(--text)', lineHeight: 1, marginBottom: '0.5rem' }}>{m.value}</p>
               <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '1.25rem' }}>{m.desc}</p>
               <Link href={m.link} style={{ fontSize: 13, color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}>Read the case study →</Link>
@@ -106,7 +106,7 @@ export default function Home() {
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
           <div className="grid-2" style={{ alignItems: 'center' }}>
             <div>
-              <p className="eyebrow" style={{ marginBottom: '0.75rem' }}>About Me</p>
+              <p style={{ fontSize: '12px', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C4BDB7', fontWeight: 500, marginBottom: '0.75rem' }}>About Me</p>
               <h2 className="font-serif" style={{ fontSize: '2rem', fontWeight: 400, color: 'var(--bg)', lineHeight: 1.2, marginBottom: '1rem' }}>I design for the questions, not just the answers.</h2>
               <p style={{ fontSize: 15, color: 'var(--bg)', lineHeight: 1.75, marginBottom: '1.5rem' }}>
                 With 10+ years in product design and UX research, I learned that the most valuable work happens before the first wireframe — understanding why people behave the way they do, and building systems that listen at scale.

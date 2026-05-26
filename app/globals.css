@@ -252,3 +252,55 @@ a { color: inherit; }
   .nav-links a { font-size: 12px !important; }
   .outcomes-grid { grid-template-columns: 1fr; }
 }
+
+/* ─── Accessibility Fixes ────────────────────────────────── */
+
+/* Skip navigation link */
+.skip-nav {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  background: var(--accent);
+  color: var(--bg);
+  padding: 0.75rem 1.25rem;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 0 0 var(--radius) var(--radius);
+  text-decoration: none;
+  z-index: 999;
+  transition: top 0.2s;
+}
+.skip-nav:focus { top: 0; }
+
+/* Fix eyebrow on dark backgrounds */
+.eyebrow-dark {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #C4BDB7;
+  font-weight: 500;
+}
+
+/* Updated token — faint text now passes contrast */
+:root { --text-faint: #6B6560; }
+
+/* Tag sizing bump */
+.tag-cs {
+  font-size: 12px !important;
+  padding: 4px 10px !important;
+}
+.tag {
+  font-size: 12px !important;
+  padding: 4px 10px !important;
+}
+
+/* Arrow aria-hidden helper */
+.arrow { display: inline-block; }
+
+/* Focus visible styles */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}

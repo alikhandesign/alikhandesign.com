@@ -33,7 +33,7 @@ export default function WorkPage() {
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           {caseStudies.map(cs => (
-            <Link key={cs.title} href={cs.href} className="work-card cs-card-grid" style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', overflow: 'hidden', textDecoration: 'none', color: 'inherit' }}>
+            <Link key={cs.title} href={cs.href} aria-label={`View case study: ${cs.title}`} className="work-card cs-card-grid" style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', overflow: 'hidden', textDecoration: 'none', color: 'inherit' }}>
               <div style={{ background: 'var(--border)', minHeight: 220, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Project Preview</div>
               <div style={{ padding: '2rem 2rem 2rem 2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
@@ -42,13 +42,13 @@ export default function WorkPage() {
                     {cs.tags.map(t => <span key={t} className="tag">{t}</span>)}
                   </div>
                   <h3 className="font-serif" style={{ fontSize: '1.6rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '0.25rem' }}>{cs.title}</h3>
-                  <p style={{ fontSize: 12, color: 'var(--text-faint)', letterSpacing: '0.04em', marginBottom: '0.85rem' }}>{cs.company}</p>
+                  <p style={{ fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '0.85rem' }}>{cs.company}</p>
                   <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '1.5rem' }}>{cs.desc}</p>
                   <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' as const, marginBottom: '1.5rem' }}>
                     {cs.outcomes.map(o => (
                       <div key={o.label}>
                         <div className="font-serif" style={{ fontSize: '1.6rem', color: 'var(--accent)', lineHeight: 1 }}>{o.val}</div>
-                        <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2, lineHeight: 1.4 }}>{o.label}</div>
+                        <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2, lineHeight: 1.4 }}>{o.label}</div>
                       </div>
                     ))}
                   </div>
@@ -73,14 +73,14 @@ export default function WorkPage() {
         </div>
         <div className="grid-proj">
           {projects.map(p => (
-            <Link key={p.title} href={p.href} className="work-card" style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', overflow: 'hidden', textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column' }}>
+            <Link key={p.title} href={p.href} aria-label={`View project: ${p.title}`} className="work-card" style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', overflow: 'hidden', textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column' }}>
               <div style={{ width: '100%', height: 160, background: 'var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Project Preview</div>
               <div style={{ padding: '1.25rem 1.25rem 1.5rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
                 <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem', flexWrap: 'wrap' as const }}>
                   {p.tags.map(t => <span key={t} className="tag">{t}</span>)}
                 </div>
                 <h3 className="font-serif" style={{ fontSize: '1.1rem', fontWeight: 400, lineHeight: 1.25, marginBottom: '0.25rem' }}>{p.title}</h3>
-                <p style={{ fontSize: 12, color: 'var(--text-faint)', letterSpacing: '0.04em', marginBottom: '0.6rem' }}>{p.company}</p>
+                <p style={{ fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '0.6rem' }}>{p.company}</p>
                 <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.65, flex: 1, marginBottom: '1rem' }}>{p.desc}</p>
                 <span style={{ fontSize: 12, color: 'var(--accent)', fontWeight: 500 }}>View project →</span>
               </div>

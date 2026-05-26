@@ -24,7 +24,7 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
             {tags.map(t => <span key={t} className="tag">{t}</span>)}
           </div>
           <h1 className="font-serif page-title-lg" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem', maxWidth: 780 }}>{title}</h1>
-          <p style={{ fontSize: 13, color: 'var(--text-faint)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>{company}</p>
+          <p style={{ fontSize: 13, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>{company}</p>
           <p style={{ fontSize: 18, color: 'var(--text)', lineHeight: 1.7, maxWidth: 680 }}>{hook}</p>
         </header>
       </div>
@@ -37,7 +37,7 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
         <div className="details-bar">
           {details.map(d => (
             <div key={d.label}>
-              <p style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--text-faint)', fontWeight: 500, marginBottom: '0.35rem' }}>{d.label}</p>
+              <p style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>{d.label}</p>
               <p style={{ fontSize: 14, color: 'var(--text)', fontWeight: 500 }}>{d.value}</p>
             </div>
           ))}
@@ -62,7 +62,7 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
             {gallery.map((label, i) => (
               <div key={i} style={{ gridColumn: i === 0 ? 'span 2' : undefined }}>
-                <div style={{ width: '100%', aspectRatio: i === 0 ? '16/9' : '4/3', background: 'var(--border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>{label}</div>
+                <div style={{ width: '100%', aspectRatio: i === 0 ? '16/9' : '4/3', background: 'var(--border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>{label}</div>
               </div>
             ))}
           </div>
@@ -72,10 +72,10 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
       <section style={{ background: 'var(--dark-bg)', padding: '4rem 3rem' }}>
         <div style={{ maxWidth: 780, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' as const }}>
           <div>
-            <p className="eyebrow" style={{ marginBottom: '0.6rem' }}>Interested?</p>
+            <p style={{ fontSize: '12px', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#C4BDB7', fontWeight: 500, marginBottom: '0.6rem' }}>Interested?</p>
             <h2 className="font-serif" style={{ fontSize: '1.6rem', fontWeight: 400, color: 'var(--bg)', lineHeight: 1.25, maxWidth: 500 }}>{cta.title}</h2>
           </div>
-          <a href={cta.href} className="btn-primary" style={{ flexShrink: 0 }}>Get in touch →</a>
+          <a href={cta.href} className="btn-primary" style={{ flexShrink: 0 }}>Get in touch <span aria-hidden="true">→</span></a>
         </div>
       </section>
 
@@ -83,7 +83,7 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <div className="next-project">
           <div>
-            <p style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-faint)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Project</p>
+            <p style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Project</p>
             <p className="font-serif" style={{ fontSize: '1.2rem', fontWeight: 400 }}>{next.title}</p>
           </div>
           <Link href={next.href} style={{ fontSize: 13, color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
