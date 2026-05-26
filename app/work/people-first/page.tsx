@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import PasswordGate from '@/app/components/PasswordGate'
 import SideNav from '@/app/components/SideNav'
+import { CaseStudyImage } from '@/app/components/Lightbox'
 import { useState } from 'react'
 
 const INSIDE = [

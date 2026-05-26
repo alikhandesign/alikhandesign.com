@@ -1,11 +1,12 @@
 import Link from 'next/link'
+import { GalleryGrid } from './Lightbox'
 
 interface Section { label: string; title: string; body: string[] }
 interface ProjectPageProps {
   title: string; company: string; tags: string[]; hook: string;
   details: { label: string; value: string }[];
   sections: Section[];
-  gallery: string[];
+  gallery: { src: string; alt: string; caption?: string }[];
   cta: { title: string; href: string };
   next: { title: string; href: string };
 }
@@ -59,13 +60,7 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
       {gallery.length > 0 && (
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 4rem' }}>
           <p className="section-label" style={{ marginBottom: '1.25rem' }}>Project Gallery</p>
-          <div className="gallery-grid">
-            {gallery.map((label, i) => (
-              <div key={i} className={i === 0 ? 'gallery-grid-item-wide' : ''}>
-                <div style={{ width: '100%', aspectRatio: i === 0 ? '16/9' : '4/3', background: 'var(--border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>{label}</div>
-              </div>
-            ))}
-          </div>
+          <GalleryGrid images={gallery} />
         </div>
       )}
 

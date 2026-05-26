@@ -12,7 +12,11 @@ export default function Page() {
       { label: 'The Process', title: 'Mixed-methods research across a range of literacy levels', body: ['I designed and ran a mixed-methods research study combining moderated usability sessions with qualitative interviews. Sessions were structured to observe navigation behavior in real time while also capturing the reasoning behind decisions — not just what users did, but why.', 'I mapped comprehension gaps at each step of the shopping flow, identifying where users were making decisions based on misunderstanding rather than informed choice.'] },
       { label: 'The Solution', title: 'Prioritized findings that gave the team somewhere to go', body: ['The research produced a prioritized set of findings and recommendations. Key themes included: the need for plain-language category explanations before plan comparison, the importance of anchoring cost comparisons in annual out-of-pocket terms rather than monthly premiums, and the value of progressive disclosure — surfacing the most critical information first.'] },
     ]}
-    gallery={['Full Research Overview', 'Comprehension Gap Map', 'Usability Session Findings', 'Recommendations Framework', 'Before/After IA']}
+    gallery={[{ src: '', alt: 'Full Research Overview', caption: 'Full research overview and methodology' },
+        { src: '', alt: 'Comprehension Gap Map', caption: 'Comprehension gap mapping across the shopping flow' },
+        { src: '', alt: 'Usability Session Findings', caption: 'Key findings from moderated usability sessions' },
+        { src: '', alt: 'Recommendations Framework', caption: 'Prioritized recommendations framework' },
+        { src: '', alt: 'Before/After IA', caption: 'Before and after information architecture comparison' }]}
     cta={{ title: 'Want to see how mixed-methods research can simplify complex decision-making?', href: 'mailto:ali@alikhandesign.com' }}
     next={{ title: 'Vivio Clinical App', href: '/work/vivio' }}
   />

@@ -12,7 +12,10 @@ export default function Page() {
       { label: 'The Process', title: 'From heuristics to structured prompt architecture', body: ['I started by mapping the core heuristics I wanted the framework to evaluate against — drawing from Nielsen\'s usability heuristics, accessibility standards, and conversion-focused UX principles. I then designed a series of prompts structured around those heuristics, with explicit instructions for how to evaluate, how to prioritize findings, and how to format output for use by design and product teams.', 'I tested the framework across multiple site types — marketing pages, product dashboards, sign-up flows — comparing AI-generated audit outputs against manually produced ones. I iterated on the prompt structure based on where outputs were too generic or missing critical categories.'] },
       { label: 'The Solution', title: 'Structured, heuristic-grounded audit outputs in hours not days', body: ['The final framework produced structured audit outputs organized by severity, tied to specific page elements, and framed in terms of user impact rather than aesthetic preference. What previously required days of manual effort could be completed and reviewed in hours.'] },
     ]}
-    gallery={['Prompt Framework Overview', 'Sample Audit Output', 'Heuristic Mapping', 'Before/After Comparison']}
+    gallery={[{ src: '', alt: 'Prompt Framework Overview', caption: 'Full prompt framework architecture' },
+        { src: '', alt: 'Sample Audit Output', caption: 'Sample structured audit output' },
+        { src: '', alt: 'Heuristic Mapping', caption: 'Heuristic to prompt mapping' },
+        { src: '', alt: 'Before/After Comparison', caption: 'Manual vs AI audit output comparison' }]}
     cta={{ title: 'Want to see how AI can systematize UX audits at scale?', href: 'mailto:ali@alikhandesign.com' }}
     next={{ title: 'Design Handoff Checklist', href: '/work/design-handoff' }}
   />

@@ -12,7 +12,11 @@ export default function Page() {
       { label: 'The Process', title: 'Building a design system before building a single screen', body: ['Before designing a single screen, I built Vivio\'s complete iOS design system from the ground up. Token architecture for color, typography, spacing, and elevation with clinical-specific requirements baked in — high contrast ratios for variable lighting, touch targets sized for real clinical use.', 'The error state inventory was one of the first design artifacts I produced. Mapping every possible failure and what a clinician actually needed to do next gave me a clear picture of where the experience could break down before I started designing the happy path.'] },
       { label: 'The Solution', title: 'A five-step workflow designed for failure as much as success', body: ['The recording workflow was reduced to a clear five-step sequence, each step with a single action and explicit status feedback. Bluetooth pairing was designed to be resumable, with clear device status indicators so a clinician always knew which devices were connected before starting.', 'The results screen was designed around a single primary output: LVEDP above or below 18mmHg. Inconclusive results were handled with specific, instructive messaging rather than generic error states. Offline mode was designed as a first-class experience — clinicians could complete up to 20 sessions without connectivity.'] },
     ]}
-    gallery={['Full App Overview', 'Component Library', 'Recording Workflow', 'Error States', 'Offline Mode']}
+    gallery={[{ src: '', alt: 'Full App Overview', caption: 'Full Vivio application flow overview' },
+        { src: '', alt: 'Component Library', caption: 'Design system component library' },
+        { src: '', alt: 'Recording Workflow', caption: '5-step recording workflow' },
+        { src: '', alt: 'Error States', caption: 'Instructive error state designs' },
+        { src: '', alt: 'Offline Mode', caption: 'Offline mode and unsent recordings experience' }]}
     cta={{ title: 'Want to see how I built a scalable design system and designed for failure in a zero-to-one clinical iOS product?', href: 'mailto:ali@alikhandesign.com' }}
     next={{ title: 'Signify Health Rebrand', href: '/work/signify-rebrand' }}
   />

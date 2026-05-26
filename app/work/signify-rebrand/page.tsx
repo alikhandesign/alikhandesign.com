@@ -12,7 +12,11 @@ export default function Page() {
       { label: 'The Process', title: 'Brand guidelines into a coherent web experience', body: ['Working within the brand guidelines developed with W2O Group, I focused on translating the new visual language into a website experience that felt coherent and trustworthy — navigation, content hierarchy, photography, and information architecture.', 'I also ran a review of the existing site\'s content to identify gaps between what Signify Health was now offering and what the website communicated, then worked with the content team to close those gaps.'] },
       { label: 'The Solution', title: 'A website that proved the rebrand was real', body: ['The redesigned website reflected the evolved brand identity while making the full scope of Signify Health\'s services legible to both health plan partners and individual members. The result was a 50% increase in total website traffic following launch — a signal that the new positioning was resonating with the audiences Signify Health was trying to reach.'] },
     ]}
-    gallery={['Brand Overview', 'Homepage Before/After', 'Navigation Redesign', 'Visual Identity System', 'Mobile Experience']}
+    gallery={[{ src: '', alt: 'Brand Overview', caption: 'Full brand identity overview' },
+        { src: '', alt: 'Homepage Before/After', caption: 'Homepage redesign before and after' },
+        { src: '', alt: 'Navigation Redesign', caption: 'Navigation structure redesign' },
+        { src: '', alt: 'Visual Identity System', caption: 'Visual identity system components' },
+        { src: '', alt: 'Mobile Experience', caption: 'Mobile-responsive experience' }]}
     cta={{ title: 'Curious how research-informed brand strategy drives real business outcomes?', href: 'mailto:ali@alikhandesign.com' }}
     next={{ title: 'LLM Prompt Engineering for Website Audits', href: '/work/llm-prompts' }}
   />

@@ -12,7 +12,10 @@ export default function Page() {
       { label: 'The Process', title: 'Auditing failure points before building a solution', body: ['I started by auditing recent handoffs — interviewing both designers and engineers about where breakdowns had occurred and what information they wished they\'d had. I mapped the most common failure points into categories: missing states, undefined responsive behavior, unspecified interaction details, accessibility gaps, and asset naming inconsistencies.', 'From that audit, I built a checklist organized around those categories — designed to be completed by the designer before marking anything ready, and reviewable by the engineer as a first check before beginning implementation.'] },
       { label: 'The Solution', title: 'A shared language for design and engineering', body: ['The checklist established a shared definition of handoff readiness across the design and engineering teams. It reduced back-and-forth on specification questions, surfaced missing states and edge cases before they became implementation problems, and gave both teams a common language for discussing what was and wasn\'t ready to build.'] },
     ]}
-    gallery={['Checklist Overview', 'Category Breakdown', 'Before/After Handoff Quality', 'Team Adoption']}
+    gallery={[{ src: '', alt: 'Checklist Overview', caption: 'Full design handoff checklist' },
+        { src: '', alt: 'Category Breakdown', caption: 'Checklist category breakdown' },
+        { src: '', alt: 'Before/After Handoff Quality', caption: 'Handoff quality before and after' },
+        { src: '', alt: 'Team Adoption', caption: 'Team adoption and usage patterns' }]}
     cta={{ title: 'Want to see how a structured handoff process eliminates design-to-dev friction?', href: 'mailto:ali@alikhandesign.com' }}
     next={{ title: 'Back to All Work', href: '/work' }}
   />
