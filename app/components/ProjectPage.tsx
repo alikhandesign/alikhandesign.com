@@ -59,9 +59,9 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
       {gallery.length > 0 && (
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 4rem' }}>
           <p className="section-label" style={{ marginBottom: '1.25rem' }}>Project Gallery</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+          <div className="gallery-grid">
             {gallery.map((label, i) => (
-              <div key={i} style={{ gridColumn: i === 0 ? 'span 2' : undefined }}>
+              <div key={i} className={i === 0 ? 'gallery-grid-item-wide' : ''}>
                 <div style={{ width: '100%', aspectRatio: i === 0 ? '16/9' : '4/3', background: 'var(--border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>{label}</div>
               </div>
             ))}
