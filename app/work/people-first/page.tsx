@@ -93,9 +93,9 @@ export default function PeopleFirstPage() {
     <main>
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <nav style={{ padding: '1.25rem 3rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Link href="/work" style={{ fontSize: 13, color: 'var(--text-muted)', textDecoration: 'none' }}>My Work</Link>
-          <span style={{ fontSize: 13, color: '#C4BDB7' }}>›</span>
-          <span style={{ fontSize: 13, color: 'var(--text)', fontWeight: 500 }}>People-First Enrollment Redesign</span>
+          <Link href="/work" style={{ fontSize: 14, color: 'var(--text-muted)', textDecoration: 'none' }}>My Work</Link>
+          <span style={{ fontSize: 14, color: '#C4BDB7' }}>›</span>
+          <span style={{ fontSize: 14, color: 'var(--text)', fontWeight: 500 }}>People-First Enrollment Redesign</span>
         </nav>
 
         <header style={{ padding: '2.5rem 3rem 3rem' }}>
@@ -105,19 +105,19 @@ export default function PeopleFirstPage() {
             <span className="tag">Product Strategy</span>
           </div>
           <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>People-First Enrollment Redesign</h1>
-          <p style={{ fontSize: 13, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Via Benefits · WTW · 2023</p>
+          <p style={{ fontSize: 14, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Via Benefits · WTW · 2023</p>
           <p style={{ fontSize: 18, color: 'var(--text)', lineHeight: 1.7, maxWidth: 680 }}>What happens when a product is designed around how the business works instead of how people think? For Medicare enrollees navigating health insurance, the answer was abandonment, frustration, and a flood of support calls that didn't need to happen.</p>
         </header>
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem' }}>
-        <div style={{ width: '100%', height: 400, background: 'var(--border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Hero Project Image</div>
+        <div style={{ width: '100%', height: 400, background: 'var(--border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Hero Project Image</div>
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem', display: 'flex', gap: '3rem', flexWrap: 'wrap' as const, borderBottom: '1px solid var(--border)' }}>
         {[['45%', 'Faster time-to-convert'], ['15%', 'Lift in total enrollments'], ['50%', 'Reduction in rage clicks'], ['33%', 'Increase in task completion']].map(([val, label]) => (
           <div key={label}>
-            <div className="font-serif" style={{ fontSize: '2.4rem', color: 'var(--accent)', lineHeight: 1 }}>{val}</div>
+            <div className="font-serif" style={{ fontSize: '2.25rem', color: 'var(--accent)', lineHeight: 1 }}>{val}</div>
             <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4, lineHeight: 1.4 }}>{label}</div>
           </div>
         ))}
@@ -142,9 +142,9 @@ export default function PeopleFirstPage() {
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '2.5rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '1rem' }}>
         <div>
           <p style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
-          <p className="font-serif" style={{ fontSize: '1.2rem', fontWeight: 400 }}>AI Feedback & Insights Agent</p>
+          <p className="font-serif" style={{ fontSize: '1.25rem', fontWeight: 400 }}>AI Feedback & Insights Agent</p>
         </div>
-        <Link href="/work/ai-agent" style={{ fontSize: 13, color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
+        <Link href="/work/ai-agent" style={{ fontSize: 14, color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
       </div>
     </main>
   )

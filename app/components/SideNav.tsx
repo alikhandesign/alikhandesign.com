@@ -43,7 +43,7 @@ export default function SideNav({ sections, unlocked = true }: SideNavProps) {
       // Hide on mobile via inline style — CSS class handles it too
     }}>
       <p style={{
-        fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase' as const,
+        fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const,
         color: 'var(--text-muted)', fontWeight: 500, marginBottom: '1rem'
       }}>Contents</p>
       <ul style={{ listStyle: 'none' }}>
@@ -52,7 +52,7 @@ export default function SideNav({ sections, unlocked = true }: SideNavProps) {
             <a
               href={`#${id}`}
               style={{
-                fontSize: 13,
+                fontSize: 14,
                 color: active === id ? 'var(--accent)' : 'var(--text-muted)',
                 fontWeight: active === id ? 500 : 400,
                 textDecoration: 'none',

@@ -10,7 +10,7 @@ export default function Footer() {
           { label: 'GitHub', href: 'https://github.com/alikhandesign' },
         ].map(({ label, href }) => (
           <a key={label} href={href} target="_blank" rel="noopener noreferrer"
-            style={{ fontSize: 13, color: 'var(--text-muted)', textDecoration: 'none', fontWeight: 500 }}
+            style={{ fontSize: 14, color: 'var(--text-muted)', textDecoration: 'none', fontWeight: 500 }}
           >{label}</a>
         ))}
       </div>

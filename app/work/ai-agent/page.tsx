@@ -80,7 +80,7 @@ function FullCaseStudy() {
           {[['8+ hrs → min', 'Weekly synthesis time'], ['5 days → same day', 'Insight delivery lag'], ['95%', 'Categorization accuracy'], ['20%', 'Research capacity returned']].map(([val, label]) => (
             <div key={label} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '1.25rem', position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--accent)' }} />
-              <div className="font-serif" style={{ fontSize: '1.6rem', color: 'var(--accent)', lineHeight: 1, marginBottom: '0.35rem' }}>{val}</div>
+              <div className="font-serif" style={{ fontSize: '1.5rem', color: 'var(--accent)', lineHeight: 1, marginBottom: '0.35rem' }}>{val}</div>
               <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.4 }}>{label}</div>
             </div>
           ))}
@@ -103,9 +103,9 @@ export default function AIAgentPage() {
     <main>
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <nav style={{ padding: '1.25rem 3rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Link href="/work" style={{ fontSize: 13, color: 'var(--text-muted)', textDecoration: 'none' }}>My Work</Link>
-          <span style={{ fontSize: 13, color: '#C4BDB7' }}>›</span>
-          <span style={{ fontSize: 13, color: 'var(--text)', fontWeight: 500 }}>AI Feedback & Insights Agent</span>
+          <Link href="/work" style={{ fontSize: 14, color: 'var(--text-muted)', textDecoration: 'none' }}>My Work</Link>
+          <span style={{ fontSize: 14, color: '#C4BDB7' }}>›</span>
+          <span style={{ fontSize: 14, color: 'var(--text)', fontWeight: 500 }}>AI Feedback & Insights Agent</span>
         </nav>
         <header style={{ padding: '2.5rem 3rem 3rem' }}>
           <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem', flexWrap: 'wrap' as const }}>
@@ -114,19 +114,19 @@ export default function AIAgentPage() {
             <span className="tag">AI Design</span>
           </div>
           <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>AI Feedback & Insights Agent</h1>
-          <p style={{ fontSize: 13, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Willis Towers Watson · 2025–2026</p>
+          <p style={{ fontSize: 14, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Willis Towers Watson · 2025–2026</p>
           <p style={{ fontSize: 18, color: 'var(--text)', lineHeight: 1.7, maxWidth: 680 }}>Nobody asked me to build this. I noticed that the research team was spending entire days doing work a well-designed system could do in minutes, and I couldn't stop thinking about what they could be doing instead.</p>
         </header>
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem' }}>
-        <div style={{ width: '100%', height: 400, background: 'var(--border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Hero Project Image</div>
+        <div style={{ width: '100%', height: 400, background: 'var(--border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Hero Project Image</div>
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem', display: 'flex', gap: '3rem', flexWrap: 'wrap' as const, borderBottom: '1px solid var(--border)' }}>
         {[['95%', 'Categorization accuracy'], ['8 hrs → 8 min', 'Synthesis time'], ['5 days → same day', 'Insight delivery'], ['20%', 'Capacity returned']].map(([val, label]) => (
           <div key={label}>
-            <div className="font-serif" style={{ fontSize: '2.4rem', color: 'var(--accent)', lineHeight: 1 }}>{val}</div>
+            <div className="font-serif" style={{ fontSize: '2.25rem', color: 'var(--accent)', lineHeight: 1 }}>{val}</div>
             <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4, lineHeight: 1.4 }}>{label}</div>
           </div>
         ))}
@@ -145,9 +145,9 @@ export default function AIAgentPage() {
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '2.5rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '1rem' }}>
         <div>
           <p style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
-          <p className="font-serif" style={{ fontSize: '1.2rem', fontWeight: 400 }}>IHE Scheduling Portal</p>
+          <p className="font-serif" style={{ fontSize: '1.25rem', fontWeight: 400 }}>IHE Scheduling Portal</p>
         </div>
-        <Link href="/work/ihe-portal" style={{ fontSize: 13, color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
+        <Link href="/work/ihe-portal" style={{ fontSize: 14, color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
       </div>
     </main>
   )

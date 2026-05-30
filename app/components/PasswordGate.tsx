@@ -41,14 +41,14 @@ export default function PasswordGate({ password, children, title, cta, inside, o
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--accent)' }} />
 
       <p className="eyebrow" style={{ marginBottom: '0.6rem' }}>Full Case Study</p>
-      <h3 className="font-serif" style={{ fontSize: '1.3rem', fontWeight: 400, lineHeight: 1.25, marginBottom: '0.5rem' }}>{title}</h3>
-      <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '1.5rem' }}>{cta}</p>
+      <h3 className="font-serif" style={{ fontSize: '1.25rem', fontWeight: 400, lineHeight: 1.25, marginBottom: '0.5rem' }}>{title}</h3>
+      <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '1.5rem' }}>{cta}</p>
 
       <div style={{ marginBottom: '1.75rem' }}>
         <p style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '0.6rem' }}>What's inside</p>
         <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
           {inside.map(item => (
-            <li key={item} style={{ fontSize: 13, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <li key={item} style={{ fontSize: 14, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <span style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--accent)', flexShrink: 0, display: 'block' }} />
               {item}
             </li>

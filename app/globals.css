@@ -38,14 +38,14 @@ a { color: inherit; }
 /* ─── Typography ─────────────────────────────────────────── */
 .font-serif { font-family: var(--font-serif); }
 .eyebrow {
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent);
   font-weight: 500;
 }
 .section-label {
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent);
@@ -64,7 +64,7 @@ a { color: inherit; }
 /* ─── Tags ───────────────────────────────────────────────── */
 .tag-cs {
   display: inline-block;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent);
@@ -75,7 +75,7 @@ a { color: inherit; }
 }
 .tag {
   display: inline-block;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-muted);

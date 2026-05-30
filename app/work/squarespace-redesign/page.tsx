@@ -80,7 +80,7 @@ function FullCaseStudy() {
           ].map(([title, desc]) => (
             <div key={title as string} style={{ padding: '1.25rem', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: 3, background: 'var(--accent)' }} />
-              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', marginBottom: '0.5rem', paddingLeft: '0.75rem' }}>{title}</p>
+              <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: '0.5rem', paddingLeft: '0.75rem' }}>{title}</p>
               <p style={{ fontSize: 14, color: 'var(--text-mid)', lineHeight: 1.7, paddingLeft: '0.75rem' }}>{desc}</p>
             </div>
           ))}
@@ -113,7 +113,7 @@ function FullCaseStudy() {
 
         <CaseStudyImage src="" alt="Portfolio page templates populated with floristry photography for a UI/UX designer" caption="The system recommended Homepage, About, and Contact — no Portfolio page. When I added one manually, it populated with floristry stock photography." />
 
-        <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', marginTop: '1.5rem', marginBottom: '0.5rem' }}>Track A synthesis</p>
+        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginTop: '1.5rem', marginBottom: '0.5rem' }}>Track A synthesis</p>
         <Callout>"Blueprint AI gives you a coherent website for someone like you. Not a website for you."</Callout>
 
         <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: '1rem', marginTop: '2rem' }}>Track B — Power user journey</p>
@@ -122,7 +122,7 @@ function FullCaseStudy() {
 
         <CaseStudyImage src="" alt="Intent 7: AI renamed user Alexandre Khan with fabricated credentials" caption="Intent 7: The AI generated a bio for 'Alexandre Khan' — complete with invented degrees in cognitive science and a speaking career I don't have." />
 
-        <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', marginTop: '1.5rem', marginBottom: '0.5rem' }}>Track B synthesis</p>
+        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginTop: '1.5rem', marginBottom: '0.5rem' }}>Track B synthesis</p>
         <Callout>"Squarespace's AI cannot distinguish between you and anyone else — and it was never designed to."</Callout>
 
         <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: '1rem', marginTop: '2rem' }}>The comparison</p>
@@ -131,7 +131,7 @@ function FullCaseStudy() {
         <div style={{ margin: '2rem 0', padding: '1.25rem 1.5rem', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)' }}>
           <a href="https://docs.google.com/spreadsheets/d/14aYE4MwHlpsOULX9u09c1IXI_B1YytyLBPpUJ3VYBnY/edit" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', textDecoration: 'none' }}>
             <div>
-              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', marginBottom: '0.25rem' }}>Full audit spreadsheet</p>
+              <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: '0.25rem' }}>Full audit spreadsheet</p>
               <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>22 documented intents · user quotes · failure mode taxonomy</p>
             </div>
             <span style={{ color: 'var(--accent)', fontSize: 16, flexShrink: 0 }}>→</span>
@@ -163,7 +163,7 @@ function FullCaseStudy() {
             <div key={title as string} style={{ padding: '1.25rem 1.5rem', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)' }}>
               <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: '0.5rem' }}>{title}</p>
               <p style={{ fontSize: 14, color: 'var(--text-mid)', lineHeight: 1.7, marginBottom: '0.75rem' }}>{desc}</p>
-              <p style={{ fontSize: 11, color: 'var(--text-muted)', letterSpacing: '0.05em' }}>{modes}</p>
+              <p style={{ fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.05em' }}>{modes}</p>
             </div>
           ))}
         </div>
@@ -193,7 +193,7 @@ function FullCaseStudy() {
         <div style={{ margin: '2.5rem 0', padding: '1.25rem 1.5rem', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)' }}>
           <a href="https://squarespace-ai-redesign.vercel.app" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', textDecoration: 'none' }}>
             <div>
-              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', marginBottom: '0.25rem' }}>Interactive prototype</p>
+              <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: '0.25rem' }}>Interactive prototype</p>
               <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>Built in React and Vercel — all three moments interactive</p>
             </div>
             <span style={{ color: 'var(--accent)', fontSize: 16, flexShrink: 0 }}>→</span>
@@ -227,9 +227,9 @@ export default function SquarespaceRedesignPage() {
     <main>
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <nav style={{ padding: '1.25rem 3rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Link href="/work" style={{ fontSize: 13, color: 'var(--text-muted)', textDecoration: 'none' }}>My Work</Link>
-          <span style={{ fontSize: 13, color: '#C4BDB7' }}>›</span>
-          <span style={{ fontSize: 13, color: 'var(--text)', fontWeight: 500 }}>From Checkboxes to Conversations</span>
+          <Link href="/work" style={{ fontSize: 14, color: 'var(--text-muted)', textDecoration: 'none' }}>My Work</Link>
+          <span style={{ fontSize: 14, color: '#C4BDB7' }}>›</span>
+          <span style={{ fontSize: 14, color: 'var(--text)', fontWeight: 500 }}>From Checkboxes to Conversations</span>
         </nav>
 
         <header style={{ padding: '2.5rem 3rem 3rem' }}>
@@ -240,21 +240,21 @@ export default function SquarespaceRedesignPage() {
             <span className="tag">Interaction Design</span>
           </div>
           <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>From Checkboxes to Conversations</h1>
-          <p style={{ fontSize: 13, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Squarespace · Self-initiated · 2026</p>
+          <p style={{ fontSize: 14, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Squarespace · Self-initiated · 2026</p>
           <p style={{ fontSize: 18, color: 'var(--text)', lineHeight: 1.7, maxWidth: 680 }}>I didn't set out to audit Squarespace's AI. I set out to redesign my portfolio. What I found instead became this case study — a documented audit of Blueprint AI across two user journeys, twenty distinct failure modes, and a redesign grounded in the principles I use every time I work with AI as a design tool.</p>
         </header>
       </div>
 
       {/* Hero image */}
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem' }}>
-        <div style={{ width: '100%', height: 400, background: 'var(--border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Hero Image — Before/After Composite</div>
+        <div style={{ width: '100%', height: 400, background: 'var(--border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Hero Image — Before/After Composite</div>
       </div>
 
       {/* Metrics strip */}
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem', display: 'flex', gap: '3rem', flexWrap: 'wrap' as const, borderBottom: '1px solid var(--border)' }}>
         {[['20', 'Failure modes documented'], ['22', 'Intents audited across 2 tracks'], ['3', 'Redesigned moments'], ['4', 'Design principles']].map(([val, label]) => (
           <div key={label}>
-            <div className="font-serif" style={{ fontSize: '2.4rem', color: 'var(--accent)', lineHeight: 1 }}>{val}</div>
+            <div className="font-serif" style={{ fontSize: '2.25rem', color: 'var(--accent)', lineHeight: 1 }}>{val}</div>
             <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4, lineHeight: 1.4 }}>{label}</div>
           </div>
         ))}
@@ -283,9 +283,9 @@ export default function SquarespaceRedesignPage() {
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '2.5rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '1rem' }}>
         <div>
           <p style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
-          <p className="font-serif" style={{ fontSize: '1.2rem', fontWeight: 400 }}>People-First Enrollment Redesign</p>
+          <p className="font-serif" style={{ fontSize: '1.25rem', fontWeight: 400 }}>People-First Enrollment Redesign</p>
         </div>
-        <Link href="/work/people-first" style={{ fontSize: 13, color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
+        <Link href="/work/people-first" style={{ fontSize: 14, color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
       </div>
     </main>
   )

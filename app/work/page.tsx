@@ -1,8 +1,8 @@
 import Link from 'next/link'
 
 const caseStudies = [
-  { title: 'From Checkboxes to Conversations', company: 'Squarespace · Self-initiated', tags: ['AI Design', 'UX Research', 'Interaction Design'], desc: "Audited Squarespace's Blueprint AI across two user journeys, documented 20 distinct failure modes, and redesigned three key moments — grounded in the principles I use every time I work with AI as a design tool.", outcomes: [{ val: '20', label: 'Failure modes documented' }, { val: '22', label: 'Intents audited' }, { val: '3', label: 'Redesigned moments' }], disciplines: 'AI Design · UX Research · Interaction Design', href: '/work/squarespace-redesign' },
   { title: 'AI Feedback & Insights Agent', company: 'Willis Towers Watson', tags: ['Agentic Workflow Design', 'AI Design'], desc: 'Designed and deployed an agentic AI research pipeline that automated qualitative synthesis — transforming raw user feedback into structured, actionable insights with 95% categorization accuracy and eliminating a full day of manual analysis.', outcomes: [{ val: '95%', label: 'Categorization accuracy' }, { val: '8 hrs → 8 min', label: 'Synthesis time reduction' }], disciplines: 'AI Design · Agentic Workflow · Qualitative Research', href: '/work/ai-agent' },
+  { title: 'From Checkboxes to Conversations', company: 'Squarespace · Self-initiated', tags: ['AI Design', 'UX Research', 'Interaction Design'], desc: "Audited Squarespace's Blueprint AI across two user journeys, documented 20 distinct failure modes, and redesigned three key moments — grounded in the principles I use every time I work with AI as a design tool.", outcomes: [{ val: '20', label: 'Failure modes documented' }, { val: '22', label: 'Intents audited' }, { val: '3', label: 'Redesigned moments' }], disciplines: 'AI Design · UX Research · Interaction Design', href: '/work/squarespace-redesign' },
   { title: 'People-First Enrollment Redesign', company: 'Via Benefits · WTW', tags: ['UX Research', 'Product Strategy'], desc: 'Dismantled a legacy product-first gate causing cognitive overwhelm and high abandonment — replacing it with an identity-driven enrollment flow that drove a 15% lift in total enrollments and 45% faster time-to-convert.', outcomes: [{ val: '45%', label: 'Faster time-to-convert' }, { val: '15%', label: 'Lift in enrollments' }, { val: '50%', label: 'Reduction in rage clicks' }], disciplines: 'UX Research · Product Design · Stakeholder Strategy', href: '/work/people-first' },
   { title: 'IHE Scheduling Portal', company: 'Signify Health · CVS Health', tags: ['UX Research', 'UX Design'], desc: 'Led mixed-methods research to uncover why members declined free in-home health evaluations — findings that directly informed a trust-first scheduling portal redesign.', outcomes: [{ val: '73 NPS', label: 'Post-visit satisfaction' }, { val: '3.5M+', label: 'Annual IHEs completed' }, { val: '6', label: 'Barrier categories identified' }], disciplines: 'Mixed-Methods Research · UX Design · Trust Strategy', href: '/work/ihe-portal' },
 ]
@@ -21,7 +21,7 @@ export default function WorkPage() {
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <header className="page-header">
           <p className="eyebrow" style={{ marginBottom: '0.6rem' }}>Portfolio</p>
-          <h1 className="font-serif page-title-lg" style={{ fontSize: '2.8rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.75rem' }}>My Work</h1>
+          <h1 className="font-serif page-title-lg" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.75rem' }}>My Work</h1>
           <p style={{ fontSize: 16, color: 'var(--text-muted)', lineHeight: 1.6, maxWidth: 580 }}>10+ years of product design and UX research — from AI-native research pipelines to zero-to-one product ecosystems.</p>
         </header>
       </div>
@@ -30,7 +30,7 @@ export default function WorkPage() {
       <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border)' }}>
           <h2 className="font-serif" style={{ fontSize: '1.5rem', fontWeight: 400 }}>Case Studies</h2>
-          <span style={{ fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.05em' }}>— 3 deep dives</span>
+          <span style={{ fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.05em' }}>— {caseStudies.length} deep dives</span>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           {caseStudies.map(cs => (
@@ -42,13 +42,13 @@ export default function WorkPage() {
                     <span className="tag-cs">Case Study</span>
                     {cs.tags.map(t => <span key={t} className="tag">{t}</span>)}
                   </div>
-                  <h3 className="font-serif" style={{ fontSize: '1.6rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '0.25rem' }}>{cs.title}</h3>
+                  <h3 className="font-serif" style={{ fontSize: '1.5rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '0.25rem' }}>{cs.title}</h3>
                   <p style={{ fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '0.85rem' }}>{cs.company}</p>
                   <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '1.5rem' }}>{cs.desc}</p>
                   <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' as const, marginBottom: '1.5rem' }}>
                     {cs.outcomes.map(o => (
                       <div key={o.label}>
-                        <div className="font-serif" style={{ fontSize: '1.6rem', color: 'var(--accent)', lineHeight: 1 }}>{o.val}</div>
+                        <div className="font-serif" style={{ fontSize: '1.5rem', color: 'var(--accent)', lineHeight: 1 }}>{o.val}</div>
                         <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2, lineHeight: 1.4 }}>{o.label}</div>
                       </div>
                     ))}
@@ -56,7 +56,7 @@ export default function WorkPage() {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '1.25rem', borderTop: '1px solid var(--border)', flexWrap: 'wrap' as const, gap: '0.75rem' }}>
                   <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{cs.disciplines}</span>
-                  <span style={{ fontSize: 13, color: 'var(--accent)', fontWeight: 500 }}>Read case study →</span>
+                  <span style={{ fontSize: 14, color: 'var(--accent)', fontWeight: 500 }}>Read case study →</span>
                 </div>
               </div>
             </Link>
@@ -70,7 +70,7 @@ export default function WorkPage() {
       <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border)' }}>
           <h2 className="font-serif" style={{ fontSize: '1.5rem', fontWeight: 400 }}>Projects</h2>
-          <span style={{ fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.05em' }}>— 5 selected works</span>
+          <span style={{ fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.05em' }}>— {projects.length} selected works</span>
         </div>
         <div className="grid-proj">
           {projects.map(p => (
@@ -80,9 +80,9 @@ export default function WorkPage() {
                 <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem', flexWrap: 'wrap' as const }}>
                   {p.tags.map(t => <span key={t} className="tag">{t}</span>)}
                 </div>
-                <h3 className="font-serif" style={{ fontSize: '1.1rem', fontWeight: 400, lineHeight: 1.25, marginBottom: '0.25rem' }}>{p.title}</h3>
+                <h3 className="font-serif" style={{ fontSize: '1.25rem', fontWeight: 400, lineHeight: 1.25, marginBottom: '0.25rem' }}>{p.title}</h3>
                 <p style={{ fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '0.6rem' }}>{p.company}</p>
-                <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.65, flex: 1, marginBottom: '1rem' }}>{p.desc}</p>
+                <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.65, flex: 1, marginBottom: '1rem' }}>{p.desc}</p>
                 <span style={{ fontSize: 12, color: 'var(--accent)', fontWeight: 500 }}>View project →</span>
               </div>
             </Link>

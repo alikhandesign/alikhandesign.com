@@ -51,7 +51,7 @@ function FullCaseStudy() {
         ].map(([title, text]) => (
           <div key={title} style={{ marginBottom: '1.5rem', paddingBottom: '1.5rem', borderBottom: '1px solid var(--border)' }}>
             <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: '0.4rem' }}>{title}</h3>
-            <p style={{ fontSize: 15, color: 'var(--text-muted)', lineHeight: 1.7 }}>{text}</p>
+            <p style={{ fontSize: 16, color: 'var(--text-muted)', lineHeight: 1.7 }}>{text}</p>
           </div>
         ))}
         <div style={{ borderLeft: '3px solid var(--accent)', padding: '1.25rem 1.5rem', margin: '2rem 0', background: 'var(--surface)', borderRadius: '0 4px 4px 0' }}>
@@ -103,9 +103,9 @@ export default function IHEPortalPage() {
     <main>
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <nav style={{ padding: '1.25rem 3rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Link href="/work" style={{ fontSize: 13, color: 'var(--text-muted)', textDecoration: 'none' }}>My Work</Link>
-          <span style={{ fontSize: 13, color: '#C4BDB7' }}>›</span>
-          <span style={{ fontSize: 13, color: 'var(--text)', fontWeight: 500 }}>IHE Scheduling Portal</span>
+          <Link href="/work" style={{ fontSize: 14, color: 'var(--text-muted)', textDecoration: 'none' }}>My Work</Link>
+          <span style={{ fontSize: 14, color: '#C4BDB7' }}>›</span>
+          <span style={{ fontSize: 14, color: 'var(--text)', fontWeight: 500 }}>IHE Scheduling Portal</span>
         </nav>
         <header style={{ padding: '2.5rem 3rem 3rem' }}>
           <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem', flexWrap: 'wrap' as const }}>
@@ -114,19 +114,19 @@ export default function IHEPortalPage() {
             <span className="tag">UX Design</span>
           </div>
           <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>IHE Scheduling Portal</h1>
-          <p style={{ fontSize: 13, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Signify Health · CVS Health</p>
+          <p style={{ fontSize: 14, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Signify Health · CVS Health</p>
           <p style={{ fontSize: 18, color: 'var(--text)', lineHeight: 1.7, maxWidth: 680 }}>A free in-home health evaluation sounds like an obvious yes. A licensed clinician comes to your home, reviews your medications, checks your vitals, and coordinates with your doctor — at no cost. So why were millions of eligible members saying no?</p>
         </header>
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem' }}>
-        <div style={{ width: '100%', height: 400, background: 'var(--border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Hero Project Image</div>
+        <div style={{ width: '100%', height: 400, background: 'var(--border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Hero Project Image</div>
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem', display: 'flex', gap: '3rem', flexWrap: 'wrap' as const, borderBottom: '1px solid var(--border)' }}>
         {[['73 NPS', 'Post-visit satisfaction'], ['3.5M+', 'Annual IHEs completed'], ['6', 'Barrier categories identified']].map(([val, label]) => (
           <div key={label}>
-            <div className="font-serif" style={{ fontSize: '2.4rem', color: 'var(--accent)', lineHeight: 1 }}>{val}</div>
+            <div className="font-serif" style={{ fontSize: '2.25rem', color: 'var(--accent)', lineHeight: 1 }}>{val}</div>
             <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4, lineHeight: 1.4 }}>{label}</div>
           </div>
         ))}
@@ -145,9 +145,9 @@ export default function IHEPortalPage() {
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '2.5rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '1rem' }}>
         <div>
           <p style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Project</p>
-          <p className="font-serif" style={{ fontSize: '1.2rem', fontWeight: 400 }}>Optimizing the Ancillary Insurance Journey</p>
+          <p className="font-serif" style={{ fontSize: '1.25rem', fontWeight: 400 }}>Optimizing the Ancillary Insurance Journey</p>
         </div>
-        <Link href="/work/ancillary-journey" style={{ fontSize: 13, color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
+        <Link href="/work/ancillary-journey" style={{ fontSize: 14, color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
       </div>
     </main>
   )

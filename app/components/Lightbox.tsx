@@ -90,7 +90,7 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
       <p style={{
         position: 'absolute', top: '1.5rem', left: '50%',
         transform: 'translateX(-50%)',
-        fontSize: 13, color: 'rgba(255,255,255,0.5)',
+        fontSize: 14, color: 'rgba(255,255,255,0.5)',
         letterSpacing: '0.08em', fontFamily: 'Inter, sans-serif',
       }}>
         {current + 1} of {images.length}
@@ -109,7 +109,7 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
             color: '#FAF8F5', borderRadius: '50%',
             width: 44, height: 44, cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 20, transition: 'background 0.2s',
+            fontSize: 18, transition: 'background 0.2s',
           }}
           onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
           onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
@@ -154,7 +154,7 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
         </div>
         {img.caption && (
           <p style={{
-            fontSize: 13, color: 'rgba(255,255,255,0.65)',
+            fontSize: 14, color: 'rgba(255,255,255,0.65)',
             textAlign: 'center', maxWidth: 600,
             fontFamily: 'Inter, sans-serif',
             fontStyle: 'italic', lineHeight: 1.5,
@@ -175,7 +175,7 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
             color: '#FAF8F5', borderRadius: '50%',
             width: 44, height: 44, cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 20, transition: 'background 0.2s',
+            fontSize: 18, transition: 'background 0.2s',
           }}
           onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
           onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
@@ -330,13 +330,13 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                 <div style={{
                   width: '100%', height: '100%',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 11, color: 'var(--text-muted)',
+                  fontSize: 12, color: 'var(--text-muted)',
                   letterSpacing: '0.05em', textTransform: 'uppercase',
                 }}>{img.alt}</div>
               )}
             </div>
             {img.caption && (
-              <p style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: '0.4rem', fontStyle: 'italic' }}>
+              <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: '0.4rem', fontStyle: 'italic' }}>
                 {img.caption}
               </p>
             )}
