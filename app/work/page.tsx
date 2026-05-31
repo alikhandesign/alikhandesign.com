@@ -4,10 +4,10 @@ import Link from 'next/link'
 import { useState } from 'react'
 
 const caseStudies = [
-  { title: 'AI Feedback & Insights Agent', company: 'Willis Towers Watson', tags: ['Agentic Workflow Design', 'AI Design'], desc: 'Designed and deployed an agentic AI research pipeline that automated qualitative synthesis — transforming raw user feedback into structured, actionable insights with 95% categorization accuracy and eliminating a full day of manual analysis.', outcomes: [{ val: '95%', label: 'Categorization accuracy' }, { val: '8 hrs → 8 min', label: 'Synthesis time reduction' }], disciplines: 'AI Design · Agentic Workflow · Qualitative Research', href: '/work/ai-agent' },
-  { title: 'From Checkboxes to Conversations', company: 'Squarespace · Self-initiated', tags: ['AI Design', 'UX Research', 'Interaction Design'], desc: "Audited Squarespace's Blueprint AI across two user journeys, documented 20 distinct failure modes, and redesigned three key moments — grounded in the principles I use every time I work with AI as a design tool.", outcomes: [{ val: '20', label: 'Failure modes documented' }, { val: '22', label: 'Intents audited' }, { val: '3', label: 'Redesigned moments' }], disciplines: 'AI Design · UX Research · Interaction Design', href: '/work/squarespace-redesign' },
-  { title: 'People-First Enrollment Redesign', company: 'Via Benefits · WTW', tags: ['UX Research', 'Product Strategy'], desc: 'Dismantled a legacy product-first gate causing cognitive overwhelm and high abandonment — replacing it with an identity-driven enrollment flow that drove a 15% lift in total enrollments and 45% faster time-to-convert.', outcomes: [{ val: '45%', label: 'Faster time-to-convert' }, { val: '15%', label: 'Lift in enrollments' }, { val: '50%', label: 'Reduction in rage clicks' }], disciplines: 'UX Research · Product Design · Stakeholder Strategy', href: '/work/people-first' },
-  { title: 'IHE Scheduling Portal', company: 'Signify Health · CVS Health', tags: ['UX Research', 'UX Design'], desc: 'Led mixed-methods research to uncover why members declined free in-home health evaluations — findings that directly informed a trust-first scheduling portal redesign.', outcomes: [{ val: '73 NPS', label: 'Post-visit satisfaction' }, { val: '3.5M+', label: 'Annual IHEs completed' }, { val: '6', label: 'Barrier categories identified' }], disciplines: 'Mixed-Methods Research · UX Design · Trust Strategy', href: '/work/ihe-portal' },
+  { title: 'AI Feedback & Insights Agent', company: 'Willis Towers Watson', tags: ['Agentic Workflow Design', 'AI Design'], desc: 'Designed and deployed an agentic AI research pipeline that automated qualitative synthesis — transforming raw user feedback into structured, actionable insights with 95% categorization accuracy and eliminating a full day of manual analysis.', outcomes: [{ val: '95%', label: 'Categorization accuracy' }, { val: '8 hrs → 8 min', label: 'Synthesis time reduction' }], href: '/work/ai-agent' },
+  { title: 'From Checkboxes to Conversations', company: 'Squarespace · Self-initiated', tags: ['AI Design', 'UX Research', 'Interaction Design'], desc: "Audited Squarespace's Blueprint AI across two user journeys, documented 20 distinct failure modes, and redesigned three key moments — grounded in the principles I use every time I work with AI as a design tool.", outcomes: [{ val: '20', label: 'Failure modes documented' }, { val: '22', label: 'Intents audited' }, { val: '3', label: 'Redesigned moments' }], href: '/work/squarespace-redesign' },
+  { title: 'People-First Enrollment Redesign', company: 'Via Benefits · WTW', tags: ['UX Research', 'Product Strategy'], desc: 'Dismantled a legacy product-first gate causing cognitive overwhelm and high abandonment — replacing it with an identity-driven enrollment flow that drove a 15% lift in total enrollments and 45% faster time-to-convert.', outcomes: [{ val: '45%', label: 'Faster time-to-convert' }, { val: '15%', label: 'Lift in enrollments' }, { val: '50%', label: 'Reduction in rage clicks' }], href: '/work/people-first' },
+  { title: 'IHE Scheduling Portal', company: 'Signify Health · CVS Health', tags: ['UX Research', 'UX Design'], desc: 'Led mixed-methods research to uncover why members declined free in-home health evaluations — findings that directly informed a trust-first scheduling portal redesign.', outcomes: [{ val: '73 NPS', label: 'Post-visit satisfaction' }, { val: '3.5M+', label: 'Annual IHEs completed' }, { val: '6', label: 'Barrier categories identified' }], href: '/work/ihe-portal' },
 ]
 
 const projects = [
@@ -53,31 +53,6 @@ export default function WorkPage() {
     color: 'var(--bg)',
   }
 
-  const countBadge = (n: number) => (
-    <span style={{
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minWidth: '1.25rem',
-      height: '1.25rem',
-      fontSize: '0.6875rem',
-      fontWeight: 600,
-      borderRadius: '999px',
-      background: 'currentColor',
-      color: 'inherit',
-      opacity: 0.18,
-      lineHeight: 1,
-      padding: '0 0.25rem',
-    }}>
-      <span style={{ color: filter === 'all' && n === total ? 'var(--bg)' :
-                             filter === 'case-studies' && n === caseStudies.length ? 'var(--bg)' :
-                             filter === 'projects' && n === projects.length ? 'var(--bg)' :
-                             'var(--text)', opacity: 1 }}>
-        {n}
-      </span>
-    </span>
-  )
-
   return (
     <main>
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
@@ -88,47 +63,17 @@ export default function WorkPage() {
 
           {/* Filter tabs */}
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            <button
-              onClick={() => setFilter('all')}
-              style={filter === 'all' ? activeStyle : filterStyles}
-              aria-pressed={filter === 'all'}
-            >
+            <button onClick={() => setFilter('all')} style={filter === 'all' ? activeStyle : filterStyles} aria-pressed={filter === 'all'}>
               All
-              <span style={{
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                minWidth: '1.1rem', height: '1.1rem', fontSize: '0.6875rem', fontWeight: 600,
-                borderRadius: '999px', padding: '0 0.25rem',
-                background: filter === 'all' ? 'rgba(250,248,245,0.25)' : 'var(--border)',
-                color: filter === 'all' ? 'var(--bg)' : 'var(--text-muted)',
-              }}>{total}</span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: '1.1rem', height: '1.1rem', fontSize: '0.6875rem', fontWeight: 600, borderRadius: '999px', padding: '0 0.25rem', background: filter === 'all' ? 'rgba(250,248,245,0.25)' : 'var(--border)', color: filter === 'all' ? 'var(--bg)' : 'var(--text-muted)' }}>{total}</span>
             </button>
-            <button
-              onClick={() => setFilter('case-studies')}
-              style={filter === 'case-studies' ? activeStyle : filterStyles}
-              aria-pressed={filter === 'case-studies'}
-            >
+            <button onClick={() => setFilter('case-studies')} style={filter === 'case-studies' ? activeStyle : filterStyles} aria-pressed={filter === 'case-studies'}>
               Case Studies
-              <span style={{
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                minWidth: '1.1rem', height: '1.1rem', fontSize: '0.6875rem', fontWeight: 600,
-                borderRadius: '999px', padding: '0 0.25rem',
-                background: filter === 'case-studies' ? 'rgba(250,248,245,0.25)' : 'var(--border)',
-                color: filter === 'case-studies' ? 'var(--bg)' : 'var(--text-muted)',
-              }}>{caseStudies.length}</span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: '1.1rem', height: '1.1rem', fontSize: '0.6875rem', fontWeight: 600, borderRadius: '999px', padding: '0 0.25rem', background: filter === 'case-studies' ? 'rgba(250,248,245,0.25)' : 'var(--border)', color: filter === 'case-studies' ? 'var(--bg)' : 'var(--text-muted)' }}>{caseStudies.length}</span>
             </button>
-            <button
-              onClick={() => setFilter('projects')}
-              style={filter === 'projects' ? activeStyle : filterStyles}
-              aria-pressed={filter === 'projects'}
-            >
+            <button onClick={() => setFilter('projects')} style={filter === 'projects' ? activeStyle : filterStyles} aria-pressed={filter === 'projects'}>
               Projects
-              <span style={{
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                minWidth: '1.1rem', height: '1.1rem', fontSize: '0.6875rem', fontWeight: 600,
-                borderRadius: '999px', padding: '0 0.25rem',
-                background: filter === 'projects' ? 'rgba(250,248,245,0.25)' : 'var(--border)',
-                color: filter === 'projects' ? 'var(--bg)' : 'var(--text-muted)',
-              }}>{projects.length}</span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: '1.1rem', height: '1.1rem', fontSize: '0.6875rem', fontWeight: 600, borderRadius: '999px', padding: '0 0.25rem', background: filter === 'projects' ? 'rgba(250,248,245,0.25)' : 'var(--border)', color: filter === 'projects' ? 'var(--bg)' : 'var(--text-muted)' }}>{projects.length}</span>
             </button>
           </div>
         </header>
@@ -163,8 +108,7 @@ export default function WorkPage() {
                       ))}
                     </div>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '1.25rem', borderTop: '1px solid var(--border)', flexWrap: 'wrap' as const, gap: '0.75rem' }}>
-                    <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>{cs.disciplines}</span>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: 'var(--space-6)', borderTop: '1px solid var(--border)' }}>
                     <span style={{ fontSize: 'var(--text-base)', color: 'var(--accent)', fontWeight: 500 }}>Read case study →</span>
                   </div>
                 </div>
