@@ -13,8 +13,8 @@ export default function Nav() {
           <Image src="/images/logo.svg" alt="" width={48} height={56} priority aria-hidden="true" />
         </Link>
         <ul className="nav-links" style={{ display: 'flex', listStyle: 'none' }}>
-          <li><Link href="/work" style={{ textDecoration: 'none', color: path.startsWith('/work') ? 'var(--accent)' : 'var(--text-muted)', fontWeight: path.startsWith('/work') ? 500 : 400, transition: 'color 0.15s' }}>My Work</Link></li>
-          <li><Link href="/about" style={{ textDecoration: 'none', color: path === '/about' ? 'var(--accent)' : 'var(--text-muted)', fontWeight: path === '/about' ? 500 : 400, transition: 'color 0.15s' }}>About Me</Link></li>
+          <li><Link href="/work" style={{ textDecoration: 'none', color: path.startsWith('/work') ? 'var(--text)' : 'var(--text-muted)', fontWeight: path.startsWith('/work') ? 500 : 400, transition: 'color 0.15s' }}>My Work</Link></li>
+          <li><Link href="/about" style={{ textDecoration: 'none', color: path === '/about' ? 'var(--text)' : 'var(--text-muted)', fontWeight: path === '/about' ? 500 : 400, transition: 'color 0.15s' }}>About Me</Link></li>
           <li><a href="mailto:ali@alikhandesign.com" style={{ textDecoration: 'none', color: 'var(--accent)', fontWeight: 500 }}>Let's Talk</a></li>
         </ul>
       </nav>
