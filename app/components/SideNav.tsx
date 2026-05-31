@@ -8,6 +8,7 @@ interface SideNavProps {
 
 export default function SideNav({ sections, unlocked = true }: SideNavProps) {
   const [active, setActive] = useState(sections[0])
+  const [hovered, setHovered] = useState<string | null>(null)
 
   useEffect(() => {
     const observers: IntersectionObserver[] = []
@@ -25,7 +26,6 @@ export default function SideNav({ sections, unlocked = true }: SideNavProps) {
       })
     }
 
-    // Small delay to let DOM settle after password unlock
     const timer = setTimeout(setup, 100)
     return () => {
       clearTimeout(timer)
@@ -36,12 +36,24 @@ export default function SideNav({ sections, unlocked = true }: SideNavProps) {
   const formatLabel = (id: string) =>
     id.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
 
+  const getLinkStyle = (id: string): React.CSSProperties => {
+    const isActive = active === id
+    const isHovered = hovered === id && !isActive
+    return {
+      fontSize: 14,
+      color: isActive ? 'var(--accent)' : isHovered ? 'var(--text-mid)' : 'var(--text-muted)',
+      fontWeight: isActive || isHovered ? 500 : 400,
+      textDecoration: 'none',
+      display: 'block',
+      padding: '0.5rem 0 0.5rem 0.75rem',
+      borderLeft: `2px solid ${isActive ? 'var(--accent)' : isHovered ? 'var(--border-mid)' : 'var(--border)'}`,
+      lineHeight: 1.4,
+      transition: 'color 0.15s, border-color 0.15s',
+    }
+  }
+
   return (
-    <aside style={{
-      position: 'sticky',
-      top: '5rem',
-      // Hide on mobile via inline style — CSS class handles it too
-    }}>
+    <aside style={{ position: 'sticky', top: '5rem' }}>
       <p style={{
         fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const,
         color: 'var(--text-muted)', fontWeight: 500, marginBottom: '1rem'
@@ -51,17 +63,9 @@ export default function SideNav({ sections, unlocked = true }: SideNavProps) {
           <li key={id}>
             <a
               href={`#${id}`}
-              style={{
-                fontSize: 14,
-                color: active === id ? 'var(--accent)' : 'var(--text-muted)',
-                fontWeight: active === id ? 500 : 400,
-                textDecoration: 'none',
-                display: 'block',
-                padding: '0.5rem 0 0.5rem 0.75rem',
-                borderLeft: `2px solid ${active === id ? 'var(--accent)' : 'var(--border)'}`,
-                lineHeight: 1.4,
-                transition: 'color 0.2s, border-color 0.2s',
-              }}
+              style={getLinkStyle(id)}
+              onMouseEnter={() => setHovered(id)}
+              onMouseLeave={() => setHovered(null)}
             >
               {formatLabel(id)}
             </a>
