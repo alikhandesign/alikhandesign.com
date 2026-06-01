@@ -1,0 +1,315 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Honest Design System" />
+
+<style>
+  {`
+    .intro-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #1C1C1A;
+    }
+    .intro-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #89181A;
+      margin-bottom: 1rem;
+    }
+    .intro-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 3rem;
+      font-weight: 400;
+      line-height: 1.1;
+      color: #1C1C1A;
+      margin-bottom: 1.5rem;
+    }
+    .intro-lead {
+      font-size: 1.125rem;
+      line-height: 1.75;
+      color: #4A4643;
+      margin-bottom: 2.5rem;
+      border-left: 3px solid #89181A;
+      padding-left: 1.25rem;
+    }
+    .intro-body {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: #6B6560;
+      margin-bottom: 1.5rem;
+    }
+    .intro-section-title {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #89181A;
+      margin-bottom: 1rem;
+      margin-top: 3rem;
+    }
+    .intro-divider {
+      height: 1px;
+      background: #EDE9E4;
+      margin: 2.5rem 0;
+    }
+    .pillar-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .pillar {
+      padding: 1.25rem;
+      background: #F2EFE9;
+      border-radius: 4px;
+      border-left: 3px solid #89181A;
+    }
+    .pillar-name {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #1C1C1A;
+      margin-bottom: 0.4rem;
+    }
+    .pillar-desc {
+      font-size: 0.875rem;
+      color: #6B6560;
+      line-height: 1.5;
+    }
+    .token-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .token-item {
+      padding: 1rem 1.25rem;
+      background: #FAF8F5;
+      border: 1px solid #EDE9E4;
+      border-radius: 4px;
+    }
+    .token-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #9E9189;
+      margin-bottom: 0.35rem;
+    }
+    .token-value {
+      font-size: 0.875rem;
+      color: #1C1C1A;
+      font-weight: 500;
+    }
+    .token-desc {
+      font-size: 0.8125rem;
+      color: #6B6560;
+      margin-top: 0.2rem;
+    }
+    .link-accent {
+      color: #89181A;
+      font-weight: 500;
+      text-decoration: none;
+      border-bottom: 1px solid #89181A;
+      padding-bottom: 1px;
+    }
+    .color-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .swatch-block {
+      width: 48px;
+      height: 48px;
+      border-radius: 4px;
+      border: 1px solid #EDE9E4;
+    }
+    .swatch-label {
+      font-size: 0.6875rem;
+      color: #6B6560;
+      text-align: center;
+    }
+  `}
+</style>
+
+<div className="intro-wrap">
+
+<p className="intro-eyebrow">Design System</p>
+<h1 className="intro-title">Honest</h1>
+
+<p className="intro-lead">
+  A design system built for a portfolio site that needed to feel like me — not like every other designer portfolio out there.
+</p>
+
+<p className="intro-body">
+  I needed something accessible and modern that moved away from the clichéd styles I kept seeing across the industry. Most portfolio sites look the same: dark mode, heavy gradients, oversized type, and visual tricks designed to impress rather than communicate. I wanted something different — professional, mature, and grounded in real design system thinking.
+</p>
+
+<p className="intro-body">
+  Honest is the result. A warm, editorial system built on semantic tokens, a rem-based type scale, and components that map 1:1 between Figma and code. Every decision is documented, every token is intentional, and nothing is there just to look impressive.
+</p>
+
+<p className="intro-body">
+  You can see it in production at <a href="https://alikhandesign.com" className="link-accent" target="_blank">alikhandesign.com</a>.
+</p>
+
+<div className="intro-divider" />
+
+<p className="intro-section-title">Design Principles</p>
+
+<div className="pillar-grid">
+  <div className="pillar">
+    <p className="pillar-name">Honest</p>
+    <p className="pillar-desc">Every decision is documented and defensible. No visual tricks, no overclaiming.</p>
+  </div>
+  <div className="pillar">
+    <p className="pillar-name">Accessible</p>
+    <p className="pillar-desc">Rem-based type scale, sufficient contrast, keyboard navigation, skip links.</p>
+  </div>
+  <div className="pillar">
+    <p className="pillar-name">Systematic</p>
+    <p className="pillar-desc">Figma and code are 1:1. Tokens are semantic. Components are composable.</p>
+  </div>
+</div>
+
+<div className="intro-divider" />
+
+<p className="intro-section-title">Token Architecture</p>
+
+<p className="intro-body">
+  The system uses a two-layer token architecture. Primitives define the raw values — colors, sizes, weights. Semantics map those primitives to roles — background, border, text-primary, accent. Components consume semantic tokens only, never primitives directly.
+</p>
+
+<div className="token-grid">
+  <div className="token-item">
+    <p className="token-label">Type Scale</p>
+    <p className="token-value">Rem-based, 16px root</p>
+    <p className="token-desc">0.75rem → 3rem across 8 UI sizes and 5 heading sizes</p>
+  </div>
+  <div className="token-item">
+    <p className="token-label">Spacing</p>
+    <p className="token-value">4px base unit</p>
+    <p className="token-desc">space-1 (4px) through space-16 (64px)</p>
+  </div>
+  <div className="token-item">
+    <p className="token-label">Typography</p>
+    <p className="token-value">DM Serif Display + Inter</p>
+    <p className="token-desc">Serif for headings and display. Sans for all UI text.</p>
+  </div>
+  <div className="token-item">
+    <p className="token-label">Color</p>
+    <p className="token-value">Warm neutrals + signature red</p>
+    <p className="token-desc">FAF8F5 base, #89181A accent. Dark mode via token swap.</p>
+  </div>
+</div>
+
+<div className="intro-divider" />
+
+<p className="intro-section-title">Color Palette</p>
+
+<div className="color-row">
+  <div className="swatch">
+    <div className="swatch-block" style={{background: '#FAF8F5'}} />
+    <span className="swatch-label">warm/50</span>
+  </div>
+  <div className="swatch">
+    <div className="swatch-block" style={{background: '#F2EFE9'}} />
+    <span className="swatch-label">warm/75</span>
+  </div>
+  <div className="swatch">
+    <div className="swatch-block" style={{background: '#EDE9E4'}} />
+    <span className="swatch-label">warm/100</span>
+  </div>
+  <div className="swatch">
+    <div className="swatch-block" style={{background: '#D4CFC9'}} />
+    <span className="swatch-label">warm/200</span>
+  </div>
+  <div className="swatch">
+    <div className="swatch-block" style={{background: '#C4BDB7'}} />
+    <span className="swatch-label">warm/300</span>
+  </div>
+  <div className="swatch">
+    <div className="swatch-block" style={{background: '#6B6560', border: 'none'}} />
+    <span className="swatch-label">neutral/500</span>
+  </div>
+  <div className="swatch">
+    <div className="swatch-block" style={{background: '#4A4643', border: 'none'}} />
+    <span className="swatch-label">neutral/600</span>
+  </div>
+  <div className="swatch">
+    <div className="swatch-block" style={{background: '#1C1C1A', border: 'none'}} />
+    <span className="swatch-label">neutral/900</span>
+  </div>
+  <div className="swatch">
+    <div className="swatch-block" style={{background: '#FDF0F0'}} />
+    <span className="swatch-label">red/50</span>
+  </div>
+  <div className="swatch">
+    <div className="swatch-block" style={{background: '#89181A', border: 'none'}} />
+    <span className="swatch-label">red/700</span>
+  </div>
+  <div className="swatch">
+    <div className="swatch-block" style={{background: '#6E1215', border: 'none'}} />
+    <span className="swatch-label">red/800</span>
+  </div>
+</div>
+
+<div className="intro-divider" />
+
+<p className="intro-section-title">Component Library</p>
+
+<p className="intro-body">
+  16 components organized into 7 categories. Each component maps directly to a Figma component in the Honest library, using the same naming conventions and property structure.
+</p>
+
+<div className="token-grid">
+  <div className="token-item">
+    <p className="token-label">Button</p>
+    <p className="token-value">Button, ButtonLink</p>
+    <p className="token-desc">Primary CTA, text links, underline variant for dark backgrounds</p>
+  </div>
+  <div className="token-item">
+    <p className="token-label">Card</p>
+    <p className="token-value">FeaturedProjectCard, CaseStudyCard, MetricCard, CalloutCard</p>
+    <p className="token-desc">Four distinct card types for different content contexts</p>
+  </div>
+  <div className="token-item">
+    <p className="token-label">Navigation</p>
+    <p className="token-value">HeaderNavigation, SideNavigation</p>
+    <p className="token-desc">Sticky header nav with active states, scrollspy side nav for case studies</p>
+  </div>
+  <div className="token-item">
+    <p className="token-label">Input & Gate</p>
+    <p className="token-value">Input, PasswordGate</p>
+    <p className="token-desc">Password-protected case study access with three input states</p>
+  </div>
+  <div className="token-item">
+    <p className="token-label">Labels & Tags</p>
+    <p className="token-value">SectionLabel, Tag</p>
+    <p className="token-desc">Eyebrow labels and discipline/type tags with accent and default variants</p>
+  </div>
+  <div className="token-item">
+    <p className="token-label">Media</p>
+    <p className="token-value">CaseStudyImage, GalleryGrid</p>
+    <p className="token-desc">Case study image with optional caption, responsive 3-column gallery</p>
+  </div>
+</div>
+
+<div className="intro-divider" />
+
+<p className="intro-body" style={{color: '#9E9189', fontSize: '0.875rem'}}>
+  Built by <a href="https://alikhandesign.com" className="link-accent" target="_blank">Ali Khan</a> · Senior Product Designer & Researcher · Austin, TX
+</p>
+
+</div>
