@@ -3,6 +3,7 @@ import Button from './Button'
 
 const meta: Meta<typeof Button> = {
   title: 'Button/Button',
+  tags: ['autodocs'],
   component: Button,
   argTypes: {
     label: { control: 'text' },
