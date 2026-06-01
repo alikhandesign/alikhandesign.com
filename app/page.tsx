@@ -1,5 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import SectionLabel from './components/SectionLabel'
+import MetricCard from './components/MetricCard'
+import FeaturedProjectCard from './components/FeaturedProjectCard'
+import CalloutCard from './components/CalloutCard'
 
 const metrics = [
   { company: 'Via Benefits', value: '45%', desc: 'Faster time-to-convert after replacing a product-first gate with an identity-driven enrollment flow.', link: '/work/people-first' },
@@ -8,8 +12,8 @@ const metrics = [
 ]
 
 const featured = [
-  { tag: 'Case Study', title: 'People-First Enrollment Redesign', company: 'Via Benefits · WTW', desc: 'Dismantling a legacy product-first gate to drive a 15% lift in total enrollments and 45% faster time-to-convert.', href: '/work/people-first' },
-  { tag: 'Case Study', title: 'Participant Listening Agent', company: 'WTW', desc: 'An agentic AI pipeline that automated qualitative synthesis — reducing a full day of analysis to minutes with 95% accuracy.', href: '/work/ai-agent' },
+  { type: 'Case Study' as const, title: 'People-First Enrollment Redesign', company: 'Via Benefits · WTW', desc: 'Dismantling a legacy product-first gate to drive a 15% lift in total enrollments and 45% faster time-to-convert.', href: '/work/people-first' },
+  { type: 'Case Study' as const, title: 'Participant Listening Agent', company: 'WTW', desc: 'An agentic AI pipeline that automated qualitative synthesis — reducing a full day of analysis to minutes with 95% accuracy.', href: '/work/ai-agent' },
 ]
 
 const values = [
@@ -65,17 +69,11 @@ export default function Home() {
 
       {/* Metrics */}
       <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad">
-        <p className="section-label">Impact</p>
+        <SectionLabel label="Impact" />
         <h2 className="font-serif section-title" style={{ fontSize: '2.25rem', fontWeight: 400, marginBottom: '3rem', lineHeight: 1.15 }}>Work that moves the needle.</h2>
         <div className="grid-3">
           {metrics.map(m => (
-            <article key={m.company} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: 'var(--space-8)', position: 'relative', overflow: 'hidden' }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--accent)' }} />
-              <p style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', marginBottom: '1rem', fontWeight: 500 }}>{m.company}</p>
-              <p className="font-serif" style={{ fontSize: '3rem', color: 'var(--text)', lineHeight: 1, marginBottom: '0.5rem' }}>{m.value}</p>
-              <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '1.25rem' }}>{m.desc}</p>
-              <Link href={m.link} style={{ fontSize: 14, color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}>Read the case study →</Link>
-            </article>
+            <MetricCard key={m.company} company={m.company} value={m.value} description={m.desc} href={m.link} />
           ))}
         </div>
       </section>
@@ -84,20 +82,11 @@ export default function Home() {
 
       {/* Featured Work */}
       <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad">
-        <p className="section-label">Featured Work</p>
+        <SectionLabel label="Featured Work" />
         <h2 className="font-serif section-title" style={{ fontSize: '2.25rem', fontWeight: 400, marginBottom: '3rem', lineHeight: 1.15 }}>Research in action.</h2>
         <div className="grid-2">
           {featured.map(f => (
-            <Link key={f.title} href={f.href} className="work-card" style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', overflow: 'hidden', textDecoration: 'none', color: 'inherit', display: 'block' }}>
-              <div style={{ width: '100%', height: 200, background: 'var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Case Study Preview</div>
-              <div style={{ padding: '1.5rem' }}>
-                <span className="tag-cs" style={{ marginBottom: '0.75rem', display: 'inline-block' }}>{f.tag}</span>
-                <h3 className="font-serif" style={{ fontSize: '1.25rem', fontWeight: 400, lineHeight: 1.25, marginBottom: '0.25rem' }}>{f.title}</h3>
-                <p style={{ fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '0.75rem' }}>{f.company}</p>
-                <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '1rem' }}>{f.desc}</p>
-                <span style={{ fontSize: 13, color: 'var(--accent)', fontWeight: 500 }}>Read case study →</span>
-              </div>
-            </Link>
+            <FeaturedProjectCard key={f.title} type={f.type} title={f.title} company={f.company} description={f.desc} href={f.href} />
           ))}
         </div>
       </section>
@@ -118,10 +107,7 @@ export default function Home() {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               {values.map(v => (
-                <div key={v.name} style={{ padding: 'var(--space-4)', borderLeft: '3px solid var(--accent)', background: 'var(--dark-surface)', borderRadius: '0 4px 4px 0' }}>
-                  <p style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--bg)', fontWeight: 600, marginBottom: '0.35rem' }}>{v.name}</p>
-                  <p style={{ fontSize: 14, color: '#C4BDB7', lineHeight: 1.5 }}>{v.text}</p>
-                </div>
+                <CalloutCard key={v.name} title={v.name} body={v.text} />
               ))}
             </div>
           </div>
