@@ -4,7 +4,6 @@ import Input from './Input'
 const meta: Meta<typeof Input> = {
   title: 'Inputs/Input',
   component: Input,
-  tags: ['autodocs'],
   argTypes: {
     placeholder: { control: 'text' },
     error: { control: 'boolean' },
@@ -22,6 +21,18 @@ export const Default: Story = {
     placeholder: 'Password',
     error: false,
     onChange: () => {},
+  },
+}
+
+export const Focus: Story = {
+  args: {
+    value: '',
+    placeholder: 'Password',
+    error: false,
+    onChange: () => {},
+  },
+  parameters: {
+    pseudo: { focus: true },
   },
 }
 
