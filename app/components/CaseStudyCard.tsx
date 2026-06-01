@@ -1,0 +1,55 @@
+import Link from 'next/link'
+import Tag from './Tag'
+
+interface Outcome {
+  val: string
+  label: string
+}
+
+interface CaseStudyCardProps {
+  title: string
+  company: string
+  tags: string[]
+  description: string
+  outcomes: Outcome[]
+  href: string
+}
+
+export default function CaseStudyCard({ title, company, tags, description, outcomes, href }: CaseStudyCardProps) {
+  return (
+    <Link href={href} aria-label={`View case study: ${title}`} className="work-card cs-card-grid" style={{
+      background: 'var(--surface)',
+      border: '1px solid var(--border)',
+      borderRadius: 'var(--radius)',
+      overflow: 'hidden',
+      textDecoration: 'none',
+      color: 'inherit',
+    }}>
+      <div style={{ background: 'var(--border)', minHeight: 220, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>
+        Project Preview
+      </div>
+      <div style={{ padding: '2rem 2rem 2rem 2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div>
+          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.9rem', flexWrap: 'wrap' as const }}>
+            <Tag label="Case Study" variant="accent" />
+            {tags.map(t => <Tag key={t} label={t} />)}
+          </div>
+          <h3 className="font-serif" style={{ fontSize: 'var(--text-2xl)', fontWeight: 400, lineHeight: 1.2, marginBottom: '0.25rem' }}>{title}</h3>
+          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '0.85rem' }}>{company}</p>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>{description}</p>
+          <div style={{ display: 'flex', gap: 'var(--space-8)', flexWrap: 'wrap' as const, marginBottom: 'var(--space-6)' }}>
+            {outcomes.map(o => (
+              <div key={o.label}>
+                <div className="font-serif" style={{ fontSize: 'var(--text-2xl)', color: 'var(--accent)', lineHeight: 1 }}>{o.val}</div>
+                <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginTop: 2, lineHeight: 1.4 }}>{o.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: 'var(--space-6)', borderTop: '1px solid var(--border)' }}>
+          <span style={{ fontSize: 'var(--text-base)', color: 'var(--accent)', fontWeight: 500 }}>Read case study →</span>
+        </div>
+      </div>
+    </Link>
+  )
+}
