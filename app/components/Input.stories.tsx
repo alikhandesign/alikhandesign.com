@@ -3,6 +3,7 @@ import Input from './Input'
 
 const meta: Meta<typeof Input> = {
   title: 'Inputs/Input',
+  tags: ['autodocs'],
   component: Input,
   argTypes: {
     placeholder: { control: 'text' },
