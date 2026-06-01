@@ -1,8 +1,3 @@
----
-title: Honest Design System
-hide_table_of_contents: true
----
-
 <style>
   {`
     .intro-wrap {
@@ -19,6 +14,7 @@ hide_table_of_contents: true
       text-transform: uppercase;
       color: #89181A;
       margin-bottom: 1rem;
+      margin-top: 0;
     }
     .intro-title {
       font-family: 'DM Serif Display', Georgia, serif;
@@ -27,6 +23,7 @@ hide_table_of_contents: true
       line-height: 1.1;
       color: #1C1C1A;
       margin-bottom: 1.5rem;
+      margin-top: 0;
     }
     .intro-lead {
       font-size: 1.125rem;
@@ -55,6 +52,7 @@ hide_table_of_contents: true
       height: 1px;
       background: #EDE9E4;
       margin: 2.5rem 0;
+      border: none;
     }
     .pillar-grid {
       display: grid;
@@ -75,11 +73,13 @@ hide_table_of_contents: true
       text-transform: uppercase;
       color: #1C1C1A;
       margin-bottom: 0.4rem;
+      margin-top: 0;
     }
     .pillar-desc {
       font-size: 0.875rem;
       color: #6B6560;
       line-height: 1.5;
+      margin: 0;
     }
     .token-grid {
       display: grid;
@@ -100,16 +100,19 @@ hide_table_of_contents: true
       text-transform: uppercase;
       color: #9E9189;
       margin-bottom: 0.35rem;
+      margin-top: 0;
     }
     .token-value {
       font-size: 0.875rem;
       color: #1C1C1A;
       font-weight: 500;
+      margin: 0;
     }
     .token-desc {
       font-size: 0.8125rem;
       color: #6B6560;
       margin-top: 0.2rem;
+      margin-bottom: 0;
     }
     .link-accent {
       color: #89181A;
@@ -141,6 +144,11 @@ hide_table_of_contents: true
       color: #6B6560;
       text-align: center;
     }
+    .footer-line {
+      font-size: 0.875rem;
+      color: #9E9189;
+      margin: 0;
+    }
   `}
 </style>
 
@@ -165,7 +173,7 @@ hide_table_of_contents: true
   You can see it in production at <a href="https://alikhandesign.com" className="link-accent" target="_blank">alikhandesign.com</a>.
 </p>
 
-<div className="intro-divider" />
+<hr className="intro-divider" />
 
 <p className="intro-section-title">Design Principles</p>
 
@@ -184,7 +192,7 @@ hide_table_of_contents: true
   </div>
 </div>
 
-<div className="intro-divider" />
+<hr className="intro-divider" />
 
 <p className="intro-section-title">Token Architecture</p>
 
@@ -215,7 +223,7 @@ hide_table_of_contents: true
   </div>
 </div>
 
-<div className="intro-divider" />
+<hr className="intro-divider" />
 
 <p className="intro-section-title">Color Palette</p>
 
@@ -266,7 +274,7 @@ hide_table_of_contents: true
   </div>
 </div>
 
-<div className="intro-divider" />
+<hr className="intro-divider" />
 
 <p className="intro-section-title">Component Library</p>
 
@@ -307,10 +315,10 @@ hide_table_of_contents: true
   </div>
 </div>
 
-<div className="intro-divider" />
+<hr className="intro-divider" />
 
-<p className="intro-body" style={{color: '#9E9189', fontSize: '0.875rem'}}>
-  Built by <a href="https://alikhandesign.com" className="link-accent" target="_blank">Ali Khan</a> · Senior Product Designer & Researcher · Austin, TX
+<p className="footer-line">
+  Ali Khan · Senior Product Designer & Researcher · <a href="https://alikhandesign.com" className="link-accent" target="_blank">alikhandesign.com</a>
 </p>
 
 </div>
