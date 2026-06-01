@@ -22,7 +22,7 @@
     "@storybook/addon-interactions": "^8",
     "@storybook/addon-onboarding": "^8",
     "@storybook/blocks": "^8",
-    "@storybook/nextjs": "^8",
+    "@storybook/experimental-nextjs-vite": "^8",
     "@storybook/react": "^8",
     "@storybook/test": "^8",
     "@tailwindcss/postcss": "^4",
@@ -34,6 +34,7 @@
     "eslint-config-next": "16.2.6",
     "storybook": "^8",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite": "^6"
   }
 }
