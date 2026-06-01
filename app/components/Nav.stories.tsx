@@ -3,6 +3,7 @@ import Nav from './Nav'
 
 const meta: Meta<typeof Nav> = {
   title: 'Navigation/HeaderNavigation',
+  tags: ['autodocs'],
   component: Nav,
   parameters: {
     nextjs: {
