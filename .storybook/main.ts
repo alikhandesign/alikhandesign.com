@@ -7,15 +7,22 @@ const config: StorybookConfig = {
   ],
   addons: [
     '@chromatic-com/storybook',
+    {
+      name: '@storybook/addon-docs',
+      options: {
+        mdxPluginOptions: {
+          mdxCompileOptions: {
+            remarkPlugins: [],
+          },
+        },
+      },
+    },
   ],
   framework: {
     name: '@storybook/nextjs-vite',
     options: {},
   },
   staticDirs: ['../public'],
-  docs: {
-    defaultName: 'Docs',
-  },
 }
 
 export default config
