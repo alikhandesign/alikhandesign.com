@@ -3,6 +3,7 @@ import MetricCard from './MetricCard'
 
 const meta: Meta<typeof MetricCard> = {
   title: 'Card/MetricCard',
+  tags: ['autodocs'],
   component: MetricCard,
   argTypes: {
     company: { control: 'text' },
