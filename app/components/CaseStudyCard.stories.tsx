@@ -38,6 +38,7 @@ import CaseStudyCard from './CaseStudyCard'
  */
 const meta: Meta<typeof CaseStudyCard> = {
   title: 'Card/CaseStudyCard',
+  tags: ['autodocs'],
   component: CaseStudyCard,
   argTypes: {
     title: { control: 'text', description: 'Project title, displayed in DM Serif Display' },
