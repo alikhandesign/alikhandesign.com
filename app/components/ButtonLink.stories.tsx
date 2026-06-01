@@ -3,6 +3,7 @@ import ButtonLink from './ButtonLink'
 
 const meta: Meta<typeof ButtonLink> = {
   title: 'Button/ButtonLink',
+  tags: ['autodocs'],
   component: ButtonLink,
   argTypes: {
     label: { control: 'text' },
