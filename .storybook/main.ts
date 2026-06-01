@@ -6,17 +6,7 @@ const config: StorybookConfig = {
     '../app/**/*.stories.@(js|jsx|mjs|ts|tsx)',
   ],
   addons: [
-    '@chromatic-com/storybook',
-    {
-      name: '@storybook/addon-docs',
-      options: {
-        mdxPluginOptions: {
-          mdxCompileOptions: {
-            remarkPlugins: [],
-          },
-        },
-      },
-    },
+    '@storybook/addon-docs',
   ],
   framework: {
     name: '@storybook/nextjs-vite',
