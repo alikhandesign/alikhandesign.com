@@ -17,6 +17,9 @@ const preview: Preview = {
         { name: 'dark', value: '#1C1C1A' },
       ],
     },
+    docs: {
+      toc: true,
+    },
   },
 }
 
