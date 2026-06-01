@@ -4,7 +4,6 @@ import Tag from './Tag'
 const meta: Meta<typeof Tag> = {
   title: 'Tag/Tag',
   component: Tag,
-  tags: ['autodocs'],
   argTypes: {
     label: { control: 'text' },
     variant: { control: 'select', options: ['default', 'accent'] },
