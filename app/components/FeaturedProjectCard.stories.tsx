@@ -44,6 +44,7 @@ import FeaturedProjectCard from './FeaturedProjectCard'
  */
 const meta: Meta<typeof FeaturedProjectCard> = {
   title: 'Card/FeaturedProjectCard',
+  tags: ['autodocs'],
   component: FeaturedProjectCard,
   argTypes: {
     type: {
