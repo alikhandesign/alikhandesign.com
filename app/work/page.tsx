@@ -1,7 +1,9 @@
 'use client'
 
-import Link from 'next/link'
 import { useState } from 'react'
+import SectionLabel from '../components/SectionLabel'
+import CaseStudyCard from '../components/CaseStudyCard'
+import FeaturedProjectCard from '../components/FeaturedProjectCard'
 
 const caseStudies = [
   { title: 'AI Feedback & Insights Agent', company: 'Willis Towers Watson', tags: ['Agentic Workflow Design', 'AI Design'], desc: 'Designed and deployed an agentic AI research pipeline that automated qualitative synthesis — transforming raw user feedback into structured, actionable insights with 95% categorization accuracy and eliminating a full day of manual analysis.', outcomes: [{ val: '95%', label: 'Categorization accuracy' }, { val: '8 hrs → 8 min', label: 'Synthesis time reduction' }], href: '/work/ai-agent' },
@@ -57,11 +59,10 @@ export default function WorkPage() {
     <main>
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <header className="page-header">
-          <p className="eyebrow" style={{ marginBottom: '0.6rem' }}>Portfolio</p>
+          <SectionLabel label="Portfolio" />
           <h1 className="font-serif page-title-lg" style={{ fontSize: 'var(--text-5xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.75rem' }}>My Work</h1>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--text-muted)', lineHeight: 1.6, maxWidth: 580, marginBottom: '1.5rem' }}>10+ years of product design and UX research — from AI-native research pipelines to zero-to-one product ecosystems.</p>
 
-          {/* Filter tabs */}
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             <button onClick={() => setFilter('all')} style={filter === 'all' ? activeStyle : filterStyles} aria-pressed={filter === 'all'}>
               All
@@ -79,7 +80,6 @@ export default function WorkPage() {
         </header>
       </div>
 
-      {/* Case Studies */}
       {showCaseStudies && (
         <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border)' }}>
@@ -88,31 +88,7 @@ export default function WorkPage() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
             {caseStudies.map(cs => (
-              <Link key={cs.title} href={cs.href} aria-label={`View case study: ${cs.title}`} className="work-card cs-card-grid" style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', overflow: 'hidden', textDecoration: 'none', color: 'inherit' }}>
-                <div style={{ background: 'var(--border)', minHeight: 220, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Project Preview</div>
-                <div style={{ padding: '2rem 2rem 2rem 2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <div>
-                    <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.9rem', flexWrap: 'wrap' as const }}>
-                      <span className="tag-cs">Case Study</span>
-                      {cs.tags.map(t => <span key={t} className="tag">{t}</span>)}
-                    </div>
-                    <h3 className="font-serif" style={{ fontSize: 'var(--text-2xl)', fontWeight: 400, lineHeight: 1.2, marginBottom: '0.25rem' }}>{cs.title}</h3>
-                    <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '0.85rem' }}>{cs.company}</p>
-                    <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>{cs.desc}</p>
-                    <div style={{ display: 'flex', gap: 'var(--space-8)', flexWrap: 'wrap' as const, marginBottom: 'var(--space-6)' }}>
-                      {cs.outcomes.map(o => (
-                        <div key={o.label}>
-                          <div className="font-serif" style={{ fontSize: 'var(--text-2xl)', color: 'var(--accent)', lineHeight: 1 }}>{o.val}</div>
-                          <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginTop: 2, lineHeight: 1.4 }}>{o.label}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: 'var(--space-6)', borderTop: '1px solid var(--border)' }}>
-                    <span style={{ fontSize: 'var(--text-base)', color: 'var(--accent)', fontWeight: 500 }}>Read case study →</span>
-                  </div>
-                </div>
-              </Link>
+              <CaseStudyCard key={cs.title} {...cs} description={cs.desc} />
             ))}
           </div>
         </section>
@@ -120,7 +96,6 @@ export default function WorkPage() {
 
       {showCaseStudies && showProjects && <div className="divider" />}
 
-      {/* Projects */}
       {showProjects && (
         <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border)' }}>
@@ -129,18 +104,7 @@ export default function WorkPage() {
           </div>
           <div className="grid-proj">
             {projects.map(p => (
-              <Link key={p.title} href={p.href} aria-label={`View project: ${p.title}`} className="work-card" style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', overflow: 'hidden', textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ width: '100%', height: 160, background: 'var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Project Preview</div>
-                <div style={{ padding: '1.25rem 1.25rem 1.5rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                  <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem', flexWrap: 'wrap' as const }}>
-                    {p.tags.map(t => <span key={t} className="tag">{t}</span>)}
-                  </div>
-                  <h3 className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400, lineHeight: 1.25, marginBottom: '0.25rem' }}>{p.title}</h3>
-                  <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: '0.04em', marginBottom: '0.6rem' }}>{p.company}</p>
-                  <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 1.65, flex: 1, marginBottom: '1rem' }}>{p.desc}</p>
-                  <span style={{ fontSize: 'var(--text-xs)', color: 'var(--accent)', fontWeight: 500 }}>View project →</span>
-                </div>
-              </Link>
+              <FeaturedProjectCard key={p.title} type="Project" title={p.title} company={p.company} description={p.desc} href={p.href} />
             ))}
           </div>
         </section>
