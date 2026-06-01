@@ -1,7 +1,10 @@
 import type { StorybookConfig } from '@storybook/nextjs-vite'
 
 const config: StorybookConfig = {
-  stories: ['../app/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  stories: [
+    '../app/stories/**/*.mdx',
+    '../app/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+  ],
   addons: [
     '@chromatic-com/storybook',
   ],
@@ -10,6 +13,9 @@ const config: StorybookConfig = {
     options: {},
   },
   staticDirs: ['../public'],
+  docs: {
+    defaultName: 'Docs',
+  },
 }
 
 export default config
