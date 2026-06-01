@@ -4,7 +4,6 @@ import Nav from './Nav'
 const meta: Meta<typeof Nav> = {
   title: 'Navigation/HeaderNavigation',
   component: Nav,
-  tags: ['autodocs'],
   parameters: {
     nextjs: {
       appDirectory: true,
@@ -18,20 +17,20 @@ const meta: Meta<typeof Nav> = {
 export default meta
 type Story = StoryObj<typeof Nav>
 
-export const Default: Story = {}
+export const Default: Story = {
+  parameters: {
+    nextjs: { navigation: { pathname: '/' } },
+  },
+}
 
 export const WorkActive: Story = {
   parameters: {
-    nextjs: {
-      navigation: { pathname: '/work' },
-    },
+    nextjs: { navigation: { pathname: '/work' } },
   },
 }
 
 export const AboutActive: Story = {
   parameters: {
-    nextjs: {
-      navigation: { pathname: '/about' },
-    },
+    nextjs: { navigation: { pathname: '/about' } },
   },
 }
