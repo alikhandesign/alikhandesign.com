@@ -8,24 +8,32 @@ import MetricCard from './MetricCard'
  *
  * ## Design rationale
  * The card uses a 3px accent bar at the top as a visual anchor — the same pattern
- * used in the PasswordGate and Callout components. This creates a subtle but
- * consistent visual language across the system: a red top bar signals "this is
- * a highlighted or featured piece of content."
+ * used in PasswordGate and CalloutCard. This creates a consistent visual language
+ * across the system: a red top or left accent bar signals highlighted content.
  *
- * The metric value is displayed in DM Serif Display at 3rem — the largest type
- * size used in any card component. This is intentional. The number is the message.
- * Everything else (company, description, CTA) is supporting context.
+ * The metric value is displayed in DM Serif Display at `--text-5xl` (3rem) — the
+ * largest type size used in any card component. This is intentional. The number
+ * is the message. Everything else is supporting context.
  *
  * ## Hover state
- * On hover the border transitions from `--border` to `--accent`. This matches the
- * hover behavior of FeaturedProjectCard and CaseStudyCard, creating a consistent
- * interactive affordance across all card types. The transition uses `--transition-base`
- * (150ms ease) for a snappy but not jarring response.
+ * On hover, the border transitions from `--border` to `--accent` via `--transition-base`
+ * (150ms ease). Consistent with FeaturedProjectCard and CaseStudyCard — all card
+ * types share this interactive affordance.
  *
- * ## Token standardization decision
- * During the build, the horizontal padding was originally set to `1.75rem` — a value
- * not in the spacing scale. This was corrected to `--space-8` (2rem) to maintain
- * token consistency. The visual difference is 4px and imperceptible in practice.
+ * ## Token standardization
+ * During the build, horizontal padding was originally set to `1.75rem` — a value
+ * not in the spacing scale. This was corrected to `--space-8` (2rem). The visual
+ * difference is 4px and imperceptible in practice.
+ *
+ * ## No variants, no tags, no image
+ * MetricCard has no type variants, no tag row, and no image area. It is a single-
+ * purpose component: one company, one metric, one description, one CTA link.
+ *
+ * ## Value prop format
+ * The value prop accepts any string. Common formats: percentage ("45%"), ratio
+ * ("8 hrs → 8 min"), score ("73 NPS"), or large number ("3.5M+"). For long
+ * formatted strings, the component wraps naturally — recommended max ~20 characters
+ * to avoid awkward line breaks at 3rem in DM Serif Display.
  *
  * ## Tokens used
  * - Background: `--surface`
@@ -33,24 +41,24 @@ import MetricCard from './MetricCard'
  * - Border radius: `--radius`
  * - Accent bar: 3px, `--accent`
  * - Padding: `--space-8` (2rem) all sides
- * - Company: 12px, `--text-muted`, uppercase, 0.1em letter spacing
- * - Value: 3rem, `--font-serif`, `--text`
- * - Description: 14px, `--text-muted`, line height 1.6
- * - CTA: 14px, `--accent`, weight 500
+ * - Company: `--text-xs`, `--letter-spacing-md`, uppercase, `--text-muted`, `--font-weight-medium`
+ * - Value: `--text-5xl` (3rem), `--font-serif`, `--text`, line height 1
+ * - Description: `--text-base`, `--text-muted`, line height 1.6
+ * - CTA: `--text-base`, `--accent`, `--font-weight-medium`
  *
  * ## Usage
  * Used exclusively on the homepage (`/`) in the Impact section.
- * Always appears in a 3-column grid. Each card links to its corresponding case study.
+ * Always appears as exactly 3 cards in a 3-column grid — one per case study.
  */
 const meta: Meta<typeof MetricCard> = {
   title: 'Card/MetricCard',
   tags: ['autodocs'],
   component: MetricCard,
   argTypes: {
-    company: { control: 'text', description: 'Client or employer name. Displayed as small uppercase label.' },
-    value: { control: 'text', description: 'The metric value. Displayed in DM Serif Display at 3rem. Can be a number, percentage, or formatted string like "8 hrs → 8 min".' },
+    company: { control: 'text', description: 'Client or employer name. Displayed as small uppercase label above the metric.' },
+    value: { control: 'text', description: 'The metric value at 3rem. Accepts any string — percentage, ratio, score, or number. Recommended max ~20 characters.' },
     description: { control: 'text', description: 'One sentence explaining the metric in context.' },
-    href: { control: 'text', description: 'Link to the corresponding case study.' },
+    href: { control: 'text', description: 'Link to the corresponding case study page.' },
   },
 }
 
