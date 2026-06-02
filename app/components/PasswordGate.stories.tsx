@@ -3,8 +3,7 @@ import PasswordGate from './PasswordGate'
 
 /**
  * PasswordGate protects full case study content from public access while still
- * surfacing enough context — title, description, and a preview of what's inside —
- * to give hiring managers a reason to request access.
+ * surfacing enough context to give hiring managers a reason to request access.
  *
  * ## Why a password gate?
  * Full case studies contain proprietary research findings, internal workflow
@@ -13,34 +12,40 @@ import PasswordGate from './PasswordGate'
  *
  * The gate is intentionally transparent about what it's protecting — the "What's
  * inside" list sets expectations before the visitor even attempts to enter a
- * password. This reduces friction: a visitor who knows the content is relevant
- * to them is more likely to reach out for access than one who encounters a
- * blank gate with no context.
+ * password. A visitor who knows the content is relevant to them is more likely to
+ * reach out for access than one who encounters a blank gate with no context.
  *
  * ## Visual design
- * The component uses the same 3px accent bar pattern as MetricCard — signaling
- * that this is a featured or elevated piece of content. The dark background
- * (`--dark-surface`) creates a visual container that separates the gate from
- * the surrounding page content without requiring a modal or overlay.
+ * Uses the same 3px accent bar pattern as MetricCard — signaling elevated content.
+ * The `--surface` background on a page with `--bg` fill creates visual separation
+ * without requiring a modal or overlay.
  *
  * ## Interaction model
- * Password validation happens client-side on submit. On success, the gate
- * unmounts and the protected children render in its place. On failure, the
- * Input switches to its error state and an error message appears below the form.
- * The password is stored in sessionStorage so the visitor doesn't need to
- * re-enter it on page refresh.
+ * Password validation happens client-side on submit (button click or Enter key).
+ * On success: gate unmounts, children render, `onUnlock` callback fires.
+ * On failure: Input switches to error state, error message appears with `role="alert"`.
+ * The error clears automatically after 2 seconds.
+ *
+ * ## Accessibility
+ * Error message uses `role="alert"` for screen reader announcement.
+ * Password input is labeled via `aria-label`. Known gap: no `aria-live` region
+ * for the unlocked state transition.
  *
  * ## Tokens used
- * - Container background: `--surface`
+ * - Background: `--surface`
  * - Border: `--border`
  * - Border radius: `--radius`
  * - Accent bar: 3px, `--accent`
  * - Padding: `--space-8` (2rem)
- * - Title: `--text-2xl`, `--font-serif`, weight 400
- * - Description: `--text-sm`, `--text-muted`
- * - Inside label: `--text-xs`, uppercase, `--text-muted`
- * - Inside items: `--text-sm`, `--text-muted`
+ * - Title: `--text-xl`, `--font-serif`, weight 400
+ * - Description: `--text-base`, `--text-muted`
+ * - Inside label: `--text-xs`, `--letter-spacing-md`, uppercase, `--text-muted`
+ * - Inside items: `--text-base`, `--text-muted`
  * - Error message: `--text-xs`, `--accent-dark`
+ *
+ * ## Usage
+ * Used once per protected case study page, wrapping the full case study content
+ * as its `children`. Currently used on the Participant Listening Agent case study.
  */
 const meta: Meta<typeof PasswordGate> = {
   title: 'Password Gate/PasswordGate',
@@ -48,9 +53,11 @@ const meta: Meta<typeof PasswordGate> = {
   tags: ['autodocs'],
   argTypes: {
     title: { control: 'text', description: 'Case study title displayed at the top of the gate.' },
-    cta: { control: 'text', description: 'Short description of the case study shown below the title. Sets context before the visitor enters a password.' },
-    inside: { control: 'object', description: 'Array of strings previewing what the full case study contains. Displayed as a bulleted list.' },
-    password: { control: 'text', description: 'The password required to unlock the content. Validated client-side.' },
+    description: { control: 'text', description: 'Short description of the case study shown below the title. Sets context before the visitor enters a password.' },
+    inside: { control: 'object', description: 'Array of strings previewing what the full case study contains.' },
+    password: { control: 'text', description: 'The password required to unlock the content. Validated client-side. Do not use the production password in stories.' },
+    onUnlock: { description: 'Optional callback fired after successful password entry. Use for post-unlock side effects such as enabling the SideNavigation observer or triggering analytics.' },
+    children: { description: 'The protected content rendered in place of the gate after a correct password is entered. Typically the full case study page content.' },
   },
 }
 
@@ -59,15 +66,42 @@ type Story = StoryObj<typeof PasswordGate>
 
 export const Default: Story = {
   args: {
-    password: '4likh4n',
+    password: 'preview',
     title: 'Participant Listening Agent — Full Case Study',
-    cta: 'This case study contains proprietary workflow details and internal research findings.',
+    description: 'This case study contains proprietary workflow details and internal research findings.',
     inside: [
       'Full research methodology and interview guides',
       'Agentic pipeline architecture diagrams',
       'Internal validation results and accuracy breakdown',
       'Stakeholder presentation deck',
     ],
-    children: <p>Unlocked content here.</p>,
+    children: <p style={{ padding: '2rem', color: 'var(--text-muted)' }}>Protected content renders here after unlock.</p>,
   },
+}
+
+export const ErrorState: Story = {
+  name: 'Error State',
+  render: () => (
+    <div style={{ maxWidth: 560 }}>
+      <div style={{
+        background: 'var(--surface)',
+        border: '1px solid var(--border)',
+        borderRadius: 'var(--radius)',
+        padding: 'var(--space-8)',
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--accent)' }} />
+        <p className="eyebrow" style={{ marginBottom: '0.6rem' }}>Full Case Study</p>
+        <h3 className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400, lineHeight: 1.25, marginBottom: 'var(--space-2)' }}>Participant Listening Agent</h3>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>This case study contains proprietary workflow details and internal research findings.</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text)', fontWeight: 600 }}>Enter password to access</p>
+          <input type="password" className="password-input error" placeholder="Password" defaultValue="wrongpassword" style={{ width: '100%' }} aria-label="Case study password" readOnly />
+          <button className="btn-primary" style={{ width: '100%', justifyContent: 'center' }}>View Full Case Study →</button>
+          <p role="alert" style={{ fontSize: 'var(--text-xs)', color: 'var(--accent-dark)' }}>Incorrect password. Try again or request access below.</p>
+        </div>
+      </div>
+    </div>
+  ),
 }
