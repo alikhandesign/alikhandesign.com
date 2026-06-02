@@ -16,7 +16,7 @@ export default function Page() {
         { src: '', alt: 'Category Breakdown', caption: 'Checklist category breakdown' },
         { src: '', alt: 'Before/After Handoff Quality', caption: 'Handoff quality before and after' },
         { src: '', alt: 'Team Adoption', caption: 'Team adoption and usage patterns' }]}
-    cta={{ title: 'Want to see how a structured handoff process eliminates design-to-dev friction?', href: 'mailto:ali@alikhandesign.com' }}
+    description={{ title: 'Want to see how a structured handoff process eliminates design-to-dev friction?', href: 'mailto:ali@alikhandesign.com' }}
     next={{ title: 'Back to All Work', href: '/work' }}
   />
 }
