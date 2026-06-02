@@ -6,18 +6,33 @@ import Button from './Button'
  * homepage hero ("View My Work") and inside PasswordGate ("View Full Case Study").
  *
  * Styled with `--accent` background and `--bg` text. On hover the background
- * transitions to `--accent-dark`. Uses `--font-sans` at `--text-base` (1rem)
- * with medium weight and 0.02em letter spacing.
+ * transitions to `--accent-dark` via `--transition-base` (150ms ease).
+ * Uses `--font-sans` at `--text-base` with `--font-weight-medium` and
+ * `--letter-spacing-sm` (0.02em).
+ *
+ * Arrow (→) is always appended to the label and marked `aria-hidden`.
+ * Focus visible styles apply a 2px `--accent` outline with 3px offset.
  *
  * For text-only links, use ButtonLink instead.
+ *
+ * ## Tokens used
+ * - Background: `--accent` (hover: `--accent-dark`)
+ * - Text: `--bg`
+ * - Font size: `--text-base` (0.875rem / 14px)
+ * - Font weight: `--font-weight-medium` (500)
+ * - Letter spacing: `--letter-spacing-sm` (0.02em)
+ * - Border radius: `--radius` (4px)
+ * - Padding: 0.8rem `--space-8`
+ * - Gap: `--space-2`
+ * - Transition: background `--transition-base`
  */
 const meta: Meta<typeof Button> = {
   title: 'Button/Button',
   tags: ['autodocs'],
   component: Button,
   argTypes: {
-    label: { control: 'text', description: 'Button label text. Arrow (→) is appended automatically.' },
-    fullWidth: { control: 'boolean', description: 'When true, button expands to fill its container. Used inside PasswordGate.' },
+    label: { control: 'text', description: 'Button label text. Arrow (→) is appended automatically. Keep concise — aim for 3 words or fewer.' },
+    fullWidth: { control: 'boolean', description: 'When true, button expands to fill its container width with centered text. Used inside PasswordGate.' },
     type: { control: 'select', options: ['button', 'submit'], description: 'HTML button type attribute.' },
   },
 }
@@ -27,4 +42,11 @@ type Story = StoryObj<typeof Button>
 
 export const Default: Story = {
   args: { label: 'View My Work' },
+}
+
+export const FullWidth: Story = {
+  args: { label: 'View Full Case Study', fullWidth: true },
+  parameters: {
+    layout: 'padded',
+  },
 }
