@@ -4,6 +4,8 @@ import PasswordGate from '@/app/components/PasswordGate'
 import SideNav from '@/app/components/SideNav'
 import { CaseStudyImage } from '@/app/components/Lightbox'
 import { useState } from 'react'
+import CTAStrip from '@/app/components/CTAStrip'
+import ContactModal from '@/app/components/ContactModal'
 
 const INSIDE = [
   'FullStory analysis and rage click findings',
@@ -89,6 +91,7 @@ function FullCaseStudy() {
 
 export default function PeopleFirstPage() {
   const [unlocked, setUnlocked] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
   return (
     <main>
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
@@ -138,6 +141,11 @@ export default function PeopleFirstPage() {
         </div>
       </div>
 
+      <CTAStrip
+        title="Interested in how this came together?"
+        onContact={() => setModalOpen(true)}
+      />
+
       <div className="divider" />
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '2.5rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '1rem' }}>
         <div>
@@ -146,6 +154,7 @@ export default function PeopleFirstPage() {
         </div>
         <Link href="/work/ai-agent" style={{ fontSize: 14, color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
       </div>
+      <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </main>
   )
 }
