@@ -32,7 +32,7 @@ import Footer from './Footer'
  * Not used in isolation anywhere on the site.
  */
 const meta: Meta<typeof Footer> = {
-  title: 'Navigation/Footer',
+  title: 'Navigation/FooterNavigation',
   component: Footer,
   tags: ['autodocs'],
 }
