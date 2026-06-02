@@ -15,32 +15,47 @@ import FeaturedProjectCard from './FeaturedProjectCard'
  *   content that doesn't need the same weight as a deep case study
  * - No outcomes metrics — projects show range and craft, not quantified impact
  * - Smaller image area — reinforces the lighter-touch nature of the content
- * - Single CTA label — "Read case study" or "View project" depending on type
  *
  * This hierarchy is deliberate. A hiring manager scanning the My Work page should
  * immediately understand that case studies are the primary evidence and projects
  * are supporting work — without reading a single word of explanation.
  *
+ * ## Hover state
+ * On hover, the border transitions from `--border` to `--accent` via `--transition-base`
+ * (150ms ease). Consistent with CaseStudyCard and MetricCard — all card types share
+ * this interactive affordance.
+ *
  * ## The Type property
  * The `type` prop controls two things: the Tag variant (accent for Case Study,
- * default for Project) and the CTA label. This keeps the component flexible
- * without requiring two separate components for what is functionally the same pattern.
+ * default for Project) and the CTA label ("Read case study →" or "View project →").
+ * Tags are derived entirely from `type` — there is no separate `tags` prop on this
+ * component, unlike CaseStudyCard. This keeps the API minimal and prevents
+ * misconfiguration.
+ *
+ * ## Token standardization
+ * During the build, font size values were inconsistently set to raw pixel values
+ * (12px, 13px, 14px) in the original implementation. These were corrected to use
+ * token references (`--text-xs`, `--text-base`) as part of a codebase-wide
+ * font size standardization pass.
+ *
+ * ## Image area
+ * The image area currently renders as a warm placeholder (`--border` fill, 200px
+ * fixed height). An `imageSrc` prop will be added when case study assets are finalized.
  *
  * ## Tokens used
  * - Background: `--surface`
- * - Border: `--border` (hover: `--accent` via `.work-card`)
+ * - Border: `--border` (hover: `--accent`)
  * - Border radius: `--radius`
- * - Image area height: 200px fixed
- * - Image placeholder: `--border`
- * - Title: 1.25rem, `--font-serif`, weight 400
- * - Company: 12px, `--text-muted`
- * - Description: 14px, `--text-muted`
- * - CTA: 13px, `--accent`, weight 500
- * - Content padding: 1.5rem (24px / `--space-6`)
+ * - Image area: 200px fixed height, `--border` fill
+ * - Content padding: `--space-6` (1.5rem)
+ * - Title: `--text-xl`, `--font-serif`, weight 400, line height 1.25
+ * - Company: `--text-xs`, `--text-muted`, `--letter-spacing-sm`
+ * - Description: `--text-base`, `--text-muted`, line height 1.6
+ * - CTA: `--text-base`, `--accent`, `--font-weight-medium`
  *
  * ## Usage
- * - Homepage (`/`): Featured Work section, shows 2 case studies side by side
- * - My Work (`/work`): Projects grid, shows up to 5 projects in a 3-column grid
+ * - Homepage (`/`): Featured Work section, 2 cards side by side
+ * - My Work (`/work`): Projects grid, up to 5 cards in a 3-column grid
  */
 const meta: Meta<typeof FeaturedProjectCard> = {
   title: 'Card/FeaturedProjectCard',
@@ -50,12 +65,12 @@ const meta: Meta<typeof FeaturedProjectCard> = {
     type: {
       control: 'select',
       options: ['Case Study', 'Project'],
-      description: 'Controls the Tag variant and CTA label. Case Study uses accent Tag and "Read case study →". Project uses default Tag and "View project →".',
+      description: 'Controls the Tag variant and CTA label. Also determines the image placeholder label. Tags are derived from type — there is no separate tags prop.',
     },
-    title: { control: 'text', description: 'Project title, displayed in DM Serif Display' },
-    company: { control: 'text', description: 'Client or employer name' },
-    description: { control: 'text', description: 'Short summary, 1-2 sentences' },
-    href: { control: 'text', description: 'Link to the case study or project page' },
+    title: { control: 'text', description: 'Project title, displayed in DM Serif Display.' },
+    company: { control: 'text', description: 'Client or employer name.' },
+    description: { control: 'text', description: 'Short summary. Aim for 1-2 sentences.' },
+    href: { control: 'text', description: 'Full relative URL to the case study or project page.' },
   },
 }
 
