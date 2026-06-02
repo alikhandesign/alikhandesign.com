@@ -58,3 +58,15 @@ export const GivingBack: Story = {
   name: 'Giving Back',
   args: { title: 'Giving Back', body: 'Volunteering, fostering, pro bono work.' },
 }
+
+export const AllValues: Story = {
+  name: 'All Values (Production Grid)',
+  render: () => (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', maxWidth: 560 }}>
+      <CalloutCard title="Empathy" body="Learned through research, not assumed." />
+      <CalloutCard title="Curiosity" body="Lifelong student of people and systems." />
+      <CalloutCard title="Honesty" body="Data as a mediator, not decoration." />
+      <CalloutCard title="Giving Back" body="Volunteering, fostering, pro bono work." />
+    </div>
+  ),
+}
