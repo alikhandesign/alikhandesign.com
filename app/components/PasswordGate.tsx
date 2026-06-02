@@ -5,12 +5,12 @@ interface PasswordGateProps {
   password: string
   children: React.ReactNode
   title: string
-  cta: string
+  description: string
   inside: string[]
   onUnlock?: () => void
 }
 
-export default function PasswordGate({ password, children, title, cta, inside, onUnlock }: PasswordGateProps) {
+export default function PasswordGate({ password, children, title, description, inside, onUnlock }: PasswordGateProps) {
   const [input, setInput] = useState('')
   const [unlocked, setUnlocked] = useState(false)
   const [error, setError] = useState(false)
@@ -33,7 +33,7 @@ export default function PasswordGate({ password, children, title, cta, inside, o
       background: 'var(--surface)',
       border: '1px solid var(--border)',
       borderRadius: 'var(--radius)',
-      padding: '2rem',
+      padding: 'var(--space-8)',
       position: 'relative',
       overflow: 'hidden',
       maxWidth: 560,
@@ -41,14 +41,14 @@ export default function PasswordGate({ password, children, title, cta, inside, o
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--accent)' }} />
 
       <p className="eyebrow" style={{ marginBottom: '0.6rem' }}>Full Case Study</p>
-      <h3 className="font-serif" style={{ fontSize: '1.25rem', fontWeight: 400, lineHeight: 1.25, marginBottom: '0.5rem' }}>{title}</h3>
-      <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '1.5rem' }}>{cta}</p>
+      <h3 className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400, lineHeight: 1.25, marginBottom: 'var(--space-2)' }}>{title}</h3>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>{description}</p>
 
-      <div style={{ marginBottom: '1.75rem' }}>
-        <p style={{ fontSize: 12, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '0.6rem' }}>What's inside</p>
+      <div style={{ marginBottom: 'var(--space-6)' }}>
+        <p style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)' as any, marginBottom: '0.6rem' }}>What's inside</p>
         <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
           {inside.map(item => (
-            <li key={item} style={{ fontSize: 14, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <li key={item} style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
               <span style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--accent)', flexShrink: 0, display: 'block' }} />
               {item}
             </li>
@@ -57,18 +57,15 @@ export default function PasswordGate({ password, children, title, cta, inside, o
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-        <p style={{ fontSize: 12, color: 'var(--text)', fontWeight: 600 }}>Enter password to access</p>
+        <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text)', fontWeight: 'var(--font-weight-semibold)' as any }}>Enter password to access</p>
         <input
           type="password"
-          className="password-input"
+          className={`password-input${error ? ' error' : ''}`}
           placeholder="Password"
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && handleSubmit()}
-          style={{
-            border: error ? '1.5px solid #e53e3e' : undefined,
-            width: '100%',
-          }}
+          style={{ width: '100%' }}
           aria-label="Case study password"
         />
         <button
@@ -79,11 +76,11 @@ export default function PasswordGate({ password, children, title, cta, inside, o
           View Full Case Study <span aria-hidden="true">→</span>
         </button>
         {error && (
-          <p style={{ fontSize: 12, color: '#e53e3e' }}>Incorrect password. Try again or request access below.</p>
+          <p role="alert" style={{ fontSize: 'var(--text-xs)', color: 'var(--accent-dark)' }}>Incorrect password. Try again or request access below.</p>
         )}
-        <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: '0.25rem' }}>
+        <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
           No password?{' '}
-          <a href="mailto:ali@alikhandesign.com" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}>Request access</a>
+          <a href="mailto:ali@alikhandesign.com" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 'var(--font-weight-medium)' as any }}>Request access</a>
         </p>
       </div>
     </div>
