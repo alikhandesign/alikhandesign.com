@@ -73,14 +73,14 @@ export default function PasswordGate({ password, children, title, description, i
           className="btn-primary"
           style={{ width: '100%', justifyContent: 'center' }}
         >
-          View Full Case Study <span aria-hidden="true">→</span>
+          View full case study <span aria-hidden="true">→</span>
         </button>
         {error && (
           <p role="alert" style={{ fontSize: 'var(--text-xs)', color: 'var(--accent-dark)' }}>Incorrect password. Try again or request access below.</p>
         )}
         <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
           No password?{' '}
-          <a href="mailto:ali@alikhandesign.com" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 'var(--font-weight-medium)' as any }}>Request access</a>
+          <a href="mailto:ali@alikhandesign.com" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 'var(--font-weight-medium)' as any }}>Request access →</a>
         </p>
       </div>
     </div>
