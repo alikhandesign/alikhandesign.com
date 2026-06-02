@@ -271,7 +271,7 @@ export default function SquarespaceRedesignPage() {
             password="4likh4n"
             onUnlock={() => setUnlocked(true)}
             title="The full audit, diagnosis, and redesign"
-            cta="Twenty failure modes. Two user journeys. Three redesigned moments. The complete case study walks through every finding in detail."
+            description="Twenty failure modes. Two user journeys. Three redesigned moments. The complete case study walks through every finding in detail."
             inside={INSIDE}
           >
             <FullCaseStudy />
