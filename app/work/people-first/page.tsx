@@ -130,7 +130,7 @@ export default function PeopleFirstPage() {
           <PasswordGate
             password="4likh4n"
             title="Ready to see how it came together?"
-            cta="The full case study walks through the research diagnosis, the stakeholder pivot, the design decisions, and the outcomes in detail."
+            description="The full case study walks through the research diagnosis, the stakeholder pivot, the design decisions, and the outcomes in detail."
             inside={INSIDE}
           >
             <FullCaseStudy />
