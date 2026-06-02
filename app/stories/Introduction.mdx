@@ -315,6 +315,42 @@
   </div>
 </div>
 
+
+<hr className="intro-divider" />
+
+<p className="intro-section-title">What Didn't Become a Component</p>
+
+<p className="intro-body">
+  A component earns its place by being reused, by encapsulating meaningful behavior
+  or variant logic, or by enforcing a design constraint. If it does none of those
+  things, it's not a component — it's just HTML and CSS. This distinction matters
+  because over-componentizing a system adds abstraction without adding value, and
+  signals poor editorial judgment about what a design system is actually for.
+</p>
+
+<div className="token-grid">
+  <div className="token-item">
+    <p className="token-label">Single-token elements</p>
+    <p className="token-value">Divider, spacing helpers</p>
+    <p className="token-desc">A divider is one CSS value on an hr element. No props, no variants, no behavior. A component wrapper would add complexity without adding anything.</p>
+  </div>
+  <div className="token-item">
+    <p className="token-label">Layout containers</p>
+    <p className="token-value">Grid classes, layout patterns</p>
+    <p className="token-desc">Grid patterns like .grid-2, .cs-card-grid, and .article-layout are CSS layout utilities documented in globals.css. Componentizing them would obscure the underlying CSS and create wrapper elements that serve no purpose.</p>
+  </div>
+  <div className="token-item">
+    <p className="token-label">One-off page elements</p>
+    <p className="token-value">Hero, pillars strip, status badge</p>
+    <p className="token-desc">Page-specific compositions that appear exactly once. Abstracting them into components would imply a reusability and flexibility that doesn't exist — and never will.</p>
+  </div>
+  <div className="token-item">
+    <p className="token-label">The principle</p>
+    <p className="token-value">Reuse, behavior, or constraint</p>
+    <p className="token-desc">Every component in this library is reused in at least two contexts, encapsulates variant logic, or enforces a design constraint. If a candidate element met none of these criteria, it stayed as HTML and CSS.</p>
+  </div>
+</div>
+
 <hr className="intro-divider" />
 
 <p className="footer-line">
@@ -322,3 +358,4 @@
 </p>
 
 </div>
+
