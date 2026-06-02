@@ -8,23 +8,33 @@ import Tag from './Tag'
  * ## Variant: Default
  * Used for discipline tags — the areas of practice associated with a piece of work.
  * Examples: "UX Research", "AI Design", "Product Strategy".
- * Styled with a warm neutral background (`--warm-75`) and muted text (`--text-muted`).
+ * Styled with `--warm-75` background and `--text-muted` text.
  * Multiple default tags can appear together on a single card.
  *
  * ## Variant: Accent
  * Used exclusively to signal content type — specifically "Case Study".
- * Styled with the accent background (`--accent-bg`, red/50) and accent text (`--accent`).
+ * Styled with `--accent-bg` (red/50) background and `--accent` text.
  * There is only ever one accent tag per card, and it always reads "Case Study".
+ *
+ * On CaseStudyCard, the accent tag is prepended automatically by the component —
+ * consumers do not pass it in the tags array. The component enforces the convention
+ * at the code level.
+ *
+ * On FeaturedProjectCard, the tag is derived entirely from the `type` prop.
+ *
+ * The accent variant does not enforce its label — passing `variant="accent"` with
+ * any string other than "Case Study" is a misuse of the pattern. It is a design
+ * convention, not a code constraint.
  *
  * ## Why the distinction matters
  * The accent variant functions as a content type signal, not a discipline label.
- * A visitor scanning the My Work page can immediately identify case studies by
- * the red tag before reading the title or description. This reduces cognitive load
- * and helps hiring managers find the work most relevant to their evaluation.
+ * A visitor scanning the My Work page can identify case studies by the red tag
+ * before reading the title or description. This reduces cognitive load and helps
+ * hiring managers find the work most relevant to their evaluation.
  *
- * Using color to communicate content type — rather than relying on layout or
- * position alone — is an accessibility-informed decision. It creates a redundant
- * signal that works even when visual hierarchy is flattened on smaller screens.
+ * Using color to communicate content type — rather than relying on layout alone —
+ * is an accessibility-informed decision. It creates a redundant signal that works
+ * even when visual hierarchy is flattened on smaller screens.
  *
  * ## Tokens used
  * - Default background: `--warm-75` (#F2EFE9)
@@ -32,15 +42,19 @@ import Tag from './Tag'
  * - Accent background: `--accent-bg` (#FDF0F0, red/50)
  * - Accent text: `--accent` (#89181A, red/700)
  * - Font size: `--text-xs` (0.75rem / 12px)
- * - Font weight: 500 (medium)
- * - Letter spacing: 0.08em
+ * - Font weight: `--font-weight-medium` (500)
+ * - Letter spacing: `--letter-spacing-md` (0.08em)
  * - Border radius: `--radius` (4px)
- * - Padding: 4px 10px
+ * - Padding: 4px 10px (intentionally hardcoded — not on the spacing scale)
  *
  * ## Usage rules
- * - Accent variant: one per card, always "Case Study", always first in the tag row
- * - Default variant: one or more per card, discipline labels only
+ * - Accent: one per card, always "Case Study", always first in the tag row
+ * - Default: one or more per card, discipline labels only
  * - Never use accent for anything other than content type signaling
+ *
+ * ## Usage
+ * Used in the tag row on FeaturedProjectCard, CaseStudyCard, and the My Work
+ * filter tabs. Always rendered uppercase via CSS — pass labels in natural casing.
  */
 const meta: Meta<typeof Tag> = {
   title: 'Tag/Tag',
@@ -49,7 +63,7 @@ const meta: Meta<typeof Tag> = {
   argTypes: {
     label: {
       control: 'text',
-      description: 'The text displayed inside the tag. For accent variant, always use "Case Study".',
+      description: 'The text displayed inside the tag. Pass in natural casing — CSS applies uppercase. For accent variant, always use "Case Study" (not enforced by code, but a design convention).',
     },
     variant: {
       control: 'select',
@@ -68,4 +82,15 @@ export const Default: Story = {
 
 export const Accent: Story = {
   args: { label: 'Case Study', variant: 'accent' },
+}
+
+export const MultiTagRow: Story = {
+  name: 'Multi-Tag Row',
+  render: () => (
+    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+      <Tag label="Case Study" variant="accent" />
+      <Tag label="UX Research" variant="default" />
+      <Tag label="AI Design" variant="default" />
+    </div>
+  ),
 }
