@@ -17,7 +17,7 @@ export default function Page() {
         { src: '', alt: 'Usability Session Findings', caption: 'Key findings from moderated usability sessions' },
         { src: '', alt: 'Recommendations Framework', caption: 'Prioritized recommendations framework' },
         { src: '', alt: 'Before/After IA', caption: 'Before and after information architecture comparison' }]}
-    description={{ title: 'Want to see how mixed-methods research can simplify complex decision-making?', href: 'mailto:ali@alikhandesign.com' }}
+    cta={{ title: 'Want to see how mixed-methods research can simplify complex decision-making?' }}
     next={{ title: 'Vivio Clinical App', href: '/work/vivio' }}
   />
 }
