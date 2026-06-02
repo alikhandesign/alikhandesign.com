@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { GalleryGrid } from './Lightbox'
 import { useState } from 'react'
 import ContactModal from './ContactModal'
+import Breadcrumb from './Breadcrumb'
 import CTAStrip from './CTAStrip'
 
 interface Section { label: string; title: string; body: string[] }
@@ -21,11 +22,9 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
   return (
     <main>
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-        <nav style={{ padding: '1.25rem 3rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' as const }}>
-          <Link href="/work" style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', textDecoration: 'none' }}>My Work</Link>
-          <span style={{ fontSize: 'var(--text-base)', color: 'var(--border-mid)' }}>›</span>
-          <span style={{ fontSize: 'var(--text-base)', color: 'var(--text)', fontWeight: 500 }}>{title}</span>
-        </nav>
+        <div style={{ padding: '1.25rem 3rem 0' }}>
+          <Breadcrumb items={[{ label: 'My Work', href: '/work' }, { label: title }]} />
+        </div>
         <header style={{ padding: '2.5rem 3rem 3rem' }}>
           <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem', flexWrap: 'wrap' as const }}>
             {tags.map(t => <span key={t} className="tag">{t}</span>)}
