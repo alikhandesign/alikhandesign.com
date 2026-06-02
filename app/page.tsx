@@ -38,7 +38,7 @@ export default function Home() {
             <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--text-muted)', marginBottom: '2rem' }}>
               I help product teams understand their users at scale — combining mixed-methods research, strategic synthesis, and AI-native workflows to turn insight into action.
             </p>
-            <Link href="/work" className="btn-primary">View My Work <span aria-hidden="true">→</span></Link>
+            <Link href="/work" className="btn-primary">View my work <span aria-hidden="true">→</span></Link>
           </div>
           <div className="hero-img-wrap" style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
             <Image
