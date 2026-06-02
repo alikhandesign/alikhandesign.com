@@ -2,13 +2,14 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import ContactModal from './ContactModal'
 
 export default function Nav() {
   const path = usePathname()
   const [hovered, setHovered] = useState<string | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
+  const triggerRef = useRef<HTMLButtonElement>(null)
 
   const getLinkStyle = (href: string, matchFn: (p: string) => boolean): React.CSSProperties => {
     const isActive = matchFn(path)
@@ -30,30 +31,23 @@ export default function Nav() {
         </Link>
         <ul className="nav-links" style={{ display: 'flex', listStyle: 'none' }}>
           <li>
-            <Link
-              href="/work"
-              style={getLinkStyle('/work', p => p.startsWith('/work'))}
-              onMouseEnter={() => setHovered('/work')}
-              onMouseLeave={() => setHovered(null)}
-            >My Work</Link>
+            <Link href="/work" style={getLinkStyle('/work', p => p.startsWith('/work'))}
+              onMouseEnter={() => setHovered('/work')} onMouseLeave={() => setHovered(null)}>My Work</Link>
           </li>
           <li>
-            <Link
-              href="/about"
-              style={getLinkStyle('/about', p => p === '/about')}
-              onMouseEnter={() => setHovered('/about')}
-              onMouseLeave={() => setHovered(null)}
-            >About Me</Link>
+            <Link href="/about" style={getLinkStyle('/about', p => p === '/about')}
+              onMouseEnter={() => setHovered('/about')} onMouseLeave={() => setHovered(null)}>About Me</Link>
           </li>
           <li>
             <button
+              ref={triggerRef}
               onClick={() => setModalOpen(true)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'none', color: 'var(--accent)', fontWeight: 500, fontFamily: 'var(--font-sans)', fontSize: 'var(--text-base)', letterSpacing: 'var(--letter-spacing-sm)', padding: 0 }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--accent)', fontWeight: 500, fontFamily: 'var(--font-sans)', fontSize: 'var(--text-base)', letterSpacing: 'var(--letter-spacing-sm)', padding: 0 }}
             >Let's Talk</button>
           </li>
         </ul>
       </nav>
-      <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+      <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} triggerRef={triggerRef} />
     </>
   )
 }
