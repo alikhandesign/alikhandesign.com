@@ -30,7 +30,7 @@ export default function MetricCard({ company, value, description, href }: Metric
       <p style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const, color: 'var(--text-muted)', marginBottom: 'var(--space-4)', fontWeight: 'var(--font-weight-medium)' as any }}>{company}</p>
       <p className="font-serif" style={{ fontSize: 'var(--text-5xl)', color: 'var(--text)', lineHeight: 1, marginBottom: 'var(--space-2)' }}>{value}</p>
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 'var(--space-5)' }}>{description}</p>
-      <Link href={href} style={{ fontSize: 'var(--text-base)', color: 'var(--accent)', textDecoration: 'none', fontWeight: 'var(--font-weight-medium)' as any }}>Read the case study →</Link>
+      <Link href={href} style={{ fontSize: 'var(--text-base)', color: 'var(--accent)', textDecoration: 'none', fontWeight: 'var(--font-weight-medium)' as any }}>Read case study →</Link>
     </article>
   )
 }
