@@ -17,7 +17,7 @@ export default function Page() {
         { src: '', alt: 'Navigation Redesign', caption: 'Navigation structure redesign' },
         { src: '', alt: 'Visual Identity System', caption: 'Visual identity system components' },
         { src: '', alt: 'Mobile Experience', caption: 'Mobile-responsive experience' }]}
-    cta={{ title: 'Curious how research-informed brand strategy drives real business outcomes?', href: 'mailto:ali@alikhandesign.com' }}
+    description={{ title: 'Curious how research-informed brand strategy drives real business outcomes?', href: 'mailto:ali@alikhandesign.com' }}
     next={{ title: 'LLM Prompt Engineering for Website Audits', href: '/work/llm-prompts' }}
   />
 }
