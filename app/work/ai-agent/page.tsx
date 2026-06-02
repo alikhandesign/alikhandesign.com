@@ -21,7 +21,7 @@ function FullCaseStudy() {
     <div style={{ maxWidth: 680 }}>
       <section id="the-context" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Context</p>
-        <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>A billion-dollar book of business generating feedback nobody could keep up with</h2>
+        <h3 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>A billion-dollar book of business generating feedback nobody could keep up with</h3>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>Willis Towers Watson managed an annual book of business exceeding $1B in the Medicare and individual benefits space. That scale generated a constant stream of user feedback — website surveys, mobile app surveys, post-call feedback, NPS and CSAT scores — flowing in from hundreds of thousands of users.</p>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85 }}>During Medicare Open Enrollment, that volume spiked by 1000%. The research team responsible for synthesizing that feedback had no good way to handle it. I was the Senior UX Designer embedded on the Individual Marketplace team. What I noticed, through observation rather than any formal assignment, was that the people whose job it was to understand users were spending most of their time doing data entry.</p>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', margin: '2rem 0', padding: '1.5rem', background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)' }}>
@@ -36,7 +36,7 @@ function FullCaseStudy() {
 
       <section id="the-problem" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Problem</p>
-        <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>The Synthesis Tax</h2>
+        <h3 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>The Synthesis Tax</h3>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The research team operated within a fragmented, labor-intensive feedback loop. Researchers manually downloaded data from multiple sources, aggregated it, cleaned it, redacted sensitive information, tagged and categorized every comment by hand, and packaged it into a static spreadsheet posted to a Teams channel once a week.</p>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>Three compounding failure points: a full day per researcher lost to categorization each week (20% of weekly capacity), "translation errors" from researchers who weren't subject-matter experts on every product feature, and a 5-day insight lag that meant bugs appearing Monday weren't addressed until the following week.</p>
         <div style={{ borderLeft: '3px solid var(--accent)', padding: '1.25rem 1.5rem', margin: '2rem 0', background: 'var(--surface)', borderRadius: '0 4px 4px 0' }}>
@@ -46,28 +46,28 @@ function FullCaseStudy() {
 
       <section id="the-reframe" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Reframe</p>
-        <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>The real question wasn't speed</h2>
+        <h3 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>The real question wasn't speed</h3>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The obvious framing was: "Can AI do this faster?" But that wasn't the right question. The real problem was the Expert Gap — the mismatch between the people doing the categorization and the product knowledge required to do it accurately. A faster version of the same process would just produce wrong answers more quickly.</p>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85 }}>The right question was: "Can AI close the Expert Gap while handling sensitive healthcare data responsibly?" That reframe changed everything about how I designed the system.</p>
       </section>
 
       <section id="the-compliance-challenge" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Compliance Challenge</p>
-        <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Before AI could touch the data, the data had to be safe</h2>
+        <h3 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Before AI could touch the data, the data had to be safe</h3>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The first design challenge wasn't building anything. It was earning the right to build. I ran workshops with Legal and Compliance to define exactly what constituted PII and PHI in our context and where the line was that the system could not cross.</p>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85 }}>From those workshops, I engineered a layered redaction approach. Qualtrics queries handled structured patterns. An LLM-based redaction layer caught names and edge cases. Legal signed off before production deployment. That sign-off wasn't just a checkbox — it was what made the whole project possible.</p>
       </section>
 
       <section id="the-build" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Build</p>
-        <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>A hybrid system designed around the Expert Gap</h2>
+        <h3 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>A hybrid system designed around the Expert Gap</h3>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>I started with Dataverse as the single source of truth — a structured taxonomy table grounded in WTW's specific product documentation and internal knowledge base. On top of that, two categorization approaches worked in parallel: Qualtrics Text IQ for known patterns, and Microsoft CoPilot Studio (GPT) for ambiguous cases requiring intent interpretation.</p>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85 }}>Power Automate connected the pipeline in real time. I also built a conversational interface in Teams so stakeholders could ask direct questions — "What were the top three complaints from Medicare users this week?" — and get instant synthesized answers.</p>
       </section>
 
       <section id="the-validation" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Validation</p>
-        <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>78% to 95% — earning trust through evidence</h2>
+        <h3 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>78% to 95% — earning trust through evidence</h3>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>I didn't ask stakeholders to trust the AI. I built a methodology to prove it deserved trust. A double-blind accuracy audit: I manually categorized a full week of raw feedback. The AI categorized the same feedback independently. Both sets were stripped of origin labels and reviewed blind by Product Owners.</p>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The first audit came back at 78% accuracy. Not good enough. I refined the system instructions, improved grounding queries, added fallback logic. After several iterations, accuracy reached 95% — the point at which stakeholders could no longer reliably distinguish AI categorization from expert human categorization.</p>
         <div style={{ borderLeft: '3px solid var(--accent)', padding: '1.25rem 1.5rem', margin: '2rem 0', background: 'var(--surface)', borderRadius: '0 4px 4px 0' }}>
@@ -77,7 +77,7 @@ function FullCaseStudy() {
 
       <section id="the-outcomes" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">The Outcomes</p>
-        <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>From Synthesis Tax to strategic asset</h2>
+        <h3 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>From Synthesis Tax to strategic asset</h3>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', margin: '2rem 0' }}>
           {[['8+ hrs → min', 'Weekly synthesis time'], ['5 days → same day', 'Insight delivery lag'], ['95%', 'Categorization accuracy'], ['20%', 'Research capacity returned']].map(([val, label]) => (
             <div key={label} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '1.25rem', position: 'relative', overflow: 'hidden' }}>
@@ -91,7 +91,7 @@ function FullCaseStudy() {
 
       <section>
         <p className="section-label">The Reflection</p>
-        <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>What the real design challenge was</h2>
+        <h3 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>What the real design challenge was</h3>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The interface wasn't the hard part. The hard part was making AI trustworthy enough that people were willing to delegate important work to it. That required compliance-first thinking before the first line of code, a validation methodology rigorous enough to change a skeptic's mind, and fallback logic so humans stayed in the loop where they needed to be.</p>
         <p style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85 }}>If I were starting over, I'd build validation into day one rather than week three. The big takeaway: with agentic AI, the design challenge isn't the interface. It's building trust through validation, transparency, and continuous improvement.</p>
       </section>
