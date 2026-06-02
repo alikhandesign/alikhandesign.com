@@ -3,52 +3,56 @@ import Nav from './Nav'
 
 /**
  * HeaderNavigation is the site-wide sticky navigation bar. It appears at the top
- * of every page and uses Next.js's `usePathname` hook to determine the active page.
+ * of every page and uses Next.js's usePathname hook to determine the active page.
+ *
+ * This component accepts no props. Active state is derived automatically from the
+ * current pathname via usePathname. In Storybook, active state is simulated by
+ * passing a mock pathname value via the nextjs.navigation story parameter.
  *
  * ## Link types
  * The nav has two distinct link types — not interchangeable:
  *
- * **Page links (My Work, About Me):** Navigate to internal pages. Use `next/link`
- * for client-side routing. Active state is determined by the current pathname.
+ * **Page links (My Work, About Me):** Navigate to internal pages using next/link
+ * for client-side routing. Active state is determined by pathname matching.
  *
- * **CTA link (Let's Talk):** A `mailto:` link that opens the visitor's email client.
- * Always styled in `--accent` with medium weight regardless of active state.
+ * **CTA link (Let's Talk):** A mailto: link that opens the visitor's email client.
+ * Always styled in --accent with medium weight regardless of active state.
  * It is never "active" in the traditional sense — it's a persistent call to action.
  *
  * ## State model
  * Each page link has three states:
- * - **Default:** `--text-muted`, weight 400
- * - **Hover:** `--accent-dark`, weight 500 — handled inline via `onMouseEnter`/`onMouseLeave`
+ * - Default: --text-muted, weight 400
+ * - Hover: --accent-dark, weight 500 — handled inline via onMouseEnter/onMouseLeave
  *   rather than CSS because inline styles override CSS class-based hover rules
- * - **Active:** `--text` (dark), weight 500 — set when `pathname` matches the link's href
+ * - Active: --text (dark), weight 500 — set when pathname matches the link's href
  *
- * The hover state uses `--accent-dark` rather than `--accent` to distinguish
- * hover from the CTA link's persistent accent color. This prevents visual
- * confusion between "I'm hovering over a nav link" and "this is the Let's Talk button."
+ * Hover uses --accent-dark rather than --accent to distinguish hover from the
+ * CTA link's persistent accent color.
  *
  * ## Sticky behavior
- * The nav is `position: sticky` with `top: 0` and `z-index: 100`. It has a
- * `1px solid --border` bottom border that visually separates it from page content
- * when the user scrolls. Background is `--bg` (warm/50) — not white — to maintain
- * the warm palette even in the nav.
+ * position: sticky, top: 0, z-index: 100. Bottom border 1px --border separates
+ * the nav from page content on scroll. Background is --bg (warm/50), not white.
  *
  * ## Accessibility
- * Includes a visually hidden skip navigation link (`Skip to main content`) that
- * becomes visible on keyboard focus, allowing keyboard users to bypass the nav
- * and jump directly to page content.
+ * Includes a visually hidden skip link ("Skip to main content") that becomes
+ * visible on keyboard focus, allowing keyboard users to bypass the nav.
+ * Focus visible styles apply a 2px --accent outline.
  *
  * ## Tokens used
- * - Background: `--bg`
- * - Bottom border: `--border`
- * - Padding: 1.25rem vertical, `--space-12` (3rem) horizontal
- * - Link font size: `--text-base` (1rem / 16px)
- * - Link letter spacing: 0.02em
- * - Link gap: `--space-8` (2rem)
- * - Default color: `--text-muted`
- * - Hover color: `--accent-dark`
- * - Active color: `--text`
- * - CTA color: `--accent`
- * - Transition: color 150ms ease
+ * - Background: --bg (warm/50)
+ * - Bottom border: --border
+ * - Padding: 1.25rem vertical, --space-12 (3rem) horizontal
+ * - Link font size: --text-base (0.875rem / 14px)
+ * - Link letter spacing: --letter-spacing-sm (0.02em)
+ * - Link gap: --space-8 (2rem)
+ * - Default color: --text-muted
+ * - Hover color: --accent-dark
+ * - Active color: --text
+ * - CTA color: --accent
+ * - Transition: color --transition-base
+ *
+ * ## Usage
+ * Renders once at the top of every page via the root layout (app/layout.tsx).
  */
 const meta: Meta<typeof Nav> = {
   title: 'Navigation/HeaderNavigation',
@@ -66,7 +70,8 @@ export default meta
 type Story = StoryObj<typeof Nav>
 
 /**
- * Default state — no page is active. Shown when visiting the homepage.
+ * No page is active. Shown when visiting the homepage (pathname: '/').
+ * All page links render in --text-muted at regular weight.
  */
 export const Default: Story = {
   parameters: {
@@ -75,7 +80,8 @@ export const Default: Story = {
 }
 
 /**
- * My Work is the active page. The link renders in --text (dark) at weight 500.
+ * My Work (/work) is the active page.
+ * "My Work" renders in --text (dark) at weight 500.
  */
 export const WorkActive: Story = {
   name: 'Active — My Work',
@@ -85,7 +91,8 @@ export const WorkActive: Story = {
 }
 
 /**
- * About Me is the active page. The link renders in --text (dark) at weight 500.
+ * About Me (/about) is the active page.
+ * "About Me" renders in --text (dark) at weight 500.
  */
 export const AboutActive: Story = {
   name: 'Active — About Me',
