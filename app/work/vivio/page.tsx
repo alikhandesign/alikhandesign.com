@@ -17,7 +17,7 @@ export default function Page() {
         { src: '', alt: 'Recording Workflow', caption: '5-step recording workflow' },
         { src: '', alt: 'Error States', caption: 'Instructive error state designs' },
         { src: '', alt: 'Offline Mode', caption: 'Offline mode and unsent recordings experience' }]}
-    cta={{ title: 'Want to see how I built a scalable design system and designed for failure in a zero-to-one clinical iOS product?', href: 'mailto:ali@alikhandesign.com' }}
+    description={{ title: 'Want to see how I built a scalable design system and designed for failure in a zero-to-one clinical iOS product?', href: 'mailto:ali@alikhandesign.com' }}
     next={{ title: 'Signify Health Rebrand', href: '/work/signify-rebrand' }}
   />
 }
