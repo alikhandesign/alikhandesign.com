@@ -135,7 +135,7 @@ export default function AIAgentPage() {
       <div className="article-layout" style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '4rem 3rem' }}>
         <SideNav unlocked={unlocked} sections={["the-context", "the-problem", "the-reframe", "the-compliance-challenge", "the-build", "the-validation", "the-outcomes", "the-reflection"]} />
         <div>
-          <PasswordGate password="4likh4n" onUnlock={() => setUnlocked(true)} title="Ready to see how it came together?" cta="The full case study covers the compliance-first design approach, the hybrid categorization architecture, and the validation methodology that took accuracy from 78% to 95%." inside={INSIDE}>
+          <PasswordGate password="4likh4n" onUnlock={() => setUnlocked(true)} title="Ready to see how it came together?" description="The full case study covers the compliance-first design approach, the hybrid categorization architecture, and the validation methodology that took accuracy from 78% to 95%." inside={INSIDE}>
             <FullCaseStudy />
           </PasswordGate>
         </div>
