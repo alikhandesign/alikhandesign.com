@@ -160,7 +160,7 @@ export default function ContactModal({ isOpen, onClose, triggerRef }: ContactMod
             className="btn-primary"
             style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', boxSizing: 'border-box', marginBottom: 'var(--space-4)', textDecoration: 'none', minHeight: 44 }}
           >
-            Send email <span aria-hidden="true">→</span>
+            Send email → <span aria-hidden="true"></span>
           </a>
 
           <div style={{ borderTop: '1px solid var(--border)', paddingTop: 'var(--space-4)', display: 'flex', justifyContent: 'center', gap: 'var(--space-6)' }}>
