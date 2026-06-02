@@ -66,15 +66,15 @@ export default function WorkPage() {
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             <button onClick={() => setFilter('all')} style={filter === 'all' ? activeStyle : filterStyles} aria-pressed={filter === 'all'}>
               All
-              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: '1.1rem', height: '1.1rem', fontSize: '0.6875rem', fontWeight: 600, borderRadius: '999px', padding: '0 0.25rem', background: filter === 'all' ? 'rgba(250,248,245,0.25)' : 'var(--border)', color: filter === 'all' ? 'var(--bg)' : 'var(--text-muted)' }}>{total}</span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: '1.1rem', height: '1.1rem', fontSize: '0.6875rem', fontWeight: 600, borderRadius: '999px', padding: '0 0.25rem', background: filter === 'all' ? 'rgba(250,248,245,0.25)' : 'var(--border)', color: filter === 'all' ? 'var(--bg)' : 'var(--text-muted)' }} aria-hidden="true">{total}</span>
             </button>
             <button onClick={() => setFilter('case-studies')} style={filter === 'case-studies' ? activeStyle : filterStyles} aria-pressed={filter === 'case-studies'}>
               Case Studies
-              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: '1.1rem', height: '1.1rem', fontSize: '0.6875rem', fontWeight: 600, borderRadius: '999px', padding: '0 0.25rem', background: filter === 'case-studies' ? 'rgba(250,248,245,0.25)' : 'var(--border)', color: filter === 'case-studies' ? 'var(--bg)' : 'var(--text-muted)' }}>{caseStudies.length}</span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: '1.1rem', height: '1.1rem', fontSize: '0.6875rem', fontWeight: 600, borderRadius: '999px', padding: '0 0.25rem', background: filter === 'case-studies' ? 'rgba(250,248,245,0.25)' : 'var(--border)', color: filter === 'case-studies' ? 'var(--bg)' : 'var(--text-muted)' }} aria-hidden="true">{caseStudies.length}</span>
             </button>
             <button onClick={() => setFilter('projects')} style={filter === 'projects' ? activeStyle : filterStyles} aria-pressed={filter === 'projects'}>
               Projects
-              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: '1.1rem', height: '1.1rem', fontSize: '0.6875rem', fontWeight: 600, borderRadius: '999px', padding: '0 0.25rem', background: filter === 'projects' ? 'rgba(250,248,245,0.25)' : 'var(--border)', color: filter === 'projects' ? 'var(--bg)' : 'var(--text-muted)' }}>{projects.length}</span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: '1.1rem', height: '1.1rem', fontSize: '0.6875rem', fontWeight: 600, borderRadius: '999px', padding: '0 0.25rem', background: filter === 'projects' ? 'rgba(250,248,245,0.25)' : 'var(--border)', color: filter === 'projects' ? 'var(--bg)' : 'var(--text-muted)' }} aria-hidden="true">{projects.length}</span>
             </button>
           </div>
         </header>
