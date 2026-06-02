@@ -16,7 +16,7 @@ export default function Page() {
         { src: '', alt: 'Sample Audit Output', caption: 'Sample structured audit output' },
         { src: '', alt: 'Heuristic Mapping', caption: 'Heuristic to prompt mapping' },
         { src: '', alt: 'Before/After Comparison', caption: 'Manual vs AI audit output comparison' }]}
-    cta={{ title: 'Want to see how AI can systematize UX audits at scale?', href: 'mailto:ali@alikhandesign.com' }}
+    description={{ title: 'Want to see how AI can systematize UX audits at scale?', href: 'mailto:ali@alikhandesign.com' }}
     next={{ title: 'Design Handoff Checklist', href: '/work/design-handoff' }}
   />
 }
