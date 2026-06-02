@@ -3,10 +3,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
+import ContactModal from './ContactModal'
 
 export default function Nav() {
   const path = usePathname()
   const [hovered, setHovered] = useState<string | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
 
   const getLinkStyle = (href: string, matchFn: (p: string) => boolean): React.CSSProperties => {
     const isActive = matchFn(path)
@@ -44,10 +46,14 @@ export default function Nav() {
             >About Me</Link>
           </li>
           <li>
-            <a href="mailto:ali@alikhandesign.com" style={{ textDecoration: 'none', color: 'var(--accent)', fontWeight: 500 }}>Let's Talk</a>
+            <button
+              onClick={() => setModalOpen(true)}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'none', color: 'var(--accent)', fontWeight: 500, fontFamily: 'var(--font-sans)', fontSize: 'var(--text-base)', letterSpacing: 'var(--letter-spacing-sm)', padding: 0 }}
+            >Let's Talk</button>
           </li>
         </ul>
       </nav>
+      <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </>
   )
 }
