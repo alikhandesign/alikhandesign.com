@@ -12,7 +12,6 @@ export default function SideNav({ sections, unlocked = true }: SideNavProps) {
 
   useEffect(() => {
     const observers: IntersectionObserver[] = []
-
     const setup = () => {
       sections.forEach(id => {
         const el = document.getElementById(id)
@@ -25,7 +24,6 @@ export default function SideNav({ sections, unlocked = true }: SideNavProps) {
         observers.push(observer)
       })
     }
-
     const timer = setTimeout(setup, 100)
     return () => {
       clearTimeout(timer)
@@ -40,23 +38,27 @@ export default function SideNav({ sections, unlocked = true }: SideNavProps) {
     const isActive = active === id
     const isHovered = hovered === id && !isActive
     return {
-      fontSize: 14,
+      fontSize: 'var(--text-base)',
       color: isActive ? 'var(--accent)' : isHovered ? 'var(--text-mid)' : 'var(--text-muted)',
       fontWeight: isActive || isHovered ? 500 : 400,
       textDecoration: 'none',
       display: 'block',
-      padding: '0.5rem 0 0.5rem 0.75rem',
+      padding: 'var(--space-2) 0 var(--space-2) var(--space-3)',
       borderLeft: `2px solid ${isActive ? 'var(--accent)' : isHovered ? 'var(--border-mid)' : 'var(--border)'}`,
       lineHeight: 1.4,
-      transition: 'color 0.15s, border-color 0.15s',
+      transition: 'color var(--transition-base), border-color var(--transition-base)',
     }
   }
 
   return (
     <aside style={{ position: 'sticky', top: '5rem' }}>
       <p style={{
-        fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const,
-        color: 'var(--text-muted)', fontWeight: 500, marginBottom: '1rem'
+        fontSize: 'var(--text-xs)',
+        letterSpacing: 'var(--letter-spacing-lg)',
+        textTransform: 'uppercase' as const,
+        color: 'var(--text-muted)',
+        fontWeight: 500,
+        marginBottom: 'var(--space-4)'
       }}>Contents</p>
       <ul style={{ listStyle: 'none' }}>
         {sections.map(id => (
@@ -64,6 +66,7 @@ export default function SideNav({ sections, unlocked = true }: SideNavProps) {
             <a
               href={`#${id}`}
               style={getLinkStyle(id)}
+              aria-current={active === id ? 'true' : undefined}
               onMouseEnter={() => setHovered(id)}
               onMouseLeave={() => setHovered(null)}
             >
