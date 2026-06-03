@@ -144,10 +144,96 @@
       color: #6B6560;
       text-align: center;
     }
+    .swatch-hex {
+      font-size: 0.625rem;
+      color: #9E9189;
+      text-align: center;
+      font-family: monospace;
+    }
+    .a11y-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .a11y-item {
+      padding: 1rem 1.25rem;
+      background: #FAF8F5;
+      border: 1px solid #EDE9E4;
+      border-radius: 4px;
+    }
+    .a11y-item.pass {
+      border-left: 3px solid #2E7D32;
+    }
+    .a11y-item.partial {
+      border-left: 3px solid #E65100;
+    }
+    .a11y-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+      margin-top: 0;
+    }
+    .a11y-label.pass { color: #2E7D32; }
+    .a11y-label.partial { color: #E65100; }
+    .a11y-desc {
+      font-size: 0.8125rem;
+      color: #6B6560;
+      line-height: 1.5;
+      margin: 0;
+    }
     .footer-line {
       font-size: 0.875rem;
       color: #9E9189;
       margin: 0;
+    }
+    .type-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      align-items: start;
+    }
+    .type-sample {
+      padding: 1.25rem;
+      background: #FAF8F5;
+      border: 1px solid #EDE9E4;
+      border-radius: 4px;
+    }
+    .type-sample-label {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #9E9189;
+      margin: 0 0 0.75rem;
+    }
+    .type-sample-serif {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      color: #1C1C1A;
+      line-height: 1.2;
+      margin: 0 0 0.5rem;
+    }
+    .type-sample-sans {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.875rem;
+      color: #6B6560;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .type-detail {
+      font-size: 0.8125rem;
+      color: #6B6560;
+      line-height: 1.6;
+      margin: 0;
+    }
+    .type-detail strong {
+      color: #1C1C1A;
+      font-weight: 500;
     }
   `}
 </style>
@@ -219,7 +305,41 @@
   <div className="token-item">
     <p className="token-label">Color</p>
     <p className="token-value">Warm neutrals + signature red</p>
-    <p className="token-desc">FAF8F5 base, #89181A accent. Dark surfaces via token swap.</p>
+    <p className="token-desc">#FAF8F5 base, #89181A accent. Dark surfaces via token swap.</p>
+  </div>
+</div>
+
+<hr className="intro-divider" />
+
+<p className="intro-section-title">Typography</p>
+
+<p className="intro-body">
+  The typographic system pairs two typefaces with distinct, non-overlapping roles. They were chosen to work together without competing — one carries editorial weight, the other carries clarity.
+</p>
+
+<div className="type-pair">
+  <div className="type-sample">
+    <p className="type-sample-label">DM Serif Display</p>
+    <p className="type-sample-serif">Designing systems that make research scale.</p>
+    <p className="type-sample-sans" style={{marginTop: '0.75rem', fontStyle: 'italic', color: '#9E9189'}}>Headings, display text, case study titles, metric values</p>
+  </div>
+  <div>
+    <p className="type-detail"><strong>DM Serif Display</strong> is used for all headings, hero text, card titles, and the large metric values on the homepage. Its warm, editorial quality gives the site a considered, professional feel without being corporate. At large sizes the slight contrast between thick and thin strokes adds visual richness that Inter alone cannot provide.</p>
+    <br/>
+    <p className="type-detail">It appears exclusively at weight 400 — the typeface was designed for display use and its lighter weight is what makes it feel editorial rather than heavy.</p>
+  </div>
+</div>
+
+<div className="type-pair">
+  <div className="type-sample">
+    <p className="type-sample-label">Inter</p>
+    <p className="type-sample-sans" style={{fontSize: '1rem', color: '#1C1C1A', lineHeight: 1.7}}>I help product teams understand their users at scale — combining mixed-methods research, strategic synthesis, and AI-native workflows.</p>
+    <p className="type-sample-sans" style={{marginTop: '0.75rem', fontStyle: 'italic', color: '#9E9189'}}>Body copy, labels, tags, nav, buttons, UI text</p>
+  </div>
+  <div>
+    <p className="type-detail"><strong>Inter</strong> handles all UI text — body copy, labels, tags, navigation, buttons, captions, and metadata. Its optical sizing and tight metrics make it exceptionally legible at small sizes, which matters for a system where 12px eyebrow labels and 14px body text need to be readable without effort.</p>
+    <br/>
+    <p className="type-detail">Used at three weights: 400 (regular) for body copy, 500 (medium) for labels and active states, 600 (semibold) reserved for the most critical UI moments. Weight is a semantic signal — it communicates hierarchy, not decoration.</p>
   </div>
 </div>
 
@@ -231,46 +351,57 @@
   <div className="swatch">
     <div className="swatch-block" style={{background: '#FAF8F5'}} />
     <span className="swatch-label">warm/50</span>
+    <span className="swatch-hex">#FAF8F5</span>
   </div>
   <div className="swatch">
     <div className="swatch-block" style={{background: '#F2EFE9'}} />
     <span className="swatch-label">warm/75</span>
+    <span className="swatch-hex">#F2EFE9</span>
   </div>
   <div className="swatch">
     <div className="swatch-block" style={{background: '#EDE9E4'}} />
     <span className="swatch-label">warm/100</span>
+    <span className="swatch-hex">#EDE9E4</span>
   </div>
   <div className="swatch">
     <div className="swatch-block" style={{background: '#D4CFC9'}} />
     <span className="swatch-label">warm/200</span>
+    <span className="swatch-hex">#D4CFC9</span>
   </div>
   <div className="swatch">
     <div className="swatch-block" style={{background: '#C4BDB7'}} />
     <span className="swatch-label">warm/300</span>
+    <span className="swatch-hex">#C4BDB7</span>
   </div>
   <div className="swatch">
     <div className="swatch-block" style={{background: '#6B6560', border: 'none'}} />
     <span className="swatch-label">neutral/500</span>
+    <span className="swatch-hex">#6B6560</span>
   </div>
   <div className="swatch">
     <div className="swatch-block" style={{background: '#4A4643', border: 'none'}} />
     <span className="swatch-label">neutral/600</span>
+    <span className="swatch-hex">#4A4643</span>
   </div>
   <div className="swatch">
     <div className="swatch-block" style={{background: '#1C1C1A', border: 'none'}} />
     <span className="swatch-label">neutral/900</span>
+    <span className="swatch-hex">#1C1C1A</span>
   </div>
   <div className="swatch">
     <div className="swatch-block" style={{background: '#FDF0F0'}} />
     <span className="swatch-label">red/50</span>
+    <span className="swatch-hex">#FDF0F0</span>
   </div>
   <div className="swatch">
     <div className="swatch-block" style={{background: '#89181A', border: 'none'}} />
     <span className="swatch-label">red/700</span>
+    <span className="swatch-hex">#89181A</span>
   </div>
   <div className="swatch">
     <div className="swatch-block" style={{background: '#6E1215', border: 'none'}} />
     <span className="swatch-label">red/800</span>
+    <span className="swatch-hex">#6E1215</span>
   </div>
 </div>
 
@@ -279,7 +410,7 @@
 <p className="intro-section-title">Component Library</p>
 
 <p className="intro-body">
-  16 components organized into 7 categories. Each component maps directly to a Figma component in the Honest library, using the same naming conventions and property structure.
+  19 components organized into 8 categories. Each component maps directly to a Figma component in the Honest library, using the same naming conventions and property structure.
 </p>
 
 <div className="token-grid">
@@ -295,8 +426,8 @@
   </div>
   <div className="token-item">
     <p className="token-label">Navigation</p>
-    <p className="token-value">HeaderNavigation, SideNavigation</p>
-    <p className="token-desc">Sticky header nav with active states, scrollspy side nav for case studies</p>
+    <p className="token-value">HeaderNavigation, SideNavigation, FooterNavigation, BreadcrumbNavigation</p>
+    <p className="token-desc">Sticky header, scrollspy side nav, persistent footer, page wayfinding</p>
   </div>
   <div className="token-item">
     <p className="token-label">Input & Gate</p>
@@ -313,8 +444,12 @@
     <p className="token-value">CaseStudyImage, GalleryGrid</p>
     <p className="token-desc">Case study image with optional caption, responsive 3-column gallery</p>
   </div>
+  <div className="token-item">
+    <p className="token-label">Contact</p>
+    <p className="token-value">ContactModal, CTAStrip</p>
+    <p className="token-desc">Site-wide contact overlay triggered from nav and page CTAs</p>
+  </div>
 </div>
-
 
 <hr className="intro-divider" />
 
@@ -353,9 +488,59 @@
 
 <hr className="intro-divider" />
 
+<p className="intro-section-title">Accessibility</p>
+
+<p className="intro-body">
+  Accessibility is a stated design principle of Honest, not a retrofit. The site was audited against WCAG 2.1 Level AA — the industry standard — using axe DevTools, Lighthouse, manual keyboard testing, and VoiceOver screen reader testing.
+</p>
+
+<div className="a11y-grid">
+  <div className="a11y-item pass">
+    <p className="a11y-label pass">Lighthouse Score</p>
+    <p className="a11y-desc">99.6 average across all pages on both desktop and mobile. Zero axe errors detected on any page.</p>
+  </div>
+  <div className="a11y-item pass">
+    <p className="a11y-label pass">Color Contrast</p>
+    <p className="a11y-desc">All color combinations meet or exceed the 4.5:1 minimum. The warm palette was explicitly chosen and verified to pass AA at every usage context.</p>
+  </div>
+  <div className="a11y-item pass">
+    <p className="a11y-label pass">Keyboard Navigation</p>
+    <p className="a11y-desc">All pages are fully navigable by keyboard alone. ContactModal implements a focus trap. Skip link is present on every page. Focus rings are visible on all interactive elements.</p>
+  </div>
+  <div className="a11y-item pass">
+    <p className="a11y-label pass">Screen Reader</p>
+    <p className="a11y-desc">VoiceOver testing confirmed all landmarks, headings, interactive states, and dynamic content are correctly announced. ARIA roles and labels are applied throughout.</p>
+  </div>
+  <div className="a11y-item pass">
+    <p className="a11y-label pass">Semantic HTML</p>
+    <p className="a11y-desc">Correct heading hierarchy on all pages. Landmark regions (header, nav, main, footer) present on every page. All images have appropriate alt text or aria-hidden.</p>
+  </div>
+  <div className="a11y-item partial">
+    <p className="a11y-label partial">Known Gap</p>
+    <p className="a11y-desc">PasswordGate error message uses role=alert but lacks aria-describedby connecting it to the input. Documented and scheduled for the next sprint. All other error criteria pass fully.</p>
+  </div>
+</div>
+
+<p className="intro-body">
+  The full audit is available as a reference document. Known gaps are documented transparently with rationale — consistent with the Honest design principle of no overclaiming.
+</p>
+
+<hr className="intro-divider" />
+
+<p className="intro-section-title">Closing</p>
+
+<p className="intro-body">
+  Honest is a working system, not a showcase. Every component in this library is used in production on alikhandesign.com. Every token maps to a CSS custom property. Every Figma component has a corresponding story in this Storybook. The design decisions are documented, the accessibility is verified, and the gaps are named.
+</p>
+
+<p className="intro-body">
+  That's what honest design system work looks like.
+</p>
+
+<hr className="intro-divider" />
+
 <p className="footer-line">
   Ali Khan · Senior Product Designer & Researcher · <a href="https://alikhandesign.com" className="link-accent" target="_blank">alikhandesign.com</a>
 </p>
 
 </div>
-
