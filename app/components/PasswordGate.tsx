@@ -60,7 +60,9 @@ export default function PasswordGate({ password, children, title, description, i
         <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text)', fontWeight: 'var(--font-weight-semibold)' as any }}>Enter password to access</p>
         <input
           type="password"
+          id="password-input"
           className={`password-input${error ? ' error' : ''}`}
+          aria-describedby={error ? 'password-error' : undefined}
           placeholder="Password"
           value={input}
           onChange={e => setInput(e.target.value)}
@@ -76,7 +78,7 @@ export default function PasswordGate({ password, children, title, description, i
           View full case study <span aria-hidden="true">→</span>
         </button>
         {error && (
-          <p role="alert" style={{ fontSize: 'var(--text-xs)', color: 'var(--accent-dark)' }}>Incorrect password. Try again or request access below.</p>
+          <p id="password-error" role="alert" style={{ fontSize: 'var(--text-xs)', color: 'var(--accent-dark)' }}>Incorrect password. Try again or request access below.</p>
         )}
         <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
           No password?{' '}
