@@ -7,10 +7,6 @@ import { useState } from 'react'
 import CTAStrip from '@/app/components/CTAStrip'
 import ContactModal from '@/app/components/ContactModal'
 
-export const metadata = {
-  title: 'AI Feedback & Insights Agent — Ali Khan',
-  description: 'Case study: agentic AI research pipeline that automated qualitative synthesis with 95% accuracy.',
-}
 
 
 const INSIDE = [
