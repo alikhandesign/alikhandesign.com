@@ -5,10 +5,6 @@ import { useState } from 'react'
 import ContactModal from '../components/ContactModal'
 import CalloutCard from '../components/CalloutCard'
 
-export const metadata = {
-  title: 'About — Ali Khan',
-  description: 'Senior Product Designer and UX Researcher based in Austin, TX.',
-}
 
 
 const pillars = [
