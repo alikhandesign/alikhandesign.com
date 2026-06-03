@@ -41,7 +41,7 @@ export default function PasswordGate({ password, children, title, description, i
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--accent)' }} />
 
       <p className="eyebrow" style={{ marginBottom: '0.6rem' }}>Full Case Study</p>
-      <h3 className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400, lineHeight: 1.25, marginBottom: 'var(--space-2)' }}>{title}</h3>
+      <h2 className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400, lineHeight: 1.25, marginBottom: 'var(--space-2)' }}>{title}</h2>
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>{description}</p>
 
       <div style={{ marginBottom: 'var(--space-6)' }}>
