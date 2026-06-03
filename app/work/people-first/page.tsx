@@ -7,10 +7,6 @@ import { useState } from 'react'
 import CTAStrip from '@/app/components/CTAStrip'
 import ContactModal from '@/app/components/ContactModal'
 
-export const metadata = {
-  title: 'People-First Enrollment Redesign — Ali Khan',
-  description: 'Case study: identity-driven enrollment flow that drove a 15% lift in enrollments.',
-}
 
 
 const INSIDE = [
