@@ -5,10 +5,6 @@ import SectionLabel from '../components/SectionLabel'
 import CaseStudyCard from '../components/CaseStudyCard'
 import FeaturedProjectCard from '../components/FeaturedProjectCard'
 
-export const metadata = {
-  title: 'My Work — Ali Khan',
-  description: 'Product design and UX research case studies and projects by Ali Khan.',
-}
 
 
 const caseStudies = [
