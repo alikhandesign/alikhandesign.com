@@ -5,6 +5,12 @@ import SectionLabel from '../components/SectionLabel'
 import CaseStudyCard from '../components/CaseStudyCard'
 import FeaturedProjectCard from '../components/FeaturedProjectCard'
 
+export const metadata = {
+  title: 'My Work — Ali Khan',
+  description: 'Product design and UX research case studies and projects by Ali Khan.',
+}
+
+
 const caseStudies = [
   { title: 'AI Feedback & Insights Agent', company: 'Willis Towers Watson', tags: ['Agentic Workflow Design', 'AI Design'], desc: 'Designed and deployed an agentic AI research pipeline that automated qualitative synthesis — transforming raw user feedback into structured, actionable insights with 95% categorization accuracy and eliminating a full day of manual analysis.', outcomes: [{ val: '95%', label: 'Categorization accuracy' }, { val: '8 hrs → 8 min', label: 'Synthesis time reduction' }], href: '/work/ai-agent' },
   { title: 'From Checkboxes to Conversations', company: 'Squarespace · Self-initiated', tags: ['AI Design', 'UX Research', 'Interaction Design'], desc: "Audited Squarespace's Blueprint AI across two user journeys, documented 20 distinct failure modes, and redesigned three key moments — grounded in the principles I use every time I work with AI as a design tool.", outcomes: [{ val: '20', label: 'Failure modes documented' }, { val: '22', label: 'Intents audited' }, { val: '3', label: 'Redesigned moments' }], href: '/work/squarespace-redesign' },
