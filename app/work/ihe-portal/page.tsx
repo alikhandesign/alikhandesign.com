@@ -7,6 +7,12 @@ import { useState } from 'react'
 import CTAStrip from '@/app/components/CTAStrip'
 import ContactModal from '@/app/components/ContactModal'
 
+export const metadata = {
+  title: 'IHE Scheduling Portal — Ali Khan',
+  description: 'Case study: mixed-methods research informing a trust-first scheduling portal redesign.',
+}
+
+
 const INSIDE = [
   'Qualitative interview findings',
   'Six distinct member barrier categories',
