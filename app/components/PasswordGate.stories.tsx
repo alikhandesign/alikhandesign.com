@@ -28,8 +28,8 @@ import PasswordGate from './PasswordGate'
  *
  * ## Accessibility
  * Error message uses `role="alert"` for screen reader announcement.
- * Password input is labeled via `aria-label`. Known gap: no `aria-live` region
- * for the unlocked state transition.
+ * Password input is labeled via `aria-label` and connected to the error message
+ * via `aria-describedby` when an error is present.
  *
  * ## Tokens used
  * - Background: `--surface`
@@ -93,7 +93,7 @@ export const ErrorState: Story = {
       }}>
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--accent)' }} />
         <p className="eyebrow" style={{ marginBottom: '0.6rem' }}>Full Case Study</p>
-        <h3 className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400, lineHeight: 1.25, marginBottom: 'var(--space-2)' }}>Participant Listening Agent</h3>
+        <h2 className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400, lineHeight: 1.25, marginBottom: 'var(--space-2)' }}>Participant Listening Agent</h2>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>This case study contains proprietary workflow details and internal research findings.</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
           <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text)', fontWeight: 600 }}>Enter password to access</p>
