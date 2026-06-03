@@ -7,6 +7,12 @@ import { useState } from 'react'
 import CTAStrip from '@/app/components/CTAStrip'
 import ContactModal from '@/app/components/ContactModal'
 
+export const metadata = {
+  title: 'From Checkboxes to Conversations — Ali Khan',
+  description: 'Case study: auditing Squarespace Blueprint AI and redesigning key failure moments.',
+}
+
+
 const INSIDE = [
   'Full audit findings across Track A (new user) and Track B (power user)',
   '20 failure modes defined, evidenced, and taxonomized',
