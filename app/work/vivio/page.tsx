@@ -1,4 +1,10 @@
 import ProjectPage from '@/app/components/ProjectPage'
+
+export const metadata = {
+  title: 'Vivio Clinical App — Ali Khan',
+  description: 'Project: native iOS clinical application design for a heart failure diagnostic tool.',
+}
+
 export default function Page() {
   return <ProjectPage
     title="Vivio Clinical App"
