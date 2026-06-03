@@ -1,9 +1,5 @@
 import ProjectPage from '@/app/components/ProjectPage'
 
-export const metadata = {
-  title: 'Signify Health Rebrand — Ali Khan',
-  description: 'Project: full brand refresh resulting in 50% increase in website traffic.',
-}
 
 export default function Page() {
   return <ProjectPage
