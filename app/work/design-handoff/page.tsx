@@ -1,9 +1,5 @@
 import ProjectPage from '@/app/components/ProjectPage'
 
-export const metadata = {
-  title: 'Design Handoff Checklist — Ali Khan',
-  description: 'Project: comprehensive design-to-development handoff checklist.',
-}
 
 export default function Page() {
   return <ProjectPage
