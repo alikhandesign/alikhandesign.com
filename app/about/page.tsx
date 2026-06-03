@@ -5,6 +5,12 @@ import { useState } from 'react'
 import ContactModal from '../components/ContactModal'
 import CalloutCard from '../components/CalloutCard'
 
+export const metadata = {
+  title: 'About — Ali Khan',
+  description: 'Senior Product Designer and UX Researcher based in Austin, TX.',
+}
+
+
 const pillars = [
   { num: '01', title: 'Think like the user, not the business', text: 'The most common gap I find in products isn\'t bad aesthetics or broken flows. It\'s a mismatch between how the business thinks about its product and how users actually experience it. I listen for that mismatch first. Not just by analyzing metrics, but by sitting with people and hearing how they describe their own experience in their own words. Once you hear it, you can\'t unhear it. My job is to close that gap, so the system does the hard work, not the user.' },
   { num: '02', title: 'Design for the hardest user first', text: 'I don\'t design for the ideal user, the one who arrives informed, confident, and unhurried. I design for the most overwhelmed, least experienced person in the room. If the product works for them, it works for everyone. If it doesn\'t, the design isn\'t finished.' },
