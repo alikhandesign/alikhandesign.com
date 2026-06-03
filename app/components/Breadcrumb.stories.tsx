@@ -2,9 +2,12 @@ import type { Meta, StoryObj } from '@storybook/react'
 import Breadcrumb from './Breadcrumb'
 
 /**
- * Breadcrumb provides wayfinding context on project and case study pages.
+ * BreadcrumbNavigation provides wayfinding context on project and case study pages.
  * It shows the visitor where they are within the site hierarchy and provides
  * a quick path back to the My Work page.
+ *
+ * Always two levels on this site: "My Work" (link) › "Page Title" (current).
+ * A third level is not currently used but the component supports it.
  *
  * ## Accessibility
  * Wrapped in a nav element with aria-label="Breadcrumb" so screen readers
@@ -23,7 +26,7 @@ import Breadcrumb from './Breadcrumb'
  * Always starts with "My Work" linking to /work, followed by the current page title.
  */
 const meta: Meta<typeof Breadcrumb> = {
-  title: 'Navigation/Breadcrumb',
+  title: 'Navigation/BreadcrumbNavigation',
   component: Breadcrumb,
   tags: ['autodocs'],
   argTypes: {
@@ -39,16 +42,6 @@ export const Default: Story = {
     items: [
       { label: 'My Work', href: '/work' },
       { label: 'AI Feedback & Insights Agent' },
-    ],
-  },
-}
-
-export const ProjectPage: Story = {
-  name: 'Project Page',
-  args: {
-    items: [
-      { label: 'My Work', href: '/work' },
-      { label: 'Vivio Clinical App' },
     ],
   },
 }
