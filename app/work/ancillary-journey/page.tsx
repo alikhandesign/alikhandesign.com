@@ -1,4 +1,10 @@
 import ProjectPage from '@/app/components/ProjectPage'
+
+export const metadata = {
+  title: 'Optimizing the Ancillary Insurance Journey — Ali Khan',
+  description: 'Project: qualitative research into Medicare enrollee navigation of ancillary coverage.',
+}
+
 export default function Page() {
   return <ProjectPage
     title="Optimizing the Ancillary Insurance Journey"
