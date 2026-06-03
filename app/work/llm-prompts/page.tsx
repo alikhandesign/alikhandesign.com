@@ -1,9 +1,5 @@
 import ProjectPage from '@/app/components/ProjectPage'
 
-export const metadata = {
-  title: 'LLM Prompt Engineering for Website Audits — Ali Khan',
-  description: 'Project: structured prompt framework for LLM-based UX website audits.',
-}
 
 export default function Page() {
   return <ProjectPage
