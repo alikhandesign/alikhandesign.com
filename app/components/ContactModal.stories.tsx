@@ -30,12 +30,11 @@ import ContactModal from './ContactModal'
  * ## Accessibility
  * role="dialog", aria-modal="true", aria-label on the container.
  * X button has aria-label="Close contact modal".
- * Focus is not currently trapped inside the modal — known gap for a future
- * accessibility pass.
+ * Focus trap is implemented — Tab cycles within the modal, Shift+Tab reverses.
+ * Focus returns to the trigger element (Let's Talk button) when the modal closes.
  *
  * ## Tokens used
  * - Background: --bg
- * - Border: --border
  * - Border radius: --radius
  * - Accent bar: 3px, --accent
  * - Padding: --space-8
