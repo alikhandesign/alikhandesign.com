@@ -13,7 +13,7 @@ const metrics = [
 
 const featured = [
   { type: 'Case Study' as const, title: 'People-First Enrollment Redesign', company: 'Via Benefits · WTW', desc: 'Dismantling a legacy product-first gate to drive a 15% lift in total enrollments and 45% faster time-to-convert.', href: '/work/people-first' },
-  { type: 'Case Study' as const, title: 'Participant Listening Agent', company: 'WTW', desc: 'An agentic AI pipeline that automated qualitative synthesis — reducing a full day of analysis to minutes with 95% accuracy.', href: '/work/ai-agent' },
+  { type: 'Case Study' as const, title: 'AI Feedback & Insights Agent', company: 'WTW', desc: 'An agentic AI pipeline that automated qualitative synthesis — reducing a full day of analysis to minutes with 95% accuracy.', href: '/work/ai-agent' },
 ]
 
 const values = [
