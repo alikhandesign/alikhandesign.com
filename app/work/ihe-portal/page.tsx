@@ -154,10 +154,10 @@ export default function IHEPortalPage() {
       <div className="divider" />
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '2.5rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '1rem' }}>
         <div>
-          <p style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Project</p>
-          <p className="font-serif" style={{ fontSize: '1.25rem', fontWeight: 400 }}>Optimizing the Ancillary Insurance Journey</p>
+          <p style={{ fontSize: 12, letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
+          <p className="font-serif" style={{ fontSize: '1.25rem', fontWeight: 400 }}>From Checkboxes to Conversations</p>
         </div>
-        <Link href="/work/ancillary-journey" style={{ fontSize: 14, color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
+        <Link href="/work/squarespace-redesign" style={{ fontSize: 14, color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
       </div>
       <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </main>
