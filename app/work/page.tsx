@@ -5,13 +5,55 @@ import SectionLabel from '../components/SectionLabel'
 import CaseStudyCard from '../components/CaseStudyCard'
 import FeaturedProjectCard from '../components/FeaturedProjectCard'
 
-
-
 const caseStudies = [
-  { title: 'AI Feedback & Insights Agent', company: 'Willis Towers Watson', tags: ['Agentic Workflow Design', 'AI Design'], desc: 'Designed and deployed an agentic AI research pipeline that automated qualitative synthesis — transforming raw user feedback into structured, actionable insights with 95% categorization accuracy and eliminating a full day of manual analysis.', outcomes: [{ val: '95%', label: 'Categorization accuracy' }, { val: '8 hrs → 8 min', label: 'Synthesis time reduction' }], href: '/work/ai-agent' },
-  { title: 'From Checkboxes to Conversations', company: 'Squarespace · Self-initiated', tags: ['AI Design', 'UX Research', 'Interaction Design'], desc: "Audited Squarespace's Blueprint AI across two user journeys, documented 20 distinct failure modes, and redesigned three key moments — grounded in the principles I use every time I work with AI as a design tool.", outcomes: [{ val: '20', label: 'Failure modes documented' }, { val: '22', label: 'Intents audited' }, { val: '3', label: 'Redesigned moments' }], href: '/work/squarespace-redesign' },
-  { title: 'People-First Enrollment Redesign', company: 'Via Benefits · WTW', tags: ['UX Research', 'Product Strategy'], desc: 'Dismantled a legacy product-first gate causing cognitive overwhelm and high abandonment — replacing it with an identity-driven enrollment flow that drove a 15% lift in total enrollments and 45% faster time-to-convert.', outcomes: [{ val: '45%', label: 'Faster time-to-convert' }, { val: '15%', label: 'Lift in enrollments' }, { val: '50%', label: 'Reduction in rage clicks' }], href: '/work/people-first' },
-  { title: 'IHE Scheduling Portal', company: 'Signify Health · CVS Health', tags: ['UX Research', 'UX Design'], desc: 'Led mixed-methods research to uncover why members declined free in-home health evaluations — findings that directly informed a trust-first scheduling portal redesign.', outcomes: [{ val: '73 NPS', label: 'Post-visit satisfaction' }, { val: '3.5M+', label: 'Annual IHEs completed' }, { val: '6', label: 'Barrier categories identified' }], href: '/work/ihe-portal' },
+  {
+    title: 'AI Feedback & Insights Agent',
+    company: 'Willis Towers Watson',
+    tags: ['Agentic Workflow Design', 'AI Design'],
+    desc: 'Designed and deployed an agentic AI research pipeline that automated qualitative synthesis — transforming raw user feedback into structured, actionable insights with 95% categorization accuracy and eliminating a full day of manual analysis.',
+    outcomes: [{ val: '95%', label: 'Categorization accuracy' }, { val: '8 hrs → 8 min', label: 'Synthesis time reduction' }],
+    href: '/work/ai-agent',
+  },
+  {
+    title: 'People-First Enrollment Redesign',
+    company: 'Via Benefits · WTW',
+    tags: ['UX Research', 'Product Strategy'],
+    desc: 'Dismantled a legacy product-first gate causing cognitive overwhelm and high abandonment — replacing it with an identity-driven enrollment flow that drove a 15% lift in total enrollments and 45% faster time-to-convert.',
+    outcomes: [{ val: '45%', label: 'Faster time-to-convert' }, { val: '15%', label: 'Lift in enrollments' }, { val: '50%', label: 'Reduction in rage clicks' }],
+    href: '/work/people-first',
+  },
+  {
+    title: 'IHE Scheduling Portal',
+    company: 'Signify Health · CVS Health',
+    tags: ['UX Research', 'UX Design'],
+    desc: 'Led mixed-methods research to uncover why members declined free in-home health evaluations — findings that directly informed a trust-first scheduling portal redesign.',
+    outcomes: [{ val: '73 NPS', label: 'Post-visit satisfaction' }, { val: '3.5M+', label: 'Annual IHEs completed' }, { val: '6', label: 'Barrier categories identified' }],
+    href: '/work/ihe-portal',
+  },
+  {
+    title: 'From Checkboxes to Conversations',
+    company: 'Squarespace · Self-initiated',
+    tags: ['AI Design', 'UX Research', 'Interaction Design'],
+    desc: "Audited Squarespace's Blueprint AI across two user journeys, documented 20 distinct failure modes, and redesigned three key moments — grounded in the principles I use every time I work with AI as a design tool.",
+    outcomes: [{ val: '20', label: 'Failure modes documented' }, { val: '22', label: 'Intents audited' }, { val: '3', label: 'Redesigned moments' }],
+    href: '/work/squarespace-redesign',
+  },
+  {
+    title: 'The Portfolio Is the Product',
+    company: 'Self-initiated',
+    tags: ['Design Technologist', 'AI-Native Workflow', 'Product Thinking'],
+    desc: 'Built a custom Next.js portfolio site from scratch — with a bespoke design system, AI as an execution layer, and product thinking applied to every decision. Under 2 weeks from concept to shipped site.',
+    outcomes: [{ val: '12+', label: 'Pages designed and built' }, { val: '< 2 weeks', label: 'Concept to shipped' }, { val: '90%', label: 'Hosting cost reduction' }],
+    href: '/work/the-portfolio',
+  },
+  {
+    title: 'Honest Design System',
+    company: 'Self-initiated',
+    tags: ['Design Systems', 'Design Technologist'],
+    desc: 'Built a production design system for alikhandesign.com — 19 components, a two-layer token architecture, full Figma-to-code parity, Storybook documentation, and WCAG 2.1 AA throughout.',
+    outcomes: [{ val: '19', label: 'Components' }, { val: 'WCAG 2.1 AA', label: 'Accessibility standard' }, { val: '1:1', label: 'Figma-to-code parity' }],
+    href: '/work/honest-design-system',
+  },
 ]
 
 const projects = [
