@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const CHAT_PASSWORD = '4likh4n'
 const RATE_LIMIT_WINDOW = 60 * 60 // 1 hour in seconds
 const RATE_LIMIT_MAX = 15 // messages per window
 
@@ -28,7 +27,6 @@ async function checkRateLimit(ip: string): Promise<{ allowed: boolean; remaining
     await kv.incr(key)
     return { allowed: true, remaining: RATE_LIMIT_MAX - current - 1 }
   } catch {
-    // If KV fails, allow the request
     return { allowed: true, remaining: RATE_LIMIT_MAX }
   }
 }
@@ -44,21 +42,31 @@ async function logConversation(entry: {
     const kv = await getKV()
     const logKey = `log:${Date.now()}:${Math.random().toString(36).slice(2, 7)}`
     await kv.set(logKey, JSON.stringify(entry), { ex: 60 * 60 * 24 * 90 }) // 90 days
-    // Keep an index of log keys for the admin page
     await kv.lpush('log:index', logKey)
-    await kv.ltrim('log:index', 0, 999) // keep last 1000 entries
+    await kv.ltrim('log:index', 0, 999)
   } catch {
     // Log silently fails — never block the chat
   }
 }
 
+function isAllowedOrigin(origin: string, host: string): boolean {
+  if (!origin && !host) return false
+  const isLocal = host.includes('localhost') || host.includes('127.0.0.1')
+  if (isLocal) return true
+  // Allow any vercel.app preview + production domain
+  const allowed = [
+    'alikhandesign.com',
+    'alikhandesign-com.vercel.app',
+    '.vercel.app',
+  ]
+  return allowed.some(d => origin.includes(d))
+}
+
 export async function POST(req: NextRequest) {
-  // Origin check — only allow requests from our own domain
   const origin = req.headers.get('origin') || ''
   const host = req.headers.get('host') || ''
-  const isLocal = host.includes('localhost') || host.includes('127.0.0.1')
-  const isOwnDomain = origin.includes('alikhandesign.com') || isLocal
-  if (!isOwnDomain) {
+
+  if (!isAllowedOrigin(origin, host)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
@@ -108,7 +116,6 @@ export async function POST(req: NextRequest) {
   const data = await response.json()
   const assistantMessage = data.content?.[0]?.text ?? ''
 
-  // Log the exchange
   const userMessage = messages[messages.length - 1]?.content ?? ''
   await logConversation({
     ip,
@@ -120,10 +127,6 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json(
     { message: assistantMessage, remaining },
-    {
-      headers: {
-        'X-RateLimit-Remaining': String(remaining),
-      },
-    }
+    { headers: { 'X-RateLimit-Remaining': String(remaining) } }
   )
 }
