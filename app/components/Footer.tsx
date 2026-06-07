@@ -16,8 +16,8 @@ export default function Footer() {
         ))}
         <Link
           href="/chat"
-          className="btn-primary"
-          style={{ fontSize: 'var(--text-xs)', padding: '0.5rem 1rem', letterSpacing: '0.04em' }}
+          className="footer-link"
+          style={{ fontSize: 'var(--text-base)', color: 'var(--accent)', textDecoration: 'none', fontWeight: 500, transition: 'color 0.15s' }}
         >
           Chat with Ali →
         </Link>
