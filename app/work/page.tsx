@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import SectionLabel from '../components/SectionLabel'
 import CaseStudyCard from '../components/CaseStudyCard'
 import FeaturedProjectCard from '../components/FeaturedProjectCard'
@@ -105,8 +106,18 @@ export default function WorkPage() {
         <header className="page-header">
           <SectionLabel label="Portfolio" />
           <h1 className="font-serif page-title-lg" style={{ fontSize: 'var(--text-5xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.75rem' }}>My Work</h1>
-          <p style={{ fontSize: 'var(--text-md)', color: 'var(--text-muted)', lineHeight: 1.6, maxWidth: 580, marginBottom: '1.5rem' }}>10+ years of product design and UX research — from AI-native research pipelines to zero-to-one product ecosystems.</p>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--text-muted)', lineHeight: 1.6, maxWidth: 580, marginBottom: '0.75rem' }}>10+ years of product design and UX research — from AI-native research pipelines to zero-to-one product ecosystems.</p>
 
+          {/* Chat callout */}
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+            Have questions about the work?{' '}
+            <Link href="/chat" style={{ color: 'var(--text)', textDecoration: 'underline', textUnderlineOffset: 3, fontWeight: 500 }}>
+              Start a conversation with the portfolio assistant.
+            </Link>
+            {' →'}
+          </p>
+
+          {/* Filter tabs */}
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             <button onClick={() => setFilter('all')} style={filter === 'all' ? activeStyle : filterStyles} aria-pressed={filter === 'all'}>
               All
