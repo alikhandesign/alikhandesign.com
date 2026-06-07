@@ -1,12 +1,16 @@
 'use client'
-import { useState, CSSProperties } from 'react'
+import { useState } from 'react'
 import PatternShell from '../PatternShell'
+import PatternAnnotation from '../../components/PatternAnnotation'
+import Button from '../../components/Button'
 
 const TABS = [
   { id: 'definition', label: 'Pattern definition' },
   { id: 'demo',       label: 'Interactive demo' },
   { id: 'states',     label: 'All states' },
 ]
+
+const ANNOTATION = 'Perplexity cites 94% of responses with 8.2 sources on average — highest in the audit. ChatGPT and Claude cite inconsistently: sometimes attributing, sometimes presenting identical claim types with no source. Inconsistent citation is a worse trust signal than no citation — users cannot build a reliable mental model of when to verify. The citation quality risk identified was absent attribution, not false attribution.'
 
 interface Source { id: number; label: string; domain: string; date: string; match: 'Exact' | 'Synthesized'; excerpt: string }
 
@@ -17,85 +21,42 @@ const SOURCES: Source[] = [
 ]
 
 export default function SourceAttributionPage() {
-  const [activeTab, setActiveTab]     = useState('definition')
-  const [openSource, setOpenSource]   = useState<number | null>(null)
-  const [hoveredRef, setHoveredRef]   = useState<number | null>(null)
-
-  const toggleSource = (id: number) => setOpenSource(prev => prev === id ? null : id)
+  const [activeTab, setActiveTab]   = useState('definition')
+  const [openSource, setOpenSource] = useState<number | null>(null)
+  const [hoveredRef, setHoveredRef] = useState<number | null>(null)
   const activeSourceData = SOURCES.find(s => s.id === openSource) ?? null
 
   const citationBadge = (id: number) => (
     <button
-      onClick={() => toggleSource(id)}
+      onClick={() => setOpenSource(prev => prev === id ? null : id)}
       onMouseEnter={() => setHoveredRef(id)}
       onMouseLeave={() => setHoveredRef(null)}
       aria-label={`Open source ${id}`}
       style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 20,
-        height: 20,
-        borderRadius: '50%',
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        width: 20, height: 20, borderRadius: '50%',
         background: openSource === id ? 'var(--accent)' : hoveredRef === id ? 'var(--accent-dark)' : '#1D4ED8',
-        color: '#fff',
-        fontSize: 11,
-        fontWeight: 'var(--font-weight-semibold)',
-        border: 'none',
-        cursor: 'pointer',
-        marginLeft: 3,
-        marginRight: 1,
-        verticalAlign: 'middle',
+        color: '#fff', fontSize: 11, fontWeight: 700,
+        border: 'none', cursor: 'pointer',
+        marginLeft: 3, marginRight: 1, verticalAlign: 'middle',
         transition: 'background var(--transition-base)',
-        fontFamily: 'var(--font-sans)',
-        flexShrink: 0,
+        fontFamily: 'var(--font-sans)', flexShrink: 0,
       }}
-    >
-      {id}
-    </button>
+    >{id}</button>
   )
 
   const uncitedMarker = (
-    <span
-      title="No source available — claim drawn from parametric memory"
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 18,
-        height: 18,
-        borderRadius: '50%',
-        background: 'var(--warm-75)',
-        border: '1px solid var(--border-mid)',
-        fontSize: 10,
-        color: 'var(--text-muted)',
-        cursor: 'help',
-        marginLeft: 3,
-        verticalAlign: 'middle',
-        fontFamily: 'var(--font-sans)',
-      }}
-    >
-      !
-    </span>
-  )
-
-  const auditNote = (
-    <div style={{ marginTop: 'var(--space-4)', padding: 'var(--space-3) var(--space-4)', background: 'var(--warm-75)', borderLeft: '3px solid var(--accent)', borderRadius: '0 var(--radius) var(--radius) 0' }}>
-      <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-normal)' }}>
-        <strong style={{ color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: 'var(--letter-spacing-md)', fontSize: 'var(--text-xs)' }}>Why this matters —</strong>{' '}
-        Perplexity cites 94% of responses with 8.2 sources on average — highest in the audit. ChatGPT and Claude cite inconsistently: sometimes attributing, sometimes presenting identical claim types with no source. Inconsistent citation is a worse trust signal than no citation — users cannot build a reliable mental model of when to verify.
-      </p>
-    </div>
+    <span title="No source available — claim drawn from parametric memory"
+      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 18, height: 18, borderRadius: '50%', background: 'var(--warm-75)', border: '1px solid var(--border-mid)', fontSize: 10, color: 'var(--text-muted)', cursor: 'help', marginLeft: 3, verticalAlign: 'middle' }}>!</span>
   )
 
   const demo = (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+      <PatternAnnotation finding={ANNOTATION} />
       <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-normal)' }}>
-        Click any numbered citation to open the Source Inspector panel. The <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 18, height: 18, borderRadius: '50%', background: 'var(--warm-75)', border: '1px solid var(--border-mid)', fontSize: 10, color: 'var(--text-muted)', verticalAlign: 'middle' }}>!</span> marker indicates a claim with no external source.
+        Click any numbered citation to open the Source Inspector. The <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 18, height: 18, borderRadius: '50%', background: 'var(--warm-75)', border: '1px solid var(--border-mid)', fontSize: 10, color: 'var(--text-muted)', verticalAlign: 'middle' }}>!</span> marker indicates a claim with no external source.
       </p>
-
       <div style={{ display: 'grid', gridTemplateColumns: openSource ? '1fr 260px' : '1fr', gap: 0, border: '1px solid var(--border)', borderRadius: 'var(--radius)', overflow: 'hidden', transition: 'grid-template-columns 0.25s ease' }}>
-        {/* Response pane */}
         <div style={{ padding: 'var(--space-6)', borderRight: openSource ? '1px solid var(--border)' : 'none' }}>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--text)', lineHeight: 2 }}>
             According to recent filings, the company reported $4.2B in Q1 revenue{citationBadge(1)} and expanded operations into Europe{citationBadge(2)}.
@@ -103,31 +64,14 @@ export default function SourceAttributionPage() {
             {' '}Logistics costs increased significantly over the same period{uncitedMarker} — the largest year-over-year increase in five years.
           </p>
         </div>
-
-        {/* Source Inspector panel */}
         {openSource && activeSourceData && (
           <div style={{ background: 'var(--warm-75)', padding: 'var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', fontWeight: 'var(--font-weight-medium)' }}>Source inspector</p>
               <button onClick={() => setOpenSource(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', fontSize: 16, lineHeight: 1, padding: 0 }} aria-label="Close source inspector">×</button>
             </div>
-
             {SOURCES.map(s => (
-              <button
-                key={s.id}
-                onClick={() => setOpenSource(s.id)}
-                style={{
-                  padding: 'var(--space-3)',
-                  borderRadius: 'var(--radius)',
-                  border: `1px solid ${s.id === openSource ? 'var(--accent)' : 'var(--border)'}`,
-                  background: s.id === openSource ? 'var(--accent-bg)' : 'var(--surface)',
-                  textAlign: 'left',
-                  cursor: 'pointer',
-                  fontFamily: 'var(--font-sans)',
-                  transition: 'all var(--transition-base)',
-                  width: '100%',
-                }}
-              >
+              <button key={s.id} onClick={() => setOpenSource(s.id)} style={{ padding: 'var(--space-3)', borderRadius: 'var(--radius)', border: `1px solid ${s.id === openSource ? 'var(--accent)' : 'var(--border)'}`, background: s.id === openSource ? 'var(--accent-bg)' : 'var(--surface)', textAlign: 'left', cursor: 'pointer', fontFamily: 'var(--font-sans)', transition: 'all var(--transition-base)', width: '100%' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
                   <span style={{ width: 18, height: 18, borderRadius: '50%', background: s.id === openSource ? 'var(--accent)' : '#1D4ED8', color: '#fff', fontSize: 10, fontWeight: 700, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{s.id}</span>
                   <span style={{ fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--text)' }}>{s.label}</span>
@@ -139,19 +83,13 @@ export default function SourceAttributionPage() {
                 </div>
               </button>
             ))}
-
-            {/* Excerpt for active source */}
             <div style={{ padding: 'var(--space-3)', background: 'var(--surface)', borderRadius: 'var(--radius)', border: '1px solid var(--border)' }}>
               <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', fontWeight: 'var(--font-weight-medium)', marginBottom: 'var(--space-2)' }}>Relevant excerpt</p>
-              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text)', lineHeight: 'var(--line-height-normal)', fontStyle: 'italic' }}>
-                &ldquo;{activeSourceData.excerpt}&rdquo;
-              </p>
+              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text)', lineHeight: 'var(--line-height-normal)', fontStyle: 'italic' }}>&ldquo;{activeSourceData.excerpt}&rdquo;</p>
             </div>
           </div>
         )}
       </div>
-
-      {auditNote}
     </div>
   )
 
@@ -160,7 +98,7 @@ export default function SourceAttributionPage() {
       {[
         { label: 'Cited — exact match', color: '#15803D', bg: '#F0FDF4', border: '#BBF7D0', desc: 'Claim directly supported by a specific passage in the cited source.' },
         { label: 'Cited — synthesized', color: '#B45309', bg: '#FFFBEB', border: '#FDE68A', desc: 'Claim derived from multiple sources or paraphrased. Source still indicated.' },
-        { label: 'Uncited [!]', color: 'var(--text-muted)', bg: 'var(--warm-75)', border: 'var(--border)', desc: 'No external source available. Drawn from parametric memory. Marked explicitly so absence is a deliberate signal, not a gap.' },
+        { label: 'Uncited [!]', color: 'var(--text-muted)', bg: 'var(--warm-75)', border: 'var(--border)', desc: 'No external source available. Drawn from parametric memory. Absence is a deliberate signal, not an interface gap.' },
       ].map(item => (
         <div key={item.label} style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-4)', padding: 'var(--space-4)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)' }}>
           <span style={{ display: 'inline-flex', padding: '3px 10px', borderRadius: 'var(--radius)', background: item.bg, border: `1px solid ${item.border}`, fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-semibold)', color: item.color, whiteSpace: 'nowrap' }}>{item.label}</span>
@@ -173,15 +111,10 @@ export default function SourceAttributionPage() {
   const definition = <Definition />
 
   return (
-    <PatternShell
-      title="Source & Attribution"
-      slug="source-attribution"
+    <PatternShell title="Source & Attribution" slug="source-attribution"
       problem="Citation behavior is inconsistent across all products audited. Inconsistent citation is a worse trust signal than no citation — users cannot build a reliable mental model of when to verify."
-      activeTab={activeTab}
-      onTabChange={setActiveTab}
-      tabs={TABS}
-      mobileContent={{ definition, demo, states }}
-    >
+      activeTab={activeTab} onTabChange={setActiveTab} tabs={TABS}
+      mobileContent={{ definition, demo, states }}>
       {activeTab === 'definition' && definition}
       {activeTab === 'demo' && demo}
       {activeTab === 'states' && states}
@@ -194,9 +127,9 @@ function Definition() {
     <div style={{ maxWidth: 680, display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
       {[
         { label: 'Problem', text: 'Citations exist to give users the information they need to verify claims independently. Inconsistent citation behavior — sometimes citing, sometimes not, for claims of equivalent credibility — is a more serious trust problem than no citation at all. It teaches users the presence of a citation is not a reliable signal.' },
-        { label: 'Prescription', text: 'Four requirements: consistency (cite all comparable claims or none), inline connection (each citation badge links a specific claim to a specific source), accessibility (source content visible in panel without leaving the interface), and resolution (citations go to specific excerpts, not homepages). The Source Inspector slides in on citation click.' },
+        { label: 'Prescription', text: 'Four requirements: consistency (cite all comparable claims or none), inline connection (each citation badge links a specific claim to a specific source), accessibility (source content visible in panel without leaving the interface), and resolution (citations go to specific excerpts, not homepages). Source Inspector slides in on citation click.' },
         { label: 'Design decisions', text: 'Inline numbered badges over superscripts — more accessible, more visible, harder to miss. Click-to-open vs. always-visible panel — on-demand reduces clutter for casual reading while preserving full verifiability. Source cards show excerpt, credibility signals, and match type without requiring a click-through.' },
-        { label: 'Tradeoffs', text: 'Consistent citation increases response length and visual complexity. The Source Inspector panel takes horizontal space — more appropriate for research-oriented contexts than casual conversation. Inline badges interrupt reading flow slightly more than superscripts, trading readability for accessibility.' },
+        { label: 'Tradeoffs', text: 'Consistent citation increases response length and visual complexity. The Source Inspector panel takes horizontal space — most appropriate for research-oriented contexts. Inline badges interrupt reading flow slightly more than superscripts, trading readability for accessibility.' },
       ].map(item => (
         <div key={item.label}>
           <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>{item.label}</p>
