@@ -1,7 +1,6 @@
 'use client'
 import { useState, CSSProperties } from 'react'
 import PatternShell from '../PatternShell'
-import Tag from '../../components/Tag'
 
 const TABS = [
   { id: 'definition', label: 'Pattern definition' },
@@ -9,147 +8,157 @@ const TABS = [
   { id: 'states', label: 'All states' },
 ]
 
-const NAV = {
-  prev: { slug: 'limitation-handling', title: 'Limitation Handling' },
-  next: { slug: 'error-states', title: 'Error States' },
-}
+type DemoState = 'idle' | 'intercepting' | 'refined'
+type ClarificationType = 'tone' | 'accuracy' | 'format' | 'rephrase'
 
-const CLARIFICATION_OPTIONS = [
-  { id: 'tone', label: 'Change the tone' },
-  { id: 'accuracy', label: 'Fix a factual error' },
-  { id: 'format', label: 'Alter the formatting' },
-  { id: 'rephrase', label: 'Rephrase a specific section' },
+const CLARIFICATION_OPTIONS: Array<{ id: ClarificationType; label: string; icon: string }> = [
+  { id: 'tone',     label: 'Change the tone',      icon: '🎨' },
+  { id: 'accuracy', label: 'Fix fact or accuracy',  icon: '🎯' },
+  { id: 'format',   label: 'Alter the formatting',  icon: '📋' },
+  { id: 'rephrase', label: 'Rephrase highlighted',  icon: '✍️' },
 ]
 
-const RESPONSE_V1 = "The Participant Listening Agent achieved 95% categorization accuracy, validated through a double-blind methodology. The system reduced research synthesis time from 8 hours to under 8 minutes — returning approximately 20% of the research team's weekly capacity to higher-value work."
+const REFINED_RESPONSES: Record<ClarificationType, string> = {
+  tone:     "The mitochondria is a critical organelle responsible for cellular energy production through oxidative phosphorylation. This process generates ATP, the primary energy currency of the cell, enabling essential biological functions.",
+  accuracy: "The mitochondria is the primary site of cellular respiration. Through a process called oxidative phosphorylation, it generates the majority of a cell's ATP supply — roughly 30–32 molecules per glucose molecule under aerobic conditions.",
+  format:   "The mitochondria generates cellular energy.
 
-const RESPONSE_V2 = "Using a double-blind validation methodology, the Participant Listening Agent reached 95% categorization accuracy. Research synthesis dropped from a full day to under 8 minutes. That efficiency gain returned roughly 20% of the team's weekly capacity — time now spent on analysis rather than data processing."
-
-type DemoState = 'initial' | 'vague-input' | 'intercepted' | 'refined' | 'v2'
+• Primary function: ATP synthesis
+• Process: Oxidative phosphorylation
+• Location: Inner mitochondrial membrane
+• Common name: 'Powerhouse of the cell'",
+  rephrase: "Often described as the cell's powerhouse, the mitochondria converts nutrients into usable energy through a series of chemical reactions, producing the ATP molecules that fuel virtually every cellular process.",
+}
 
 export default function CorrectionRefinementPage() {
   const [activeTab, setActiveTab] = useState('definition')
-  const [demoState, setDemoState] = useState<DemoState>('initial')
+  const [demoState, setDemoState] = useState<DemoState>('idle')
+  const [selectedClarification, setSelectedClarification] = useState<ClarificationType | null>(null)
+  const [versionIndex, setVersionIndex] = useState(0)
   const [inputValue, setInputValue] = useState('')
-  const [selectedOption, setSelectedOption] = useState<string | null>(null)
-  const [activeVersion, setActiveVersion] = useState<1|2>(1)
 
-  const handleSend = () => {
-    const vague = ['fix it','redo','try again','not right','wrong','change it','no','nope'].some(v => inputValue.toLowerCase().includes(v)) || inputValue.trim().split(' ').length <= 3
-    if (vague) {
-      setDemoState('intercepted')
-    } else {
-      setDemoState('refined')
+  const ORIGINAL = "The mitochondria is the powerhouse of the cell. It makes energy for the cell to use."
+
+  const handleVagueInput = () => {
+    const vague = ['fix it', 'redo', 'try again', 'not right', 'wrong', 'bad', 'no']
+    const isVague = vague.some(v => inputValue.toLowerCase().includes(v)) || inputValue.split(' ').length <= 3
+    if (isVague) {
+      setDemoState('intercepting')
+      setSelectedClarification(null)
     }
     setInputValue('')
   }
 
-  const handleOptionSelect = (id: string) => {
-    setSelectedOption(id)
-    setTimeout(() => {
-      setDemoState('v2')
-      setActiveVersion(2)
-    }, 600)
+  const handleClarification = (type: ClarificationType) => {
+    setSelectedClarification(type)
+    setDemoState('refined')
+    setVersionIndex(v => v + 1)
   }
 
-  const reset = () => {
-    setDemoState('initial')
-    setInputValue('')
-    setSelectedOption(null)
-    setActiveVersion(1)
-  }
+  const reset = () => { setDemoState('idle'); setSelectedClarification(null); setVersionIndex(0); setInputValue('') }
+
+  const definition = <Definition />
+  const demo = (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+      <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)', overflow: 'hidden' }}>
+        {/* Original response with version indicator */}
+        <div style={{ padding: 'var(--space-3) var(--space-4)', borderBottom: '1px solid var(--border)', background: 'var(--warm-75)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)' }}>AI response</span>
+          {versionIndex > 0 && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+              <button onClick={() => setVersionIndex(v => Math.max(0, v - 1))} disabled={versionIndex === 0} style={{ ...btn('var(--text-muted)','transparent','transparent'), padding: '2px var(--space-2)', opacity: versionIndex === 0 ? 0.3 : 1 }}>‹</button>
+              <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>v{versionIndex + 1}</span>
+              <button onClick={() => {}} disabled style={{ ...btn('var(--text-muted)','transparent','transparent'), padding: '2px var(--space-2)', opacity: 0.3 }}>›</button>
+            </div>
+          )}
+        </div>
+
+        <div style={{ padding: 'var(--space-6)' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--text)', lineHeight: 'var(--line-height-loose)', whiteSpace: 'pre-line' }}>
+            {demoState === 'refined' && selectedClarification ? REFINED_RESPONSES[selectedClarification] : ORIGINAL}
+          </p>
+        </div>
+
+        {/* Clarification interceptor */}
+        {demoState === 'intercepting' && (
+          <div style={{ borderTop: '1px solid var(--border)', padding: 'var(--space-5)', background: 'var(--warm-75)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
+              <span style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)' }}>Resolving vague input</span>
+            </div>
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', marginBottom: 'var(--space-4)', lineHeight: 'var(--line-height-normal)' }}>
+              What specifically should change?
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-3)' }}>
+              {CLARIFICATION_OPTIONS.map(opt => (
+                <button key={opt.id} onClick={() => handleClarification(opt.id)} style={{
+                  padding: 'var(--space-3) var(--space-4)',
+                  background: 'var(--surface)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 'var(--radius)',
+                  cursor: 'pointer',
+                  fontSize: 'var(--text-sm)',
+                  color: 'var(--text)',
+                  fontFamily: 'var(--font-sans)',
+                  textAlign: 'left',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 'var(--space-2)',
+                  transition: 'border-color var(--transition-base)',
+                }}>
+                  <span>{opt.icon}</span>
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Input area */}
+        <div style={{ borderTop: '1px solid var(--border)', padding: 'var(--space-3) var(--space-4)', display: 'flex', gap: 'var(--space-3)', alignItems: 'center' }}>
+          <input
+            value={inputValue}
+            onChange={e => setInputValue(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter' && inputValue.trim()) handleVagueInput() }}
+            placeholder='Try typing "fix it" or "not quite right" and pressing Enter'
+            style={{ flex: 1, padding: 'var(--space-2) var(--space-3)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', fontSize: 'var(--text-sm)', fontFamily: 'var(--font-sans)', background: 'var(--surface)', color: 'var(--text)', outline: 'none' }}
+          />
+          <button onClick={reset} style={btn('var(--text-muted)','var(--warm-75)','var(--border)')}>Reset</button>
+        </div>
+      </div>
+      <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)', lineHeight: 'var(--line-height-normal)' }}>
+        Type a vague correction ("fix it", "not right", "redo") and press Enter to trigger the Clarification Interceptor. Selecting a clarification type produces a targeted refinement and increments the version counter.
+      </p>
+    </div>
+  )
+  const states = (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+      {[
+        { label: 'Clarification interceptor', desc: 'Triggered by vague correction input (≤3 words, or known vague phrases). Presents structured options before generating.' },
+        { label: 'Version navigation', desc: 'Arrow controls with version count. User can return to any prior version. Appears after first refinement.' },
+        { label: 'Block-level fork', desc: 'Advanced: individual paragraphs fork independently. The rest of the response remains unchanged. (Enhancement, not minimum viable.)' },
+        { label: 'Inline selection', desc: 'Highlighted text surfaces a micro-menu: Refine Selected or Flag Error. Submits the specific string to the next generation turn.' },
+      ].map(item => (
+        <div key={item.label} style={{ padding: 'var(--space-4)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)' }}>
+          <p style={{ fontSize: 'var(--text-sm)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--text)', marginBottom: 'var(--space-2)' }}>{item.label}</p>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-normal)' }}>{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  )
 
   return (
     <PatternShell
       title="Correction & Refinement"
-      patternName="Correction & Refinement"
-      problem="Vague corrections trigger blind regeneration across every product audited. No product prompts for clarification before rewriting, meaning a user who says 'fix it' gets a new response that may preserve the exact problem they wanted fixed."
+      slug="correction-refinement"
+      problem="Vague corrections trigger blind regeneration. No product in the audit prompts for clarification before rewriting — producing a new output that may preserve the exact problem the user was trying to fix."
       activeTab={activeTab}
       onTabChange={setActiveTab}
       tabs={TABS}
-      nav={NAV}
+      mobileContent={{ definition, demo, states }}
     >
-      {activeTab === 'definition' && <Definition />}
-
-      {activeTab === 'demo' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
-          <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)', overflow: 'hidden' }}>
-            {/* Response area */}
-            <div style={{ padding: 'var(--space-6)', borderBottom: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-              {/* Version tabs */}
-              <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center' }}>
-                <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)', marginRight: 'var(--space-2)' }}>Version</span>
-                {([1,2] as const).map(v => (
-                  <button key={v} onClick={() => v <= (demoState === 'v2' ? 2 : 1) && setActiveVersion(v)} style={{ padding: '2px 10px', fontSize: 'var(--text-xs)', fontWeight: activeVersion === v ? 'var(--font-weight-semibold)' : 'var(--font-weight-regular)', color: activeVersion === v ? 'var(--accent)' : demoState !== 'v2' && v === 2 ? 'var(--text-faint)' : 'var(--text-muted)', background: activeVersion === v ? 'var(--accent-bg)' : 'var(--warm-75)', border: `1px solid ${activeVersion === v ? '#FECACA' : 'var(--border)'}`, borderRadius: 'var(--radius)', cursor: demoState !== 'v2' && v === 2 ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-sans)', opacity: demoState !== 'v2' && v === 2 ? 0.4 : 1 }}>
-                    v{v}
-                  </button>
-                ))}
-              </div>
-
-              <p style={{ fontSize: 'var(--text-base)', color: 'var(--text)', lineHeight: 'var(--line-height-loose)' }}>
-                {activeVersion === 1 ? RESPONSE_V1 : RESPONSE_V2}
-              </p>
-            </div>
-
-            {/* Clarification interceptor */}
-            {demoState === 'intercepted' && (
-              <div style={{ padding: 'var(--space-5)', background: 'var(--warm-75)', borderBottom: '1px solid var(--border)' }}>
-                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text)', fontWeight: 'var(--font-weight-medium)', marginBottom: 'var(--space-3)' }}>
-                  What specifically should change?
-                </p>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-2)' }}>
-                  {CLARIFICATION_OPTIONS.map(opt => (
-                    <button key={opt.id} onClick={() => handleOptionSelect(opt.id)} style={{ padding: 'var(--space-3)', fontSize: 'var(--text-sm)', color: selectedOption === opt.id ? 'var(--accent)' : 'var(--text)', background: selectedOption === opt.id ? 'var(--accent-bg)' : 'var(--surface)', border: `1px solid ${selectedOption === opt.id ? '#FECACA' : 'var(--border)'}`, borderRadius: 'var(--radius)', cursor: 'pointer', fontFamily: 'var(--font-sans)', textAlign: 'left', transition: 'all var(--transition-base)' }}>
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)', marginTop: 'var(--space-3)' }}>Or type specific details in the input below.</p>
-              </div>
-            )}
-
-            {demoState === 'v2' && (
-              <div style={{ padding: 'var(--space-3) var(--space-5)', background: '#F0FDF4', borderBottom: '1px solid #BBF7D0' }}>
-                <p style={{ fontSize: 'var(--text-xs)', color: '#15803D' }}>Refined based on: {CLARIFICATION_OPTIONS.find(o => o.id === selectedOption)?.label}. v1 preserved — use version controls above to compare.</p>
-              </div>
-            )}
-
-            {/* Input */}
-            <div style={{ padding: 'var(--space-4)', display: 'flex', gap: 'var(--space-3)', alignItems: 'center' }}>
-              <input
-                value={inputValue}
-                onChange={e => setInputValue(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && inputValue.trim() && handleSend()}
-                placeholder={demoState === 'intercepted' ? 'Or describe what to change...' : 'Try "fix it" or "redo this" to trigger the interceptor...'}
-                style={{ flex: 1, padding: 'var(--space-3)', fontSize: 'var(--text-sm)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', fontFamily: 'var(--font-sans)', background: 'var(--surface)', color: 'var(--text)', outline: 'none' }}
-              />
-              {inputValue.trim() && <button onClick={handleSend} style={{ ...btn('var(--bg)', 'var(--accent)', 'var(--accent-dark)'), color: 'var(--bg)' }}>Send</button>}
-              {demoState !== 'initial' && <button onClick={reset} style={btn('var(--text-muted)', 'var(--warm-75)', 'var(--border)')}>Reset</button>}
-            </div>
-          </div>
-
-          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)', lineHeight: 'var(--line-height-normal)' }}>
-            Type a vague correction ("fix it", "redo", "not right") to trigger the Clarification Interceptor. Select an option to see the refined response. Both versions remain accessible via the version controls.
-          </p>
-        </div>
-      )}
-
-      {activeTab === 'states' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
-          {[
-            { label: 'Clarification interceptor', desc: 'Triggered on vague corrections (under 4 words, or containing "fix", "redo", "try again"). Halts regeneration and surfaces structured options. Skippable for power users.' },
-            { label: 'Version navigation', desc: 'All prior response versions preserved and navigable. Arrow controls or version tabs allow comparison without resubmitting the prompt.' },
-            { label: 'Block-level versioning', desc: 'Individual paragraphs fork independently on targeted correction. Only the corrected block updates — surrounding content preserved. Enhancement on top of response-level versioning.' },
-            { label: 'Inline selection', desc: 'User highlights a specific sentence or phrase. A micro-menu appears: Refine selected text / Flag error. Enables surgical correction without rewriting the full response.' },
-            { label: 'Structured feedback', desc: 'Thumbs-down opens a modal with categorized options: Inaccurate, Too long, Off-topic, Wrong format. Provides model improvement signal and gives users language for their dissatisfaction.' },
-          ].map(item => (
-            <div key={item.label} style={{ padding:'var(--space-4)',border:'1px solid var(--border)',borderRadius:'var(--radius)',background:'var(--surface)',display:'flex',flexDirection:'column',gap:'var(--space-2)' }}>
-              <p style={{ fontSize:'var(--text-sm)',fontWeight:'var(--font-weight-semibold)',color:'var(--text)' }}>{item.label}</p>
-              <p style={{ fontSize:'var(--text-sm)',color:'var(--text-muted)',lineHeight:'var(--line-height-normal)' }}>{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      )}
+      {activeTab === 'definition' && definition}
+      {activeTab === 'demo' && demo}
+      {activeTab === 'states' && states}
     </PatternShell>
   )
 }
@@ -158,10 +167,10 @@ function Definition() {
   return (
     <div style={{ maxWidth: 680, display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
       {[
-        { label: 'Problem', text: 'AI output is rarely perfect on the first attempt. The interface must support iteration — a reliable, low-friction path from an unsatisfactory response toward a better one. The audit found two consistent gaps: vague corrections trigger blind regeneration that may preserve the exact problem the user wanted fixed, and no product prompts for clarification before rewriting.' },
-        { label: 'Prescription', text: 'All prior response versions must be preserved and navigable. When a correction signal is non-specific, the interface should prompt for clarification before regenerating. Users should be able to indicate what specifically was wrong — not just that the response was wrong. The correction flow should feel like a continuation of the conversation, not a restart.' },
-        { label: 'Design decisions', text: 'When to prompt vs regenerate immediately: clarification adds a step that power users experience as friction. The interceptor must be skippable. Version navigation UI: arrow-based with version count is the established convention. Feedback specificity: a thumbs-down button collects signal but no information — structured categories collect more useful data for model improvement.' },
-        { label: 'Tradeoffs', text: 'Clarification prompts add a round-trip before the user gets a new response. In low-stakes contexts this friction is unwelcome. Preserved response history increases interface complexity and storage requirements. Structured feedback modals interrupt conversation flow — the mechanism should be accessible without being mandatory for users who prefer to move on.' },
+        { label: 'Problem', text: 'AI output is rarely perfect on the first attempt. When users express general dissatisfaction, every product audited responds with blind regeneration — producing a new output without asking what specifically was wrong. The result is regeneration that may preserve the exact structural or tonal problem the user was trying to fix.' },
+        { label: 'Prescription', text: 'Three requirements: preserved history (all prior versions accessible, navigable), clarification on vague correction (the interface prompts before regenerating when the correction signal is non-specific), and granular feedback mechanisms (structured options that give users language for their dissatisfaction).' },
+        { label: 'Design decisions', text: 'When to prompt for clarification vs. regenerate immediately. Version navigation UI — how many versions to retain, whether versions are labeled. Feedback specificity — structured modal vs. thumbs-down. Whether to support partial correction targeting (selected text).' },
+        { label: 'Tradeoffs', text: 'Clarification prompts add a round-trip before the user gets a new response. In low-stakes contexts this feels like friction. Preserved response history increases interface complexity. Structured feedback modals interrupt conversation flow for users who prefer to rephrase and try again immediately.' },
       ].map(item => (
         <div key={item.label}>
           <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>{item.label}</p>
@@ -173,5 +182,5 @@ function Definition() {
 }
 
 function btn(color: string, bg: string, border: string): CSSProperties {
-  return { padding:'var(--space-2) var(--space-4)',fontSize:'var(--text-sm)',fontWeight:'var(--font-weight-medium)',color,background:bg,border:`1px solid ${border}`,borderRadius:'var(--radius)',cursor:'pointer',fontFamily:'var(--font-sans)',transition:'opacity var(--transition-base)' }
+  return { padding: 'var(--space-2) var(--space-4)', fontSize: 'var(--text-sm)', fontWeight: 'var(--font-weight-medium)', color, background: bg, border: `1px solid ${border}`, borderRadius: 'var(--radius)', cursor: 'pointer', fontFamily: 'var(--font-sans)', transition: 'opacity var(--transition-base)' }
 }
