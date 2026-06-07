@@ -3,12 +3,12 @@ import Link from 'next/link'
 import { ReactNode } from 'react'
 
 const PATTERN_ORDER = [
-  { slug: 'generation-states',          title: 'Generation States' },
-  { slug: 'uncertainty-communication',  title: 'Uncertainty Communication' },
-  { slug: 'source-attribution',         title: 'Source & Attribution' },
-  { slug: 'limitation-handling',        title: 'Limitation Handling' },
-  { slug: 'correction-refinement',      title: 'Correction & Refinement' },
-  { slug: 'error-states',               title: 'Error States' },
+  { slug: 'generation-states',         title: 'Generation States' },
+  { slug: 'uncertainty-communication', title: 'Uncertainty Communication' },
+  { slug: 'source-attribution',        title: 'Source & Attribution' },
+  { slug: 'limitation-handling',       title: 'Limitation Handling' },
+  { slug: 'correction-refinement',     title: 'Correction & Refinement' },
+  { slug: 'error-states',              title: 'Error States' },
 ]
 
 interface Tab { id: string; label: string }
@@ -21,14 +21,13 @@ interface PatternShellProps {
   onTabChange: (id: string) => void
   tabs: Tab[]
   children: ReactNode
-  /** Pass each tab's content keyed by tab id for mobile stacked layout */
   mobileContent?: Record<string, ReactNode>
 }
 
 export default function PatternShell({
   title, slug, problem, activeTab, onTabChange, tabs, children, mobileContent
 }: PatternShellProps) {
-  const idx = PATTERN_ORDER.findIndex(p => p.slug === slug)
+  const idx  = PATTERN_ORDER.findIndex(p => p.slug === slug)
   const prev = PATTERN_ORDER[(idx - 1 + PATTERN_ORDER.length) % PATTERN_ORDER.length]
   const next = PATTERN_ORDER[(idx + 1) % PATTERN_ORDER.length]
 
@@ -36,13 +35,17 @@ export default function PatternShell({
     <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
       {/* Header */}
       <div className="page-header">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', marginBottom: 'var(--space-3)' }}>
-          <Link href="/patterns" style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', textDecoration: 'none', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', fontWeight: 'var(--font-weight-medium)' }}>
-            ← Pattern Library
+        {/* Breadcrumb — matches work page pattern exactly */}
+        <nav style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-4)', flexWrap: 'wrap' }}>
+          <Link href="/patterns" style={{ fontSize: 14, color: 'var(--text-muted)', textDecoration: 'none' }}>
+            Pattern Library
           </Link>
-          <span style={{ color: 'var(--border-mid)' }}>/</span>
-          <span className="eyebrow">{title}</span>
-        </div>
+          <span style={{ fontSize: 14, color: '#C4BDB7' }} aria-hidden="true">›</span>
+          <span style={{ fontSize: 14, color: 'var(--text)', fontWeight: 500 }} aria-current="page">
+            {title}
+          </span>
+        </nav>
+
         <h1 className="font-serif" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400, lineHeight: 'var(--line-height-tight)', marginBottom: 'var(--space-4)', color: 'var(--text)' }}>
           {title}
         </h1>
@@ -51,7 +54,7 @@ export default function PatternShell({
         </p>
       </div>
 
-      {/* Desktop: tab nav + content */}
+      {/* Desktop: tab nav + tabbed content */}
       <div className="pattern-desktop-only">
         <div style={{ borderBottom: '1px solid var(--border)', padding: '0 var(--space-12)', display: 'flex', gap: 0 }}>
           {tabs.map(tab => (
@@ -93,7 +96,7 @@ export default function PatternShell({
         }
       </div>
 
-      {/* Prev / Next navigation */}
+      {/* Prev / Next — matches next-project strip */}
       <div className="next-project" style={{ borderTop: '1px solid var(--border)', marginTop: 0 }}>
         <Link href={`/patterns/${prev.slug}`} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
           <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' }}>← Previous</span>
@@ -109,7 +112,7 @@ export default function PatternShell({
         .pattern-mobile-only { display: none; }
         @media (max-width: 768px) {
           .pattern-desktop-only { display: none; }
-          .pattern-mobile-only { display: block; }
+          .pattern-mobile-only  { display: block; }
         }
       `}</style>
     </div>
