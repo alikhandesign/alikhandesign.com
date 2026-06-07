@@ -131,7 +131,7 @@ export default function ChatPage() {
         </nav>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
           <div>
-            <p className="eyebrow" style={{ marginBottom: '0.5rem' }}>Portfolio Assistant</p>
+            <p className="eyebrow">Portfolio Assistant</p>
             <h1 className="font-serif" style={{ fontSize: 'var(--text-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>Ask Ali anything.</h1>
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 1.6, maxWidth: 520 }}>
               An AI assistant that knows Ali's work, background, and approach. Ask about specific projects, research methods, or what he's looking for next.
