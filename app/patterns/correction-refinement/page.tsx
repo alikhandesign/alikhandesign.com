@@ -1,109 +1,197 @@
 'use client'
-import { useState, CSSProperties } from 'react'
+import { useState, useRef, useEffect, CSSProperties } from 'react'
 import PatternShell from '../PatternShell'
 
 const TABS = [
   { id: 'definition', label: 'Pattern definition' },
-  { id: 'demo', label: 'Interactive demo' },
-  { id: 'states', label: 'All states' },
+  { id: 'demo',       label: 'Interactive demo' },
+  { id: 'states',     label: 'All states' },
 ]
 
 type DemoState = 'idle' | 'intercepting' | 'refined'
-type ClarificationType = 'tone' | 'accuracy' | 'format' | 'rephrase'
+type ClarificationType = 'tone' | 'specific' | 'format' | 'rephrase'
+type ToneOption = 'More professional' | 'More academic' | 'More conversational' | 'Simpler'
 
-const CLARIFICATION_OPTIONS: Array<{ id: ClarificationType; label: string; icon: string }> = [
-  { id: 'tone',     label: 'Change the tone',      icon: '🎨' },
-  { id: 'accuracy', label: 'Fix fact or accuracy',  icon: '🎯' },
-  { id: 'format',   label: 'Alter the formatting',  icon: '📋' },
-  { id: 'rephrase', label: 'Rephrase highlighted',  icon: '✍️' },
-]
+const TONE_OPTIONS: ToneOption[] = ['More professional', 'More academic', 'More conversational', 'Simpler']
 
-const REFINED_RESPONSES: Record<ClarificationType, string> = {
-  tone:     'The mitochondria is a critical organelle responsible for cellular energy production through oxidative phosphorylation. This process generates ATP, the primary energy currency of the cell, enabling essential biological functions.',
-  accuracy: 'The mitochondria is the primary site of cellular respiration. Through a process called oxidative phosphorylation, it generates the majority of a cell\'s ATP supply — roughly 30–32 molecules per glucose molecule under aerobic conditions.',
-  format:   'The mitochondria generates cellular energy.\n\nPrimary function: ATP synthesis\nProcess: Oxidative phosphorylation\nLocation: Inner mitochondrial membrane\nCommon name: Powerhouse of the cell',
-  rephrase: 'Often described as the cell\'s powerhouse, the mitochondria converts nutrients into usable energy through a series of chemical reactions, producing the ATP molecules that fuel virtually every cellular process.',
+const ORIGINAL = `The mitochondria is often called the powerhouse of the cell. It makes energy for the cell to use by breaking down nutrients. This energy is stored in a molecule called ATP, which the cell uses to do things like move, grow, and respond to its environment.
+
+Mitochondria are found in almost all cells that have a nucleus. They have their own DNA, which is separate from the DNA in the cell's nucleus. Scientists think mitochondria used to be separate bacteria that were absorbed by larger cells a long time ago.
+
+The process mitochondria use to make energy is called cellular respiration. It takes in oxygen and glucose and produces ATP as a byproduct, along with carbon dioxide and water.`
+
+const REFINED_RESPONSES: Record<string, string> = {
+  'tone-More professional':    'Mitochondria are membrane-bound organelles responsible for the production of adenosine triphosphate (ATP) through the process of oxidative phosphorylation. Present in virtually all eukaryotic cells, mitochondria maintain their own circular genome — a vestige of their proposed endosymbiotic origin — and play a central role in cellular energy metabolism, apoptosis regulation, and calcium homeostasis.\n\nThe electron transport chain, located along the inner mitochondrial membrane, drives ATP synthesis by coupling the transfer of electrons to the pumping of protons across the membrane, generating a proton gradient that powers ATP synthase.',
+  'tone-More academic':        'Mitochondria (singular: mitochondrion) are double-membraned organelles found in eukaryotic cells, widely recognized for their role in aerobic ATP synthesis via oxidative phosphorylation (OXPHOS). The endosymbiotic theory, proposed by Lynn Margulis (1967), posits that mitochondria descended from proteobacterial ancestors incorporated into proto-eukaryotic host cells.\n\nMitochondrial function extends beyond bioenergetics: these organelles participate in reactive oxygen species (ROS) signaling, apoptotic pathways (including cytochrome c release), and calcium buffering — functions with significant implications in aging and disease.',
+  'tone-More conversational':  'Think of mitochondria as tiny power plants inside your cells. Their main job is taking the food you eat — specifically glucose — and converting it into usable energy in the form of ATP. Every time your muscles contract or your brain fires a signal, ATP is what makes it happen.\n\nWhat makes mitochondria really interesting is that they have their own DNA, separate from the rest of your cell. That's because billions of years ago, they were actually independent bacteria that got absorbed into larger cells — and the relationship worked out so well that it stuck.',
+  'tone-Simpler':              'Mitochondria make energy for your cells. They take in food and oxygen and turn them into ATP — the fuel cells use to work.\n\nAlmost every cell in your body has mitochondria. They have their own DNA, which is unusual. Scientists think that\'s because they used to be separate living things before they became part of our cells.',
+  'specific': 'Mitochondria produce ATP through a process called oxidative phosphorylation, which takes place along the inner mitochondrial membrane. A typical human cell contains between 1,000 and 2,500 mitochondria, though cells with high energy demands — like cardiac muscle cells — can contain up to 5,000.\n\nUnder aerobic conditions, one molecule of glucose yields approximately 30–32 ATP molecules via oxidative phosphorylation, compared to just 2 ATP from anaerobic glycolysis alone. The efficiency difference explains why organisms evolved to use oxygen for energy production.\n\nMitochondria also contain their own ribosomes and can synthesize 13 proteins — all components of the oxidative phosphorylation machinery — independently of the cell\'s nuclear genome.',
+  'format': 'Mitochondria: Key Facts\n\nFunction\nPrimary role: ATP synthesis via oxidative phosphorylation\nAdditional roles: apoptosis regulation, calcium signaling, ROS production\n\nStructure\nDouble membrane (inner and outer)\nInner membrane folds called cristae\nMatrix contains mitochondrial DNA and ribosomes\n\nDistribution\nPresent in virtually all eukaryotic cells\nCount per cell: 1,000–2,500 (up to 5,000 in high-demand cells)\n\nOrigin\nEndosymbiotic theory: descended from proteobacteria\nEvidence: own DNA, double membrane, bacterial-type ribosomes',
 }
 
 export default function CorrectionRefinementPage() {
-  const [activeTab, setActiveTab] = useState('definition')
-  const [demoState, setDemoState] = useState<DemoState>('idle')
-  const [selectedClarification, setSelectedClarification] = useState<ClarificationType | null>(null)
-  const [versionIndex, setVersionIndex] = useState(0)
-  const [inputValue, setInputValue] = useState('')
+  const [activeTab, setActiveTab]               = useState('definition')
+  const [demoState, setDemoState]               = useState<DemoState>('idle')
+  const [selectedType, setSelectedType]         = useState<ClarificationType | null>(null)
+  const [selectedTone, setSelectedTone]         = useState<ToneOption>('More professional')
+  const [showToneDropdown, setShowToneDropdown] = useState(false)
+  const [versionHistory, setVersionHistory]     = useState<string[]>([ORIGINAL])
+  const [versionIndex, setVersionIndex]         = useState(0)
+  const [inputValue, setInputValue]             = useState('')
+  const [selection, setSelection]               = useState<{ text: string; top: number; left: number } | null>(null)
+  const responseRef = useRef<HTMLDivElement>(null)
 
-  const ORIGINAL = 'The mitochondria is the powerhouse of the cell. It makes energy for the cell to use.'
+  const currentResponse = versionHistory[versionIndex]
 
   const handleVagueInput = () => {
-    const vague = ['fix it', 'redo', 'try again', 'not right', 'wrong', 'bad', 'no']
-    const isVague = vague.some(v => inputValue.toLowerCase().includes(v)) || inputValue.split(' ').length <= 3
-    if (isVague) {
+    const vague = ['fix', 'redo', 'try again', 'not right', 'wrong', 'bad', 'no', 'again', 'nope']
+    const isVague = vague.some(v => inputValue.toLowerCase().includes(v)) || inputValue.trim().split(' ').length <= 3
+    if (isVague && inputValue.trim()) {
       setDemoState('intercepting')
-      setSelectedClarification(null)
+      setSelectedType(null)
     }
     setInputValue('')
   }
 
-  const handleClarification = (type: ClarificationType) => {
-    setSelectedClarification(type)
+  const applyRefinement = (type: ClarificationType, tone?: ToneOption) => {
+    const key = type === 'tone' ? `tone-${tone ?? selectedTone}` : type
+    const refined = REFINED_RESPONSES[key] ?? currentResponse
+    const newHistory = versionHistory.slice(0, versionIndex + 1)
+    newHistory.push(refined)
+    setVersionHistory(newHistory)
+    setVersionIndex(newHistory.length - 1)
+    setSelectedType(type)
     setDemoState('refined')
-    setVersionIndex(v => v + 1)
+    setSelection(null)
   }
 
   const reset = () => {
     setDemoState('idle')
-    setSelectedClarification(null)
+    setSelectedType(null)
+    setVersionHistory([ORIGINAL])
     setVersionIndex(0)
     setInputValue('')
+    setSelection(null)
   }
 
-  const definition = <Definition />
+  // Text selection handler
+  const handleMouseUp = () => {
+    const sel = window.getSelection()
+    if (!sel || sel.isCollapsed || !responseRef.current) { setSelection(null); return }
+    const text = sel.toString().trim()
+    if (!text || text.length < 5) { setSelection(null); return }
+    const range = sel.getRangeAt(0)
+    const rect  = range.getBoundingClientRect()
+    const containerRect = responseRef.current.getBoundingClientRect()
+    setSelection({
+      text,
+      top:  rect.top  - containerRect.top - 40,
+      left: rect.left - containerRect.left + rect.width / 2 - 80,
+    })
+  }
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (responseRef.current && !responseRef.current.contains(e.target as Node)) {
+        setSelection(null)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
+
+  const auditNote = (
+    <div style={{ marginTop: 'var(--space-4)', padding: 'var(--space-3) var(--space-4)', background: 'var(--warm-75)', borderLeft: '3px solid var(--accent)', borderRadius: '0 var(--radius) var(--radius) 0' }}>
+      <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-normal)' }}>
+        <strong style={{ color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: 'var(--letter-spacing-md)', fontSize: 'var(--text-xs)' }}>Why this matters —</strong>{' '}
+        Every product in the audit responds to vague corrections with blind regeneration. GitHub Copilot is the only product that explicitly marks an interrupted response as incomplete. No product prompts for clarification before rewriting — producing a new output that may preserve the exact problem the user was trying to fix.
+      </p>
+    </div>
+  )
 
   const demo = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
       <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)', overflow: 'hidden' }}>
+        {/* Chrome bar with version nav */}
         <div style={{ padding: 'var(--space-3) var(--space-4)', borderBottom: '1px solid var(--border)', background: 'var(--warm-75)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)' }}>AI response</span>
-          {versionIndex > 0 && (
+          {versionHistory.length > 1 && (
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
               <button
                 onClick={() => setVersionIndex(v => Math.max(0, v - 1))}
                 disabled={versionIndex === 0}
-                style={{ ...btn('var(--text-muted)', 'transparent', 'transparent'), padding: '2px var(--space-2)', opacity: versionIndex === 0 ? 0.3 : 1 }}
-              >
-                &lsaquo;
-              </button>
-              <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>v{versionIndex + 1}</span>
+                aria-label="Previous version"
+                style={{ ...btn('var(--text-muted)', 'transparent', 'transparent'), padding: '2px 6px', opacity: versionIndex === 0 ? 0.3 : 1, fontSize: 14 }}
+              >‹</button>
+              <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', minWidth: 32, textAlign: 'center' }}>
+                v{versionIndex + 1}/{versionHistory.length}
+              </span>
               <button
-                disabled
-                style={{ ...btn('var(--text-muted)', 'transparent', 'transparent'), padding: '2px var(--space-2)', opacity: 0.3 }}
+                onClick={() => setVersionIndex(v => Math.min(versionHistory.length - 1, v + 1))}
+                disabled={versionIndex === versionHistory.length - 1}
+                aria-label="Next version"
+                style={{ ...btn('var(--text-muted)', 'transparent', 'transparent'), padding: '2px 6px', opacity: versionIndex === versionHistory.length - 1 ? 0.3 : 1, fontSize: 14 }}
+              >›</button>
+            </div>
+          )}
+        </div>
+
+        {/* Response — selectable */}
+        <div
+          ref={responseRef}
+          onMouseUp={handleMouseUp}
+          style={{ padding: 'var(--space-6)', position: 'relative', userSelect: 'text', cursor: 'text' }}
+        >
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--text)', lineHeight: 'var(--line-height-loose)', whiteSpace: 'pre-line' }}>
+            {currentResponse}
+          </p>
+
+          {/* Inline selection toolbar */}
+          {selection && (
+            <div style={{
+              position: 'absolute',
+              top: selection.top,
+              left: Math.max(0, selection.left),
+              background: 'var(--dark-bg)',
+              borderRadius: 'var(--radius)',
+              padding: '4px 6px',
+              display: 'flex',
+              gap: 4,
+              zIndex: 20,
+              boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+            }}>
+              <button
+                onClick={() => { applyRefinement('rephrase'); setSelection(null) }}
+                style={{ fontSize: 'var(--text-xs)', color: '#fff', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 6px', borderRadius: 2, fontFamily: 'var(--font-sans)', whiteSpace: 'nowrap' }}
               >
-                &rsaquo;
+                ✍️ Rephrase selected
+              </button>
+              <button
+                onClick={() => setSelection(null)}
+                style={{ fontSize: 'var(--text-xs)', color: '#C4BDB7', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 6px', borderRadius: 2, fontFamily: 'var(--font-sans)' }}
+              >
+                Flag error
               </button>
             </div>
           )}
         </div>
 
-        <div style={{ padding: 'var(--space-6)' }}>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--text)', lineHeight: 'var(--line-height-loose)', whiteSpace: 'pre-line' }}>
-            {demoState === 'refined' && selectedClarification ? REFINED_RESPONSES[selectedClarification] : ORIGINAL}
-          </p>
-        </div>
-
+        {/* Clarification interceptor */}
         {demoState === 'intercepting' && (
           <div style={{ borderTop: '1px solid var(--border)', padding: 'var(--space-5)', background: 'var(--warm-75)' }}>
-            <p style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)', marginBottom: 'var(--space-3)' }}>
+            <p style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)', marginBottom: 'var(--space-4)' }}>
               What specifically should change?
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-3)' }}>
-              {CLARIFICATION_OPTIONS.map(opt => (
+              {/* Tone with dropdown */}
+              <div style={{ position: 'relative' }}>
                 <button
-                  key={opt.id}
-                  onClick={() => handleClarification(opt.id)}
+                  onClick={() => setShowToneDropdown(d => !d)}
                   style={{
+                    width: '100%',
                     padding: 'var(--space-3) var(--space-4)',
-                    background: 'var(--surface)',
-                    border: '1px solid var(--border)',
+                    background: selectedType === 'tone' ? 'var(--accent-bg)' : 'var(--surface)',
+                    border: `1px solid ${selectedType === 'tone' ? 'var(--accent)' : 'var(--border)'}`,
                     borderRadius: 'var(--radius)',
                     cursor: 'pointer',
                     fontSize: 'var(--text-sm)',
@@ -112,42 +200,81 @@ export default function CorrectionRefinementPage() {
                     textAlign: 'left',
                     display: 'flex',
                     alignItems: 'center',
+                    justifyContent: 'space-between',
                     gap: 'var(--space-2)',
-                    transition: 'border-color var(--transition-base)',
                   }}
                 >
-                  <span>{opt.icon}</span>
-                  {opt.label}
+                  <span>🎨 Change tone</span>
+                  <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>▾</span>
                 </button>
-              ))}
+                {showToneDropdown && (
+                  <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', zIndex: 10, boxShadow: '0 4px 12px rgba(0,0,0,0.08)', marginTop: 2 }}>
+                    {TONE_OPTIONS.map(opt => (
+                      <button
+                        key={opt}
+                        onClick={() => { setSelectedTone(opt); setShowToneDropdown(false); applyRefinement('tone', opt) }}
+                        style={{
+                          width: '100%',
+                          padding: 'var(--space-2) var(--space-4)',
+                          background: selectedTone === opt ? 'var(--warm-75)' : 'none',
+                          border: 'none',
+                          cursor: 'pointer',
+                          fontSize: 'var(--text-sm)',
+                          color: 'var(--text)',
+                          fontFamily: 'var(--font-sans)',
+                          textAlign: 'left',
+                          display: 'block',
+                        }}
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Be more specific */}
+              <button onClick={() => applyRefinement('specific')} style={{ padding: 'var(--space-3) var(--space-4)', background: selectedType === 'specific' ? 'var(--accent-bg)' : 'var(--surface)', border: `1px solid ${selectedType === 'specific' ? 'var(--accent)' : 'var(--border)'}`, borderRadius: 'var(--radius)', cursor: 'pointer', fontSize: 'var(--text-sm)', color: 'var(--text)', fontFamily: 'var(--font-sans)', textAlign: 'left' as const, display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                <span>🎯</span> Be more specific
+              </button>
+
+              {/* Format */}
+              <button onClick={() => applyRefinement('format')} style={{ padding: 'var(--space-3) var(--space-4)', background: selectedType === 'format' ? 'var(--accent-bg)' : 'var(--surface)', border: `1px solid ${selectedType === 'format' ? 'var(--accent)' : 'var(--border)'}`, borderRadius: 'var(--radius)', cursor: 'pointer', fontSize: 'var(--text-sm)', color: 'var(--text)', fontFamily: 'var(--font-sans)', textAlign: 'left' as const, display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                <span>📋</span> Alter the formatting
+              </button>
+
+              {/* Rephrase */}
+              <button onClick={() => applyRefinement('rephrase')} style={{ padding: 'var(--space-3) var(--space-4)', background: selectedType === 'rephrase' ? 'var(--accent-bg)' : 'var(--surface)', border: `1px solid ${selectedType === 'rephrase' ? 'var(--accent)' : 'var(--border)'}`, borderRadius: 'var(--radius)', cursor: 'pointer', fontSize: 'var(--text-sm)', color: 'var(--text)', fontFamily: 'var(--font-sans)', textAlign: 'left' as const, display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                <span>✍️</span> Rephrase selection
+              </button>
             </div>
           </div>
         )}
 
+        {/* Input */}
         <div style={{ borderTop: '1px solid var(--border)', padding: 'var(--space-3) var(--space-4)', display: 'flex', gap: 'var(--space-3)', alignItems: 'center' }}>
           <input
             value={inputValue}
             onChange={e => setInputValue(e.target.value)}
             onKeyDown={e => { if (e.key === 'Enter' && inputValue.trim()) handleVagueInput() }}
-            placeholder='Try "fix it" or "not quite right" then press Enter'
+            placeholder='Type "fix it" or "not right" then Enter — or select text above'
             style={{ flex: 1, padding: 'var(--space-2) var(--space-3)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', fontSize: 'var(--text-sm)', fontFamily: 'var(--font-sans)', background: 'var(--surface)', color: 'var(--text)', outline: 'none' }}
           />
           <button onClick={reset} style={btn('var(--text-muted)', 'var(--warm-75)', 'var(--border)')}>Reset</button>
         </div>
       </div>
-      <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)', lineHeight: 'var(--line-height-normal)' }}>
-        Type a vague correction and press Enter to trigger the Clarification Interceptor. Selecting a clarification type produces a targeted refinement and increments the version counter.
-      </p>
+
+      {auditNote}
     </div>
   )
 
   const states = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
       {[
-        { label: 'Clarification interceptor', desc: 'Triggered by vague correction input (3 words or fewer, or known vague phrases). Presents structured options before generating.' },
-        { label: 'Version navigation', desc: 'Arrow controls with version count. User can return to any prior version. Appears after first refinement.' },
-        { label: 'Block-level fork', desc: 'Advanced: individual paragraphs fork independently. The rest of the response remains unchanged. Enhancement, not minimum viable.' },
-        { label: 'Inline selection', desc: 'Highlighted text surfaces a micro-menu: Refine Selected or Flag Error. Submits the specific string to the next generation turn.' },
+        { label: 'Clarification interceptor', desc: 'Triggered by vague correction input (short phrases, known vague terms). Presents structured options before generating — prevents blind rewrites.' },
+        { label: 'Version navigation', desc: 'Arrow controls with version count (v1/3). Navigates full history — back arrow returns to original response, not just one step.' },
+        { label: 'Inline text selection', desc: 'Selecting text within the response surfaces a contextual toolbar: Rephrase selected or Flag error. Submits the specific string to the next generation turn.' },
+        { label: 'Tone dropdown', desc: 'Change tone is a dropdown, not a flat button — options include More professional, More academic, More conversational, Simpler.' },
       ].map(item => (
         <div key={item.label} style={{ padding: 'var(--space-4)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)' }}>
           <p style={{ fontSize: 'var(--text-sm)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--text)', marginBottom: 'var(--space-2)' }}>{item.label}</p>
@@ -156,6 +283,8 @@ export default function CorrectionRefinementPage() {
       ))}
     </div>
   )
+
+  const definition = <Definition />
 
   return (
     <PatternShell
@@ -179,9 +308,9 @@ function Definition() {
     <div style={{ maxWidth: 680, display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
       {[
         { label: 'Problem', text: 'AI output is rarely perfect on the first attempt. When users express general dissatisfaction, every product audited responds with blind regeneration — producing a new output without asking what specifically was wrong. The result is regeneration that may preserve the exact structural or tonal problem the user was trying to fix.' },
-        { label: 'Prescription', text: 'Three requirements: preserved history (all prior versions accessible and navigable), clarification on vague correction (the interface prompts before regenerating when the correction signal is non-specific), and granular feedback mechanisms (structured options that give users language for their dissatisfaction).' },
-        { label: 'Design decisions', text: 'When to prompt for clarification vs. regenerate immediately. Version navigation UI — how many versions to retain, whether versions are labeled. Feedback specificity — structured modal vs. thumbs-down. Whether to support partial correction targeting on selected text.' },
-        { label: 'Tradeoffs', text: 'Clarification prompts add a round-trip before the user gets a new response. In low-stakes contexts this feels like friction. Preserved response history increases interface complexity. Structured feedback modals interrupt conversation flow for users who prefer to rephrase and try again immediately.' },
+        { label: 'Prescription', text: 'Three requirements: preserved history (all prior versions accessible and navigable, back arrow returns to original), clarification on vague correction (structured options before regeneration, including a tone dropdown with specific options), and inline text selection (selecting specific text surfaces a contextual toolbar for targeted refinement).' },
+        { label: 'Design decisions', text: 'Tone change as dropdown vs. flat button — dropdown communicates that specific options exist rather than leaving users to describe tone freeform. "Be more specific" rather than "Fix fact or accuracy" — more accurate description of the output. Inline selection toolbar appears on text selection, not on hover.' },
+        { label: 'Tradeoffs', text: 'Clarification prompts add a round-trip before the user gets a new response — skippable via Force regenerate for power users. Version history increases state complexity. Inline selection requires careful hit-testing — toolbar must not interfere with normal reading.' },
       ].map(item => (
         <div key={item.label}>
           <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>{item.label}</p>
@@ -193,16 +322,5 @@ function Definition() {
 }
 
 function btn(color: string, bg: string, border: string): CSSProperties {
-  return {
-    padding: 'var(--space-2) var(--space-4)',
-    fontSize: 'var(--text-sm)',
-    fontWeight: 'var(--font-weight-medium)',
-    color,
-    background: bg,
-    border: `1px solid ${border}`,
-    borderRadius: 'var(--radius)',
-    cursor: 'pointer',
-    fontFamily: 'var(--font-sans)',
-    transition: 'opacity var(--transition-base)',
-  }
+  return { padding: 'var(--space-2) var(--space-4)', fontSize: 'var(--text-sm)', fontWeight: 'var(--font-weight-medium)', color, background: bg, border: `1px solid ${border}`, borderRadius: 'var(--radius)', cursor: 'pointer', fontFamily: 'var(--font-sans)', transition: 'opacity var(--transition-base)' }
 }
