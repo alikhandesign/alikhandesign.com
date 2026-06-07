@@ -4,88 +4,163 @@ import PatternShell from '../PatternShell'
 
 const TABS = [
   { id: 'definition', label: 'Pattern definition' },
-  { id: 'demo', label: 'Interactive demo' },
-  { id: 'states', label: 'All states' },
+  { id: 'demo',       label: 'Interactive demo' },
+  { id: 'states',     label: 'All states' },
 ]
 
-interface Source { id: number; label: string; domain: string; date: string; match: 'Exact' | 'Synthesized' }
+interface Source { id: number; label: string; domain: string; date: string; match: 'Exact' | 'Synthesized'; excerpt: string }
 
 const SOURCES: Source[] = [
-  { id: 1, label: 'SEC 10-Q Filing', domain: 'sec.gov', date: 'Mar 2026', match: 'Exact' },
-  { id: 2, label: 'Reuters Markets', domain: 'reuters.com', date: 'Apr 2026', match: 'Synthesized' },
-  { id: 3, label: 'Bloomberg', domain: 'bloomberg.com', date: 'May 2026', match: 'Exact' },
+  { id: 1, label: 'SEC 10-Q Filing', domain: 'sec.gov', date: 'Mar 2026', match: 'Exact', excerpt: 'Total revenue for Q1 2026 was $4.2B, representing a 12% increase year-over-year...' },
+  { id: 2, label: 'Reuters Markets', domain: 'reuters.com', date: 'Apr 2026', match: 'Synthesized', excerpt: 'The company announced expansion plans across three European markets including Germany, France, and Spain...' },
+  { id: 3, label: 'Bloomberg', domain: 'bloomberg.com', date: 'May 2026', match: 'Exact', excerpt: 'Asian market entry has been delayed by 6–9 months following regulatory review by local authorities...' },
 ]
 
-type Mode = 'reading' | 'audit'
-
 export default function SourceAttributionPage() {
-  const [activeTab, setActiveTab] = useState('definition')
-  const [mode, setMode] = useState<Mode>('reading')
-  const [hoveredRef, setHoveredRef] = useState<number | null>(null)
+  const [activeTab, setActiveTab]     = useState('definition')
+  const [openSource, setOpenSource]   = useState<number | null>(null)
+  const [hoveredRef, setHoveredRef]   = useState<number | null>(null)
 
-  const definition = <Definition />
-  const demo = (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
-      <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'center' }}>
-        <span style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)' }}>Mode:</span>
-        <button onClick={() => setMode('reading')} style={btn(mode === 'reading' ? 'var(--accent)' : 'var(--text-muted)', mode === 'reading' ? 'var(--accent-bg)' : 'var(--warm-75)', mode === 'reading' ? '#FECACA' : 'var(--border)')}>Reading</button>
-        <button onClick={() => setMode('audit')}   style={btn(mode === 'audit'   ? '#1D4ED8' : 'var(--text-muted)', mode === 'audit'   ? '#EFF6FF' : 'var(--warm-75)', mode === 'audit'   ? '#BFDBFE' : 'var(--border)')}>Audit</button>
-      </div>
+  const toggleSource = (id: number) => setOpenSource(prev => prev === id ? null : id)
+  const activeSourceData = SOURCES.find(s => s.id === openSource) ?? null
 
-      <div style={{ display: 'grid', gridTemplateColumns: mode === 'audit' ? '1fr 220px' : '1fr 32px', gap: 'var(--space-4)', transition: 'grid-template-columns 0.3s ease', border: '1px solid var(--border)', borderRadius: 'var(--radius)', overflow: 'hidden' }}>
-        {/* Response pane */}
-        <div style={{ padding: 'var(--space-6)' }}>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--text)', lineHeight: 'var(--line-height-loose)' }}>
-            According to recent filings, the company reported $4.2B in Q1 revenue
-            <sup onMouseEnter={() => setHoveredRef(1)} onMouseLeave={() => setHoveredRef(null)}
-              style={{ color: mode === 'audit' ? '#1D4ED8' : 'var(--border-mid)', cursor: 'pointer', fontWeight: 'var(--font-weight-semibold)', fontSize: '0.7em', marginLeft: 1 }}>¹</sup>
-            {' '}and expanded operations into Europe
-            <sup onMouseEnter={() => setHoveredRef(2)} onMouseLeave={() => setHoveredRef(null)}
-              style={{ color: mode === 'audit' ? '#1D4ED8' : 'var(--border-mid)', cursor: 'pointer', fontWeight: 'var(--font-weight-semibold)', fontSize: '0.7em', marginLeft: 1 }}>²</sup>.
-            {' '}Market entry in Asia was delayed
-            <sup onMouseEnter={() => setHoveredRef(3)} onMouseLeave={() => setHoveredRef(null)}
-              style={{ color: mode === 'audit' ? '#1D4ED8' : 'var(--border-mid)', cursor: 'pointer', fontWeight: 'var(--font-weight-semibold)', fontSize: '0.7em', marginLeft: 1 }}>³</sup>
-            {' '}due to local regulatory bottlenecks.{' '}
-            <span style={{ opacity: mode === 'audit' ? 1 : 0, transition: 'opacity 0.2s' }}>
-              <span title="No source available for this claim" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 14, height: 14, borderRadius: '50%', background: 'var(--warm-75)', border: '1px solid var(--border-mid)', fontSize: 9, color: 'var(--text-muted)', cursor: 'help', verticalAlign: 'middle', marginLeft: 2 }}>!</span>
-            </span>
-            {' '}Logistics costs increased significantly over the same period.
-          </p>
-        </div>
+  const citationBadge = (id: number) => (
+    <button
+      onClick={() => toggleSource(id)}
+      onMouseEnter={() => setHoveredRef(id)}
+      onMouseLeave={() => setHoveredRef(null)}
+      aria-label={`Open source ${id}`}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 20,
+        height: 20,
+        borderRadius: '50%',
+        background: openSource === id ? 'var(--accent)' : hoveredRef === id ? 'var(--accent-dark)' : '#1D4ED8',
+        color: '#fff',
+        fontSize: 11,
+        fontWeight: 'var(--font-weight-semibold)',
+        border: 'none',
+        cursor: 'pointer',
+        marginLeft: 3,
+        marginRight: 1,
+        verticalAlign: 'middle',
+        transition: 'background var(--transition-base)',
+        fontFamily: 'var(--font-sans)',
+        flexShrink: 0,
+      }}
+    >
+      {id}
+    </button>
+  )
 
-        {/* Source panel */}
-        <div style={{ borderLeft: '1px solid var(--border)', background: 'var(--warm-75)', padding: mode === 'audit' ? 'var(--space-4)' : 0, overflow: 'hidden' }}>
-          {mode === 'audit' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', fontWeight: 'var(--font-weight-medium)' }}>Sources</p>
-              {SOURCES.map(s => (
-                <div key={s.id} style={{ padding: 'var(--space-3)', borderRadius: 'var(--radius)', border: `1px solid ${hoveredRef === s.id ? '#BFDBFE' : 'var(--border)'}`, background: hoveredRef === s.id ? '#EFF6FF' : 'var(--surface)', transition: 'all var(--transition-base)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
-                    <span style={{ fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-semibold)', color: '#1D4ED8' }}>{s.id}.</span>
-                    <span style={{ fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-medium)', color: 'var(--text)' }}>{s.label}</span>
-                  </div>
-                  <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginBottom: 'var(--space-1)' }}>{s.domain}</div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)' }}>{s.date}</span>
-                    <span style={{ fontSize: 9, letterSpacing: '0.05em', textTransform: 'uppercase', color: s.match === 'Exact' ? '#15803D' : '#B45309', fontWeight: 'var(--font-weight-semibold)' }}>{s.match}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-      <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)', lineHeight: 'var(--line-height-normal)' }}>
-        Hover over footnote numbers in audit mode to highlight the corresponding source card. The [!] indicator marks a claim with no available source — absence of citation is a deliberate signal, not an interface gap.
+  const uncitedMarker = (
+    <span
+      title="No source available — claim drawn from parametric memory"
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 18,
+        height: 18,
+        borderRadius: '50%',
+        background: 'var(--warm-75)',
+        border: '1px solid var(--border-mid)',
+        fontSize: 10,
+        color: 'var(--text-muted)',
+        cursor: 'help',
+        marginLeft: 3,
+        verticalAlign: 'middle',
+        fontFamily: 'var(--font-sans)',
+      }}
+    >
+      !
+    </span>
+  )
+
+  const auditNote = (
+    <div style={{ marginTop: 'var(--space-4)', padding: 'var(--space-3) var(--space-4)', background: 'var(--warm-75)', borderLeft: '3px solid var(--accent)', borderRadius: '0 var(--radius) var(--radius) 0' }}>
+      <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-normal)' }}>
+        <strong style={{ color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: 'var(--letter-spacing-md)', fontSize: 'var(--text-xs)' }}>Why this matters —</strong>{' '}
+        Perplexity cites 94% of responses with 8.2 sources on average — highest in the audit. ChatGPT and Claude cite inconsistently: sometimes attributing, sometimes presenting identical claim types with no source. Inconsistent citation is a worse trust signal than no citation — users cannot build a reliable mental model of when to verify.
       </p>
     </div>
   )
+
+  const demo = (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-normal)' }}>
+        Click any numbered citation to open the Source Inspector panel. The <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 18, height: 18, borderRadius: '50%', background: 'var(--warm-75)', border: '1px solid var(--border-mid)', fontSize: 10, color: 'var(--text-muted)', verticalAlign: 'middle' }}>!</span> marker indicates a claim with no external source.
+      </p>
+
+      <div style={{ display: 'grid', gridTemplateColumns: openSource ? '1fr 260px' : '1fr', gap: 0, border: '1px solid var(--border)', borderRadius: 'var(--radius)', overflow: 'hidden', transition: 'grid-template-columns 0.25s ease' }}>
+        {/* Response pane */}
+        <div style={{ padding: 'var(--space-6)', borderRight: openSource ? '1px solid var(--border)' : 'none' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--text)', lineHeight: 2 }}>
+            According to recent filings, the company reported $4.2B in Q1 revenue{citationBadge(1)} and expanded operations into Europe{citationBadge(2)}.
+            {' '}Market entry in Asia was delayed{citationBadge(3)} due to local regulatory bottlenecks.
+            {' '}Logistics costs increased significantly over the same period{uncitedMarker} — the largest year-over-year increase in five years.
+          </p>
+        </div>
+
+        {/* Source Inspector panel */}
+        {openSource && activeSourceData && (
+          <div style={{ background: 'var(--warm-75)', padding: 'var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', fontWeight: 'var(--font-weight-medium)' }}>Source inspector</p>
+              <button onClick={() => setOpenSource(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', fontSize: 16, lineHeight: 1, padding: 0 }} aria-label="Close source inspector">×</button>
+            </div>
+
+            {SOURCES.map(s => (
+              <button
+                key={s.id}
+                onClick={() => setOpenSource(s.id)}
+                style={{
+                  padding: 'var(--space-3)',
+                  borderRadius: 'var(--radius)',
+                  border: `1px solid ${s.id === openSource ? 'var(--accent)' : 'var(--border)'}`,
+                  background: s.id === openSource ? 'var(--accent-bg)' : 'var(--surface)',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  fontFamily: 'var(--font-sans)',
+                  transition: 'all var(--transition-base)',
+                  width: '100%',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
+                  <span style={{ width: 18, height: 18, borderRadius: '50%', background: s.id === openSource ? 'var(--accent)' : '#1D4ED8', color: '#fff', fontSize: 10, fontWeight: 700, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{s.id}</span>
+                  <span style={{ fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--text)' }}>{s.label}</span>
+                </div>
+                <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginBottom: 'var(--space-1)' }}>{s.domain}</div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)' }}>{s.date}</span>
+                  <span style={{ fontSize: 9, letterSpacing: '0.05em', textTransform: 'uppercase', color: s.match === 'Exact' ? '#15803D' : '#B45309', fontWeight: 700 }}>{s.match}</span>
+                </div>
+              </button>
+            ))}
+
+            {/* Excerpt for active source */}
+            <div style={{ padding: 'var(--space-3)', background: 'var(--surface)', borderRadius: 'var(--radius)', border: '1px solid var(--border)' }}>
+              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', fontWeight: 'var(--font-weight-medium)', marginBottom: 'var(--space-2)' }}>Relevant excerpt</p>
+              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text)', lineHeight: 'var(--line-height-normal)', fontStyle: 'italic' }}>
+                &ldquo;{activeSourceData.excerpt}&rdquo;
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {auditNote}
+    </div>
+  )
+
   const states = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
       {[
-        { label: 'Cited — exact match', color: '#15803D', bg: '#F0FDF4', border: '#BBF7D0', desc: 'Claim is directly supported by a specific passage in the cited source.' },
-        { label: 'Cited — synthesized', color: '#B45309', bg: '#FFFBEB', border: '#FDE68A', desc: 'Claim is derived from multiple sources or paraphrased. Source is still indicated.' },
-        { label: 'Uncited [!]', color: 'var(--text-muted)', bg: 'var(--warm-75)', border: 'var(--border)', desc: 'No external source available. Claim is drawn from parametric memory. Marked explicitly in audit mode.' },
+        { label: 'Cited — exact match', color: '#15803D', bg: '#F0FDF4', border: '#BBF7D0', desc: 'Claim directly supported by a specific passage in the cited source.' },
+        { label: 'Cited — synthesized', color: '#B45309', bg: '#FFFBEB', border: '#FDE68A', desc: 'Claim derived from multiple sources or paraphrased. Source still indicated.' },
+        { label: 'Uncited [!]', color: 'var(--text-muted)', bg: 'var(--warm-75)', border: 'var(--border)', desc: 'No external source available. Drawn from parametric memory. Marked explicitly so absence is a deliberate signal, not a gap.' },
       ].map(item => (
         <div key={item.label} style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-4)', padding: 'var(--space-4)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)' }}>
           <span style={{ display: 'inline-flex', padding: '3px 10px', borderRadius: 'var(--radius)', background: item.bg, border: `1px solid ${item.border}`, fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-semibold)', color: item.color, whiteSpace: 'nowrap' }}>{item.label}</span>
@@ -94,6 +169,8 @@ export default function SourceAttributionPage() {
       ))}
     </div>
   )
+
+  const definition = <Definition />
 
   return (
     <PatternShell
@@ -116,10 +193,10 @@ function Definition() {
   return (
     <div style={{ maxWidth: 680, display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
       {[
-        { label: 'Problem', text: 'Citations exist to give users the information they need to verify claims independently. Inconsistent citation behavior — sometimes citing, sometimes not, for claims of equivalent credibility — is a more serious trust problem than no citation at all. It teaches users that the presence of a citation is not a reliable signal.' },
-        { label: 'Prescription', text: 'Four requirements: consistency (cite all comparable claims or none), inline connection (each citation links a specific claim to a specific source), accessibility (credibility visible on hover without clicking through), and resolution (links go to specific content, not homepages). A dual Reading/Audit mode separates casual reading from verification.' },
-        { label: 'Design decisions', text: 'Footnote-style numbered references vs. inline hyperlinks. Persistent source panel vs. inline-only. Decision rule for what constitutes a citable claim. How to handle synthesized claims drawn from multiple sources.' },
-        { label: 'Tradeoffs', text: 'Consistent citation increases response length and visual complexity. Hover previews require source retrieval infrastructure and introduce interaction latency. Audit mode adds interface complexity that casual users will never use — but its presence signals accountability even to users who never open it.' },
+        { label: 'Problem', text: 'Citations exist to give users the information they need to verify claims independently. Inconsistent citation behavior — sometimes citing, sometimes not, for claims of equivalent credibility — is a more serious trust problem than no citation at all. It teaches users the presence of a citation is not a reliable signal.' },
+        { label: 'Prescription', text: 'Four requirements: consistency (cite all comparable claims or none), inline connection (each citation badge links a specific claim to a specific source), accessibility (source content visible in panel without leaving the interface), and resolution (citations go to specific excerpts, not homepages). The Source Inspector slides in on citation click.' },
+        { label: 'Design decisions', text: 'Inline numbered badges over superscripts — more accessible, more visible, harder to miss. Click-to-open vs. always-visible panel — on-demand reduces clutter for casual reading while preserving full verifiability. Source cards show excerpt, credibility signals, and match type without requiring a click-through.' },
+        { label: 'Tradeoffs', text: 'Consistent citation increases response length and visual complexity. The Source Inspector panel takes horizontal space — more appropriate for research-oriented contexts than casual conversation. Inline badges interrupt reading flow slightly more than superscripts, trading readability for accessibility.' },
       ].map(item => (
         <div key={item.label}>
           <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>{item.label}</p>
@@ -128,8 +205,4 @@ function Definition() {
       ))}
     </div>
   )
-}
-
-function btn(color: string, bg: string, border: string): CSSProperties {
-  return { padding: 'var(--space-2) var(--space-4)', fontSize: 'var(--text-sm)', fontWeight: 'var(--font-weight-medium)', color, background: bg, border: `1px solid ${border}`, borderRadius: 'var(--radius)', cursor: 'pointer', fontFamily: 'var(--font-sans)', transition: 'opacity var(--transition-base)' }
 }
