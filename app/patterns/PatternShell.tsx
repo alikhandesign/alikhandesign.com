@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { ReactNode } from 'react'
+import TabNavigation from '../components/TabNavigation'
 
 const PATTERN_ORDER = [
   { slug: 'generation-states',         title: 'Generation States' },
@@ -35,7 +36,6 @@ export default function PatternShell({
     <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
       {/* Header */}
       <div className="page-header">
-        {/* Breadcrumb — matches work page pattern exactly */}
         <nav style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-4)', flexWrap: 'wrap' }}>
           <Link href="/patterns" style={{ fontSize: 14, color: 'var(--text-muted)', textDecoration: 'none' }}>
             Pattern Library
@@ -45,7 +45,6 @@ export default function PatternShell({
             {title}
           </span>
         </nav>
-
         <h1 className="font-serif" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400, lineHeight: 'var(--line-height-tight)', marginBottom: 'var(--space-4)', color: 'var(--text)' }}>
           {title}
         </h1>
@@ -54,32 +53,9 @@ export default function PatternShell({
         </p>
       </div>
 
-      {/* Desktop: tab nav + tabbed content */}
+      {/* Desktop: TabNavigation + content */}
       <div className="pattern-desktop-only">
-        <div style={{ borderBottom: '1px solid var(--border)', padding: '0 var(--space-12)', display: 'flex', gap: 0 }}>
-          {tabs.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => onTabChange(tab.id)}
-              style={{
-                padding: 'var(--space-4) var(--space-5)',
-                fontSize: 'var(--text-sm)',
-                fontWeight: activeTab === tab.id ? 'var(--font-weight-semibold)' : 'var(--font-weight-regular)',
-                color: activeTab === tab.id ? 'var(--accent)' : 'var(--text-muted)',
-                background: 'none',
-                border: 'none',
-                borderBottom: activeTab === tab.id ? '2px solid var(--accent)' : '2px solid transparent',
-                cursor: 'pointer',
-                fontFamily: 'var(--font-sans)',
-                marginBottom: -1,
-                transition: 'color var(--transition-base)',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+        <TabNavigation tabs={tabs} activeTab={activeTab} onTabChange={onTabChange} variant="top" />
         <div className="section-pad">{children}</div>
       </div>
 
@@ -96,7 +72,7 @@ export default function PatternShell({
         }
       </div>
 
-      {/* Prev / Next — matches next-project strip */}
+      {/* Prev / Next */}
       <div className="next-project" style={{ borderTop: '1px solid var(--border)', marginTop: 0 }}>
         <Link href={`/patterns/${prev.slug}`} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
           <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' }}>← Previous</span>
