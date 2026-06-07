@@ -1,10 +1,17 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, CSSProperties } from 'react'
 import PatternShell from '../PatternShell'
 import StatusBadge from '../../components/StatusBadge'
 import InlineAlert from '../../components/InlineAlert'
 
 type GenerationState = 'idle' | 'thinking' | 'streaming' | 'complete' | 'hung'
+
+type BadgeState = 'thinking' | 'streaming' | 'complete' | 'hung' | 'error' | 'warning' | 'info'
+
+interface BadgeConfig {
+  state: BadgeState
+  label: string
+}
 
 const TABS = [
   { id: 'demo', label: 'Interactive demo' },
@@ -13,6 +20,14 @@ const TABS = [
 ]
 
 const SAMPLE_RESPONSE = "AI generation is not a download. When a model processes a request, it is reasoning — weighing options, constructing output, making probabilistic choices. The interface must make this process legible at every stage: before output begins, during streaming, at completion, and — critically — when generation stalls."
+
+const STATE_BADGE: Record<GenerationState, BadgeConfig | null> = {
+  idle:      null,
+  thinking:  { state: 'thinking', label: 'Thinking' },
+  streaming: { state: 'streaming', label: 'Generating' },
+  complete:  { state: 'complete', label: 'Complete' },
+  hung:      { state: 'hung', label: 'Response stalled' },
+}
 
 export default function GenerationStatesPage() {
   const [activeTab, setActiveTab] = useState('demo')
@@ -41,7 +56,6 @@ export default function GenerationStatesPage() {
     setDisplayedText('')
     setElapsedSeconds(0)
     setGenState('thinking')
-
     setTimeout(() => {
       setGenState('streaming')
       let i = 0
@@ -61,7 +75,6 @@ export default function GenerationStatesPage() {
     setDisplayedText('')
     setElapsedSeconds(0)
     setGenState('thinking')
-
     setTimeout(() => {
       setGenState('streaming')
       let i = 0
@@ -71,7 +84,6 @@ export default function GenerationStatesPage() {
         setDisplayedText(partial.slice(0, i))
         if (i >= partial.length) {
           clearInterval(streamRef.current!)
-          // Simulate stall — watchdog fires after 5s
           let secs = 0
           timerRef.current = setInterval(() => {
             secs++
@@ -88,17 +100,7 @@ export default function GenerationStatesPage() {
 
   useEffect(() => () => clearAll(), [])
 
-  const stateLabel: Record<GenerationState, { state: StatusBadgeProps['state']; label: string } | null> = {
-    idle: null,
-    thinking: { state: 'thinking', label: 'Thinking' },
-    streaming: { state: 'streaming', label: 'Generating' },
-    complete: { state: 'complete', label: 'Complete' },
-    hung: { state: 'hung', label: 'Response stalled' },
-  }
-
-  type StatusBadgeProps = import('../../components/StatusBadge').default extends (props: infer P) => any ? P : never
-
-  const badge = stateLabel[genState]
+  const badge = STATE_BADGE[genState]
 
   return (
     <PatternShell
@@ -111,7 +113,6 @@ export default function GenerationStatesPage() {
     >
       {activeTab === 'demo' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
-          {/* Controls */}
           <div style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap', alignItems: 'center' }}>
             <button onClick={runNormal} style={btnStyle('#1D4ED8', '#EFF6FF', '#BFDBFE')}>
               Run normal generation
@@ -124,49 +125,39 @@ export default function GenerationStatesPage() {
             </button>
           </div>
 
-          {/* Demo chat window */}
-          <div style={{
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--radius)',
-            background: 'var(--surface)',
-            overflow: 'hidden',
-          }}>
-            {/* Chrome bar */}
-            <div style={{
-              padding: 'var(--space-3) var(--space-4)',
-              borderBottom: '1px solid var(--border)',
-              background: 'var(--warm-75)',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
+          <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)', overflow: 'hidden' }}>
+            <div style={{ padding: 'var(--space-3) var(--space-4)', borderBottom: '1px solid var(--border)', background: 'var(--warm-75)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)' }}>
                 AI response
               </span>
-              {badge && <StatusBadge state={badge.state} label={badge.label} pulse={genState === 'thinking' || genState === 'streaming'} />}
+              {badge && (
+                <StatusBadge
+                  state={badge.state}
+                  label={badge.label}
+                  pulse={genState === 'thinking' || genState === 'streaming'}
+                />
+              )}
             </div>
 
-            {/* Response area */}
             <div style={{ padding: 'var(--space-6)', minHeight: 160 }}>
               {genState === 'idle' && (
                 <p style={{ color: 'var(--text-faint)', fontSize: 'var(--text-sm)', fontStyle: 'italic' }}>
                   Press a button above to simulate a generation state.
                 </p>
               )}
-
               {genState === 'thinking' && (
                 <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center' }}>
                   {[0, 1, 2].map(i => (
                     <span key={i} style={{
-                      width: 6, height: 6, borderRadius: '50%', background: 'var(--text-faint)',
-                      animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite`,
+                      width: 6, height: 6, borderRadius: '50%',
+                      background: 'var(--text-faint)',
                       display: 'block',
+                      animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite`,
                     }} />
                   ))}
                   <style>{`@keyframes bounce { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-6px)} }`}</style>
                 </div>
               )}
-
               {(genState === 'streaming' || genState === 'complete') && displayedText && (
                 <p style={{ fontSize: 'var(--text-base)', color: 'var(--text)', lineHeight: 'var(--line-height-loose)' }}>
                   {displayedText}
@@ -176,7 +167,6 @@ export default function GenerationStatesPage() {
                   <style>{`@keyframes blink { 50% { opacity: 0; } }`}</style>
                 </p>
               )}
-
               {genState === 'hung' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
                   <p style={{ fontSize: 'var(--text-base)', color: 'var(--text)', lineHeight: 'var(--line-height-loose)' }}>
@@ -194,15 +184,8 @@ export default function GenerationStatesPage() {
               )}
             </div>
 
-            {/* Watchdog timer (visible during streaming stall) */}
             {genState === 'streaming' && elapsedSeconds > 0 && (
-              <div style={{
-                padding: 'var(--space-2) var(--space-4)',
-                borderTop: '1px solid var(--border)',
-                background: '#FFFBEB',
-                fontSize: 'var(--text-xs)',
-                color: '#B45309',
-              }}>
+              <div style={{ padding: 'var(--space-2) var(--space-4)', borderTop: '1px solid var(--border)', background: '#FFFBEB', fontSize: 'var(--text-xs)', color: '#B45309' }}>
                 No new tokens for {elapsedSeconds}s — escalating to hung state at 5s
               </div>
             )}
@@ -217,11 +200,11 @@ export default function GenerationStatesPage() {
       {activeTab === 'states' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
           {([
-            { state: 'thinking' as const, label: 'Thinking', desc: 'Model has received request. Processing before first token.', pulse: true },
-            { state: 'streaming' as const, label: 'Generating', desc: 'Output is actively streaming to the interface.', pulse: true },
-            { state: 'complete' as const, label: 'Complete', desc: 'Generation finished. Explicit signal — not inferred from other UI.', pulse: false },
-            { state: 'hung' as const, label: 'Response stalled', desc: 'Watchdog threshold exceeded. No new tokens in 5–8s.', pulse: false },
-            { state: 'error' as const, label: 'Error', desc: 'Network failure, context limit, or policy refusal.', pulse: false },
+            { state: 'thinking' as BadgeState, label: 'Thinking', desc: 'Model has received request. Processing before first token.', pulse: true },
+            { state: 'streaming' as BadgeState, label: 'Generating', desc: 'Output is actively streaming to the interface.', pulse: true },
+            { state: 'complete' as BadgeState, label: 'Complete', desc: 'Generation finished. Explicit signal — not inferred from other UI.', pulse: false },
+            { state: 'hung' as BadgeState, label: 'Response stalled', desc: 'Watchdog threshold exceeded. No new tokens in 5–8s.', pulse: false },
+            { state: 'error' as BadgeState, label: 'Error', desc: 'Network failure, context limit, or policy refusal.', pulse: false },
           ]).map(item => (
             <div key={item.state} style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-6)', padding: 'var(--space-4)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)' }}>
               <div style={{ paddingTop: 2 }}>
@@ -259,7 +242,7 @@ function PatternDefinition() {
   )
 }
 
-function btnStyle(color: string, bg: string, border: string): React.CSSProperties {
+function btnStyle(color: string, bg: string, border: string): CSSProperties {
   return {
     padding: 'var(--space-2) var(--space-4)',
     fontSize: 'var(--text-sm)',
