@@ -2,31 +2,36 @@
 import Link from 'next/link'
 import { ReactNode } from 'react'
 
-interface Tab {
-  id: string
-  label: string
-}
+const PATTERN_ORDER = [
+  { slug: 'generation-states',          title: 'Generation States' },
+  { slug: 'uncertainty-communication',  title: 'Uncertainty Communication' },
+  { slug: 'source-attribution',         title: 'Source & Attribution' },
+  { slug: 'limitation-handling',        title: 'Limitation Handling' },
+  { slug: 'correction-refinement',      title: 'Correction & Refinement' },
+  { slug: 'error-states',               title: 'Error States' },
+]
 
-interface PatternNav {
-  prev: { slug: string; title: string } | null
-  next: { slug: string; title: string } | null
-}
+interface Tab { id: string; label: string }
 
 interface PatternShellProps {
   title: string
-  patternName: string
+  slug: string
   problem: string
   activeTab: string
   onTabChange: (id: string) => void
   tabs: Tab[]
   children: ReactNode
-  nav: PatternNav
-  sections?: { id: string; label: string }[]
+  /** Pass each tab's content keyed by tab id for mobile stacked layout */
+  mobileContent?: Record<string, ReactNode>
 }
 
 export default function PatternShell({
-  title, patternName, problem, activeTab, onTabChange, tabs, children, nav, sections
+  title, slug, problem, activeTab, onTabChange, tabs, children, mobileContent
 }: PatternShellProps) {
+  const idx = PATTERN_ORDER.findIndex(p => p.slug === slug)
+  const prev = PATTERN_ORDER[(idx - 1 + PATTERN_ORDER.length) % PATTERN_ORDER.length]
+  const next = PATTERN_ORDER[(idx + 1) % PATTERN_ORDER.length]
+
   return (
     <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
       {/* Header */}
@@ -36,7 +41,7 @@ export default function PatternShell({
             ← Pattern Library
           </Link>
           <span style={{ color: 'var(--border-mid)' }}>/</span>
-          <span className="eyebrow">{patternName}</span>
+          <span className="eyebrow">{title}</span>
         </div>
         <h1 className="font-serif" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400, lineHeight: 'var(--line-height-tight)', marginBottom: 'var(--space-4)', color: 'var(--text)' }}>
           {title}
@@ -46,76 +51,65 @@ export default function PatternShell({
         </p>
       </div>
 
-      {/* Desktop tabs */}
-      <div className="pattern-tabs-desktop" style={{ borderBottom: '1px solid var(--border)', padding: '0 var(--space-12)', display: 'flex', gap: 0 }}>
-        {tabs.map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => onTabChange(tab.id)}
-            style={{
-              padding: 'var(--space-4) var(--space-5)',
-              fontSize: 'var(--text-sm)',
-              fontWeight: activeTab === tab.id ? 'var(--font-weight-semibold)' : 'var(--font-weight-regular)',
-              color: activeTab === tab.id ? 'var(--accent)' : 'var(--text-muted)',
-              background: 'none',
-              border: 'none',
-              borderBottom: activeTab === tab.id ? '2px solid var(--accent)' : '2px solid transparent',
-              cursor: 'pointer',
-              fontFamily: 'var(--font-sans)',
-              marginBottom: -1,
-              transition: 'color var(--transition-base)',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {tab.label}
-          </button>
-        ))}
+      {/* Desktop: tab nav + content */}
+      <div className="pattern-desktop-only">
+        <div style={{ borderBottom: '1px solid var(--border)', padding: '0 var(--space-12)', display: 'flex', gap: 0 }}>
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => onTabChange(tab.id)}
+              style={{
+                padding: 'var(--space-4) var(--space-5)',
+                fontSize: 'var(--text-sm)',
+                fontWeight: activeTab === tab.id ? 'var(--font-weight-semibold)' : 'var(--font-weight-regular)',
+                color: activeTab === tab.id ? 'var(--accent)' : 'var(--text-muted)',
+                background: 'none',
+                border: 'none',
+                borderBottom: activeTab === tab.id ? '2px solid var(--accent)' : '2px solid transparent',
+                cursor: 'pointer',
+                fontFamily: 'var(--font-sans)',
+                marginBottom: -1,
+                transition: 'color var(--transition-base)',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+        <div className="section-pad">{children}</div>
       </div>
 
-      {/* Desktop tab content */}
-      <div className="pattern-tabs-desktop section-pad">
-        {children}
-      </div>
-
-      {/* Mobile: long scroll sections */}
-      <div className="pattern-mobile-scroll">
-        {sections && sections.map(s => (
-          <div key={s.id} id={s.id} style={{ padding: 'var(--space-8) var(--space-5)', borderBottom: '1px solid var(--border)' }}>
-            <p className="eyebrow" style={{ marginBottom: 'var(--space-4)' }}>{s.label}</p>
-            {children}
-          </div>
-        ))}
-        {!sections && (
-          <div style={{ padding: 'var(--space-8) var(--space-5)' }}>
-            {children}
-          </div>
-        )}
+      {/* Mobile: stacked sections */}
+      <div className="pattern-mobile-only">
+        {mobileContent
+          ? tabs.map(tab => (
+              <div key={tab.id} style={{ padding: 'var(--space-8) var(--space-5)', borderBottom: '1px solid var(--border)' }}>
+                <p className="eyebrow" style={{ marginBottom: 'var(--space-4)' }}>{tab.label}</p>
+                {mobileContent[tab.id]}
+              </div>
+            ))
+          : <div style={{ padding: 'var(--space-8) var(--space-5)' }}>{children}</div>
+        }
       </div>
 
       {/* Prev / Next navigation */}
-      <div className="divider" />
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '2.5rem var(--space-12)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-        {nav.prev ? (
-          <Link href={`/patterns/${nav.prev.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-            <p style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-lg)', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)', marginBottom: '0.35rem' }}>Previous pattern</p>
-            <p className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400 }}>← {nav.prev.title}</p>
-          </Link>
-        ) : <div />}
-        {nav.next && (
-          <Link href={`/patterns/${nav.next.slug}`} style={{ textDecoration: 'none', color: 'inherit', textAlign: 'right' }}>
-            <p style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-lg)', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)', marginBottom: '0.35rem' }}>Next pattern</p>
-            <p className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400 }}>{nav.next.title} →</p>
-          </Link>
-        )}
+      <div className="next-project" style={{ borderTop: '1px solid var(--border)', marginTop: 0 }}>
+        <Link href={`/patterns/${prev.slug}`} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
+          <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' }}>← Previous</span>
+          <span style={{ fontSize: 'var(--text-base)', color: 'var(--text)', fontWeight: 'var(--font-weight-medium)' }}>{prev.title}</span>
+        </Link>
+        <Link href={`/patterns/${next.slug}`} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: 'var(--space-1)', alignItems: 'flex-end' }}>
+          <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' }}>Next →</span>
+          <span style={{ fontSize: 'var(--text-base)', color: 'var(--text)', fontWeight: 'var(--font-weight-medium)' }}>{next.title}</span>
+        </Link>
       </div>
 
       <style>{`
+        .pattern-mobile-only { display: none; }
         @media (max-width: 768px) {
-          .pattern-tabs-desktop { display: none !important; }
-          .pattern-mobile-scroll { display: block !important; }
-        }
-        @media (min-width: 769px) {
-          .pattern-mobile-scroll { display: none !important; }
+          .pattern-desktop-only { display: none; }
+          .pattern-mobile-only { display: block; }
         }
       `}</style>
     </div>
