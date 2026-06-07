@@ -101,7 +101,7 @@ const patterns = [
         <rect x="8" y="56" width="104" height="16" rx="3" fill="var(--accent-bg)" stroke="#FECACA" strokeWidth="1"/>
         <rect x="11" y="56" width="3" height="16" rx="1.5" fill="var(--accent)"/>
         <rect x="20" y="61" width="36" height="3" rx="1.5" fill="var(--accent)" opacity="0.5"/>
-        <rect x="80" y="60" width="24" height="8" rx="2" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" strokeWidth="0.5" opacity2="0.4"/>
+        <rect x="80" y="60" width="24" height="8" rx="2" fill="var(--accent)" opacity="0.15" stroke="var(--accent)" strokeWidth="0.5" opacity="0.4"/>
       </svg>
     ),
   },
