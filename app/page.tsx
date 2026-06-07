@@ -30,7 +30,7 @@ export default function Home() {
       <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem' }}>
         <div className="grid-2" style={{ paddingTop: '5rem', paddingBottom: '4rem', alignItems: 'center' }}>
           <div>
-            <p className="eyebrow" style={{ marginBottom: '1.25rem' }}>Senior Product Designer & Researcher</p>
+            <p className="eyebrow">Senior Product Designer & Researcher</p>
             <h1 className="font-serif hero-title" style={{ fontSize: '3rem', lineHeight: 1.1, color: 'var(--text)', marginBottom: '1.25rem', fontWeight: 400 }}>
               Designing systems that make research{' '}
               <em style={{ fontStyle: 'italic', color: 'var(--accent)' }}>scale.</em>
@@ -96,7 +96,7 @@ export default function Home() {
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
           <div className="grid-2" style={{ alignItems: 'center' }}>
             <div>
-              <p className="eyebrow-dark" style={{ marginBottom: '0.75rem' }}>About Me</p>
+              <p className="eyebrow-dark">About Me</p>
               <h2 className="font-serif" style={{ fontSize: '2rem', fontWeight: 400, color: 'var(--bg)', lineHeight: 1.2, marginBottom: '1rem' }}>I design for the questions, not just the answers.</h2>
               <p style={{ fontSize: 16, color: 'var(--bg)', lineHeight: 1.75, marginBottom: '1.5rem' }}>
                 With 10+ years in product design and UX research, I learned that the most valuable work happens before the first wireframe — understanding why people behave the way they do, and building systems that listen at scale.
