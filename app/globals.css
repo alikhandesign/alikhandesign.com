@@ -94,15 +94,9 @@ a { color: inherit; }
   text-transform: uppercase;
   color: var(--accent);
   font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-3);
 }
-.section-label {
-  font-size: var(--text-xs);
-  letter-spacing: var(--letter-spacing-lg);
-  text-transform: uppercase;
-  color: var(--accent);
-  font-weight: var(--font-weight-medium);
-  margin-bottom: 0.75rem;
-}
+/* .section-label retired — use .eyebrow */
 
 /* ─── Layout ─────────────────────────────────────────────── */
 .container {
@@ -284,6 +278,7 @@ a { color: inherit; }
   text-transform: uppercase;
   color: #C4BDB7;
   font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-3);
 }
 .arrow { display: inline-block; }
 a:focus-visible,
