@@ -8,6 +8,14 @@ import FeaturedProjectCard from '../components/FeaturedProjectCard'
 
 const caseStudies = [
   {
+    title: 'AI Interface Pattern Library',
+    company: 'Self-initiated',
+    tags: ['AI Design', 'UX Research', 'Design Systems'],
+    desc: 'Audited six conversational AI products against a standardized 23-prompt methodology, documented failure modes across six pattern categories, and built an interactive pattern library with formal definitions and React demos.',
+    outcomes: [{ val: '6', label: 'Products audited' }, { val: '23', label: 'Standardized prompts' }, { val: '6', label: 'Pattern categories defined' }],
+    href: '/work/pattern-library',
+  },
+  {
     title: 'AI Feedback & Insights Agent',
     company: 'Willis Towers Watson',
     tags: ['Agentic Workflow Design', 'AI Design'],
@@ -100,6 +108,20 @@ export default function WorkPage() {
     color: 'var(--bg)',
   }
 
+  const badgeStyle = (active: boolean): React.CSSProperties => ({
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minWidth: '1.1rem',
+    height: '1.1rem',
+    fontSize: '0.6875rem',
+    fontWeight: 600,
+    borderRadius: '999px',
+    padding: '0 0.25rem',
+    background: active ? 'rgba(250,248,245,0.25)' : 'var(--border)',
+    color: active ? 'var(--bg)' : 'var(--text-muted)',
+  })
+
   return (
     <main>
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
@@ -107,8 +129,6 @@ export default function WorkPage() {
           <SectionLabel label="Portfolio" />
           <h1 className="font-serif page-title-lg" style={{ fontSize: 'var(--text-5xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.75rem' }}>My Work</h1>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--text-muted)', lineHeight: 1.6, maxWidth: 580, marginBottom: '0.75rem' }}>10+ years of product design and UX research — from AI-native research pipelines to zero-to-one product ecosystems.</p>
-
-          {/* Chat callout */}
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
             Have questions about the work?{' '}
             <Link href="/chat" style={{ color: 'var(--text)', textDecoration: 'underline', textUnderlineOffset: 3, fontWeight: 500 }}>
@@ -116,20 +136,15 @@ export default function WorkPage() {
             </Link>
             {' →'}
           </p>
-
-          {/* Filter tabs */}
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             <button onClick={() => setFilter('all')} style={filter === 'all' ? activeStyle : filterStyles} aria-pressed={filter === 'all'}>
-              All
-              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: '1.1rem', height: '1.1rem', fontSize: '0.6875rem', fontWeight: 600, borderRadius: '999px', padding: '0 0.25rem', background: filter === 'all' ? 'rgba(250,248,245,0.25)' : 'var(--border)', color: filter === 'all' ? 'var(--bg)' : 'var(--text-muted)' }} aria-hidden="true">{total}</span>
+              All <span style={badgeStyle(filter === 'all')} aria-hidden="true">{total}</span>
             </button>
             <button onClick={() => setFilter('case-studies')} style={filter === 'case-studies' ? activeStyle : filterStyles} aria-pressed={filter === 'case-studies'}>
-              Case Studies
-              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: '1.1rem', height: '1.1rem', fontSize: '0.6875rem', fontWeight: 600, borderRadius: '999px', padding: '0 0.25rem', background: filter === 'case-studies' ? 'rgba(250,248,245,0.25)' : 'var(--border)', color: filter === 'case-studies' ? 'var(--bg)' : 'var(--text-muted)' }} aria-hidden="true">{caseStudies.length}</span>
+              Case Studies <span style={badgeStyle(filter === 'case-studies')} aria-hidden="true">{caseStudies.length}</span>
             </button>
             <button onClick={() => setFilter('projects')} style={filter === 'projects' ? activeStyle : filterStyles} aria-pressed={filter === 'projects'}>
-              Projects
-              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: '1.1rem', height: '1.1rem', fontSize: '0.6875rem', fontWeight: 600, borderRadius: '999px', padding: '0 0.25rem', background: filter === 'projects' ? 'rgba(250,248,245,0.25)' : 'var(--border)', color: filter === 'projects' ? 'var(--bg)' : 'var(--text-muted)' }} aria-hidden="true">{projects.length}</span>
+              Projects <span style={badgeStyle(filter === 'projects')} aria-hidden="true">{projects.length}</span>
             </button>
           </div>
         </header>
