@@ -12,7 +12,7 @@ const caseStudies = [
     company: 'Self-initiated',
     tags: ['AI Design', 'UX Research', 'Design Systems'],
     desc: 'Audited six conversational AI products against a standardized 23-prompt methodology, documented failure modes across six pattern categories, and built an interactive pattern library with formal definitions and React demos.',
-    outcomes: [{ val: '6', label: 'Products audited' }, { val: '23', label: 'Standardized prompts' }, { val: '6', label: 'Pattern categories defined' }],
+    outcomes: [{ val: '6', label: 'Products audited' }, { val: 'Empirically grounded pattern library', label: '' }],
     href: '/work/pattern-library',
   },
   {
