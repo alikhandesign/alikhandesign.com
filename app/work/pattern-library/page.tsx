@@ -136,9 +136,9 @@ function FullCaseStudy() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', margin: '2rem 0' }}>
           {[
             ['6', 'Pattern categories with formal definitions'],
-            ['6', 'Interactive demos built in React'],
-            ['23', 'Standardized prompts applied verbatim'],
+            ['6', 'Products audited'],
             ['3', 'Net-new design system components'],
+            ['Empirically grounded pattern library', 'First of its kind'],
           ].map(([val, label]) => (
             <div key={label} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '1.25rem', position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--accent)' }} />
@@ -203,9 +203,9 @@ export default function PatternLibraryPage() {
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem', display: 'flex', gap: '3rem', flexWrap: 'wrap' as const, borderBottom: '1px solid var(--border)' }}>
         {[
           ['6', 'Products audited'],
-          ['23', 'Standardized prompts'],
-          ['6', 'Pattern categories'],
-          ['6', 'Interactive demos'],
+          ['6', 'Pattern categories defined'],
+          ['3', 'Design system components'],
+          ['Empirically grounded pattern library', 'First of its kind'],
         ].map(([val, label]) => (
           <div key={label}>
             <div className="font-serif" style={{ fontSize: '2.25rem', color: 'var(--accent)', lineHeight: 1 }}>{val}</div>
