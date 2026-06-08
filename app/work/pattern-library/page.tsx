@@ -138,7 +138,7 @@ function FullCaseStudy() {
             ['6', 'Pattern categories with formal definitions'],
             ['6', 'Products audited'],
             ['3', 'Net-new design system components'],
-            ['Empirically grounded pattern library', 'First of its kind'],
+            ['Public', 'Empirically grounded pattern library'],
           ].map(([val, label]) => (
             <div key={label} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '1.25rem', position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--accent)' }} />
@@ -205,7 +205,7 @@ export default function PatternLibraryPage() {
           ['6', 'Products audited'],
           ['6', 'Pattern categories defined'],
           ['3', 'Design system components'],
-          ['Empirically grounded pattern library', 'First of its kind'],
+          ['Public', 'Empirically grounded pattern library'],
         ].map(([val, label]) => (
           <div key={label}>
             <div className="font-serif" style={{ fontSize: '2.25rem', color: 'var(--accent)', lineHeight: 1 }}>{val}</div>
