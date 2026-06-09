@@ -180,7 +180,7 @@ export default function ChatPage() {
       />
 
       <div style={{
-        maxWidth: 760,
+        maxWidth: 'var(--max-w)',
         margin: '0 auto',
         minHeight: '80vh',
         display: 'flex',
@@ -244,7 +244,7 @@ export default function ChatPage() {
                 ref={unlockPanelRef}
                 style={{
                   position: 'absolute', top: 'calc(100% + 8px)', left: 0,
-                  zIndex: 100, width: 340,
+                  zIndex: 100, width: 380, maxWidth: 'calc(100vw - 2rem)',
                   background: 'var(--surface)', border: '1px solid var(--border)',
                   borderRadius: 'var(--radius)',
                   padding: 'var(--space-6)',
@@ -267,7 +267,7 @@ export default function ChatPage() {
                 </p>
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
                   <input
-                    type="password"
+                    type="text"
                     className="password-input"
                     placeholder="Access code"
                     value={passwordInput}
@@ -486,3 +486,4 @@ export default function ChatPage() {
     </>
   )
 }
+
