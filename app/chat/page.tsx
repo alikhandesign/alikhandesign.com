@@ -186,6 +186,7 @@ export default function ChatPage() {
         display: 'flex',
         flexDirection: 'column',
         padding: '0 var(--space-4)',
+        paddingBottom: 'var(--space-12)',
       }}>
 
         {/* Header */}
@@ -493,6 +494,7 @@ export default function ChatPage() {
     </>
   )
 }
+
 
 
 
