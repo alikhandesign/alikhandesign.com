@@ -186,6 +186,11 @@ export default function ChatPage() {
         display: 'flex',
         flexDirection: 'column',
         padding: '0 var(--space-4)',
+        background: 'var(--surface)',
+        border: '1px solid var(--border)',
+        borderRadius: 'var(--radius)',
+        marginTop: 'var(--space-6)',
+        marginBottom: 'var(--space-6)',
       }}>
 
         {/* Header */}
@@ -267,13 +272,13 @@ export default function ChatPage() {
                 </p>
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
                   <input
-                    type="text"
+                    type="password"
                     className="password-input"
                     placeholder="Access code"
                     value={passwordInput}
                     onChange={e => setPasswordInput(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && handleUnlock()}
-                    style={{ flex: 1, background: 'var(--bg)' }}
+                    style={{ flex: 1, background: 'var(--surface)', color: 'var(--text)', caretColor: 'var(--text)' }}
                     aria-label="Access code"
                     autoFocus
                   />
@@ -486,4 +491,5 @@ export default function ChatPage() {
     </>
   )
 }
+
 
