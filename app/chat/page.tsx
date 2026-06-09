@@ -186,11 +186,6 @@ export default function ChatPage() {
         display: 'flex',
         flexDirection: 'column',
         padding: '0 var(--space-4)',
-        background: 'var(--surface)',
-        border: '1px solid var(--border)',
-        borderRadius: 'var(--radius)',
-        marginTop: 'var(--space-6)',
-        marginBottom: 'var(--space-6)',
       }}>
 
         {/* Header */}
@@ -297,7 +292,14 @@ export default function ChatPage() {
         </header>
 
         {/* Chat area */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', paddingTop: 'var(--space-8)' }}>
+        <div style={{
+          flex: 1, display: 'flex', flexDirection: 'column',
+          marginTop: 'var(--space-6)',
+          background: 'var(--surface)',
+          border: '1px solid var(--border)',
+          borderRadius: 'var(--radius)',
+          padding: 'var(--space-6)',
+        }}>
 
           {/* Messages */}
           {!isEmpty && (
@@ -491,5 +493,6 @@ export default function ChatPage() {
     </>
   )
 }
+
 
 
