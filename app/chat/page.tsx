@@ -427,7 +427,7 @@ export default function ChatPage() {
               </div>
             )}
 
-            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-end' }}>
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'stretch' }}>
               <textarea
                 ref={inputRef}
                 value={input}
@@ -476,6 +476,8 @@ export default function ChatPage() {
                   className="btn-primary"
                   style={{
                     flexShrink: 0,
+                    height: 44,
+                    padding: '0 var(--space-6)',
                     opacity: (!input.trim() || loading || showLimit) ? 0.5 : 1,
                   }}
                   aria-label="Send message"
@@ -494,6 +496,7 @@ export default function ChatPage() {
     </>
   )
 }
+
 
 
 
