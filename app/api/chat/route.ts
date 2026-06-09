@@ -87,9 +87,12 @@ export async function POST(req: NextRequest) {
 
   // Build system prompt
   const { PUBLIC_SYSTEM_PROMPT, PROTECTED_SYSTEM_PROMPT } = await import('@/lib/systemPrompt')
-  const systemPrompt = unlocked
+  const { SITE_SOURCES, formatSourcesForPrompt } = await import('@/lib/sources')
+
+  const basePrompt = (unlocked
     ? PUBLIC_SYSTEM_PROMPT + '\n\n' + PROTECTED_SYSTEM_PROMPT
     : PUBLIC_SYSTEM_PROMPT
+  ).replace('{{SOURCES}}', formatSourcesForPrompt())
 
   // Call Anthropic
   const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -102,7 +105,7 @@ export async function POST(req: NextRequest) {
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1024,
-      system: systemPrompt,
+      system: basePrompt,
       messages,
     }),
   })
@@ -116,6 +119,14 @@ export async function POST(req: NextRequest) {
   const data = await response.json()
   const assistantMessage = data.content?.[0]?.text ?? ''
 
+  // Extract cited source IDs from inline [n] markers
+  const citedIds = [...new Set(
+    [...assistantMessage.matchAll(/\[(\d+)\]/g)]
+      .map(m => parseInt(m[1]))
+      .filter(id => SITE_SOURCES.some(s => s.id === id))
+  )]
+  const citedSources = SITE_SOURCES.filter(s => citedIds.includes(s.id))
+
   const userMessage = messages[messages.length - 1]?.content ?? ''
   await logConversation({
     ip,
@@ -126,7 +137,7 @@ export async function POST(req: NextRequest) {
   })
 
   return NextResponse.json(
-    { message: assistantMessage, remaining },
+    { message: assistantMessage, sources: citedSources, remaining },
     { headers: { 'X-RateLimit-Remaining': String(remaining) } }
   )
 }

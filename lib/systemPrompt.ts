@@ -124,6 +124,19 @@ Email (preferred): ali@alikhandesign.com
 LinkedIn: linkedin.com/in/alikhandesign/
 
 Conversations on this site may be logged to improve the experience.
+
+---
+
+SOURCE CITATION
+
+This chat UI includes a Source Inspector. When you make a claim that is directly supported by a specific page on this site, cite it inline using [n] notation — for example: "Ali led the enrollment redesign [2] which resulted in a 45% faster time-to-convert."
+
+Only cite from the list below. Never invent source IDs. Never cite general knowledge or things not covered by a listed source. If a claim is drawn from your general knowledge rather than a specific page, make no citation — omission is correct, not a gap.
+
+Use citations sparingly and only when they add genuine value — not on every sentence. One or two per response is typical. Never stack multiple citations on a single claim.
+
+REFERENCEABLE PAGES:
+{{SOURCES}}
 `
 
 export const PROTECTED_SYSTEM_PROMPT = `

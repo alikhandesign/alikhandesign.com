@@ -7,6 +7,7 @@ import GenerationState, { type GenerationPhase } from '../components/GenerationS
 import ChatBubble from '../components/ChatBubble'
 import SuggestedPrompts from '../components/SuggestedPrompts'
 import ChatInput from '../components/ChatInput'
+import type { SiteSource } from '@/lib/sources'
 
 const CHAT_PASSWORD = '4likh4n'
 const RATE_LIMIT_WARN = 7
@@ -15,6 +16,7 @@ const RATE_LIMIT_MAX = 10
 interface Message {
   role: 'user' | 'assistant'
   content: string
+  sources?: SiteSource[]
 }
 
 const SUGGESTED_QUESTIONS = [
@@ -127,7 +129,11 @@ export default function ChatPage() {
 
       setGenerationPhase('generating')
       const data = await res.json()
-      setMessages(prev => [...prev, { role: 'assistant', content: data.message }])
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: data.message,
+        sources: data.sources ?? [],
+      }])
       setResponseCount(c => c + 1)
     } catch (err: unknown) {
       if (err instanceof Error && err.name === 'AbortError') return
@@ -290,7 +296,7 @@ export default function ChatPage() {
             scrollbarColor: 'var(--border) transparent',
           }}>
             {messages.map((msg, i) => (
-              <ChatBubble key={i} role={msg.role} content={msg.content} />
+              <ChatBubble key={i} role={msg.role} content={msg.content} sources={msg.sources} />
             ))}
             {loading && (
               <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
