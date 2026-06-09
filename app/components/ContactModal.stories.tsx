@@ -54,7 +54,7 @@ import ContactModal from './ContactModal'
  * - CTAStrip on all project and case study pages
  */
 const meta: Meta<typeof ContactModal> = {
-  title: 'Contact/ContactModal',
+  title: 'Templates/ContactModal',
   component: ContactModal,
   tags: ['autodocs'],
   argTypes: {

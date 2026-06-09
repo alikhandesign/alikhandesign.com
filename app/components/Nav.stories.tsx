@@ -55,7 +55,7 @@ import Nav from './Nav'
  * Renders once at the top of every page via the root layout (app/layout.tsx).
  */
 const meta: Meta<typeof Nav> = {
-  title: 'Navigation/HeaderNavigation',
+  title: 'Core Components/Navigation/Header',
   tags: ['autodocs'],
   component: Nav,
   parameters: {

@@ -30,7 +30,7 @@ import SectionLabel from './SectionLabel'
  * - Dark variant: About strip on the homepage (dark background section)
  */
 const meta: Meta<typeof SectionLabel> = {
-  title: 'Labels/SectionLabel',
+  title: 'Core Components/SectionLabel',
   tags: ['autodocs'],
   component: SectionLabel,
   argTypes: {

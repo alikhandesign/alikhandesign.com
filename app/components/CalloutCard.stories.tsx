@@ -29,7 +29,7 @@ import CalloutCard from './CalloutCard'
  * Always appears as a 2×2 grid of four cards, one per core value.
  */
 const meta: Meta<typeof CalloutCard> = {
-  title: 'Card/CalloutCard',
+  title: 'Core Components/Cards/CalloutCard',
   tags: ['autodocs'],
   component: CalloutCard,
   parameters: { backgrounds: { default: 'dark' } },

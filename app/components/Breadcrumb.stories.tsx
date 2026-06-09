@@ -26,7 +26,7 @@ import Breadcrumb from './Breadcrumb'
  * Always starts with "My Work" linking to /work, followed by the current page title.
  */
 const meta: Meta<typeof Breadcrumb> = {
-  title: 'Navigation/BreadcrumbNavigation',
+  title: 'Core Components/Navigation/Breadcrumb',
   component: Breadcrumb,
   tags: ['autodocs'],
   argTypes: {

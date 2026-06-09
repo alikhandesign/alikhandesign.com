@@ -44,7 +44,7 @@ import GalleryGrid from './GalleryGrid'
  * to anchor the most important image.
  */
 const meta: Meta<typeof GalleryGrid> = {
-  title: 'Grids/GalleryGrid',
+  title: 'Templates/GalleryGrid',
   tags: ['autodocs'],
   component: GalleryGrid,
   argTypes: {

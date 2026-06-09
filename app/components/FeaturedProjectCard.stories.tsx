@@ -58,7 +58,7 @@ import FeaturedProjectCard from './FeaturedProjectCard'
  * - My Work (`/work`): Projects grid, up to 5 cards in a 3-column grid
  */
 const meta: Meta<typeof FeaturedProjectCard> = {
-  title: 'Card/FeaturedProjectCard',
+  title: 'Core Components/Cards/FeaturedProjectCard',
   tags: ['autodocs'],
   component: FeaturedProjectCard,
   argTypes: {

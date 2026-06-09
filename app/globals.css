@@ -138,7 +138,9 @@ a { color: inherit; }
   background: var(--accent);
   color: var(--bg);
   text-decoration: none;
-  padding: 0.8rem var(--space-8);
+  padding: 0 var(--space-8);
+  height: 48px;
+  box-sizing: border-box;
   font-size: var(--text-base);
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--letter-spacing-sm);
@@ -292,6 +294,19 @@ button:focus-visible {
 @media (max-width: 900px) {
   .article-layout { display: block; }
   .article-layout aside { display: none; }
+}
+
+/* ─── Chat ───────────────────────────────────────────────── */
+.chat-container { height: 600px; }
+@media (max-width: 768px) {
+  .chat-container {
+    height: calc(100dvh - 280px);
+    min-height: 420px;
+    padding: var(--space-4) !important;
+  }
+  .chat-container .suggested-prompts {
+    flex-wrap: wrap;
+  }
 }
 
 /* ─── Gallery Grid ───────────────────────────────────────── */

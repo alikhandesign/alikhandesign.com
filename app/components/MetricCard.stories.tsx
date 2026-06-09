@@ -51,7 +51,7 @@ import MetricCard from './MetricCard'
  * Always appears as exactly 3 cards in a 3-column grid — one per case study.
  */
 const meta: Meta<typeof MetricCard> = {
-  title: 'Card/MetricCard',
+  title: 'Core Components/Cards/MetricCard',
   tags: ['autodocs'],
   component: MetricCard,
   argTypes: {

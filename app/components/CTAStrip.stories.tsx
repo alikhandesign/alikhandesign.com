@@ -36,7 +36,7 @@ import CTAStrip from './CTAStrip'
  * Next Case Study footer navigation.
  */
 const meta: Meta<typeof CTAStrip> = {
-  title: 'Contact/CTAStrip',
+  title: 'Templates/CTAStrip',
   component: CTAStrip,
   tags: ['autodocs'],
   parameters: { backgrounds: { default: 'dark' } },

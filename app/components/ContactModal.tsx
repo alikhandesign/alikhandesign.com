@@ -117,7 +117,7 @@ export default function ContactModal({ isOpen, onClose, triggerRef }: ContactMod
       >
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--accent)' }} />
 
-        <div style={{ padding: 'var(--space-8)' }}>
+        <div style={{ padding: 'var(--space-6)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-5)' }}>
             <div>
               <p className="eyebrow" style={{ marginBottom: 'var(--space-2)' }}>Get in touch</p>
@@ -141,11 +141,11 @@ export default function ContactModal({ isOpen, onClose, triggerRef }: ContactMod
             I'm actively looking for senior product design and AI-focused roles. Copy my email below or send directly — whatever works for you.
           </p>
 
-          <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '0.75rem var(--space-4)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-4)' }}>
-            <span style={{ fontSize: 'var(--text-base)', color: 'var(--text)', fontWeight: 500 }}>ali@alikhandesign.com</span>
+          <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '0.75rem var(--space-4)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.5rem', marginBottom: 'var(--space-4)' }}>
+            <span style={{ fontSize: 'var(--text-sm)', color: 'var(--text)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>ali@alikhandesign.com</span>
             <button
               onClick={handleCopy}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, fontSize: 'var(--text-xs)', color: copied ? 'var(--accent)' : 'var(--text-muted)', fontWeight: 500, fontFamily: 'var(--font-sans)', padding: '8px 4px', transition: 'color var(--transition-base)', minHeight: 44 }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, fontSize: 'var(--text-xs)', color: copied ? 'var(--accent)' : 'var(--text-muted)', fontWeight: 500, fontFamily: 'var(--font-sans)', padding: '8px 4px', transition: 'color var(--transition-base)', minHeight: 44, flexShrink: 0 }}
             >
               {copied ? (
                 <><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8l3.5 3.5L13 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>Copied!</>
@@ -158,9 +158,9 @@ export default function ContactModal({ isOpen, onClose, triggerRef }: ContactMod
           <a
             href="mailto:ali@alikhandesign.com"
             className="btn-primary"
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', boxSizing: 'border-box', marginBottom: 'var(--space-4)', textDecoration: 'none', minHeight: 44 }}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', boxSizing: 'border-box', marginBottom: 'var(--space-4)', textDecoration: 'none' }}
           >
-            Send email → <span aria-hidden="true"></span>
+            Send email →
           </a>
 
           <div style={{ borderTop: '1px solid var(--border)', paddingTop: 'var(--space-4)', display: 'flex', justifyContent: 'center', gap: 'var(--space-6)' }}>

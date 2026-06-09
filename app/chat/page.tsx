@@ -3,6 +3,10 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import ContactModal from '../components/ContactModal'
+import GenerationState, { type GenerationPhase } from '../components/GenerationState'
+import ChatBubble from '../components/ChatBubble'
+import SuggestedPrompts from '../components/SuggestedPrompts'
+import ChatInput from '../components/ChatInput'
 
 const CHAT_PASSWORD = '4likh4n'
 const RATE_LIMIT_WARN = 7
@@ -20,36 +24,6 @@ const SUGGESTED_QUESTIONS = [
   'Tell me about the People-First redesign',
 ]
 
-type GenerationPhase = 'thinking' | 'generating'
-
-function GenerationState({ phase }: { phase: GenerationPhase }) {
-  const config = {
-    thinking: { color: 'var(--color-warning, #92600A)', label: 'Thinking' },
-    generating: { color: 'var(--color-success, #4A6130)', label: 'Generating' },
-  }[phase]
-
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '0.75rem 1rem' }}>
-      <span style={{
-        width: 8, height: 8, borderRadius: '50%',
-        background: config.color,
-        display: 'block',
-        animation: 'gen-pulse 1.6s ease-in-out infinite',
-        flexShrink: 0,
-      }} />
-      <span style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)' }}>
-        {config.label}
-      </span>
-      <style>{`
-        @keyframes gen-pulse {
-          0%, 100% { opacity: 0.4; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.25); }
-        }
-      `}</style>
-    </div>
-  )
-}
-
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
@@ -64,7 +38,6 @@ export default function ChatPage() {
   const [responseCount, setResponseCount] = useState(0)
   const [contactModalOpen, setContactModalOpen] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLTextAreaElement>(null)
   const unlockRef = useRef<HTMLButtonElement>(null)
   const unlockPanelRef = useRef<HTMLDivElement>(null)
   const abortRef = useRef<AbortController | null>(null)
@@ -114,7 +87,7 @@ export default function ChatPage() {
     })
     setLoading(false)
     setStreaming(false)
-    setTimeout(() => inputRef.current?.focus(), 50)
+    setTimeout(() => {}, 50)
   }, [])
 
   const sendMessage = async (text: string) => {
@@ -166,30 +139,9 @@ export default function ChatPage() {
       setLoading(false)
       setStreaming(false)
       abortRef.current = null
-      inputRef.current?.focus()
     }
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      sendMessage(input)
-    }
-  }
-
-  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInput(e.target.value)
-    // Auto-resize
-    e.target.style.height = 'auto'
-    e.target.style.height = Math.min(e.target.scrollHeight, 160) + 'px'
-  }
-
-  // Reset textarea height when input is cleared
-  useEffect(() => {
-    if (!input && inputRef.current) {
-      inputRef.current.style.height = 'auto'
-    }
-  }, [input])
   const isEmpty = messages.length === 0
   const remaining = RATE_LIMIT_MAX - responseCount
   const showWarn = responseCount >= RATE_LIMIT_WARN && responseCount < RATE_LIMIT_MAX
@@ -269,10 +221,11 @@ export default function ChatPage() {
                 ref={unlockPanelRef}
                 style={{
                   position: 'absolute', top: 'calc(100% + 8px)', left: 0,
-                  zIndex: 100, width: 380, maxWidth: 'calc(100vw - 2rem)',
+                  zIndex: 100, width: 380, maxWidth: 'calc(100vw - var(--space-8))',
                   background: 'var(--surface)', border: '1px solid var(--border)',
                   borderRadius: 'var(--radius)',
-                  padding: 'var(--space-6)',
+                  padding: 'var(--space-5)',
+                  boxSizing: 'border-box',
                 }}
               >
                 <p style={{ fontSize: 'var(--text-base)', fontWeight: 500, marginBottom: '0.4rem' }}>Enter access code</p>
@@ -323,8 +276,7 @@ export default function ChatPage() {
           border: '1px solid var(--border)',
           borderRadius: 'var(--radius)',
           padding: 'var(--space-6)',
-          height: 600,
-        }}>
+        }} className="chat-container">
 
           {/* Messages — scrollable */}
           <div style={{
@@ -338,24 +290,7 @@ export default function ChatPage() {
             scrollbarColor: 'var(--border) transparent',
           }}>
             {messages.map((msg, i) => (
-              <div key={i} style={{
-                display: 'flex',
-                justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start',
-              }}>
-                <div style={{
-                  maxWidth: '72%',
-                  padding: '0.75rem 1rem',
-                  borderRadius: msg.role === 'user' ? '12px 12px 2px 12px' : '12px 12px 12px 2px',
-                  fontSize: 'var(--text-base)',
-                  lineHeight: 1.7,
-                  background: msg.role === 'user' ? 'var(--text)' : 'var(--surface)',
-                  color: msg.role === 'user' ? 'var(--bg)' : 'var(--text)',
-                  border: msg.role === 'assistant' ? '1px solid var(--border)' : 'none',
-                  whiteSpace: 'pre-wrap',
-                }}>
-                  {msg.content}
-                </div>
-              </div>
+              <ChatBubble key={i} role={msg.role} content={msg.content} />
             ))}
             {loading && (
               <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
@@ -421,117 +356,22 @@ export default function ChatPage() {
             borderTop: isEmpty ? 'none' : '1px solid var(--border)',
             paddingTop: isEmpty ? 0 : 'var(--space-6)',
           }}>
-            {/* Suggested questions — shown only in empty state */}
             {isEmpty && (
-              <div style={{
-                background: 'var(--bg-subtle, var(--border-subtle, #F7F5F2))',
-                borderRadius: 'var(--radius)',
-                padding: 'var(--space-4)',
-                marginBottom: 'var(--space-4)',
-              }}>
-                <p style={{
-                  fontSize: 'var(--text-xs)', fontWeight: 500, letterSpacing: '0.06em',
-                  textTransform: 'uppercase', color: 'var(--text-faint)',
-                  marginBottom: 'var(--space-3)',
-                }}>
-                  Try asking
-                </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                  {SUGGESTED_QUESTIONS.map(q => (
-                    <button
-                      key={q}
-                      onClick={() => sendMessage(q)}
-                      style={{
-                        padding: '0.375rem 0.875rem',
-                        fontSize: 'var(--text-xs)',
-                        fontFamily: 'var(--font-sans)', fontWeight: 400,
-                        border: '1px solid var(--border)',
-                        borderRadius: '20px',
-                        background: 'var(--surface)', color: 'var(--text-muted)',
-                        cursor: 'pointer',
-                        transition: 'border-color 0.15s, color 0.15s',
-                        textAlign: 'left',
-                        whiteSpace: 'nowrap',
-                      }}
-                      onMouseEnter={e => {
-                        e.currentTarget.style.borderColor = 'var(--border-mid)'
-                        e.currentTarget.style.color = 'var(--text)'
-                      }}
-                      onMouseLeave={e => {
-                        e.currentTarget.style.borderColor = 'var(--border)'
-                        e.currentTarget.style.color = 'var(--text-muted)'
-                      }}
-                    >
-                      {q}
-                    </button>
-                  ))}
-                </div>
-              </div>
+              <SuggestedPrompts
+                prompts={SUGGESTED_QUESTIONS}
+                onSelect={sendMessage}
+              />
             )}
 
-            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'stretch' }}>
-              <textarea
-                ref={inputRef}
-                value={input}
-                onChange={handleTextareaChange}
-                onKeyDown={handleKeyDown}
-                placeholder="Ask about Ali's work, background, or approach..."
-                rows={1}
-                disabled={showLimit}
-                style={{
-                  flex: 1, resize: 'none', padding: '0.75rem 1rem',
-                  border: '1px solid var(--border)', borderRadius: 'var(--radius)',
-                  fontFamily: 'var(--font-sans)', fontSize: 'var(--text-base)',
-                  lineHeight: 1.6, background: 'var(--surface)', color: 'var(--text)',
-                  outline: 'none', transition: 'border-color 0.15s',
-                  minHeight: 44, maxHeight: 160,
-                  opacity: showLimit ? 0.5 : 1,
-                }}
-                onFocus={e => { if (!showLimit) e.target.style.borderColor = 'var(--accent)' }}
-                onBlur={e => e.target.style.borderColor = 'var(--border)'}
-                aria-label="Chat input"
-              />
-              {streaming ? (
-                <button
-                  onClick={handlePauseEdit}
-                  style={{
-                    flexShrink: 0, height: 44,
-                    display: 'flex', alignItems: 'center', gap: 6,
-                    padding: '0 1rem',
-                    background: 'var(--text)', color: 'var(--bg)',
-                    border: 'none', borderRadius: 'var(--radius)',
-                    fontFamily: 'var(--font-sans)', fontSize: 'var(--text-base)',
-                    fontWeight: 500, cursor: 'pointer', whiteSpace: 'nowrap',
-                  }}
-                  aria-label="Pause and edit"
-                >
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                    <rect x="3" y="3" width="3" height="10" rx="1" fill="currentColor"/>
-                    <rect x="10" y="3" width="3" height="10" rx="1" fill="currentColor"/>
-                  </svg>
-                  Pause & edit
-                </button>
-              ) : (
-                <button
-                  onClick={() => sendMessage(input)}
-                  disabled={!input.trim() || loading || showLimit}
-                  className="btn-primary"
-                  style={{
-                    flexShrink: 0,
-                    height: 44,
-                    padding: '0 var(--space-6)',
-                    opacity: (!input.trim() || loading || showLimit) ? 0.5 : 1,
-                  }}
-                  aria-label="Send message"
-                >
-                  Send →
-                </button>
-              )}
-            </div>
-
-            <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)', marginTop: '0.5rem', lineHeight: 1.5 }}>
-              Conversations may be logged to improve this experience. Press Enter to send, Shift+Enter for a new line.
-            </p>
+            <ChatInput
+              value={input}
+              onChange={setInput}
+              onSend={() => sendMessage(input)}
+              onPauseEdit={handlePauseEdit}
+              disabled={showLimit}
+              streaming={streaming}
+              placeholder="Ask about Ali's work, background, or approach..."
+            />
           </div>
         </div>
       </div>

@@ -36,7 +36,7 @@ import CaseStudyImage from './CaseStudyImage'
  * process documentation. Typically appears inside a `.article-layout` content column.
  */
 const meta: Meta<typeof CaseStudyImage> = {
-  title: 'Image/CaseStudyImage',
+  title: 'Templates/CaseStudyImage',
   tags: ['autodocs'],
   component: CaseStudyImage,
   argTypes: {

@@ -61,7 +61,7 @@ import SideNav from './SideNav'
  * The 200px left column holds the SideNavigation; the right column holds content.
  */
 const meta: Meta<typeof SideNav> = {
-  title: 'Navigation/SideNavigation',
+  title: 'Core Components/Navigation/Side',
   tags: ['autodocs'],
   component: SideNav,
   argTypes: {

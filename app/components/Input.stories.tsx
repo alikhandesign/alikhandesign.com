@@ -44,7 +44,7 @@ import Input from './Input'
  * - Transition: `--transition-base` (150ms ease)
  */
 const meta: Meta<typeof Input> = {
-  title: 'Inputs/Input',
+  title: 'Core Components/Input',
   tags: ['autodocs'],
   component: Input,
   parameters: { backgrounds: { default: 'dark' } },

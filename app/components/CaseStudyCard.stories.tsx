@@ -50,7 +50,7 @@ import CaseStudyCard from './CaseStudyCard'
  * Not used on the homepage — the homepage uses FeaturedProjectCard for case studies.
  */
 const meta: Meta<typeof CaseStudyCard> = {
-  title: 'Card/CaseStudyCard',
+  title: 'Core Components/Cards/CaseStudyCard',
   tags: ['autodocs'],
   component: CaseStudyCard,
   argTypes: {

@@ -28,7 +28,7 @@ import ButtonLink from './ButtonLink'
  * Used on FeaturedProjectCard, CaseStudyCard, and inline in page sections.
  */
 const meta: Meta<typeof ButtonLink> = {
-  title: 'Button/ButtonLink',
+  title: 'Core Components/ButtonLink',
   tags: ['autodocs'],
   component: ButtonLink,
   argTypes: {
