@@ -20,22 +20,30 @@ const SUGGESTED_QUESTIONS = [
   'Tell me about the People-First redesign',
 ]
 
-function TypingIndicator() {
+type GenerationPhase = 'thinking' | 'generating'
+
+function GenerationState({ phase }: { phase: GenerationPhase }) {
+  const config = {
+    thinking: { color: 'var(--color-warning, #92600A)', label: 'Thinking' },
+    generating: { color: 'var(--color-success, #4A6130)', label: 'Generating' },
+  }[phase]
+
   return (
-    <div style={{ display: 'flex', gap: 4, alignItems: 'center', padding: '0.75rem 1rem' }}>
-      {[0, 1, 2].map(i => (
-        <span key={i} style={{
-          width: 6, height: 6, borderRadius: '50%',
-          background: 'var(--text-muted)',
-          animation: 'typing-bounce 1.2s infinite',
-          animationDelay: `${i * 0.2}s`,
-          display: 'block',
-        }} />
-      ))}
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '0.75rem 1rem' }}>
+      <span style={{
+        width: 8, height: 8, borderRadius: '50%',
+        background: config.color,
+        display: 'block',
+        animation: 'gen-pulse 1.6s ease-in-out infinite',
+        flexShrink: 0,
+      }} />
+      <span style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)' }}>
+        {config.label}
+      </span>
       <style>{`
-        @keyframes typing-bounce {
-          0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
-          40% { transform: translateY(-4px); opacity: 1; }
+        @keyframes gen-pulse {
+          0%, 100% { opacity: 0.4; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.25); }
         }
       `}</style>
     </div>
@@ -47,6 +55,7 @@ export default function ChatPage() {
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [streaming, setStreaming] = useState(false)
+  const [generationPhase, setGenerationPhase] = useState<GenerationPhase>('thinking')
   const [unlocked, setUnlocked] = useState(false)
   const [showUnlock, setShowUnlock] = useState(false)
   const [passwordInput, setPasswordInput] = useState('')
@@ -122,6 +131,7 @@ export default function ChatPage() {
     setInput('')
     setLoading(true)
     setStreaming(true)
+    setGenerationPhase('thinking')
 
     const controller = new AbortController()
     abortRef.current = controller
@@ -142,6 +152,7 @@ export default function ChatPage() {
 
       if (!res.ok) throw new Error('API error')
 
+      setGenerationPhase('generating')
       const data = await res.json()
       setMessages(prev => [...prev, { role: 'assistant', content: data.message }])
       setResponseCount(c => c + 1)
@@ -166,6 +177,19 @@ export default function ChatPage() {
     }
   }
 
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInput(e.target.value)
+    // Auto-resize
+    e.target.style.height = 'auto'
+    e.target.style.height = Math.min(e.target.scrollHeight, 160) + 'px'
+  }
+
+  // Reset textarea height when input is cleared
+  useEffect(() => {
+    if (!input && inputRef.current) {
+      inputRef.current.style.height = 'auto'
+    }
+  }, [input])
   const isEmpty = messages.length === 0
   const remaining = RATE_LIMIT_MAX - responseCount
   const showWarn = responseCount >= RATE_LIMIT_WARN && responseCount < RATE_LIMIT_MAX
@@ -274,7 +298,6 @@ export default function ChatPage() {
                     value={passwordInput}
                     onChange={e => setPasswordInput(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && handleUnlock()}
-                    style={{ flex: 1, background: 'var(--surface)', color: 'var(--text)', caretColor: 'var(--text)' }}
                     aria-label="Access code"
                     autoFocus
                   />
@@ -294,53 +317,58 @@ export default function ChatPage() {
 
         {/* Chat area */}
         <div style={{
-          flex: 1, display: 'flex', flexDirection: 'column',
+          display: 'flex', flexDirection: 'column',
           marginTop: 'var(--space-6)',
           background: 'var(--surface)',
           border: '1px solid var(--border)',
           borderRadius: 'var(--radius)',
           padding: 'var(--space-6)',
+          height: 600,
         }}>
 
-          {/* Messages */}
-          {!isEmpty && (
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--space-6)', paddingBottom: 'var(--space-8)' }}>
-              {messages.map((msg, i) => (
-                <div key={i} style={{
-                  display: 'flex',
-                  justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start',
+          {/* Messages — scrollable */}
+          <div style={{
+            flex: 1,
+            overflowY: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 'var(--space-6)',
+            paddingBottom: isEmpty ? 0 : 'var(--space-4)',
+            scrollbarWidth: 'thin',
+            scrollbarColor: 'var(--border) transparent',
+          }}>
+            {messages.map((msg, i) => (
+              <div key={i} style={{
+                display: 'flex',
+                justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start',
+              }}>
+                <div style={{
+                  maxWidth: '72%',
+                  padding: '0.75rem 1rem',
+                  borderRadius: msg.role === 'user' ? '12px 12px 2px 12px' : '12px 12px 12px 2px',
+                  fontSize: 'var(--text-base)',
+                  lineHeight: 1.7,
+                  background: msg.role === 'user' ? 'var(--text)' : 'var(--surface)',
+                  color: msg.role === 'user' ? 'var(--bg)' : 'var(--text)',
+                  border: msg.role === 'assistant' ? '1px solid var(--border)' : 'none',
+                  whiteSpace: 'pre-wrap',
                 }}>
-                  <div style={{
-                    maxWidth: '72%',
-                    padding: '0.75rem 1rem',
-                    borderRadius: msg.role === 'user' ? '12px 12px 2px 12px' : '12px 12px 12px 2px',
-                    fontSize: 'var(--text-base)',
-                    lineHeight: 1.7,
-                    background: msg.role === 'user' ? 'var(--text)' : 'var(--surface)',
-                    color: msg.role === 'user' ? 'var(--bg)' : 'var(--text)',
-                    border: msg.role === 'assistant' ? '1px solid var(--border)' : 'none',
-                    whiteSpace: 'pre-wrap',
-                  }}>
-                    {msg.content}
-                  </div>
+                  {msg.content}
                 </div>
-              ))}
-              {loading && (
-                <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                  <div style={{
-                    background: 'var(--surface)', border: '1px solid var(--border)',
-                    borderRadius: '12px 12px 12px 2px',
-                  }}>
-                    <TypingIndicator />
-                  </div>
+              </div>
+            ))}
+            {loading && (
+              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <div style={{
+                  background: 'var(--surface)', border: '1px solid var(--border)',
+                  borderRadius: '12px 12px 12px 2px',
+                }}>
+                  <GenerationState phase={generationPhase} />
                 </div>
-              )}
-              <div ref={bottomRef} />
-            </div>
-          )}
-
-          {/* Empty state spacer */}
-          {isEmpty && <div style={{ flex: 1 }} />}
+              </div>
+            )}
+            <div ref={bottomRef} />
+          </div>
 
           {/* Rate limit warning */}
           {showWarn && (
@@ -395,35 +423,49 @@ export default function ChatPage() {
           }}>
             {/* Suggested questions — shown only in empty state */}
             {isEmpty && (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: 'var(--space-3)' }}>
-                {SUGGESTED_QUESTIONS.map(q => (
-                  <button
-                    key={q}
-                    onClick={() => sendMessage(q)}
-                    style={{
-                      padding: '0.375rem 0.875rem',
-                      fontSize: 'var(--text-xs)',
-                      fontFamily: 'var(--font-sans)', fontWeight: 400,
-                      border: '1px solid var(--border)',
-                      borderRadius: '20px',
-                      background: 'var(--surface)', color: 'var(--text-muted)',
-                      cursor: 'pointer',
-                      transition: 'border-color 0.15s, color 0.15s',
-                      textAlign: 'left',
-                      whiteSpace: 'nowrap',
-                    }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.borderColor = 'var(--border-mid)'
-                      e.currentTarget.style.color = 'var(--text)'
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.borderColor = 'var(--border)'
-                      e.currentTarget.style.color = 'var(--text-muted)'
-                    }}
-                  >
-                    {q}
-                  </button>
-                ))}
+              <div style={{
+                background: 'var(--bg-subtle, var(--border-subtle, #F7F5F2))',
+                borderRadius: 'var(--radius)',
+                padding: 'var(--space-4)',
+                marginBottom: 'var(--space-4)',
+              }}>
+                <p style={{
+                  fontSize: 'var(--text-xs)', fontWeight: 500, letterSpacing: '0.06em',
+                  textTransform: 'uppercase', color: 'var(--text-faint)',
+                  marginBottom: 'var(--space-3)',
+                }}>
+                  Try asking
+                </p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  {SUGGESTED_QUESTIONS.map(q => (
+                    <button
+                      key={q}
+                      onClick={() => sendMessage(q)}
+                      style={{
+                        padding: '0.375rem 0.875rem',
+                        fontSize: 'var(--text-xs)',
+                        fontFamily: 'var(--font-sans)', fontWeight: 400,
+                        border: '1px solid var(--border)',
+                        borderRadius: '20px',
+                        background: 'var(--surface)', color: 'var(--text-muted)',
+                        cursor: 'pointer',
+                        transition: 'border-color 0.15s, color 0.15s',
+                        textAlign: 'left',
+                        whiteSpace: 'nowrap',
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.borderColor = 'var(--border-mid)'
+                        e.currentTarget.style.color = 'var(--text)'
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.borderColor = 'var(--border)'
+                        e.currentTarget.style.color = 'var(--text-muted)'
+                      }}
+                    >
+                      {q}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
 
@@ -431,7 +473,7 @@ export default function ChatPage() {
               <textarea
                 ref={inputRef}
                 value={input}
-                onChange={e => setInput(e.target.value)}
+                onChange={handleTextareaChange}
                 onKeyDown={handleKeyDown}
                 placeholder="Ask about Ali's work, background, or approach..."
                 rows={1}
