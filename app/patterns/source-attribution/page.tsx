@@ -35,7 +35,7 @@ export default function SourceAttributionPage() {
       style={{
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
         width: 20, height: 20, borderRadius: '50%',
-        background: openSource === id ? 'var(--accent)' : hoveredRef === id ? 'var(--accent-dark)' : '#1D4ED8',
+        background: openSource === id ? 'var(--accent)' : hoveredRef === id ? 'var(--accent-dark)' : 'var(--text-mid)',
         color: '#fff', fontSize: 11, fontWeight: 700,
         border: 'none', cursor: 'pointer',
         marginLeft: 3, marginRight: 1, verticalAlign: 'middle',
@@ -65,28 +65,32 @@ export default function SourceAttributionPage() {
           </p>
         </div>
         {openSource && activeSourceData && (
-          <div style={{ background: 'var(--warm-75)', padding: 'var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ background: 'var(--warm-75)', padding: 'var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-1)' }}>
               <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', fontWeight: 'var(--font-weight-medium)' }}>Source inspector</p>
               <button onClick={() => setOpenSource(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', fontSize: 16, lineHeight: 1, padding: 0 }} aria-label="Close source inspector">×</button>
             </div>
             {SOURCES.map(s => (
-              <button key={s.id} onClick={() => setOpenSource(s.id)} style={{ padding: 'var(--space-3)', borderRadius: 'var(--radius)', border: `1px solid ${s.id === openSource ? 'var(--accent)' : 'var(--border)'}`, background: s.id === openSource ? 'var(--accent-bg)' : 'var(--surface)', textAlign: 'left', cursor: 'pointer', fontFamily: 'var(--font-sans)', transition: 'all var(--transition-base)', width: '100%' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
-                  <span style={{ width: 18, height: 18, borderRadius: '50%', background: s.id === openSource ? 'var(--accent)' : '#1D4ED8', color: '#fff', fontSize: 10, fontWeight: 700, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{s.id}</span>
-                  <span style={{ fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--text)' }}>{s.label}</span>
-                </div>
-                <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginBottom: 'var(--space-1)' }}>{s.domain}</div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)' }}>{s.date}</span>
-                  <span style={{ fontSize: 9, letterSpacing: '0.05em', textTransform: 'uppercase', color: s.match === 'Exact' ? '#15803D' : '#B45309', fontWeight: 700 }}>{s.match}</span>
-                </div>
-              </button>
+              <div key={s.id} style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+                <button onClick={() => setOpenSource(s.id)} style={{ padding: 'var(--space-3)', borderRadius: s.id === openSource ? 'var(--radius) var(--radius) 0 0' : 'var(--radius)', border: `1px solid ${s.id === openSource ? 'var(--accent)' : 'var(--border)'}`, borderBottom: s.id === openSource ? 'none' : `1px solid ${s.id === openSource ? 'var(--accent)' : 'var(--border)'}`, background: s.id === openSource ? 'var(--accent-bg)' : 'var(--surface)', textAlign: 'left', cursor: 'pointer', fontFamily: 'var(--font-sans)', transition: 'all var(--transition-base)', width: '100%' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
+                    <span style={{ width: 18, height: 18, borderRadius: '50%', background: s.id === openSource ? 'var(--accent)' : 'var(--text-mid)', color: '#fff', fontSize: 10, fontWeight: 700, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{s.id}</span>
+                    <span style={{ fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--text)' }}>{s.label}</span>
+                  </div>
+                  <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginBottom: 'var(--space-1)' }}>{s.domain}</div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)' }}>{s.date}</span>
+                    <span style={{ fontSize: 9, letterSpacing: '0.05em', textTransform: 'uppercase', color: s.match === 'Exact' ? 'var(--color-success, #4A6130)' : 'var(--color-warning, #92600A)', fontWeight: 700 }}>{s.match}</span>
+                  </div>
+                </button>
+                {s.id === openSource && (
+                  <div style={{ padding: 'var(--space-3)', background: 'var(--surface)', borderRadius: '0 0 var(--radius) var(--radius)', border: '1px solid var(--accent)', borderTop: '1px solid var(--border)' }}>
+                    <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', fontWeight: 'var(--font-weight-medium)', marginBottom: 'var(--space-2)' }}>Relevant excerpt</p>
+                    <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text)', lineHeight: 'var(--line-height-normal)', fontStyle: 'italic' }}>&ldquo;{s.excerpt}&rdquo;</p>
+                  </div>
+                )}
+              </div>
             ))}
-            <div style={{ padding: 'var(--space-3)', background: 'var(--surface)', borderRadius: 'var(--radius)', border: '1px solid var(--border)' }}>
-              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', fontWeight: 'var(--font-weight-medium)', marginBottom: 'var(--space-2)' }}>Relevant excerpt</p>
-              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text)', lineHeight: 'var(--line-height-normal)', fontStyle: 'italic' }}>&ldquo;{activeSourceData.excerpt}&rdquo;</p>
-            </div>
           </div>
         )}
       </div>
@@ -139,3 +143,4 @@ function Definition() {
     </div>
   )
 }
+
