@@ -35,7 +35,7 @@ export default function Home() {
               Designing systems that make research{' '}
               <em style={{ fontStyle: 'italic', color: 'var(--accent)' }}>scale.</em>
             </h1>
-            <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--text-muted)', marginBottom: '2rem' }}>
+            <p style={{ fontSize: 'var(--text-md)', lineHeight: 1.7, color: 'var(--text-muted)', marginBottom: '2rem' }}>
               I help product teams understand their users at scale — combining mixed-methods research, strategic synthesis, and AI-native workflows to turn insight into action.
             </p>
             <Link href="/work" className="btn-primary">View my work <span aria-hidden="true">→</span></Link>
@@ -70,7 +70,7 @@ export default function Home() {
       {/* Metrics */}
       <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad">
         <SectionLabel label="Impact" />
-        <h2 className="font-serif section-title" style={{ fontSize: '2.25rem', fontWeight: 400, marginBottom: '3rem', lineHeight: 1.15 }}>Work that moves the needle.</h2>
+        <h2 className="font-serif section-title" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400, marginBottom: '3rem', lineHeight: 1.15 }}>Work that moves the needle.</h2>
         <div className="grid-3">
           {metrics.map(m => (
             <MetricCard key={m.company} company={m.company} value={m.value} description={m.desc} href={m.link} />
@@ -83,7 +83,7 @@ export default function Home() {
       {/* Featured Work */}
       <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad">
         <SectionLabel label="Featured Work" />
-        <h2 className="font-serif section-title" style={{ fontSize: '2.25rem', fontWeight: 400, marginBottom: '3rem', lineHeight: 1.15 }}>Research in action.</h2>
+        <h2 className="font-serif section-title" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400, marginBottom: '3rem', lineHeight: 1.15 }}>Research in action.</h2>
         <div className="grid-2">
           {featured.map(f => (
             <FeaturedProjectCard key={f.title} type={f.type} title={f.title} company={f.company} description={f.desc} href={f.href} />
@@ -97,11 +97,11 @@ export default function Home() {
           <div className="grid-2" style={{ alignItems: 'center' }}>
             <div>
               <p className="eyebrow-dark">About Me</p>
-              <h2 className="font-serif" style={{ fontSize: '2rem', fontWeight: 400, color: 'var(--bg)', lineHeight: 1.2, marginBottom: '1rem' }}>I design for the questions, not just the answers.</h2>
-              <p style={{ fontSize: 16, color: 'var(--bg)', lineHeight: 1.75, marginBottom: '1.5rem' }}>
+              <h2 className="font-serif" style={{ fontSize: '2rem', fontWeight: 400, color: 'var(--text-on-dark)', lineHeight: 1.2, marginBottom: '1rem' }}>I design for the questions, not just the answers.</h2>
+              <p style={{ fontSize: 'var(--text-md)', color: 'var(--text-on-dark)', lineHeight: 1.75, marginBottom: '1.5rem' }}>
                 With 10+ years in product design and UX research, I learned that the most valuable work happens before the first wireframe — understanding why people behave the way they do, and building systems that listen at scale.
               </p>
-              <Link href="/about" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--bg)', textDecoration: 'none', fontSize: 14, fontWeight: 500, borderBottom: '1px solid var(--accent)', paddingBottom: 2 }}>
+              <Link href="/about" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--text-on-dark)', textDecoration: 'none', fontSize: 14, fontWeight: 500, borderBottom: '1px solid var(--accent)', paddingBottom: 2 }}>
                 Read my full story →
               </Link>
             </div>
