@@ -119,25 +119,43 @@ export async function POST(req: NextRequest) {
   const data = await response.json()
   const assistantMessage = data.content?.[0]?.text ?? ''
 
-  // Extract cited source IDs from inline [n] markers
-  const citedIds = [...new Set(
-    [...assistantMessage.matchAll(/\[(\d+)\]/g)]
-      .map(m => parseInt(m[1]))
-      .filter(id => SITE_SOURCES.some(s => s.id === id))
-  )]
-  const citedSources = SITE_SOURCES.filter(s => citedIds.includes(s.id))
+  // Extract cited source IDs in order of first appearance
+  const seenIds: number[] = []
+  for (const match of assistantMessage.matchAll(/\[(\d+)\]/g)) {
+    const id = parseInt(match[1])
+    if (SITE_SOURCES.some(s => s.id === id) && !seenIds.includes(id)) {
+      seenIds.push(id)
+    }
+  }
+
+  // Build remapping: original source ID → sequential display number (1, 2, 3...)
+  const idToDisplayNum: Record<number, number> = {}
+  seenIds.forEach((id, index) => {
+    idToDisplayNum[id] = index + 1
+  })
+
+  // Rewrite [n] markers in message text to sequential display numbers
+  const renumberedMessage = assistantMessage.replace(/\[(\d+)\]/g, (match, num) => {
+    const id = parseInt(num)
+    return idToDisplayNum[id] !== undefined ? `[${idToDisplayNum[id]}]` : match
+  })
+
+  // Return sources in appearance order, matched to their new display numbers
+  const citedSources = seenIds
+    .map(id => SITE_SOURCES.find(s => s.id === id))
+    .filter(Boolean)
 
   const userMessage = messages[messages.length - 1]?.content ?? ''
   await logConversation({
     ip,
     userMessage: typeof userMessage === 'string' ? userMessage : JSON.stringify(userMessage),
-    assistantMessage,
+    assistantMessage: renumberedMessage,
     unlocked,
     timestamp: new Date().toISOString(),
   })
 
   return NextResponse.json(
-    { message: assistantMessage, sources: citedSources, remaining },
+    { message: renumberedMessage, sources: citedSources, remaining },
     { headers: { 'X-RateLimit-Remaining': String(remaining) } }
   )
 }
