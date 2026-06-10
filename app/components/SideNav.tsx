@@ -38,13 +38,13 @@ export default function SideNav({ sections, unlocked = true }: SideNavProps) {
     const isActive = active === id
     const isHovered = hovered === id && !isActive
     return {
-      fontSize: 'var(--color-text-base)',
-      color: isActive ? 'var(--color-accent)' : isHovered ? 'var(--color-text-mid)' : 'var(--color-text-muted)',
+      fontSize: 'var(--text-base)',
+      color: isActive ? 'var(--accent)' : isHovered ? 'var(--text-mid)' : 'var(--text-muted)',
       fontWeight: isActive || isHovered ? 500 : 400,
       textDecoration: 'none',
       display: 'block',
       padding: 'var(--space-2) 0 var(--space-2) var(--space-3)',
-      borderLeft: `2px solid ${isActive ? 'var(--color-accent)' : isHovered ? 'var(--color-border-mid)' : 'var(--color-border)'}`,
+      borderLeft: `2px solid ${isActive ? 'var(--accent)' : isHovered ? 'var(--border-mid)' : 'var(--border)'}`,
       lineHeight: 1.4,
       transition: 'color var(--transition-base), border-color var(--transition-base)',
     }
@@ -53,10 +53,10 @@ export default function SideNav({ sections, unlocked = true }: SideNavProps) {
   return (
     <aside style={{ position: 'sticky', top: '5rem' }}>
       <p style={{
-        fontSize: 'var(--color-text-xs)',
+        fontSize: 'var(--text-xs)',
         letterSpacing: 'var(--letter-spacing-lg)',
         textTransform: 'uppercase' as const,
-        color: 'var(--color-text-muted)',
+        color: 'var(--text-muted)',
         fontWeight: 500,
         marginBottom: 'var(--space-4)'
       }}>Contents</p>
