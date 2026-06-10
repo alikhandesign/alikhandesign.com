@@ -36,7 +36,7 @@ export default function SourceAttributionPage() {
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
         width: 20, height: 20, borderRadius: '50%',
         background: openSource === id ? 'var(--color-accent)' : hoveredRef === id ? 'var(--color-accent-dark)' : 'var(--color-text-mid)',
-        color: '#fff', fontSize: 11, fontWeight: 700,
+        color: '#fff', fontSize: 'var(--text-badge)', fontWeight: 700,
         border: 'none', cursor: 'pointer',
         marginLeft: 3, marginRight: 1, verticalAlign: 'middle',
         transition: 'background var(--transition-base)',
@@ -47,14 +47,14 @@ export default function SourceAttributionPage() {
 
   const uncitedMarker = (
     <span title="No source available — claim drawn from parametric memory"
-      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 18, height: 18, borderRadius: '50%', background: 'var(--color-surface-subtle)', border: '1px solid var(--color-border-mid)', fontSize: 10, color: 'var(--color-text-muted)', cursor: 'help', marginLeft: 3, verticalAlign: 'middle' }}>!</span>
+      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 18, height: 18, borderRadius: '50%', background: 'var(--color-surface-subtle)', border: '1px solid var(--color-border-mid)', fontSize: 'var(--text-badge)', color: 'var(--color-text-muted)', cursor: 'help', marginLeft: 3, verticalAlign: 'middle' }}>!</span>
   )
 
   const demo = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
       <PatternAnnotation finding={ANNOTATION} />
       <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-normal)' }}>
-        Click any numbered citation to open the Source Inspector. The <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 18, height: 18, borderRadius: '50%', background: 'var(--color-surface-subtle)', border: '1px solid var(--color-border-mid)', fontSize: 10, color: 'var(--color-text-muted)', verticalAlign: 'middle' }}>!</span> marker indicates a claim with no external source.
+        Click any numbered citation to open the Source Inspector. The <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 18, height: 18, borderRadius: '50%', background: 'var(--color-surface-subtle)', border: '1px solid var(--color-border-mid)', fontSize: 'var(--text-badge)', color: 'var(--color-text-muted)', verticalAlign: 'middle' }}>!</span> marker indicates a claim with no external source.
       </p>
       <div style={{ display: 'grid', gridTemplateColumns: openSource ? '1fr 260px' : '1fr', gap: 0, border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', overflow: 'hidden', transition: 'grid-template-columns 0.25s ease' }}>
         <div style={{ padding: 'var(--space-6)', borderRight: openSource ? '1px solid var(--color-border)' : 'none' }}>
@@ -68,13 +68,13 @@ export default function SourceAttributionPage() {
           <div style={{ background: 'var(--color-surface-subtle)', padding: 'var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-1)' }}>
               <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', fontWeight: 'var(--font-weight-medium)' }}>Source inspector</p>
-              <button onClick={() => setOpenSource(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)', fontSize: 16, lineHeight: 1, padding: 0 }} aria-label="Close source inspector">×</button>
+              <button onClick={() => setOpenSource(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)', fontSize: 'var(--text-md)', lineHeight: 1, padding: 0 }} aria-label="Close source inspector">×</button>
             </div>
             {SOURCES.map(s => (
               <div key={s.id} style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
                 <button onClick={() => setOpenSource(s.id)} style={{ padding: 'var(--space-3)', borderRadius: s.id === openSource ? 'var(--radius) var(--radius) 0 0' : 'var(--radius)', border: `1px solid ${s.id === openSource ? 'var(--color-accent)' : 'var(--color-border)'}`, borderBottom: s.id === openSource ? 'none' : `1px solid ${s.id === openSource ? 'var(--color-accent)' : 'var(--color-border)'}`, background: s.id === openSource ? 'var(--color-accent-bg)' : 'var(--color-surface)', textAlign: 'left', cursor: 'pointer', fontFamily: 'var(--font-sans)', transition: 'all var(--transition-base)', width: '100%' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
-                    <span style={{ width: 18, height: 18, borderRadius: '50%', background: s.id === openSource ? 'var(--color-accent)' : 'var(--color-text-mid)', color: '#fff', fontSize: 10, fontWeight: 700, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{s.id}</span>
+                    <span style={{ width: 18, height: 18, borderRadius: '50%', background: s.id === openSource ? 'var(--color-accent)' : 'var(--color-text-mid)', color: '#fff', fontSize: 'var(--text-badge)', fontWeight: 700, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{s.id}</span>
                     <span style={{ fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text)' }}>{s.label}</span>
                   </div>
                   <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>{s.domain}</div>
