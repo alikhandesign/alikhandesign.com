@@ -10,14 +10,14 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
       {items.map((item, i) => (
         <span key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
           {i > 0 && (
-            <span style={{ fontSize: 'var(--text-base)', color: 'var(--border-mid)' }} aria-hidden="true">›</span>
+            <span style={{ fontSize: 'var(--color-text-base)', color: 'var(--color-border-mid)' }} aria-hidden="true">›</span>
           )}
           {item.href ? (
-            <Link href={item.href} style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', textDecoration: 'none' }}>
+            <Link href={item.href} style={{ fontSize: 'var(--color-text-base)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>
               {item.label}
             </Link>
           ) : (
-            <span style={{ fontSize: 'var(--text-base)', color: 'var(--text)', fontWeight: 500 }} aria-current="page">
+            <span style={{ fontSize: 'var(--color-text-base)', color: 'var(--color-text)', fontWeight: 500 }} aria-current="page">
               {item.label}
             </span>
           )}
