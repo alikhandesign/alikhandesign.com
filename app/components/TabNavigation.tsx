@@ -37,13 +37,13 @@ export default function TabNavigation({
                     width: '100%',
                     textAlign: 'left',
                     padding: 'var(--space-2) 0 var(--space-2) var(--space-3)',
-                    fontSize: 'var(--color-text-base)',
+                    fontSize: 'var(--text-base)',
                     fontFamily: 'var(--font-sans)',
                     fontWeight: isActive || isHovered ? 500 : 400,
-                    color: isActive ? 'var(--color-accent)' : isHovered ? 'var(--color-text-mid)' : 'var(--color-text-muted)',
+                    color: isActive ? 'var(--accent)' : isHovered ? 'var(--text-mid)' : 'var(--text-muted)',
                     background: 'none',
                     border: 'none',
-                    borderLeft: `2px solid ${isActive ? 'var(--color-accent)' : isHovered ? 'var(--color-border-mid)' : 'var(--color-border)'}`,
+                    borderLeft: `2px solid ${isActive ? 'var(--accent)' : isHovered ? 'var(--border-mid)' : 'var(--border)'}`,
                     cursor: 'pointer',
                     lineHeight: 1.4,
                     transition: 'color var(--transition-base), border-color var(--transition-base)',
@@ -64,7 +64,7 @@ export default function TabNavigation({
     <nav
       aria-label="Tab navigation"
       style={{
-        borderBottom: '1px solid var(--color-border)',
+        borderBottom: '1px solid var(--border)',
         padding: '0 var(--space-12)',
         display: 'flex',
         gap: 0,
@@ -82,13 +82,13 @@ export default function TabNavigation({
             aria-current={isActive ? 'true' : undefined}
             style={{
               padding: 'var(--space-4) var(--space-5)',
-              fontSize: 'var(--color-text-sm)',
+              fontSize: 'var(--text-sm)',
               fontFamily: 'var(--font-sans)',
               fontWeight: isActive ? 'var(--font-weight-semibold)' : isHovered ? 'var(--font-weight-medium)' : 'var(--font-weight-regular)',
-              color: isActive ? 'var(--color-accent)' : isHovered ? 'var(--color-text-mid)' : 'var(--color-text-muted)',
+              color: isActive ? 'var(--accent)' : isHovered ? 'var(--text-mid)' : 'var(--text-muted)',
               background: 'none',
               border: 'none',
-              borderBottom: `2px solid ${isActive ? 'var(--color-accent)' : 'transparent'}`,
+              borderBottom: `2px solid ${isActive ? 'var(--accent)' : 'transparent'}`,
               cursor: 'pointer',
               marginBottom: -1,
               whiteSpace: 'nowrap',
