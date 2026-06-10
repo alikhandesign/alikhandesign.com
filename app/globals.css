@@ -36,6 +36,7 @@
 
   /* Typography — size scale (rem, base 16px) */
   --text-xs:     0.75rem;   /* 12px */
+  --text-badge:  0.625rem;  /* 10px — badge and micro-label use only */
   --text-sm:     0.8125rem; /* 13px */
   --text-base:   0.875rem;  /* 14px */
   --text-md:     1rem;      /* 16px */
