@@ -10,12 +10,12 @@ export default function CaseStudyImage({ src, alt = '', caption }: CaseStudyImag
       {src ? (
         <img src={src} alt={alt} style={{ width: '100%', borderRadius: 'var(--radius)', display: 'block' }} />
       ) : (
-        <div style={{ width: '100%', height: 320, background: 'var(--color-border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: 'var(--color-text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>
+        <div style={{ width: '100%', height: 320, background: 'var(--color-border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>
           Image
         </div>
       )}
       {caption && (
-        <figcaption style={{ fontSize: 12, color: 'var(--color-text-muted)', fontStyle: 'italic', textAlign: 'center', marginTop: '0.5rem' }}>
+        <figcaption style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', fontStyle: 'italic', textAlign: 'center', marginTop: '0.5rem' }}>
           {caption}
         </figcaption>
       )}
