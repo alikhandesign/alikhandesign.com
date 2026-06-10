@@ -27,8 +27,8 @@ export default function AboutPage() {
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <header className="page-header">
           <SectionLabel label="About Me" />
-          <h1 className="font-serif page-title-lg" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.75rem' }}>The person behind the work.</h1>
-          <p style={{ fontSize: 16, color: 'var(--text-muted)', lineHeight: 1.6, maxWidth: 580 }}>Senior Product Designer and Researcher. Open to remote and in-person opportunities anywhere.</p>
+          <h1 className="font-serif page-title-lg" style={{ fontSize: 'var(--text-5xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.75rem' }}>The person behind the work.</h1>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--text-muted)', lineHeight: 1.7, maxWidth: 580 }}>Senior Product Designer and Researcher. Open to remote and in-person opportunities anywhere.</p>
         </header>
       </div>
 
@@ -50,7 +50,7 @@ export default function AboutPage() {
 
       <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
         <SectionLabel label="Design Philosophy" />
-        <h2 className="font-serif section-title" style={{ fontSize: '2rem', fontWeight: 400, marginBottom: '1.75rem', lineHeight: 1.15 }}>How I think about design.</h2>
+        <h2 className="font-serif section-title" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400, marginBottom: '1.75rem', lineHeight: 1.15 }}>How I think about design.</h2>
         <p style={{ fontSize: 16, color: 'var(--text)', lineHeight: 1.75, marginBottom: '3rem', maxWidth: 680 }}>The best design is the kind nobody notices. It just works. Getting there though requires a specific way of seeing problems, and over ten years I've found it comes down to three things.</p>
         <div>
           {pillars.map((p, i) => (
@@ -73,9 +73,9 @@ export default function AboutPage() {
           <div className="grid-2-wide" style={{ alignItems: 'start' }}>
             <div>
               <SectionLabel label="AI-Native Mindset" variant="dark" />
-              <h2 className="font-serif" style={{ fontSize: '2rem', fontWeight: 400, color: 'var(--bg)', lineHeight: 1.15, marginBottom: '1.75rem' }}>AI that earns its place on the team.</h2>
+              <h2 className="font-serif" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400, color: 'var(--text-on-dark)', lineHeight: 1.15, marginBottom: '1.75rem' }}>AI that earns its place on the team.</h2>
               {["AI doesn't intimidate me, it excites me. But not uncritically.", "I've built agentic research pipelines from scratch. I've seen what happens when AI gets deployed without a validation framework, without transparency, without a human in the loop.", "The thing that frustrates me most about AI products is false confidence. When a system gives me a wrong answer like it's completely certain, that's a design failure. Not just a technical one.", "My goal is always the same: AI that scales what humans do well, that knows its limits, and signals them clearly. AI that earns the trust of the people using it."].map((p, i, arr) => (
-                <p key={i} style={{ fontSize: 16, color: 'var(--bg)', lineHeight: 1.8, marginBottom: i < arr.length - 1 ? '1.25rem' : 0 }}>{p}</p>
+                <p key={i} style={{ fontSize: 16, color: 'var(--text-on-dark)', lineHeight: 1.8, marginBottom: i < arr.length - 1 ? '1.25rem' : 0 }}>{p}</p>
               ))}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)', paddingTop: 'var(--space-2)' }}>
@@ -91,7 +91,7 @@ export default function AboutPage() {
         <div className="grid-2-wide" style={{ alignItems: 'start' }}>
           <div>
             <SectionLabel label="Beyond the Work" />
-            <h2 className="font-serif section-title" style={{ fontSize: '2rem', fontWeight: 400, lineHeight: 1.15, marginBottom: '1.75rem' }}>When I'm not designing.</h2>
+            <h2 className="font-serif section-title" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400, lineHeight: 1.15, marginBottom: '1.75rem' }}>When I'm not designing.</h2>
             {["When I'm not designing, I'm usually outside. Camping, hiking, overlanding. I've spent the last few years working remotely and using that freedom to explore. Chappie, my dog, has strong opinions about all of it.", "I care a lot about animals. I volunteer with Austin Pets Alive, Animal Haven, and the ASPCA. I also do pro bono design work through the Taproot Foundation, because good design shouldn't only be available to organizations that can afford it.", "I'm also into horror fiction, cooking, films, art, and video games, roughly in that order depending on the week."].map((p, i, arr) => (
               <p key={i} style={{ fontSize: 16, color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: i < arr.length - 1 ? '1.25rem' : 0 }}>{p}</p>
             ))}
