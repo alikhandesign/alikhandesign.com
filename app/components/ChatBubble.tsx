@@ -45,9 +45,9 @@ export default function ChatBubble({ role, content, sources = [], activeSourceId
         borderRadius: role === 'user' ? '12px 12px 2px 12px' : '12px 12px 12px 2px',
         fontSize: 'var(--text-base)',
         lineHeight: 1.7,
-        background: role === 'user' ? 'var(--text)' : 'var(--surface)',
-        color: role === 'user' ? 'var(--bg)' : 'var(--text)',
-        border: role === 'assistant' ? '1px solid var(--border)' : 'none',
+        background: role === 'user' ? 'var(--color-text)' : 'var(--color-surface)',
+        color: role === 'user' ? 'var(--color-bg)' : 'var(--color-text)',
+        border: role === 'assistant' ? '1px solid var(--color-border)' : 'none',
         whiteSpace: 'pre-wrap',
       }}>
         {parts ? parts.map((part, i) => {
@@ -63,7 +63,7 @@ export default function ChatBubble({ role, content, sources = [], activeSourceId
               style={{
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                 width: 18, height: 18, borderRadius: '50%',
-                background: isActive ? 'var(--accent)' : 'var(--text-mid)',
+                background: isActive ? 'var(--color-accent)' : 'var(--color-text-mid)',
                 color: '#fff', fontSize: 10, fontWeight: 700,
                 border: 'none', cursor: 'pointer',
                 marginLeft: 2, marginRight: 1,
