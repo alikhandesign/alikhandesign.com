@@ -6,7 +6,7 @@ interface SuggestedPromptsProps {
 export default function SuggestedPrompts({ prompts, onSelect }: SuggestedPromptsProps) {
   return (
     <div style={{
-      background: 'var(--bg-subtle, #F7F5F2)',
+      background: 'var(--warm-75)',
       borderRadius: 'var(--radius)',
       padding: 'var(--space-4)',
       marginBottom: 'var(--space-4)',
