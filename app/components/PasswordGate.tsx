@@ -31,26 +31,26 @@ export default function PasswordGate({ password, children, title, description, i
 
   return (
     <div style={{
-      background: 'var(--surface)',
-      border: '1px solid var(--border)',
+      background: 'var(--color-surface)',
+      border: '1px solid var(--color-border)',
       borderRadius: 'var(--radius)',
       padding: 'var(--space-8)',
       position: 'relative',
       overflow: 'hidden',
       maxWidth: 560,
     }}>
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--accent)' }} />
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--color-accent)' }} />
 
       <SectionLabel label="Full Case Study" />
-      <h2 className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400, lineHeight: 1.25, marginBottom: 'var(--space-2)' }}>{title}</h2>
-      <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>{description}</p>
+      <h2 className="font-serif" style={{ fontSize: 'var(--color-text-xl)', fontWeight: 400, lineHeight: 1.25, marginBottom: 'var(--space-2)' }}>{title}</h2>
+      <p style={{ fontSize: 'var(--color-text-base)', color: 'var(--color-text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>{description}</p>
 
       <div style={{ marginBottom: 'var(--space-6)' }}>
-        <p style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)' as any, marginBottom: '0.6rem' }}>What's inside</p>
+        <p style={{ fontSize: 'var(--color-text-xs)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)' as any, marginBottom: '0.6rem' }}>What's inside</p>
         <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
           {inside.map(item => (
-            <li key={item} style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-              <span style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--accent)', flexShrink: 0, display: 'block' }} />
+            <li key={item} style={{ fontSize: 'var(--color-text-base)', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+              <span style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--color-accent)', flexShrink: 0, display: 'block' }} />
               {item}
             </li>
           ))}
@@ -58,7 +58,7 @@ export default function PasswordGate({ password, children, title, description, i
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-        <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text)', fontWeight: 'var(--font-weight-semibold)' as any }}>Enter password to access</p>
+        <p style={{ fontSize: 'var(--color-text-xs)', color: 'var(--color-text)', fontWeight: 'var(--font-weight-semibold)' as any }}>Enter password to access</p>
         <input
           type="password"
           id="password-input"
@@ -79,11 +79,11 @@ export default function PasswordGate({ password, children, title, description, i
           View full case study <span aria-hidden="true">→</span>
         </button>
         {error && (
-          <p id="password-error" role="alert" style={{ fontSize: 'var(--text-xs)', color: 'var(--accent-dark)' }}>Incorrect password. Try again or request access below.</p>
+          <p id="password-error" role="alert" style={{ fontSize: 'var(--color-text-xs)', color: 'var(--color-accent-dark)' }}>Incorrect password. Try again or request access below.</p>
         )}
-        <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
+        <p style={{ fontSize: 'var(--color-text-xs)', color: 'var(--color-text-muted)', marginTop: '0.25rem' }}>
           No password?{' '}
-          <a href="mailto:ali@alikhandesign.com" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 'var(--font-weight-medium)' as any }}>Request access →</a>
+          <a href="mailto:ali@alikhandesign.com" style={{ color: 'var(--color-accent)', textDecoration: 'none', fontWeight: 'var(--font-weight-medium)' as any }}>Request access →</a>
         </p>
       </div>
     </div>
