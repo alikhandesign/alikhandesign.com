@@ -11,9 +11,9 @@ interface InlineAlertProps {
 const variantStyles = {
   info:    { bg: '#EFF6FF', border: '#BFDBFE', color: '#1E3A5F', accent: '#1D4ED8', leftBar: '#3B82F6' },
   warning: { bg: '#FFFBEB', border: '#FDE68A', color: '#451A03', accent: '#B45309', leftBar: '#F59E0B' },
-  error:   { bg: 'var(--accent-bg)', border: '#FECACA', color: '#450A0A', accent: 'var(--accent)', leftBar: 'var(--accent)' },
+  error:   { bg: 'var(--color-accent-bg)', border: '#FECACA', color: '#450A0A', accent: 'var(--color-accent)', leftBar: 'var(--color-accent)' },
   success: { bg: '#F0FDF4', border: '#BBF7D0', color: '#052E16', accent: '#15803D', leftBar: '#22C55E' },
-  neutral: { bg: 'var(--warm-75)', border: 'var(--border)', color: 'var(--text)', accent: 'var(--text-muted)', leftBar: 'var(--border-mid)' },
+  neutral: { bg: 'var(--color-surface-subtle)', border: 'var(--color-border)', color: 'var(--color-text)', accent: 'var(--color-text-muted)', leftBar: 'var(--color-border-mid)' },
 }
 
 export default function InlineAlert({ variant, title, children, action, secondaryAction }: InlineAlertProps) {
