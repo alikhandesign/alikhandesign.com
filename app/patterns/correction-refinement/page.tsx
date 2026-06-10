@@ -94,16 +94,16 @@ export default function CorrectionRefinementPage() {
   const demo = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
       <PatternAnnotation finding={ANNOTATION} />
-      <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)', overflow: 'hidden' }}>
+      <div style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'var(--color-surface)', overflow: 'hidden' }}>
         {/* Chrome bar */}
-        <div style={{ padding: 'var(--space-3) var(--space-4)', borderBottom: '1px solid var(--border)', background: 'var(--warm-75)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)', letterSpacing: 'var(--letter-spacing-sm)', textTransform: 'uppercase' }}>AI response</span>
+        <div style={{ padding: 'var(--space-3) var(--space-4)', borderBottom: '1px solid var(--color-border)', background: 'var(--color-surface-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)', letterSpacing: 'var(--letter-spacing-sm)', textTransform: 'uppercase' }}>AI response</span>
           {versionHistory.length > 1 && (
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
               <button onClick={() => setVersionIndex(v => Math.max(0, v - 1))} disabled={versionIndex === 0}
                 aria-label="Previous version"
                 style={{ ...vBtn, opacity: versionIndex === 0 ? 0.3 : 1 }}>‹</button>
-              <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', minWidth: 36, textAlign: 'center' }}>v{versionIndex + 1}/{versionHistory.length}</span>
+              <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', minWidth: 36, textAlign: 'center' }}>v{versionIndex + 1}/{versionHistory.length}</span>
               <button onClick={() => setVersionIndex(v => Math.min(versionHistory.length - 1, v + 1))} disabled={versionIndex === versionHistory.length - 1}
                 aria-label="Next version"
                 style={{ ...vBtn, opacity: versionIndex === versionHistory.length - 1 ? 0.3 : 1 }}>›</button>
@@ -114,11 +114,11 @@ export default function CorrectionRefinementPage() {
         {/* Selectable response */}
         <div ref={responseRef} onMouseUp={handleMouseUp}
           style={{ padding: 'var(--space-6)', position: 'relative', userSelect: 'text', cursor: 'text' }}>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--text)', lineHeight: 'var(--line-height-loose)', whiteSpace: 'pre-line' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', lineHeight: 'var(--line-height-loose)', whiteSpace: 'pre-line' }}>
             {currentResponse}
           </p>
           {selection && (
-            <div style={{ position: 'absolute', top: selection.top, left: selection.left, background: 'var(--dark-bg)', borderRadius: 'var(--radius)', padding: '4px 6px', display: 'flex', gap: 4, zIndex: 20, boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
+            <div style={{ position: 'absolute', top: selection.top, left: selection.left, background: 'var(--color-bg-dark)', borderRadius: 'var(--radius)', padding: '4px 6px', display: 'flex', gap: 4, zIndex: 20, boxShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
               <button onClick={() => { applyRefinement('rephrase'); setSelection(null) }}
                 style={{ fontSize: 'var(--text-xs)', color: '#fff', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 6px', borderRadius: 2, fontFamily: 'var(--font-sans)', whiteSpace: 'nowrap' }}>
                 ✍️ Rephrase selected
@@ -133,8 +133,8 @@ export default function CorrectionRefinementPage() {
 
         {/* Clarification interceptor */}
         {demoState === 'intercepting' && (
-          <div style={{ borderTop: '1px solid var(--border)', padding: 'var(--space-5)', background: 'var(--warm-75)' }}>
-            <p style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)', marginBottom: 'var(--space-4)' }}>
+          <div style={{ borderTop: '1px solid var(--color-border)', padding: 'var(--space-5)', background: 'var(--color-surface-subtle)' }}>
+            <p style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', color: 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)', marginBottom: 'var(--space-4)' }}>
               What specifically should change?
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-3)' }}>
@@ -142,13 +142,13 @@ export default function CorrectionRefinementPage() {
               <div style={{ position: 'relative' }}>
                 <button onClick={() => setShowToneDropdown(d => !d)} style={{ ...interceptorBtn(selectedType === 'tone'), justifyContent: 'space-between' }}>
                   <span>🎨 Change tone</span>
-                  <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>▾</span>
+                  <span style={{ fontSize: 10, color: 'var(--color-text-muted)' }}>▾</span>
                 </button>
                 {showToneDropdown && (
-                  <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', zIndex: 10, boxShadow: '0 4px 12px rgba(0,0,0,0.08)', marginTop: 2 }}>
+                  <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', zIndex: 10, boxShadow: '0 4px 12px rgba(0,0,0,0.08)', marginTop: 2 }}>
                     {TONE_OPTIONS.map(opt => (
                       <button key={opt} onClick={() => { setSelectedTone(opt); setShowToneDropdown(false); applyRefinement('tone', opt) }}
-                        style={{ width: '100%', padding: 'var(--space-2) var(--space-4)', background: selectedTone === opt ? 'var(--warm-75)' : 'none', border: 'none', cursor: 'pointer', fontSize: 'var(--text-sm)', color: 'var(--text)', fontFamily: 'var(--font-sans)', textAlign: 'left', display: 'block' }}>
+                        style={{ width: '100%', padding: 'var(--space-2) var(--space-4)', background: selectedTone === opt ? 'var(--color-surface-subtle)' : 'none', border: 'none', cursor: 'pointer', fontSize: 'var(--text-sm)', color: 'var(--color-text)', fontFamily: 'var(--font-sans)', textAlign: 'left', display: 'block' }}>
                         {opt}
                       </button>
                     ))}
@@ -163,11 +163,11 @@ export default function CorrectionRefinementPage() {
         )}
 
         {/* Input bar */}
-        <div style={{ borderTop: '1px solid var(--border)', padding: 'var(--space-3) var(--space-4)', display: 'flex', gap: 'var(--space-3)', alignItems: 'center', background: 'var(--warm-75)' }}>
+        <div style={{ borderTop: '1px solid var(--color-border)', padding: 'var(--space-3) var(--space-4)', display: 'flex', gap: 'var(--space-3)', alignItems: 'center', background: 'var(--color-surface-subtle)' }}>
           <input value={inputValue} onChange={e => setInputValue(e.target.value)}
             onKeyDown={e => { if (e.key === 'Enter' && inputValue.trim()) handleVagueInput() }}
             placeholder='Type "fix it" or "not right" then Enter — or select text above'
-            style={{ flex: 1, padding: 'var(--space-2) var(--space-3)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', fontSize: 'var(--text-sm)', fontFamily: 'var(--font-sans)', background: 'var(--surface)', color: 'var(--text)', outline: 'none' }}
+            style={{ flex: 1, padding: 'var(--space-2) var(--space-3)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', fontSize: 'var(--text-sm)', fontFamily: 'var(--font-sans)', background: 'var(--color-surface)', color: 'var(--color-text)', outline: 'none' }}
           />
           <Button label="Reset" variant="secondary" onClick={reset} arrow={false} />
         </div>
@@ -183,9 +183,9 @@ export default function CorrectionRefinementPage() {
         { label: 'Inline text selection', desc: 'Selecting any text in the response surfaces a contextual toolbar: Rephrase selected or Flag error. Submits the specific string to the next generation turn.' },
         { label: 'Tone dropdown', desc: 'Change tone opens a dropdown with four options — More professional, More academic, More conversational, Simpler. Communicates that specific options exist rather than leaving users to describe tone freeform.' },
       ].map(item => (
-        <div key={item.label} style={{ padding: 'var(--space-4)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)' }}>
-          <p style={{ fontSize: 'var(--text-sm)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--text)', marginBottom: 'var(--space-2)' }}>{item.label}</p>
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-normal)' }}>{item.desc}</p>
+        <div key={item.label} style={{ padding: 'var(--space-4)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'var(--color-surface)' }}>
+          <p style={{ fontSize: 'var(--text-sm)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text)', marginBottom: 'var(--space-2)' }}>{item.label}</p>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-normal)' }}>{item.desc}</p>
         </div>
       ))}
     </div>
@@ -216,24 +216,24 @@ function Definition() {
       ].map(item => (
         <div key={item.label}>
           <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>{item.label}</p>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
         </div>
       ))}
     </div>
   )
 }
 
-const vBtn: CSSProperties = { background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', fontSize: 16, padding: '2px 6px', fontFamily: 'var(--font-sans)' }
+const vBtn: CSSProperties = { background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)', fontSize: 16, padding: '2px 6px', fontFamily: 'var(--font-sans)' }
 
 function interceptorBtn(active: boolean): CSSProperties {
   return {
     padding: 'var(--space-3) var(--space-4)',
-    background: active ? 'var(--accent-bg)' : 'var(--surface)',
-    border: `1px solid ${active ? 'var(--accent)' : 'var(--border)'}`,
+    background: active ? 'var(--color-accent-bg)' : 'var(--color-surface)',
+    border: `1px solid ${active ? 'var(--color-accent)' : 'var(--color-border)'}`,
     borderRadius: 'var(--radius)',
     cursor: 'pointer',
     fontSize: 'var(--text-sm)',
-    color: 'var(--text)',
+    color: 'var(--color-text)',
     fontFamily: 'var(--font-sans)',
     textAlign: 'left',
     display: 'flex',
