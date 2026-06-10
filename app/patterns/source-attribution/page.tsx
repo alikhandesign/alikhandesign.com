@@ -35,7 +35,7 @@ export default function SourceAttributionPage() {
       style={{
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
         width: 20, height: 20, borderRadius: '50%',
-        background: openSource === id ? 'var(--accent)' : hoveredRef === id ? 'var(--accent-dark)' : 'var(--text-mid)',
+        background: openSource === id ? 'var(--color-accent)' : hoveredRef === id ? 'var(--color-accent-dark)' : 'var(--color-text-mid)',
         color: '#fff', fontSize: 11, fontWeight: 700,
         border: 'none', cursor: 'pointer',
         marginLeft: 3, marginRight: 1, verticalAlign: 'middle',
@@ -47,46 +47,46 @@ export default function SourceAttributionPage() {
 
   const uncitedMarker = (
     <span title="No source available — claim drawn from parametric memory"
-      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 18, height: 18, borderRadius: '50%', background: 'var(--warm-75)', border: '1px solid var(--border-mid)', fontSize: 10, color: 'var(--text-muted)', cursor: 'help', marginLeft: 3, verticalAlign: 'middle' }}>!</span>
+      style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 18, height: 18, borderRadius: '50%', background: 'var(--color-surface-subtle)', border: '1px solid var(--color-border-mid)', fontSize: 10, color: 'var(--color-text-muted)', cursor: 'help', marginLeft: 3, verticalAlign: 'middle' }}>!</span>
   )
 
   const demo = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
       <PatternAnnotation finding={ANNOTATION} />
-      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-normal)' }}>
-        Click any numbered citation to open the Source Inspector. The <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 18, height: 18, borderRadius: '50%', background: 'var(--warm-75)', border: '1px solid var(--border-mid)', fontSize: 10, color: 'var(--text-muted)', verticalAlign: 'middle' }}>!</span> marker indicates a claim with no external source.
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-normal)' }}>
+        Click any numbered citation to open the Source Inspector. The <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 18, height: 18, borderRadius: '50%', background: 'var(--color-surface-subtle)', border: '1px solid var(--color-border-mid)', fontSize: 10, color: 'var(--color-text-muted)', verticalAlign: 'middle' }}>!</span> marker indicates a claim with no external source.
       </p>
-      <div style={{ display: 'grid', gridTemplateColumns: openSource ? '1fr 260px' : '1fr', gap: 0, border: '1px solid var(--border)', borderRadius: 'var(--radius)', overflow: 'hidden', transition: 'grid-template-columns 0.25s ease' }}>
-        <div style={{ padding: 'var(--space-6)', borderRight: openSource ? '1px solid var(--border)' : 'none' }}>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--text)', lineHeight: 2 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: openSource ? '1fr 260px' : '1fr', gap: 0, border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', overflow: 'hidden', transition: 'grid-template-columns 0.25s ease' }}>
+        <div style={{ padding: 'var(--space-6)', borderRight: openSource ? '1px solid var(--color-border)' : 'none' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', lineHeight: 2 }}>
             According to recent filings, the company reported $4.2B in Q1 revenue{citationBadge(1)} and expanded operations into Europe{citationBadge(2)}.
             {' '}Market entry in Asia was delayed{citationBadge(3)} due to local regulatory bottlenecks.
             {' '}Logistics costs increased significantly over the same period{uncitedMarker} — the largest year-over-year increase in five years.
           </p>
         </div>
         {openSource && activeSourceData && (
-          <div style={{ background: 'var(--warm-75)', padding: 'var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+          <div style={{ background: 'var(--color-surface-subtle)', padding: 'var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-1)' }}>
-              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', fontWeight: 'var(--font-weight-medium)' }}>Source inspector</p>
-              <button onClick={() => setOpenSource(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', fontSize: 16, lineHeight: 1, padding: 0 }} aria-label="Close source inspector">×</button>
+              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', fontWeight: 'var(--font-weight-medium)' }}>Source inspector</p>
+              <button onClick={() => setOpenSource(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)', fontSize: 16, lineHeight: 1, padding: 0 }} aria-label="Close source inspector">×</button>
             </div>
             {SOURCES.map(s => (
               <div key={s.id} style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-                <button onClick={() => setOpenSource(s.id)} style={{ padding: 'var(--space-3)', borderRadius: s.id === openSource ? 'var(--radius) var(--radius) 0 0' : 'var(--radius)', border: `1px solid ${s.id === openSource ? 'var(--accent)' : 'var(--border)'}`, borderBottom: s.id === openSource ? 'none' : `1px solid ${s.id === openSource ? 'var(--accent)' : 'var(--border)'}`, background: s.id === openSource ? 'var(--accent-bg)' : 'var(--surface)', textAlign: 'left', cursor: 'pointer', fontFamily: 'var(--font-sans)', transition: 'all var(--transition-base)', width: '100%' }}>
+                <button onClick={() => setOpenSource(s.id)} style={{ padding: 'var(--space-3)', borderRadius: s.id === openSource ? 'var(--radius) var(--radius) 0 0' : 'var(--radius)', border: `1px solid ${s.id === openSource ? 'var(--color-accent)' : 'var(--color-border)'}`, borderBottom: s.id === openSource ? 'none' : `1px solid ${s.id === openSource ? 'var(--color-accent)' : 'var(--color-border)'}`, background: s.id === openSource ? 'var(--color-accent-bg)' : 'var(--color-surface)', textAlign: 'left', cursor: 'pointer', fontFamily: 'var(--font-sans)', transition: 'all var(--transition-base)', width: '100%' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
-                    <span style={{ width: 18, height: 18, borderRadius: '50%', background: s.id === openSource ? 'var(--accent)' : 'var(--text-mid)', color: '#fff', fontSize: 10, fontWeight: 700, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{s.id}</span>
-                    <span style={{ fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--text)' }}>{s.label}</span>
+                    <span style={{ width: 18, height: 18, borderRadius: '50%', background: s.id === openSource ? 'var(--color-accent)' : 'var(--color-text-mid)', color: '#fff', fontSize: 10, fontWeight: 700, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>{s.id}</span>
+                    <span style={{ fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text)' }}>{s.label}</span>
                   </div>
-                  <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginBottom: 'var(--space-1)' }}>{s.domain}</div>
+                  <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-1)' }}>{s.domain}</div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)' }}>{s.date}</span>
+                    <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-faint)' }}>{s.date}</span>
                     <span style={{ fontSize: 9, letterSpacing: '0.05em', textTransform: 'uppercase', color: s.match === 'Exact' ? 'var(--color-success, #4A6130)' : 'var(--color-warning, #92600A)', fontWeight: 700 }}>{s.match}</span>
                   </div>
                 </button>
                 {s.id === openSource && (
-                  <div style={{ padding: 'var(--space-3)', background: 'var(--surface)', borderRadius: '0 0 var(--radius) var(--radius)', border: '1px solid var(--accent)', borderTop: '1px solid var(--border)' }}>
-                    <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', fontWeight: 'var(--font-weight-medium)', marginBottom: 'var(--space-2)' }}>Relevant excerpt</p>
-                    <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text)', lineHeight: 'var(--line-height-normal)', fontStyle: 'italic' }}>&ldquo;{s.excerpt}&rdquo;</p>
+                  <div style={{ padding: 'var(--space-3)', background: 'var(--color-surface)', borderRadius: '0 0 var(--radius) var(--radius)', border: '1px solid var(--color-accent)', borderTop: '1px solid var(--color-border)' }}>
+                    <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', fontWeight: 'var(--font-weight-medium)', marginBottom: 'var(--space-2)' }}>Relevant excerpt</p>
+                    <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text)', lineHeight: 'var(--line-height-normal)', fontStyle: 'italic' }}>&ldquo;{s.excerpt}&rdquo;</p>
                   </div>
                 )}
               </div>
@@ -102,11 +102,11 @@ export default function SourceAttributionPage() {
       {[
         { label: 'Cited — exact match', color: '#15803D', bg: '#F0FDF4', border: '#BBF7D0', desc: 'Claim directly supported by a specific passage in the cited source.' },
         { label: 'Cited — synthesized', color: '#B45309', bg: '#FFFBEB', border: '#FDE68A', desc: 'Claim derived from multiple sources or paraphrased. Source still indicated.' },
-        { label: 'Uncited [!]', color: 'var(--text-muted)', bg: 'var(--warm-75)', border: 'var(--border)', desc: 'No external source available. Drawn from parametric memory. Absence is a deliberate signal, not an interface gap.' },
+        { label: 'Uncited [!]', color: 'var(--color-text-muted)', bg: 'var(--color-surface-subtle)', border: 'var(--color-border)', desc: 'No external source available. Drawn from parametric memory. Absence is a deliberate signal, not an interface gap.' },
       ].map(item => (
-        <div key={item.label} style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-4)', padding: 'var(--space-4)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)' }}>
+        <div key={item.label} style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-4)', padding: 'var(--space-4)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'var(--color-surface)' }}>
           <span style={{ display: 'inline-flex', padding: '3px 10px', borderRadius: 'var(--radius)', background: item.bg, border: `1px solid ${item.border}`, fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-semibold)', color: item.color, whiteSpace: 'nowrap' }}>{item.label}</span>
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-normal)' }}>{item.desc}</p>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-normal)' }}>{item.desc}</p>
         </div>
       ))}
     </div>
@@ -137,7 +137,7 @@ function Definition() {
       ].map(item => (
         <div key={item.label}>
           <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>{item.label}</p>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
         </div>
       ))}
     </div>
