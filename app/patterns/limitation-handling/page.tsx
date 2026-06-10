@@ -37,29 +37,29 @@ export default function LimitationHandlingPage() {
 
   const ARIRow = ({ label, text }: { label: string; text: string }) => (
     <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start' }}>
-      <span style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', color: 'var(--text-faint)', fontWeight: 'var(--font-weight-medium)', paddingTop: 3, minWidth: 80, flexShrink: 0 }}>{label}</span>
-      <p style={{ fontSize: 'var(--text-base)', color: 'var(--text)', lineHeight: 'var(--line-height-normal)' }}>{text}</p>
+      <span style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', color: 'var(--color-text-faint)', fontWeight: 'var(--font-weight-medium)', paddingTop: 3, minWidth: 80, flexShrink: 0 }}>{label}</span>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', lineHeight: 'var(--line-height-normal)' }}>{text}</p>
     </div>
   )
 
   const capabilityDemo = (
-    <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)', overflow: 'hidden' }}>
-      <div style={{ padding: 'var(--space-3) var(--space-4)', borderBottom: '1px solid var(--border)', background: 'var(--warm-75)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)', letterSpacing: 'var(--letter-spacing-sm)', textTransform: 'uppercase' }}>AI response</span>
-        <span style={{ display: 'inline-flex', padding: '3px 10px', borderRadius: 'var(--radius)', background: 'var(--warm-75)', border: '1px solid var(--border)', fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-medium)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Capability limit</span>
+    <div style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'var(--color-surface)', overflow: 'hidden' }}>
+      <div style={{ padding: 'var(--space-3) var(--space-4)', borderBottom: '1px solid var(--color-border)', background: 'var(--color-surface-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)', letterSpacing: 'var(--letter-spacing-sm)', textTransform: 'uppercase' }}>AI response</span>
+        <span style={{ display: 'inline-flex', padding: '3px 10px', borderRadius: 'var(--radius)', background: 'var(--color-surface-subtle)', border: '1px solid var(--color-border)', fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-medium)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>Capability limit</span>
       </div>
       <div style={{ padding: 'var(--space-6)', display: 'flex', flexDirection: 'column', gap: 'var(--space-5)' }}>
         <ARIRow label="Acknowledge" text="I can't directly book flights or access transactional booking engines." />
         <ARIRow label="Redirect" text="I searched for flights on your dates. Here are the best options I found:" />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', marginLeft: 83 }}>
           {FLIGHT_RESULTS.map(f => (
-            <div key={f.airline} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 'var(--space-3)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--warm-75)' }}>
+            <div key={f.airline} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 'var(--space-3)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'var(--color-surface-subtle)' }}>
               <div style={{ display: 'flex', gap: 'var(--space-4)', alignItems: 'center' }}>
-                <span style={{ fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--text)', minWidth: 48 }}>{f.airline}</span>
-                <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>{f.departs} → {f.arrives}</span>
-                <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)' }}>{f.stops}</span>
+                <span style={{ fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text)', minWidth: 48 }}>{f.airline}</span>
+                <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)' }}>{f.departs} → {f.arrives}</span>
+                <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-faint)' }}>{f.stops}</span>
               </div>
-              <span style={{ fontSize: 'var(--text-sm)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--accent)' }}>{f.price}</span>
+              <span style={{ fontSize: 'var(--text-sm)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-accent)' }}>{f.price}</span>
             </div>
           ))}
         </div>
@@ -73,9 +73,9 @@ export default function LimitationHandlingPage() {
   )
 
   const knowledgeDemo = (
-    <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)', overflow: 'hidden' }}>
-      <div style={{ padding: 'var(--space-3) var(--space-4)', borderBottom: '1px solid var(--border)', background: '#EFF6FF', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)', letterSpacing: 'var(--letter-spacing-sm)', textTransform: 'uppercase' }}>AI response</span>
+    <div style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'var(--color-surface)', overflow: 'hidden' }}>
+      <div style={{ padding: 'var(--space-3) var(--space-4)', borderBottom: '1px solid var(--color-border)', background: '#EFF6FF', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)', letterSpacing: 'var(--letter-spacing-sm)', textTransform: 'uppercase' }}>AI response</span>
         <span style={{ display: 'inline-flex', padding: '3px 10px', borderRadius: 'var(--radius)', background: '#EFF6FF', border: '1px solid #BFDBFE', fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-medium)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', color: '#1D4ED8' }}>Knowledge limit</span>
       </div>
       <div style={{ padding: 'var(--space-6)', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
@@ -92,8 +92,8 @@ export default function LimitationHandlingPage() {
 
   const commercialDemo = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 'var(--space-3) var(--space-4)', background: 'var(--warm-75)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', flexWrap: 'wrap', gap: 'var(--space-3)' }}>
-        <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)' }}>Workspace</span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 'var(--space-3) var(--space-4)', background: 'var(--color-surface-subtle)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', flexWrap: 'wrap', gap: 'var(--space-3)' }}>
+        <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)' }}>Workspace</span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
           {isLow && <span style={{ fontSize: 'var(--text-xs)', color: '#7C3AED', fontWeight: 'var(--font-weight-medium)' }}>⚡ {usageLabel}</span>}
           <button onClick={() => setUsageDisplay(d => d === 'count' ? 'percent' : 'count')} style={ghostBtn}>Show as {usageDisplay === 'count' ? '%' : '#'}</button>
@@ -101,13 +101,13 @@ export default function LimitationHandlingPage() {
           <button onClick={() => setUsageRemaining(8)} style={ghostBtn}>Reset</button>
         </div>
       </div>
-      <div style={{ height: 4, background: 'var(--border)', borderRadius: 2, overflow: 'hidden' }}>
-        <div style={{ height: '100%', width: `${usagePct}%`, background: isLow ? '#7C3AED' : 'var(--accent)', borderRadius: 2, transition: 'width 0.3s ease, background 0.3s ease' }} />
+      <div style={{ height: 4, background: 'var(--color-border)', borderRadius: 2, overflow: 'hidden' }}>
+        <div style={{ height: '100%', width: `${usagePct}%`, background: isLow ? '#7C3AED' : 'var(--color-accent)', borderRadius: 2, transition: 'width 0.3s ease, background 0.3s ease' }} />
       </div>
       {usageRemaining === 0 && (
-        <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)', overflow: 'hidden' }}>
-          <div style={{ padding: 'var(--space-3) var(--space-4)', borderBottom: '1px solid var(--border)', background: '#F5F3FF', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)', letterSpacing: 'var(--letter-spacing-sm)', textTransform: 'uppercase' }}>AI response</span>
+        <div style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'var(--color-surface)', overflow: 'hidden' }}>
+          <div style={{ padding: 'var(--space-3) var(--space-4)', borderBottom: '1px solid var(--color-border)', background: '#F5F3FF', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)', letterSpacing: 'var(--letter-spacing-sm)', textTransform: 'uppercase' }}>AI response</span>
             <span style={{ display: 'inline-flex', padding: '3px 10px', borderRadius: 'var(--radius)', background: '#F5F3FF', border: '1px solid #DDD6FE', fontSize: 'var(--text-xs)', fontWeight: 'var(--font-weight-medium)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', color: '#7C3AED' }}>Usage limit</span>
           </div>
           <div style={{ padding: 'var(--space-6)', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
@@ -122,7 +122,7 @@ export default function LimitationHandlingPage() {
         </div>
       )}
       {usageRemaining > 0 && (
-        <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)', lineHeight: 'var(--line-height-normal)' }}>
+        <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-faint)', lineHeight: 'var(--line-height-normal)' }}>
           {isLow ? 'Progressive disclosure is active — usage counter visible below 25% allocation.' : 'Usage counter hidden above 25% allocation. Click "Use query" to deplete toward the threshold.'}
         </p>
       )}
@@ -138,9 +138,9 @@ export default function LimitationHandlingPage() {
             padding: 'var(--space-2) var(--space-4)',
             fontSize: 'var(--text-sm)',
             fontWeight: limit === l ? 'var(--font-weight-semibold)' : 'var(--font-weight-medium)',
-            color: limit === l ? 'var(--accent)' : 'var(--text-muted)',
-            background: limit === l ? 'var(--accent-bg)' : 'var(--warm-75)',
-            border: `1px solid ${limit === l ? 'var(--accent)' : 'var(--border)'}`,
+            color: limit === l ? 'var(--color-accent)' : 'var(--color-text-muted)',
+            background: limit === l ? 'var(--color-accent-bg)' : 'var(--color-surface-subtle)',
+            border: `1px solid ${limit === l ? 'var(--color-accent)' : 'var(--color-border)'}`,
             borderRadius: 'var(--radius)',
             cursor: 'pointer',
             fontFamily: 'var(--font-sans)',
@@ -194,7 +194,7 @@ function Definition() {
       ].map(item => (
         <div key={item.label}>
           <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>{item.label}</p>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
         </div>
       ))}
     </div>
@@ -205,9 +205,9 @@ const ghostBtn: CSSProperties = {
   padding: 'var(--space-1) var(--space-3)',
   fontSize: 'var(--text-xs)',
   fontWeight: 'var(--font-weight-medium)',
-  color: 'var(--text-muted)',
-  background: 'var(--surface)',
-  border: '1px solid var(--border)',
+  color: 'var(--color-text-muted)',
+  background: 'var(--color-surface)',
+  border: '1px solid var(--color-border)',
   borderRadius: 'var(--radius)',
   cursor: 'pointer',
   fontFamily: 'var(--font-sans)',
