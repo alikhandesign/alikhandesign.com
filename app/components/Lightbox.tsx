@@ -260,7 +260,7 @@ export function CaseStudyImage({ src, alt, caption, allImages, imageIndex = 0 }:
         />
         {caption && (
           <p style={{
-            fontSize: 12, color: 'var(--text-muted)',
+            fontSize: 12, color: 'var(--color-text-muted)',
             marginTop: '0.6rem', fontStyle: 'italic',
             textAlign: 'center', lineHeight: 1.5,
           }}>{caption}</p>
@@ -307,7 +307,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
             <div style={{
               width: '100%',
               aspectRatio: i === 0 ? '16/9' : '4/3',
-              background: 'var(--border)',
+              background: 'var(--color-border)',
               borderRadius: 4,
               overflow: 'hidden',
               position: 'relative',
@@ -330,13 +330,13 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                 <div style={{
                   width: '100%', height: '100%',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 12, color: 'var(--text-muted)',
+                  fontSize: 12, color: 'var(--color-text-muted)',
                   letterSpacing: '0.05em', textTransform: 'uppercase',
                 }}>{img.alt}</div>
               )}
             </div>
             {img.caption && (
-              <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: '0.4rem', fontStyle: 'italic' }}>
+              <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: '0.4rem', fontStyle: 'italic' }}>
                 {img.caption}
               </p>
             )}
