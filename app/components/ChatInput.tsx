@@ -56,15 +56,15 @@ export default function ChatInput({
           disabled={disabled}
           style={{
             flex: 1, resize: 'none', padding: '0.75rem 1rem',
-            border: '1px solid var(--color-border)', borderRadius: 'var(--radius)',
-            fontFamily: 'var(--font-sans)', fontSize: 'var(--color-text-base)',
-            lineHeight: 1.6, background: 'var(--color-surface)', color: 'var(--color-text)',
+            border: '1px solid var(--border)', borderRadius: 'var(--radius)',
+            fontFamily: 'var(--font-sans)', fontSize: 'var(--text-base)',
+            lineHeight: 1.6, background: 'var(--surface)', color: 'var(--text)',
             outline: 'none', transition: 'border-color 0.15s',
             minHeight: 48, maxHeight: 160, boxSizing: 'border-box',
             opacity: disabled ? 0.5 : 1,
           }}
-          onFocus={e => { if (!disabled) e.target.style.borderColor = 'var(--color-accent)' }}
-          onBlur={e => { e.target.style.borderColor = 'var(--color-border)' }}
+          onFocus={e => { if (!disabled) e.target.style.borderColor = 'var(--accent)' }}
+          onBlur={e => { e.target.style.borderColor = 'var(--border)' }}
           aria-label="Chat input"
         />
         {streaming ? (
@@ -74,9 +74,9 @@ export default function ChatInput({
               flexShrink: 0, height: 48, boxSizing: 'border-box',
               display: 'flex', alignItems: 'center', gap: 6,
               padding: '0 1rem',
-              background: 'var(--color-text)', color: 'var(--color-bg)',
+              background: 'var(--text)', color: 'var(--bg)',
               border: 'none', borderRadius: 'var(--radius)',
-              fontFamily: 'var(--font-sans)', fontSize: 'var(--color-text-base)',
+              fontFamily: 'var(--font-sans)', fontSize: 'var(--text-base)',
               fontWeight: 500, cursor: 'pointer', whiteSpace: 'nowrap',
             }}
             aria-label="Pause and edit"
@@ -103,7 +103,7 @@ export default function ChatInput({
           </button>
         )}
       </div>
-      <p style={{ fontSize: 'var(--color-text-xs)', color: 'var(--color-text-faint)', marginTop: '0.5rem', lineHeight: 1.5 }}>
+      <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)', marginTop: '0.5rem', lineHeight: 1.5 }}>
         Conversations may be logged to improve this experience. Press Enter to send, Shift+Enter for a new line.
       </p>
     </div>
