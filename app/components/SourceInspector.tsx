@@ -13,28 +13,29 @@ interface SourceInspectorProps {
 export default function SourceInspector({ sources, activeId, onClose, onSelect }: SourceInspectorProps) {
   if (sources.length === 0) return null
 
-  const activeSource = sources.find(s => s.id === activeId) ?? sources[0]
+  const activeSource = sources.find(s => s.id === activeId) ?? null
 
   return (
     <div style={{
-      marginTop: 'var(--space-3)',
-      border: '1px solid var(--border)',
-      borderRadius: 'var(--radius)',
-      background: 'var(--warm-75, #F2EFE9)',
-      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
+      background: 'var(--surface)',
+      borderLeft: '1px solid var(--border)',
     }}>
       {/* Header */}
       <div style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         padding: 'var(--space-3) var(--space-4)',
         borderBottom: '1px solid var(--border)',
+        flexShrink: 0,
       }}>
         <p style={{
           fontSize: 'var(--text-xs)', fontWeight: 500,
           letterSpacing: '0.08em', textTransform: 'uppercase',
-          color: 'var(--text-muted)',
+          color: 'var(--text-muted)', margin: 0,
         }}>
-          Source inspector
+          Sources
         </p>
         <button
           onClick={onClose}
@@ -42,8 +43,7 @@ export default function SourceInspector({ sources, activeId, onClose, onSelect }
           style={{
             background: 'none', border: 'none', cursor: 'pointer',
             color: 'var(--text-muted)', padding: 4,
-            display: 'flex', alignItems: 'center',
-            borderRadius: 2,
+            display: 'flex', alignItems: 'center', borderRadius: 2,
           }}
         >
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -52,78 +52,83 @@ export default function SourceInspector({ sources, activeId, onClose, onSelect }
         </button>
       </div>
 
-      {/* Source list */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 1, padding: 'var(--space-3)', background: 'var(--warm-75, #F2EFE9)' }}>
+      {/* Source list — scrollable */}
+      <div style={{
+        flex: 1, overflowY: 'auto',
+        padding: 'var(--space-3)',
+        display: 'flex', flexDirection: 'column', gap: 'var(--space-2)',
+      }}>
         {sources.map(source => {
-          const isActive = source.id === activeSource.id
+          const isActive = source.id === activeId
           return (
-            <button
-              key={source.id}
-              onClick={() => onSelect(source.id)}
-              style={{
-                display: 'flex', alignItems: 'flex-start', gap: 'var(--space-3)',
-                padding: 'var(--space-3)',
-                background: isActive ? 'var(--surface)' : 'transparent',
-                border: `1px solid ${isActive ? 'var(--accent)' : 'transparent'}`,
-                borderRadius: 'var(--radius)',
-                cursor: 'pointer', textAlign: 'left', width: '100%',
-                fontFamily: 'var(--font-sans)',
-                transition: 'all var(--transition-base)',
-              }}
-            >
-              {/* Badge */}
-              <span style={{
-                width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
-                background: isActive ? 'var(--accent)' : 'var(--text-mid)',
-                color: '#fff', fontSize: 10, fontWeight: 700,
-                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                transition: 'background var(--transition-base)',
-              }}>
-                {source.id}
-              </span>
-              <div style={{ flex: 1, minWidth: 0 }}>
+            <div key={source.id}>
+              {/* Source card */}
+              <button
+                onClick={() => onSelect(isActive && activeId === source.id ? -1 : source.id)}
+                style={{
+                  display: 'flex', alignItems: 'flex-start', gap: 'var(--space-2)',
+                  padding: 'var(--space-3)',
+                  width: '100%', textAlign: 'left',
+                  background: isActive ? 'var(--accent-bg, #FDF0F0)' : 'var(--surface)',
+                  border: `1px solid ${isActive ? 'var(--accent)' : 'var(--border)'}`,
+                  borderRadius: isActive ? 'var(--radius) var(--radius) 0 0' : 'var(--radius)',
+                  borderBottom: isActive ? 'none' : `1px solid ${isActive ? 'var(--accent)' : 'var(--border)'}`,
+                  cursor: 'pointer',
+                  fontFamily: 'var(--font-sans)',
+                  transition: 'all var(--transition-base)',
+                }}
+              >
+                <span style={{
+                  width: 18, height: 18, borderRadius: '50%', flexShrink: 0,
+                  background: isActive ? 'var(--accent)' : 'var(--text-mid)',
+                  color: '#fff', fontSize: 10, fontWeight: 700,
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                  transition: 'background var(--transition-base)',
+                  marginTop: 1,
+                }}>
+                  {source.id}
+                </span>
                 <p style={{
                   fontSize: 'var(--text-xs)', fontWeight: 600,
-                  color: 'var(--text)', marginBottom: 2,
+                  color: isActive ? 'var(--accent)' : 'var(--text)',
+                  margin: 0, lineHeight: 1.4,
                   overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                  flex: 1, minWidth: 0,
                 }}>
                   {source.title}
                 </p>
-                <p style={{
-                  fontSize: 'var(--text-xs)', color: 'var(--text-muted)',
-                  lineHeight: 1.5,
-                  display: '-webkit-box', WebkitLineClamp: 2,
-                  WebkitBoxOrient: 'vertical', overflow: 'hidden',
+              </button>
+
+              {/* Drawer — connected flush below card */}
+              {isActive && (
+                <div style={{
+                  padding: 'var(--space-3)',
+                  background: 'var(--accent-bg, #FDF0F0)',
+                  border: '1px solid var(--accent)',
+                  borderTop: 'none',
+                  borderRadius: '0 0 var(--radius) var(--radius)',
                 }}>
-                  {source.description}
-                </p>
-              </div>
-            </button>
+                  <p style={{
+                    fontSize: 'var(--text-xs)', color: 'var(--text-muted)',
+                    lineHeight: 1.6, margin: '0 0 var(--space-3) 0',
+                  }}>
+                    {source.description}
+                  </p>
+                  <Link
+                    href={source.url}
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 4,
+                      fontSize: 'var(--text-xs)', fontWeight: 500,
+                      color: 'var(--accent)', textDecoration: 'none',
+                    }}
+                  >
+                    Read more →
+                  </Link>
+                </div>
+              )}
+            </div>
           )
         })}
-      </div>
-
-      {/* Active source detail */}
-      <div style={{
-        borderTop: '1px solid var(--border)',
-        padding: 'var(--space-4)',
-        background: 'var(--surface)',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-4)',
-      }}>
-        <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', lineHeight: 1.5, flex: 1 }}>
-          {activeSource.description}
-        </p>
-        <Link
-          href={activeSource.url}
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: 4,
-            fontSize: 'var(--text-xs)', fontWeight: 500,
-            color: 'var(--accent)', textDecoration: 'none',
-            whiteSpace: 'nowrap', flexShrink: 0,
-          }}
-        >
-          Read more →
-        </Link>
       </div>
     </div>
   )

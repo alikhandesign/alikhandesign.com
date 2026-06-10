@@ -1,16 +1,15 @@
 'use client'
 
-import { useState } from 'react'
 import type { SiteSource } from '@/lib/sources'
-import SourceInspector from './SourceInspector'
 
 interface ChatBubbleProps {
   role: 'user' | 'assistant'
   content: string
   sources?: SiteSource[]
+  activeSourceId?: number | null
+  onBadgeClick?: (id: number) => void
 }
 
-// Parse content into text segments and citation markers
 function parseContent(content: string): Array<{ type: 'text'; value: string } | { type: 'cite'; id: number }> {
   const parts: Array<{ type: 'text'; value: string } | { type: 'cite'; id: number }> = []
   const regex = /\[(\d+)\]/g
@@ -32,29 +31,16 @@ function parseContent(content: string): Array<{ type: 'text'; value: string } | 
   return parts
 }
 
-export default function ChatBubble({ role, content, sources = [] }: ChatBubbleProps) {
-  const [activeSourceId, setActiveSourceId] = useState<number | null>(null)
-  const [inspectorOpen, setInspectorOpen] = useState(false)
-
-  const handleBadgeClick = (id: number) => {
-    if (inspectorOpen && activeSourceId === id) {
-      setInspectorOpen(false)
-    } else {
-      setActiveSourceId(id)
-      setInspectorOpen(true)
-    }
-  }
-
+export default function ChatBubble({ role, content, sources = [], activeSourceId, onBadgeClick }: ChatBubbleProps) {
   const parts = role === 'assistant' ? parseContent(content) : null
 
   return (
     <div style={{
       display: 'flex',
-      flexDirection: 'column',
-      alignItems: role === 'user' ? 'flex-end' : 'flex-start',
+      justifyContent: role === 'user' ? 'flex-end' : 'flex-start',
     }}>
       <div style={{
-        maxWidth: '72%',
+        maxWidth: '80%',
         padding: '0.75rem 1rem',
         borderRadius: role === 'user' ? '12px 12px 2px 12px' : '12px 12px 12px 2px',
         fontSize: 'var(--text-base)',
@@ -68,11 +54,11 @@ export default function ChatBubble({ role, content, sources = [] }: ChatBubblePr
           if (part.type === 'text') return <span key={i}>{part.value}</span>
           const isKnown = sources.some(s => s.id === part.id)
           if (!isKnown) return null
-          const isActive = inspectorOpen && activeSourceId === part.id
+          const isActive = activeSourceId === part.id
           return (
             <button
               key={i}
-              onClick={() => handleBadgeClick(part.id)}
+              onClick={() => onBadgeClick?.(part.id)}
               aria-label={`Open source ${part.id}`}
               style={{
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
@@ -92,18 +78,6 @@ export default function ChatBubble({ role, content, sources = [] }: ChatBubblePr
           )
         }) : content}
       </div>
-
-      {/* Source inspector — only for assistant bubbles with sources */}
-      {role === 'assistant' && inspectorOpen && sources.length > 0 && (
-        <div style={{ maxWidth: '72%', width: '100%' }}>
-          <SourceInspector
-            sources={sources}
-            activeId={activeSourceId}
-            onClose={() => setInspectorOpen(false)}
-            onSelect={setActiveSourceId}
-          />
-        </div>
-      )}
     </div>
   )
 }

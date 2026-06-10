@@ -7,6 +7,7 @@ import GenerationState, { type GenerationPhase } from '../components/GenerationS
 import ChatBubble from '../components/ChatBubble'
 import SuggestedPrompts from '../components/SuggestedPrompts'
 import ChatInput from '../components/ChatInput'
+import SourceInspector from '../components/SourceInspector'
 import type { SiteSource } from '@/lib/sources'
 
 const CHAT_PASSWORD = '4likh4n'
@@ -44,6 +45,14 @@ export default function ChatPage() {
   const unlockPanelRef = useRef<HTMLDivElement>(null)
   const abortRef = useRef<AbortController | null>(null)
   const contactTriggerRef = useRef<HTMLButtonElement>(null)
+
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -150,6 +159,31 @@ export default function ChatPage() {
 
   const isEmpty = messages.length === 0
   const remaining = RATE_LIMIT_MAX - responseCount
+
+  // Source inspector state — lifted to page level so panel sits beside the thread
+  const [inspectorSources, setInspectorSources] = useState<import('@/lib/sources').SiteSource[]>([])
+  const [activeSourceId, setActiveSourceId] = useState<number | null>(null)
+  const inspectorOpen = inspectorSources.length > 0
+
+  const handleBadgeClick = (sources: import('@/lib/sources').SiteSource[], id: number) => {
+    if (inspectorOpen && activeSourceId === id && inspectorSources === sources) {
+      // Toggle off same badge
+      setInspectorSources([])
+      setActiveSourceId(null)
+    } else {
+      setInspectorSources(sources)
+      setActiveSourceId(id)
+    }
+  }
+
+  const handleInspectorClose = () => {
+    setInspectorSources([])
+    setActiveSourceId(null)
+  }
+
+  const handleSourceSelect = (id: number) => {
+    setActiveSourceId(prev => prev === id ? null : id)
+  }
   const showWarn = responseCount >= RATE_LIMIT_WARN && responseCount < RATE_LIMIT_MAX
   const showLimit = rateLimitError === 'limit' || responseCount >= RATE_LIMIT_MAX
 
@@ -275,17 +309,28 @@ export default function ChatPage() {
         </header>
 
         {/* Chat area */}
-        <div style={{
-          display: 'flex', flexDirection: 'column',
-          marginTop: 'var(--space-6)',
-          background: 'var(--surface)',
-          border: '1px solid var(--border)',
-          borderRadius: 'var(--radius)',
-          padding: 'var(--space-6)',
-        }} className="chat-container">
-
-          {/* Messages — scrollable */}
+        <div
+          className="chat-container"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: (!isMobile && inspectorOpen) ? '1fr 260px' : '1fr',
+            transition: 'grid-template-columns 0.25s ease',
+            marginTop: 'var(--space-6)',
+            border: '1px solid var(--border)',
+            borderRadius: 'var(--radius)',
+            overflow: 'hidden',
+          }}
+        >
+          {/* Left — message thread + input */}
           <div style={{
+            display: 'flex', flexDirection: 'column',
+            background: 'var(--surface)',
+            padding: 'var(--space-6)',
+            minWidth: 0,
+            flex: 1,
+          }}>
+            {/* Messages — scrollable */}
+            <div style={{
             flex: 1,
             overflowY: 'auto',
             display: 'flex',
@@ -296,7 +341,14 @@ export default function ChatPage() {
             scrollbarColor: 'var(--border) transparent',
           }}>
             {messages.map((msg, i) => (
-              <ChatBubble key={i} role={msg.role} content={msg.content} sources={msg.sources} />
+              <ChatBubble
+                key={i}
+                role={msg.role}
+                content={msg.content}
+                sources={msg.sources}
+                activeSourceId={msg.sources === inspectorSources ? activeSourceId : null}
+                onBadgeClick={(id) => handleBadgeClick(msg.sources ?? [], id)}
+              />
             ))}
             {loading && (
               <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
@@ -378,8 +430,69 @@ export default function ChatPage() {
               streaming={streaming}
               placeholder="Ask about Ali's work, background, or approach..."
             />
-          </div>
-        </div>
+          </div>{/* end input area */}
+          </div>{/* end left column */}
+
+          {/* Right — source inspector panel (desktop only) */}
+          {!isMobile && inspectorOpen && (
+            <SourceInspector
+              sources={inspectorSources}
+              activeId={activeSourceId}
+              onClose={handleInspectorClose}
+              onSelect={handleSourceSelect}
+            />
+          )}
+        </div>{/* end chat-container */}
+
+        {/* Bottom drawer — source inspector (mobile only) */}
+        {isMobile && inspectorOpen && (
+          <>
+            {/* Dim overlay */}
+            <div
+              onClick={handleInspectorClose}
+              style={{
+                position: 'fixed', inset: 0, zIndex: 40,
+                background: 'rgba(0,0,0,0.3)',
+              }}
+            />
+            {/* Drawer */}
+            <div style={{
+              position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50,
+              height: '62vh',
+              background: 'var(--surface)',
+              borderRadius: '16px 16px 0 0',
+              boxShadow: '0 -4px 24px rgba(0,0,0,0.12)',
+              display: 'flex', flexDirection: 'column',
+              animation: 'drawer-up 0.25s ease',
+            }}>
+              {/* Drag handle */}
+              <div style={{
+                display: 'flex', justifyContent: 'center',
+                padding: '12px 0 4px',
+                flexShrink: 0,
+              }}>
+                <div style={{
+                  width: 36, height: 4, borderRadius: 2,
+                  background: 'var(--border-mid)',
+                }} />
+              </div>
+              <div style={{ flex: 1, overflow: 'hidden' }}>
+                <SourceInspector
+                  sources={inspectorSources}
+                  activeId={activeSourceId}
+                  onClose={handleInspectorClose}
+                  onSelect={handleSourceSelect}
+                />
+              </div>
+            </div>
+            <style>{`
+              @keyframes drawer-up {
+                from { transform: translateY(100%); }
+                to { transform: translateY(0); }
+              }
+            `}</style>
+          </>
+        )}
       </div>
     </>
   )
