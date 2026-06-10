@@ -37,18 +37,18 @@ export default function PatternShell({
       {/* Header */}
       <div className="page-header">
         <nav style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-4)', flexWrap: 'wrap' }}>
-          <Link href="/patterns" style={{ fontSize: 14, color: 'var(--color-text-muted)', textDecoration: 'none' }}>
+          <Link href="/patterns" style={{ fontSize: 14, color: 'var(--text-muted)', textDecoration: 'none' }}>
             Pattern Library
           </Link>
           <span style={{ fontSize: 14, color: '#C4BDB7' }} aria-hidden="true">›</span>
-          <span style={{ fontSize: 14, color: 'var(--color-text)', fontWeight: 500 }} aria-current="page">
+          <span style={{ fontSize: 14, color: 'var(--text)', fontWeight: 500 }} aria-current="page">
             {title}
           </span>
         </nav>
-        <h1 className="font-serif" style={{ fontSize: 'var(--color-text-3xl)', fontWeight: 400, lineHeight: 'var(--line-height-tight)', marginBottom: 'var(--space-4)', color: 'var(--color-text)' }}>
+        <h1 className="font-serif" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400, lineHeight: 'var(--line-height-tight)', marginBottom: 'var(--space-4)', color: 'var(--text)' }}>
           {title}
         </h1>
-        <p style={{ fontSize: 'var(--color-text-base)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-normal)', maxWidth: 640 }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-normal)', maxWidth: 640 }}>
           {problem}
         </p>
       </div>
@@ -63,7 +63,7 @@ export default function PatternShell({
       <div className="pattern-mobile-only">
         {mobileContent
           ? tabs.map(tab => (
-              <div key={tab.id} style={{ padding: 'var(--space-8) var(--space-5)', borderBottom: '1px solid var(--color-border)' }}>
+              <div key={tab.id} style={{ padding: 'var(--space-8) var(--space-5)', borderBottom: '1px solid var(--border)' }}>
                 <p className="eyebrow" style={{ marginBottom: 'var(--space-4)' }}>{tab.label}</p>
                 {mobileContent[tab.id]}
               </div>
@@ -73,14 +73,14 @@ export default function PatternShell({
       </div>
 
       {/* Prev / Next */}
-      <div className="next-project" style={{ borderTop: '1px solid var(--color-border)', marginTop: 0 }}>
+      <div className="next-project" style={{ borderTop: '1px solid var(--border)', marginTop: 0 }}>
         <Link href={`/patterns/${prev.slug}`} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
-          <span style={{ fontSize: 'var(--color-text-xs)', color: 'var(--color-text-faint)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' }}>← Previous</span>
-          <span style={{ fontSize: 'var(--color-text-base)', color: 'var(--color-text)', fontWeight: 'var(--font-weight-medium)' }}>{prev.title}</span>
+          <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' }}>← Previous</span>
+          <span style={{ fontSize: 'var(--text-base)', color: 'var(--text)', fontWeight: 'var(--font-weight-medium)' }}>{prev.title}</span>
         </Link>
         <Link href={`/patterns/${next.slug}`} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: 'var(--space-1)', alignItems: 'flex-end' }}>
-          <span style={{ fontSize: 'var(--color-text-xs)', color: 'var(--color-text-faint)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' }}>Next →</span>
-          <span style={{ fontSize: 'var(--color-text-base)', color: 'var(--color-text)', fontWeight: 'var(--font-weight-medium)' }}>{next.title}</span>
+          <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' }}>Next →</span>
+          <span style={{ fontSize: 'var(--text-base)', color: 'var(--text)', fontWeight: 'var(--font-weight-medium)' }}>{next.title}</span>
         </Link>
       </div>
 
