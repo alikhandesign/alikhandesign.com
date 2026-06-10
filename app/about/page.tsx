@@ -28,7 +28,7 @@ export default function AboutPage() {
         <header className="page-header">
           <SectionLabel label="About Me" />
           <h1 className="font-serif page-title-lg" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.75rem' }}>The person behind the work.</h1>
-          <p style={{ fontSize: 16, color: 'var(--color-text-muted)', lineHeight: 1.6, maxWidth: 580 }}>Senior Product Designer and Researcher. Open to remote and in-person opportunities anywhere.</p>
+          <p style={{ fontSize: 16, color: 'var(--text-muted)', lineHeight: 1.6, maxWidth: 580 }}>Senior Product Designer and Researcher. Open to remote and in-person opportunities anywhere.</p>
         </header>
       </div>
 
@@ -36,12 +36,12 @@ export default function AboutPage() {
         <div className="grid-2-wide" style={{ alignItems: 'start' }}>
           <div>
             {["I didn't start my career knowing I wanted to be a designer. I started it asking questions. Why do people make the decisions they make? What gets in their way? What would need to be true for things to feel effortless?", "Turns out, that's exactly what design is. Ten years in, I'm still asking the same questions, just with better tools, sharper instincts, and a lot more scar tissue from navigating legacy systems and stakeholder politics.", "I'm a Senior Product Designer and Researcher who specializes in the space between research and strategy, turning what users tell me into decisions that actually move products forward."].map((p, i) => (
-              <p key={i} style={{ fontSize: 16, color: 'var(--color-text-muted)', lineHeight: 1.8, marginBottom: i < 2 ? '1.25rem' : 0 }}>{p}</p>
+              <p key={i} style={{ fontSize: 16, color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: i < 2 ? '1.25rem' : 0 }}>{p}</p>
             ))}
           </div>
           <div className="hero-img-wrap">
             <Image src="/images/ali-loverboy.jpg" alt="Ali Khan with his dog Loverboy" width={480} height={420} style={{ width: '100%', height: 420, objectFit: 'cover', objectPosition: 'center top', borderRadius: 'var(--radius)' }} />
-            <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: '0.75rem', textAlign: 'center', letterSpacing: '0.02em' }}>Me and Loverboy</p>
+            <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: '0.75rem', textAlign: 'center', letterSpacing: '0.02em' }}>Me and Loverboy</p>
           </div>
         </div>
       </section>
@@ -51,31 +51,31 @@ export default function AboutPage() {
       <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
         <SectionLabel label="Design Philosophy" />
         <h2 className="font-serif section-title" style={{ fontSize: '2rem', fontWeight: 400, marginBottom: '1.75rem', lineHeight: 1.15 }}>How I think about design.</h2>
-        <p style={{ fontSize: 16, color: 'var(--color-text)', lineHeight: 1.75, marginBottom: '3rem', maxWidth: 680 }}>The best design is the kind nobody notices. It just works. Getting there though requires a specific way of seeing problems, and over ten years I've found it comes down to three things.</p>
+        <p style={{ fontSize: 16, color: 'var(--text)', lineHeight: 1.75, marginBottom: '3rem', maxWidth: 680 }}>The best design is the kind nobody notices. It just works. Getting there though requires a specific way of seeing problems, and over ten years I've found it comes down to three things.</p>
         <div>
           {pillars.map((p, i) => (
-            <div key={p.num} className="pillar-grid" style={{ padding: '2.5rem 0', borderTop: '1px solid var(--color-border)', ...(i === pillars.length - 1 ? { borderBottom: '1px solid var(--color-border)' } : {}) }}>
+            <div key={p.num} className="pillar-grid" style={{ padding: '2.5rem 0', borderTop: '1px solid var(--border)', ...(i === pillars.length - 1 ? { borderBottom: '1px solid var(--border)' } : {}) }}>
               <div>
-                <p style={{ fontSize: 'var(--color-text-xs)', letterSpacing: 'var(--letter-spacing-lg)', textTransform: 'uppercase' as const, color: 'var(--color-accent)', fontWeight: 500, marginBottom: 'var(--space-2)' }}>{p.num}</p>
-                <h3 className="font-serif" style={{ fontSize: 'var(--color-text-xl)', fontWeight: 400, lineHeight: 1.2 }}>{p.title}</h3>
+                <p style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-lg)', textTransform: 'uppercase' as const, color: 'var(--accent)', fontWeight: 500, marginBottom: 'var(--space-2)' }}>{p.num}</p>
+                <h3 className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400, lineHeight: 1.2 }}>{p.title}</h3>
               </div>
-              <p style={{ fontSize: 16, color: 'var(--color-text-muted)', lineHeight: 1.8 }}>{p.text}</p>
+              <p style={{ fontSize: 16, color: 'var(--text-muted)', lineHeight: 1.8 }}>{p.text}</p>
             </div>
           ))}
         </div>
-        <p className="font-serif" style={{ fontSize: 'var(--color-text-2xl)', fontStyle: 'italic', color: 'var(--color-text)', marginTop: '2.5rem', paddingTop: '2.5rem', borderTop: '1px solid var(--color-border)', lineHeight: 1.4, maxWidth: 600 }}>
+        <p className="font-serif" style={{ fontSize: 'var(--text-2xl)', fontStyle: 'italic', color: 'var(--text)', marginTop: '2.5rem', paddingTop: '2.5rem', borderTop: '1px solid var(--border)', lineHeight: 1.4, maxWidth: 600 }}>
           "I'll take a product that works over one that looks good, every time."
         </p>
       </section>
 
-      <section className="dark-section" style={{ background: 'var(--color-bg-dark)', padding: '4rem 3rem' }}>
+      <section className="dark-section" style={{ background: 'var(--dark-bg)', padding: '4rem 3rem' }}>
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
           <div className="grid-2-wide" style={{ alignItems: 'start' }}>
             <div>
               <SectionLabel label="AI-Native Mindset" variant="dark" />
-              <h2 className="font-serif" style={{ fontSize: '2rem', fontWeight: 400, color: 'var(--color-bg)', lineHeight: 1.15, marginBottom: '1.75rem' }}>AI that earns its place on the team.</h2>
+              <h2 className="font-serif" style={{ fontSize: '2rem', fontWeight: 400, color: 'var(--bg)', lineHeight: 1.15, marginBottom: '1.75rem' }}>AI that earns its place on the team.</h2>
               {["AI doesn't intimidate me, it excites me. But not uncritically.", "I've built agentic research pipelines from scratch. I've seen what happens when AI gets deployed without a validation framework, without transparency, without a human in the loop.", "The thing that frustrates me most about AI products is false confidence. When a system gives me a wrong answer like it's completely certain, that's a design failure. Not just a technical one.", "My goal is always the same: AI that scales what humans do well, that knows its limits, and signals them clearly. AI that earns the trust of the people using it."].map((p, i, arr) => (
-                <p key={i} style={{ fontSize: 16, color: 'var(--color-bg)', lineHeight: 1.8, marginBottom: i < arr.length - 1 ? '1.25rem' : 0 }}>{p}</p>
+                <p key={i} style={{ fontSize: 16, color: 'var(--bg)', lineHeight: 1.8, marginBottom: i < arr.length - 1 ? '1.25rem' : 0 }}>{p}</p>
               ))}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)', paddingTop: 'var(--space-2)' }}>
@@ -93,17 +93,17 @@ export default function AboutPage() {
             <SectionLabel label="Beyond the Work" />
             <h2 className="font-serif section-title" style={{ fontSize: '2rem', fontWeight: 400, lineHeight: 1.15, marginBottom: '1.75rem' }}>When I'm not designing.</h2>
             {["When I'm not designing, I'm usually outside. Camping, hiking, overlanding. I've spent the last few years working remotely and using that freedom to explore. Chappie, my dog, has strong opinions about all of it.", "I care a lot about animals. I volunteer with Austin Pets Alive, Animal Haven, and the ASPCA. I also do pro bono design work through the Taproot Foundation, because good design shouldn't only be available to organizations that can afford it.", "I'm also into horror fiction, cooking, films, art, and video games, roughly in that order depending on the week."].map((p, i, arr) => (
-              <p key={i} style={{ fontSize: 16, color: 'var(--color-text-muted)', lineHeight: 1.8, marginBottom: i < arr.length - 1 ? '1.25rem' : 0 }}>{p}</p>
+              <p key={i} style={{ fontSize: 16, color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: i < arr.length - 1 ? '1.25rem' : 0 }}>{p}</p>
             ))}
           </div>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', padding: 'var(--space-8)', position: 'relative', overflow: 'hidden', width: '100%' }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--color-accent)' }} />
+            <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: 'var(--space-8)', position: 'relative', overflow: 'hidden', width: '100%' }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--accent)' }} />
               <SectionLabel label="Open to Opportunities" />
-              <h3 className="font-serif" style={{ fontSize: 'var(--color-text-2xl)', fontWeight: 400, lineHeight: 1.2, marginBottom: 'var(--space-3)' }}>Let's work together.</h3>
-              <p style={{ fontSize: 'var(--color-text-base)', color: 'var(--color-text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>I'm actively looking for senior product design and AI-focused roles. If you think there's a fit, I'd love to talk.</p>
+              <h3 className="font-serif" style={{ fontSize: 'var(--text-2xl)', fontWeight: 400, lineHeight: 1.2, marginBottom: 'var(--space-3)' }}>Let's work together.</h3>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>I'm actively looking for senior product design and AI-focused roles. If you think there's a fit, I'd love to talk.</p>
               <button onClick={() => setModalOpen(true)} className="btn-primary">Get in touch <span aria-hidden="true">→</span></button>
-              <Link href="/work" style={{ display: 'block', marginTop: 'var(--space-4)', fontSize: 'var(--color-text-base)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>View my work instead →</Link>
+              <Link href="/work" style={{ display: 'block', marginTop: 'var(--space-4)', fontSize: 'var(--text-base)', color: 'var(--text-muted)', textDecoration: 'none' }}>View my work instead →</Link>
             </div>
           </div>
         </div>
