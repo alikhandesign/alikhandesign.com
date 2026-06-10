@@ -13,15 +13,15 @@ export default function FeaturedProjectCard({ type, title, company, description,
   const ctaLabel = type === 'Case Study' ? 'Read case study' : 'View project'
   return (
     <Link href={href} className="work-card" style={{
-      background: 'var(--surface)',
-      border: '1px solid var(--border)',
+      background: 'var(--color-surface)',
+      border: '1px solid var(--color-border)',
       borderRadius: 'var(--radius)',
       overflow: 'hidden',
       textDecoration: 'none',
       color: 'inherit',
       display: 'block',
     }}>
-      <div style={{ width: '100%', height: 200, background: 'var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const }}>
+      <div style={{ width: '100%', height: 200, background: 'var(--color-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const }}>
         {type === 'Case Study' ? 'Case Study Preview' : 'Project Preview'}
       </div>
       <div style={{ padding: 'var(--space-6)' }}>
@@ -29,9 +29,9 @@ export default function FeaturedProjectCard({ type, title, company, description,
           <Tag label={type} variant={type === 'Case Study' ? 'accent' : 'default'} />
         </div>
         <h3 className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400, lineHeight: 1.25, marginBottom: '0.25rem' }}>{title}</h3>
-        <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: 'var(--letter-spacing-sm)', marginBottom: '0.75rem' }}>{company}</p>
-        <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 'var(--space-4)' }}>{description}</p>
-        <span style={{ fontSize: 'var(--text-base)', color: 'var(--accent)', fontWeight: 'var(--font-weight-medium)' as any }}>{ctaLabel} →</span>
+        <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-sm)', marginBottom: '0.75rem' }}>{company}</p>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 1.6, marginBottom: 'var(--space-4)' }}>{description}</p>
+        <span style={{ fontSize: 'var(--text-base)', color: 'var(--color-accent)', fontWeight: 'var(--font-weight-medium)' as any }}>{ctaLabel} →</span>
       </div>
     </Link>
   )
