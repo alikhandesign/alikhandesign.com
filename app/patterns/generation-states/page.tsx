@@ -113,7 +113,7 @@ function Definition() {
       ].map(item => (
         <div key={item.label}>
           <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>{item.label}</p>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
         </div>
       ))}
     </div>
@@ -129,29 +129,29 @@ function Demo({ genState, displayedText, elapsedSeconds, badge, runNormal, runHu
         <Button label="Simulate hung state" variant="secondary" onClick={runHung} arrow={false} />
         <Button label="Reset" variant="secondary" onClick={reset} arrow={false} />
       </div>
-      <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)', overflow: 'hidden' }}>
-        <div style={{ padding: 'var(--space-3) var(--space-4)', borderBottom: '1px solid var(--border)', background: 'var(--warm-75)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)', letterSpacing: 'var(--letter-spacing-sm)', textTransform: 'uppercase' }}>AI response</span>
+      <div style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'var(--color-surface)', overflow: 'hidden' }}>
+        <div style={{ padding: 'var(--space-3) var(--space-4)', borderBottom: '1px solid var(--color-border)', background: 'var(--color-surface-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)', letterSpacing: 'var(--letter-spacing-sm)', textTransform: 'uppercase' }}>AI response</span>
           {badge && <StatusBadge state={badge.state} label={badge.label} pulse={genState === 'thinking' || genState === 'streaming'} />}
         </div>
         <div style={{ padding: 'var(--space-6)', minHeight: 160 }}>
-          {genState === 'idle' && <p style={{ color: 'var(--text-faint)', fontSize: 'var(--text-sm)', fontStyle: 'italic' }}>Press a button above to simulate a generation state.</p>}
+          {genState === 'idle' && <p style={{ color: 'var(--color-text-faint)', fontSize: 'var(--text-sm)', fontStyle: 'italic' }}>Press a button above to simulate a generation state.</p>}
           {genState === 'thinking' && (
             <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center' }}>
-              {[0,1,2].map(i => <span key={i} style={{ width:6, height:6, borderRadius:'50%', background:'var(--text-faint)', display:'block', animation:`bounce 1.2s ease-in-out ${i*0.2}s infinite` }} />)}
+              {[0,1,2].map(i => <span key={i} style={{ width:6, height:6, borderRadius:'50%', background:'var(--color-text-faint)', display:'block', animation:`bounce 1.2s ease-in-out ${i*0.2}s infinite` }} />)}
               <style>{`@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}`}</style>
             </div>
           )}
           {(genState === 'streaming' || genState === 'complete') && displayedText && (
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--text)', lineHeight: 'var(--line-height-loose)' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', lineHeight: 'var(--line-height-loose)' }}>
               {displayedText}
-              {genState === 'streaming' && <span style={{ display:'inline-block', width:2, height:'1em', background:'var(--text)', marginLeft:2, animation:'blink 1s step-end infinite', verticalAlign:'text-bottom' }} />}
+              {genState === 'streaming' && <span style={{ display:'inline-block', width:2, height:'1em', background:'var(--color-text)', marginLeft:2, animation:'blink 1s step-end infinite', verticalAlign:'text-bottom' }} />}
               <style>{`@keyframes blink{50%{opacity:0}}`}</style>
             </p>
           )}
           {genState === 'hung' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-              <p style={{ fontSize: 'var(--text-base)', color: 'var(--text)', lineHeight: 'var(--line-height-loose)' }}>{displayedText}</p>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', lineHeight: 'var(--line-height-loose)' }}>{displayedText}</p>
               <InlineAlert variant="error" title="Generation stalled"
                 action={{ label: 'Retry generation', onClick: runNormal }}
                 secondaryAction={{ label: 'Copy partial output', onClick: () => navigator.clipboard?.writeText(displayedText) }}>
@@ -161,7 +161,7 @@ function Demo({ genState, displayedText, elapsedSeconds, badge, runNormal, runHu
           )}
         </div>
         {genState === 'streaming' && elapsedSeconds > 0 && (
-          <div style={{ padding: 'var(--space-2) var(--space-4)', borderTop: '1px solid var(--border)', background: '#FFFBEB', fontSize: 'var(--text-xs)', color: '#B45309' }}>
+          <div style={{ padding: 'var(--space-2) var(--space-4)', borderTop: '1px solid var(--color-border)', background: '#FFFBEB', fontSize: 'var(--text-xs)', color: '#B45309' }}>
             No new tokens for {elapsedSeconds}s — watchdog escalates at 5s
           </div>
         )}
@@ -181,11 +181,11 @@ function AllStates() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
       {items.map(item => (
-        <div key={item.state} style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-6)', padding: 'var(--space-4)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)' }}>
+        <div key={item.state} style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-6)', padding: 'var(--space-4)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'var(--color-surface)' }}>
           <div style={{ paddingTop: 2, flexShrink: 0 }}><StatusBadge state={item.state} label={item.label} pulse={item.pulse} /></div>
           <div>
-            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text)', fontWeight: 'var(--font-weight-medium)', marginBottom: 'var(--space-1)' }}>{item.label}</p>
-            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-normal)' }}>{item.desc}</p>
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', fontWeight: 'var(--font-weight-medium)', marginBottom: 'var(--space-1)' }}>{item.label}</p>
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-normal)' }}>{item.desc}</p>
           </div>
         </div>
       ))}
