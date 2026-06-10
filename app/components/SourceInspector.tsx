@@ -81,7 +81,7 @@ export default function SourceInspector({ sources, activeId, onClose, onSelect }
                 <span style={{
                   width: 18, height: 18, borderRadius: '50%', flexShrink: 0,
                   background: isActive ? 'var(--color-accent)' : 'var(--color-text-mid)',
-                  color: '#fff', fontSize: 10, fontWeight: 700,
+                  color: '#fff', fontSize: 'var(--text-badge)', fontWeight: 700,
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                   transition: 'background var(--transition-base)',
                   marginTop: 1,
