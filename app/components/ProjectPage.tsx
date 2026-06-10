@@ -30,21 +30,21 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
             {tags.map(t => <span key={t} className="tag">{t}</span>)}
           </div>
           <h1 className="font-serif page-title-lg" style={{ fontSize: 'var(--text-5xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: 'var(--space-2)' }}>{title}</h1>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', letterSpacing: 'var(--letter-spacing-sm)', marginBottom: 'var(--space-6)' }}>{company}</p>
-          <p style={{ fontSize: 'var(--text-lg)', color: 'var(--text)', lineHeight: 1.7, maxWidth: 680 }}>{hook}</p>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-sm)', marginBottom: 'var(--space-6)' }}>{company}</p>
+          <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-text)', lineHeight: 1.7, maxWidth: 680 }}>{hook}</p>
         </header>
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem' }}>
-        <div style={{ width: '100%', height: 400, background: 'var(--border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-base)', color: 'var(--text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const }}>Hero Project Image</div>
+        <div style={{ width: '100%', height: 400, background: 'var(--color-border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const }}>Hero Project Image</div>
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <div className="details-bar">
           {details.map(d => (
             <div key={d.label}>
-              <p style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: 'var(--space-1)' }}>{d.label}</p>
-              <p style={{ fontSize: 'var(--text-base)', color: 'var(--text)', fontWeight: 500 }}>{d.value}</p>
+              <p style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: 'var(--space-1)' }}>{d.label}</p>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', fontWeight: 500 }}>{d.value}</p>
             </div>
           ))}
         </div>
@@ -56,7 +56,7 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
             <p className="section-label">{s.label}</p>
             <h2 className="font-serif" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400, lineHeight: 1.2, marginBottom: 'var(--space-5)' }}>{s.title}</h2>
             {s.body.map((p, i) => (
-              <p key={i} style={{ fontSize: 16, color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: i < s.body.length - 1 ? 'var(--space-5)' : 0 }}>{p}</p>
+              <p key={i} style={{ fontSize: 16, color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: i < s.body.length - 1 ? 'var(--space-5)' : 0 }}>{p}</p>
             ))}
           </section>
         ))}
@@ -75,10 +75,10 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <div className="next-project">
           <div>
-            <p style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-lg)', textTransform: 'uppercase' as const, color: 'var(--text-muted)', fontWeight: 500, marginBottom: 'var(--space-1)' }}>Next Project</p>
+            <p style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-lg)', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: 'var(--space-1)' }}>Next Project</p>
             <p className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400 }}>{next.title}</p>
           </div>
-          <Link href={next.href} style={{ fontSize: 'var(--text-base)', color: 'var(--accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
+          <Link href={next.href} style={{ fontSize: 'var(--text-base)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
         </div>
       </div>
 
