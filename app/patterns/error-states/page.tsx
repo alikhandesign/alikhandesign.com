@@ -103,25 +103,25 @@ export default function ErrorStatesPage() {
         <Button label="Reset"           variant="secondary" onClick={reset}                     arrow={false} />
       </div>
 
-      <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)', overflow: 'hidden' }}>
-        <div style={{ padding: 'var(--space-3) var(--space-4)', borderBottom: '1px solid var(--border)', background: 'var(--warm-75)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)', letterSpacing: 'var(--letter-spacing-sm)', textTransform: 'uppercase' }}>AI response</span>
+      <div style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'var(--color-surface)', overflow: 'hidden' }}>
+        <div style={{ padding: 'var(--space-3) var(--space-4)', borderBottom: '1px solid var(--color-border)', background: 'var(--color-surface-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: 'var(--color-text-xs)', color: 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)', letterSpacing: 'var(--letter-spacing-sm)', textTransform: 'uppercase' }}>AI response</span>
           {simState === 'generating' && <StatusBadge state="streaming" label="Generating" pulse />}
           {simState === 'errored'    && <StatusBadge state="error"     label="Error" />}
         </div>
 
         <div style={{ padding: 'var(--space-6)', minHeight: 120, display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-          {simState === 'idle' && <p style={{ color: 'var(--text-faint)', fontSize: 'var(--text-sm)', fontStyle: 'italic' }}>Select an error type above. Hung and network errors stream partial content before the watchdog fires.</p>}
+          {simState === 'idle' && <p style={{ color: 'var(--color-text-faint)', fontSize: 'var(--color-text-sm)', fontStyle: 'italic' }}>Select an error type above. Hung and network errors stream partial content before the watchdog fires.</p>}
           {simState === 'generating' && !displayedText && (
             <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center' }}>
-              {[0,1,2].map(i => <span key={i} style={{ width:6, height:6, borderRadius:'50%', background:'var(--text-faint)', display:'block', animation:`bounce 1.2s ease-in-out ${i*0.2}s infinite` }} />)}
+              {[0,1,2].map(i => <span key={i} style={{ width:6, height:6, borderRadius:'50%', background:'var(--color-text-faint)', display:'block', animation:`bounce 1.2s ease-in-out ${i*0.2}s infinite` }} />)}
               <style>{`@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}`}</style>
             </div>
           )}
           {displayedText && (
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--text)', lineHeight: 'var(--line-height-loose)' }}>
+            <p style={{ fontSize: 'var(--color-text-base)', color: 'var(--color-text)', lineHeight: 'var(--line-height-loose)' }}>
               {displayedText}
-              {simState === 'generating' && <span style={{ display:'inline-block', width:2, height:'1em', background:'var(--text)', marginLeft:2, animation:'blink 1s step-end infinite', verticalAlign:'text-bottom' }} />}
+              {simState === 'generating' && <span style={{ display:'inline-block', width:2, height:'1em', background:'var(--color-text)', marginLeft:2, animation:'blink 1s step-end infinite', verticalAlign:'text-bottom' }} />}
               <style>{`@keyframes blink{50%{opacity:0}}`}</style>
             </p>
           )}
@@ -135,25 +135,25 @@ export default function ErrorStatesPage() {
         </div>
 
         {simState === 'generating' && countdown > 0 && (
-          <div style={{ padding: 'var(--space-2) var(--space-4)', borderTop: '1px solid var(--border)', background: '#FFFBEB', fontSize: 'var(--text-xs)', color: '#B45309' }}>
+          <div style={{ padding: 'var(--space-2) var(--space-4)', borderTop: '1px solid var(--color-border)', background: '#FFFBEB', fontSize: 'var(--color-text-xs)', color: '#B45309' }}>
             Watchdog: no new tokens — escalating in {countdown}s
           </div>
         )}
 
         {/* Preserved input — always visible */}
-        <div style={{ borderTop: '1px solid var(--border)', padding: 'var(--space-3) var(--space-4)', background: 'var(--warm-75)', display: 'flex', gap: 'var(--space-3)', alignItems: 'center' }}>
+        <div style={{ borderTop: '1px solid var(--color-border)', padding: 'var(--space-3) var(--space-4)', background: 'var(--color-surface-subtle)', display: 'flex', gap: 'var(--space-3)', alignItems: 'center' }}>
           <input readOnly value="Analyze the system architecture and identify the primary failure modes in the current implementation."
-            style={{ flex: 1, padding: 'var(--space-2) var(--space-3)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', fontSize: 'var(--text-sm)', fontFamily: 'var(--font-sans)', background: 'var(--surface)', color: 'var(--text-muted)', outline: 'none' }}
+            style={{ flex: 1, padding: 'var(--space-2) var(--space-3)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', fontSize: 'var(--color-text-sm)', fontFamily: 'var(--font-sans)', background: 'var(--color-surface)', color: 'var(--color-text-muted)', outline: 'none' }}
           />
-          <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)', whiteSpace: 'nowrap' }}>Preserved</span>
+          <span style={{ fontSize: 'var(--color-text-xs)', color: 'var(--color-text-faint)', whiteSpace: 'nowrap' }}>Preserved</span>
         </div>
       </div>
 
       {/* Per-error audit finding — shown after error triggers */}
       {simState === 'errored' && (
-        <div style={{ padding: 'var(--space-3) var(--space-4)', background: 'var(--warm-75)', borderLeft: '3px solid var(--accent)', borderRadius: '0 var(--radius) var(--radius) 0' }}>
-          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-normal)' }}>
-            <strong style={{ color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: 'var(--letter-spacing-md)', fontSize: 'var(--text-xs)' }}>Audit finding — {cfg.title} —</strong>{' '}{cfg.finding}
+        <div style={{ padding: 'var(--space-3) var(--space-4)', background: 'var(--color-surface-subtle)', borderLeft: '3px solid var(--color-accent)', borderRadius: '0 var(--radius) var(--radius) 0' }}>
+          <p style={{ fontSize: 'var(--color-text-xs)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-normal)' }}>
+            <strong style={{ color: 'var(--color-accent)', textTransform: 'uppercase', letterSpacing: 'var(--letter-spacing-md)', fontSize: 'var(--color-text-xs)' }}>Audit finding — {cfg.title} —</strong>{' '}{cfg.finding}
           </p>
         </div>
       )}
@@ -163,9 +163,9 @@ export default function ErrorStatesPage() {
   const states = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
       {(Object.entries(ERROR_CONFIG) as Array<[ErrorType, typeof ERROR_CONFIG[ErrorType]]>).map(([type, c]) => (
-        <div key={type} style={{ padding: 'var(--space-4)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)' }}>
-          <p style={{ fontSize: 'var(--text-sm)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--text)', marginBottom: 'var(--space-2)' }}>{c.title}</p>
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-normal)', marginBottom: 'var(--space-3)' }}>{c.message} Recovery: {c.cta}{c.secondaryCta ? ` / ${c.secondaryCta}` : ''}.</p>
+        <div key={type} style={{ padding: 'var(--space-4)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'var(--color-surface)' }}>
+          <p style={{ fontSize: 'var(--color-text-sm)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text)', marginBottom: 'var(--space-2)' }}>{c.title}</p>
+          <p style={{ fontSize: 'var(--color-text-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-normal)', marginBottom: 'var(--space-3)' }}>{c.message} Recovery: {c.cta}{c.secondaryCta ? ` / ${c.secondaryCta}` : ''}.</p>
         </div>
       ))}
     </div>
@@ -196,7 +196,7 @@ function Definition() {
       ].map(item => (
         <div key={item.label}>
           <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>{item.label}</p>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
+          <p style={{ fontSize: 'var(--color-text-base)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
         </div>
       ))}
     </div>
