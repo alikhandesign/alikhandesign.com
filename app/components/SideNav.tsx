@@ -39,12 +39,12 @@ export default function SideNav({ sections, unlocked = true }: SideNavProps) {
     const isHovered = hovered === id && !isActive
     return {
       fontSize: 'var(--text-base)',
-      color: isActive ? 'var(--accent)' : isHovered ? 'var(--text-mid)' : 'var(--text-muted)',
+      color: isActive ? 'var(--color-accent)' : isHovered ? 'var(--color-text-mid)' : 'var(--color-text-muted)',
       fontWeight: isActive || isHovered ? 500 : 400,
       textDecoration: 'none',
       display: 'block',
       padding: 'var(--space-2) 0 var(--space-2) var(--space-3)',
-      borderLeft: `2px solid ${isActive ? 'var(--accent)' : isHovered ? 'var(--border-mid)' : 'var(--border)'}`,
+      borderLeft: `2px solid ${isActive ? 'var(--color-accent)' : isHovered ? 'var(--color-border-mid)' : 'var(--color-border)'}`,
       lineHeight: 1.4,
       transition: 'color var(--transition-base), border-color var(--transition-base)',
     }
@@ -56,7 +56,7 @@ export default function SideNav({ sections, unlocked = true }: SideNavProps) {
         fontSize: 'var(--text-xs)',
         letterSpacing: 'var(--letter-spacing-lg)',
         textTransform: 'uppercase' as const,
-        color: 'var(--text-muted)',
+        color: 'var(--color-text-muted)',
         fontWeight: 500,
         marginBottom: 'var(--space-4)'
       }}>Contents</p>
