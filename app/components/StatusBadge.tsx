@@ -5,11 +5,11 @@ interface StatusBadgeProps {
 }
 
 const stateStyles: Record<StatusBadgeProps['state'], { bg: string; color: string; border: string }> = {
-  thinking:  { bg: 'var(--warm-75)',  color: 'var(--text-muted)',  border: 'var(--border)' },
+  thinking:  { bg: 'var(--color-surface-subtle)',  color: 'var(--color-text-muted)',  border: 'var(--color-border)' },
   streaming: { bg: '#EFF6FF',         color: '#1D4ED8',            border: '#BFDBFE' },
   complete:  { bg: '#F0FDF4',         color: '#15803D',            border: '#BBF7D0' },
   hung:      { bg: '#FFF7ED',         color: '#C2410C',            border: '#FED7AA' },
-  error:     { bg: 'var(--accent-bg)', color: 'var(--accent)',     border: '#FECACA' },
+  error:     { bg: 'var(--color-accent-bg)', color: 'var(--color-accent)',     border: '#FECACA' },
   warning:   { bg: '#FFFBEB',         color: '#B45309',            border: '#FDE68A' },
   info:      { bg: '#EFF6FF',         color: '#1D4ED8',            border: '#BFDBFE' },
 }
@@ -25,7 +25,7 @@ export default function StatusBadge({ state, label, pulse = false }: StatusBadge
       borderRadius: 'var(--radius)',
       border: `1px solid ${s.border}`,
       background: s.bg,
-      fontSize: 'var(--text-xs)',
+      fontSize: 'var(--color-text-xs)',
       fontWeight: 'var(--font-weight-medium)',
       letterSpacing: 'var(--letter-spacing-md)',
       textTransform: 'uppercase',
