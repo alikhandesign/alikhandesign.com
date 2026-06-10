@@ -73,9 +73,9 @@ export default function AboutPage() {
           <div className="grid-2-wide" style={{ alignItems: 'start' }}>
             <div>
               <SectionLabel label="AI-Native Mindset" variant="dark" />
-              <h2 className="font-serif" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400, color: 'var(--text-on-dark)', lineHeight: 1.15, marginBottom: '1.75rem' }}>AI that earns its place on the team.</h2>
+              <h2 className="font-serif" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400, color: 'var(--bg)', lineHeight: 1.15, marginBottom: '1.75rem' }}>AI that earns its place on the team.</h2>
               {["AI doesn't intimidate me, it excites me. But not uncritically.", "I've built agentic research pipelines from scratch. I've seen what happens when AI gets deployed without a validation framework, without transparency, without a human in the loop.", "The thing that frustrates me most about AI products is false confidence. When a system gives me a wrong answer like it's completely certain, that's a design failure. Not just a technical one.", "My goal is always the same: AI that scales what humans do well, that knows its limits, and signals them clearly. AI that earns the trust of the people using it."].map((p, i, arr) => (
-                <p key={i} style={{ fontSize: 16, color: 'var(--text-on-dark)', lineHeight: 1.8, marginBottom: i < arr.length - 1 ? '1.25rem' : 0 }}>{p}</p>
+                <p key={i} style={{ fontSize: 16, color: 'var(--bg)', lineHeight: 1.8, marginBottom: i < arr.length - 1 ? '1.25rem' : 0 }}>{p}</p>
               ))}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)', paddingTop: 'var(--space-2)' }}>
