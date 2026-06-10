@@ -9,7 +9,7 @@ const PHASE_CONFIG: Record<GenerationPhase, { color: string; label: string }> = 
   generating: { color: 'var(--color-success, #4A6130)',  label: 'Generating' },
   complete:   { color: 'var(--color-success, #4A6130)',  label: 'Complete'   },
   stalled:    { color: 'var(--color-warning, #92600A)',  label: 'Stalled'    },
-  error:      { color: 'var(--accent, #C0392B)',         label: 'Error'      },
+  error:      { color: 'var(--color-accent, #C0392B)',         label: 'Error'      },
 }
 
 export default function GenerationState({ phase }: GenerationStateProps) {
@@ -25,7 +25,7 @@ export default function GenerationState({ phase }: GenerationStateProps) {
         flexShrink: 0,
         opacity: phase === 'complete' || phase === 'error' ? 1 : undefined,
       }} />
-      <span style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)' }}>
+      <span style={{ fontSize: 'var(--color-text-sm)', color: 'var(--color-text-muted)' }}>
         {config.label}
       </span>
       <style>{`
