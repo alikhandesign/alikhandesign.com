@@ -20,20 +20,20 @@ export default function SourceInspector({ sources, activeId, onClose, onSelect }
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
-      background: 'var(--color-surface)',
-      borderLeft: '1px solid var(--color-border)',
+      background: 'var(--surface)',
+      borderLeft: '1px solid var(--border)',
     }}>
       {/* Header */}
       <div style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         padding: 'var(--space-3) var(--space-4)',
-        borderBottom: '1px solid var(--color-border)',
+        borderBottom: '1px solid var(--border)',
         flexShrink: 0,
       }}>
         <p style={{
-          fontSize: 'var(--color-text-xs)', fontWeight: 500,
+          fontSize: 'var(--text-xs)', fontWeight: 500,
           letterSpacing: '0.08em', textTransform: 'uppercase',
-          color: 'var(--color-text-muted)', margin: 0,
+          color: 'var(--text-muted)', margin: 0,
         }}>
           Sources
         </p>
@@ -42,7 +42,7 @@ export default function SourceInspector({ sources, activeId, onClose, onSelect }
           aria-label="Close source inspector"
           style={{
             background: 'none', border: 'none', cursor: 'pointer',
-            color: 'var(--color-text-muted)', padding: 4,
+            color: 'var(--text-muted)', padding: 4,
             display: 'flex', alignItems: 'center', borderRadius: 2,
           }}
         >
@@ -69,10 +69,10 @@ export default function SourceInspector({ sources, activeId, onClose, onSelect }
                   display: 'flex', alignItems: 'flex-start', gap: 'var(--space-2)',
                   padding: 'var(--space-3)',
                   width: '100%', textAlign: 'left',
-                  background: isActive ? 'var(--color-accent-bg, #FDF0F0)' : 'var(--color-surface)',
-                  border: `1px solid ${isActive ? 'var(--color-accent)' : 'var(--color-border)'}`,
+                  background: isActive ? 'var(--accent-bg, #FDF0F0)' : 'var(--surface)',
+                  border: `1px solid ${isActive ? 'var(--accent)' : 'var(--border)'}`,
                   borderRadius: isActive ? 'var(--radius) var(--radius) 0 0' : 'var(--radius)',
-                  borderBottom: isActive ? 'none' : `1px solid ${isActive ? 'var(--color-accent)' : 'var(--color-border)'}`,
+                  borderBottom: isActive ? 'none' : `1px solid ${isActive ? 'var(--accent)' : 'var(--border)'}`,
                   cursor: 'pointer',
                   fontFamily: 'var(--font-sans)',
                   transition: 'all var(--transition-base)',
@@ -80,7 +80,7 @@ export default function SourceInspector({ sources, activeId, onClose, onSelect }
               >
                 <span style={{
                   width: 18, height: 18, borderRadius: '50%', flexShrink: 0,
-                  background: isActive ? 'var(--color-accent)' : 'var(--color-text-mid)',
+                  background: isActive ? 'var(--accent)' : 'var(--text-mid)',
                   color: '#fff', fontSize: 10, fontWeight: 700,
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                   transition: 'background var(--transition-base)',
@@ -89,8 +89,8 @@ export default function SourceInspector({ sources, activeId, onClose, onSelect }
                   {source.id}
                 </span>
                 <p style={{
-                  fontSize: 'var(--color-text-xs)', fontWeight: 600,
-                  color: isActive ? 'var(--color-accent)' : 'var(--color-text)',
+                  fontSize: 'var(--text-xs)', fontWeight: 600,
+                  color: isActive ? 'var(--accent)' : 'var(--text)',
                   margin: 0, lineHeight: 1.4,
                   overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                   flex: 1, minWidth: 0,
@@ -103,13 +103,13 @@ export default function SourceInspector({ sources, activeId, onClose, onSelect }
               {isActive && (
                 <div style={{
                   padding: 'var(--space-3)',
-                  background: 'var(--color-accent-bg, #FDF0F0)',
-                  border: '1px solid var(--color-accent)',
+                  background: 'var(--accent-bg, #FDF0F0)',
+                  border: '1px solid var(--accent)',
                   borderTop: 'none',
                   borderRadius: '0 0 var(--radius) var(--radius)',
                 }}>
                   <p style={{
-                    fontSize: 'var(--color-text-xs)', color: 'var(--color-text-muted)',
+                    fontSize: 'var(--text-xs)', color: 'var(--text-muted)',
                     lineHeight: 1.6, margin: '0 0 var(--space-3) 0',
                   }}>
                     {source.description}
@@ -118,8 +118,8 @@ export default function SourceInspector({ sources, activeId, onClose, onSelect }
                     href={source.url}
                     style={{
                       display: 'inline-flex', alignItems: 'center', gap: 4,
-                      fontSize: 'var(--color-text-xs)', fontWeight: 500,
-                      color: 'var(--color-accent)', textDecoration: 'none',
+                      fontSize: 'var(--text-xs)', fontWeight: 500,
+                      color: 'var(--accent)', textDecoration: 'none',
                     }}
                   >
                     Read more →
