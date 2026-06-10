@@ -2,7 +2,7 @@
 
 /* ─── Design Tokens ─────────────────────────────────────── */
 :root {
-  /* Color — token definitions */
+  /* Color tokens */
   --color-bg:          #FAF8F5;
   --color-surface:     #FFFFFF;
   --color-border:      #EDE9E4;
