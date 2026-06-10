@@ -86,7 +86,7 @@ const filterStyles: React.CSSProperties = {
   fontSize: 'var(--text-xs)',
   fontWeight: 500,
   letterSpacing: '0.04em',
-  border: '1px solid var(--border)',
+  border: '1px solid var(--color-border)',
   borderRadius: 'var(--radius)',
   cursor: 'pointer',
   background: 'transparent',
@@ -103,9 +103,9 @@ export default function WorkPage() {
 
   const activeStyle: React.CSSProperties = {
     ...filterStyles,
-    background: 'var(--text)',
-    borderColor: 'var(--text)',
-    color: 'var(--bg)',
+    background: 'var(--color-text)',
+    borderColor: 'var(--color-text)',
+    color: 'var(--color-bg)',
   }
 
   const badgeStyle = (active: boolean): React.CSSProperties => ({
@@ -118,8 +118,8 @@ export default function WorkPage() {
     fontWeight: 600,
     borderRadius: '999px',
     padding: '0 0.25rem',
-    background: active ? 'rgba(250,248,245,0.25)' : 'var(--border)',
-    color: active ? 'var(--bg)' : 'var(--text-muted)',
+    background: active ? 'rgba(250,248,245,0.25)' : 'var(--color-border)',
+    color: active ? 'var(--color-bg)' : 'var(--color-text-muted)',
   })
 
   return (
@@ -128,10 +128,10 @@ export default function WorkPage() {
         <header className="page-header">
           <SectionLabel label="Portfolio" />
           <h1 className="font-serif page-title-lg" style={{ fontSize: 'var(--text-5xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.75rem' }}>My Work</h1>
-          <p style={{ fontSize: 'var(--text-md)', color: 'var(--text-muted)', lineHeight: 1.6, maxWidth: 580, marginBottom: '0.75rem' }}>10+ years of product design and UX research — from AI-native research pipelines to zero-to-one product ecosystems.</p>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-muted)', lineHeight: 1.6, maxWidth: 580, marginBottom: '0.75rem' }}>10+ years of product design and UX research — from AI-native research pipelines to zero-to-one product ecosystems.</p>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
             Have questions about the work?{' '}
-            <Link href="/chat" style={{ color: 'var(--text)', textDecoration: 'underline', textUnderlineOffset: 3, fontWeight: 500 }}>
+            <Link href="/chat" style={{ color: 'var(--color-text)', textDecoration: 'underline', textUnderlineOffset: 3, fontWeight: 500 }}>
               Start a conversation with the portfolio assistant.
             </Link>
             {' →'}
@@ -152,9 +152,9 @@ export default function WorkPage() {
 
       {showCaseStudies && (
         <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border)' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--color-border)' }}>
             <h2 className="font-serif" style={{ fontSize: 'var(--text-2xl)', fontWeight: 400 }}>Case Studies</h2>
-            <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: '0.05em' }}>— {caseStudies.length} deep dives</span>
+            <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em' }}>— {caseStudies.length} deep dives</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
             {caseStudies.map(cs => (
@@ -168,9 +168,9 @@ export default function WorkPage() {
 
       {showProjects && (
         <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--border)' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--color-border)' }}>
             <h2 className="font-serif" style={{ fontSize: 'var(--text-2xl)', fontWeight: 400 }}>Projects</h2>
-            <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', letterSpacing: '0.05em' }}>— {projects.length} selected works</span>
+            <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em' }}>— {projects.length} selected works</span>
           </div>
           <div className="grid-proj">
             {projects.map(p => (
