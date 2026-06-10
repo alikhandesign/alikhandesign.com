@@ -64,7 +64,7 @@ export default function ChatBubble({ role, content, sources = [], activeSourceId
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                 width: 18, height: 18, borderRadius: '50%',
                 background: isActive ? 'var(--color-accent)' : 'var(--color-text-mid)',
-                color: '#fff', fontSize: 10, fontWeight: 700,
+                color: '#fff', fontSize: 'var(--text-badge)', fontWeight: 700,
                 border: 'none', cursor: 'pointer',
                 marginLeft: 2, marginRight: 1,
                 verticalAlign: 'middle',
