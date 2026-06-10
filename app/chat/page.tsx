@@ -312,9 +312,7 @@ export default function ChatPage() {
         <div
           className="chat-container"
           style={{
-            display: 'grid',
-            gridTemplateColumns: (!isMobile && inspectorOpen) ? '1fr 260px' : '1fr',
-            transition: 'grid-template-columns 0.25s ease',
+            position: 'relative',
             marginTop: 'var(--space-6)',
             border: '1px solid var(--color-border)',
             borderRadius: 'var(--radius)',
@@ -324,6 +322,7 @@ export default function ChatPage() {
           {/* Left — message thread + input */}
           <div style={{
             display: 'flex', flexDirection: 'column',
+            height: '100%',
             background: 'var(--color-surface)',
             padding: 'var(--space-6)',
             minWidth: 0,
@@ -435,12 +434,24 @@ export default function ChatPage() {
 
           {/* Right — source inspector panel (desktop only) */}
           {!isMobile && inspectorOpen && (
-            <SourceInspector
-              sources={inspectorSources}
-              activeId={activeSourceId}
-              onClose={handleInspectorClose}
-              onSelect={handleSourceSelect}
-            />
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              width: 260,
+              zIndex: 10,
+              boxShadow: '-4px 0 16px rgba(0,0,0,0.08)',
+              borderRadius: '0 var(--radius) var(--radius) 0',
+              overflow: 'hidden',
+            }}>
+              <SourceInspector
+                sources={inspectorSources}
+                activeId={activeSourceId}
+                onClose={handleInspectorClose}
+                onSelect={handleSourceSelect}
+              />
+            </div>
           )}
         </div>{/* end chat-container */}
 
