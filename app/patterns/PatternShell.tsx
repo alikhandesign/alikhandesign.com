@@ -37,11 +37,11 @@ export default function PatternShell({
       {/* Header */}
       <div className="page-header">
         <nav style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-4)', flexWrap: 'wrap' }}>
-          <Link href="/patterns" style={{ fontSize: 14, color: 'var(--color-text-muted)', textDecoration: 'none' }}>
+          <Link href="/patterns" style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>
             Pattern Library
           </Link>
-          <span style={{ fontSize: 14, color: '#C4BDB7' }} aria-hidden="true">›</span>
-          <span style={{ fontSize: 14, color: 'var(--color-text)', fontWeight: 500 }} aria-current="page">
+          <span style={{ fontSize: 'var(--text-base)', color: '#C4BDB7' }} aria-hidden="true">›</span>
+          <span style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', fontWeight: 500 }} aria-current="page">
             {title}
           </span>
         </nav>
