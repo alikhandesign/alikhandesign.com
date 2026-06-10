@@ -16,11 +16,11 @@ const bannerConfig = {
   },
   'principled-limit': {
     label: 'Restricted',
-    bg: 'var(--accent-bg)',
+    bg: 'var(--color-accent-bg)',
     border: '#FECACA',
-    barColor: 'var(--accent)',
+    barColor: 'var(--color-accent)',
     color: '#450A0A',
-    accentColor: 'var(--accent)',
+    accentColor: 'var(--color-accent)',
   },
   'probabilistic': {
     label: 'Contains probabilistic claims',
@@ -49,7 +49,7 @@ export default function EpistemicBanner({ type, message, actionLabel, onAction }
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
         <span style={{
-          fontSize: 'var(--text-xs)',
+          fontSize: 'var(--color-text-xs)',
           fontWeight: 'var(--font-weight-semibold)',
           letterSpacing: 'var(--letter-spacing-md)',
           textTransform: 'uppercase',
@@ -63,14 +63,14 @@ export default function EpistemicBanner({ type, message, actionLabel, onAction }
           flexShrink: 0,
         }} />
         <span style={{
-          fontSize: 'var(--text-sm)',
+          fontSize: 'var(--color-text-sm)',
           color: c.color,
           lineHeight: 'var(--line-height-normal)',
         }}>{message}</span>
       </div>
       {actionLabel && onAction && (
         <button onClick={onAction} style={{
-          fontSize: 'var(--text-xs)',
+          fontSize: 'var(--color-text-xs)',
           fontWeight: 'var(--font-weight-semibold)',
           color: c.accentColor,
           background: 'none',
