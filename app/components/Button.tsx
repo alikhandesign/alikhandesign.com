@@ -31,13 +31,13 @@ export default function Button({
           alignItems: 'center',
           gap: 'var(--space-2)',
           background: 'transparent',
-          color: 'var(--color-text)',
+          color: 'var(--text)',
           padding: '0.8rem var(--space-8)',
-          fontSize: 'var(--color-text-base)',
+          fontSize: 'var(--text-base)',
           fontWeight: 'var(--font-weight-medium)',
           letterSpacing: 'var(--letter-spacing-sm)',
           borderRadius: 'var(--radius)',
-          border: '1px solid var(--color-border)',
+          border: '1px solid var(--border)',
           cursor: disabled ? 'not-allowed' : 'pointer',
           transition: 'border-color var(--transition-base), color var(--transition-base)',
           fontFamily: 'var(--font-sans)',
@@ -47,11 +47,11 @@ export default function Button({
         }}
         onMouseEnter={e => {
           if (!disabled) {
-            ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--color-text)'
+            ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--text)'
           }
         }}
         onMouseLeave={e => {
-          ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--color-border)'
+          ;(e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--border)'
         }}
       >
         {label} {arrow && <span aria-hidden="true">→</span>}
