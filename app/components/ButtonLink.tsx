@@ -13,11 +13,11 @@ export default function ButtonLink({ label, href, variant = 'normal' }: ButtonLi
         display: 'inline-flex',
         alignItems: 'center',
         gap: 8,
-        color: 'var(--bg)',
+        color: 'var(--color-bg)',
         textDecoration: 'none',
-        fontSize: 'var(--text-base)',
+        fontSize: 'var(--color-text-base)',
         fontWeight: 500,
-        borderBottom: '1px solid var(--accent)',
+        borderBottom: '1px solid var(--color-accent)',
         paddingBottom: 2,
       }}>
         {label} →
@@ -26,8 +26,8 @@ export default function ButtonLink({ label, href, variant = 'normal' }: ButtonLi
   }
   return (
     <Link href={href} style={{
-      fontSize: 'var(--text-base)',
-      color: 'var(--accent)',
+      fontSize: 'var(--color-text-base)',
+      color: 'var(--color-accent)',
       textDecoration: 'none',
       fontWeight: 500,
     }}>
