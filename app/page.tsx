@@ -31,11 +31,11 @@ export default function Home() {
         <div className="grid-2" style={{ paddingTop: '5rem', paddingBottom: '4rem', alignItems: 'center' }}>
           <div>
             <p className="eyebrow">Senior Product Designer & Researcher</p>
-            <h1 className="font-serif hero-title" style={{ fontSize: '3rem', lineHeight: 1.1, color: 'var(--text)', marginBottom: '1.25rem', fontWeight: 400 }}>
+            <h1 className="font-serif hero-title" style={{ fontSize: '3rem', lineHeight: 1.1, color: 'var(--color-text)', marginBottom: '1.25rem', fontWeight: 400 }}>
               Designing systems that make research{' '}
-              <em style={{ fontStyle: 'italic', color: 'var(--accent)' }}>scale.</em>
+              <em style={{ fontStyle: 'italic', color: 'var(--color-accent)' }}>scale.</em>
             </h1>
-            <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--text-muted)', marginBottom: '2rem' }}>
+            <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--color-text-muted)', marginBottom: '2rem' }}>
               I help product teams understand their users at scale — combining mixed-methods research, strategic synthesis, and AI-native workflows to turn insight into action.
             </p>
             <Link href="/work" className="btn-primary">View my work <span aria-hidden="true">→</span></Link>
@@ -49,19 +49,19 @@ export default function Home() {
               style={{ objectFit: 'cover', objectPosition: '75% top', borderRadius: 'var(--radius)' }}
               priority
             />
-            <div style={{ position: 'absolute', bottom: '-1.5rem', left: '-1rem', background: 'var(--bg)', border: '1px solid var(--border)', padding: '0.75rem 1rem', borderRadius: 'var(--radius)' }}>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>Status</div>
-              <div className="font-serif" style={{ fontSize: 18, color: 'var(--accent)', lineHeight: 1.2 }}>Available now</div>
+            <div style={{ position: 'absolute', bottom: '-1.5rem', left: '-1rem', background: 'var(--color-bg)', border: '1px solid var(--color-border)', padding: '0.75rem 1rem', borderRadius: 'var(--radius)' }}>
+              <div style={{ fontSize: 12, color: 'var(--color-text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>Status</div>
+              <div className="font-serif" style={{ fontSize: 18, color: 'var(--color-accent)', lineHeight: 1.2 }}>Available now</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Pillars */}
-      <div className="pillars-strip" style={{ background: 'var(--bg)' }}>
+      <div className="pillars-strip" style={{ background: 'var(--color-bg)' }}>
         {['Mixed-Methods Research', 'AI-Native Workflows', 'Systems Thinking & Roadmap Influence'].map(p => (
           <div key={p} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: 14, fontWeight: 500, letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)', flexShrink: 0, display: 'block' }} />
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-accent)', flexShrink: 0, display: 'block' }} />
             {p}
           </div>
         ))}
@@ -92,16 +92,16 @@ export default function Home() {
       </section>
 
       {/* About Strip */}
-      <section className="dark-section" style={{ background: 'var(--dark-bg)', padding: '4rem 3rem' }}>
+      <section className="dark-section" style={{ background: 'var(--color-bg-dark)', padding: '4rem 3rem' }}>
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
           <div className="grid-2" style={{ alignItems: 'center' }}>
             <div>
               <p className="eyebrow-dark">About Me</p>
-              <h2 className="font-serif" style={{ fontSize: '2rem', fontWeight: 400, color: 'var(--bg)', lineHeight: 1.2, marginBottom: '1rem' }}>I design for the questions, not just the answers.</h2>
-              <p style={{ fontSize: 16, color: 'var(--bg)', lineHeight: 1.75, marginBottom: '1.5rem' }}>
+              <h2 className="font-serif" style={{ fontSize: '2rem', fontWeight: 400, color: 'var(--color-bg)', lineHeight: 1.2, marginBottom: '1rem' }}>I design for the questions, not just the answers.</h2>
+              <p style={{ fontSize: 16, color: 'var(--color-bg)', lineHeight: 1.75, marginBottom: '1.5rem' }}>
                 With 10+ years in product design and UX research, I learned that the most valuable work happens before the first wireframe — understanding why people behave the way they do, and building systems that listen at scale.
               </p>
-              <Link href="/about" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--bg)', textDecoration: 'none', fontSize: 14, fontWeight: 500, borderBottom: '1px solid var(--accent)', paddingBottom: 2 }}>
+              <Link href="/about" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--color-bg)', textDecoration: 'none', fontSize: 14, fontWeight: 500, borderBottom: '1px solid var(--color-accent)', paddingBottom: 2 }}>
                 Read my full story →
               </Link>
             </div>
