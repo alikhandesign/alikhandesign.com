@@ -135,7 +135,7 @@ export async function POST(req: NextRequest) {
   })
 
   // Rewrite [n] markers in message text to sequential display numbers
-  const renumberedMessage = assistantMessage.replace(/\[(\d+)\]/g, (match, num) => {
+  const renumberedMessage = assistantMessage.replace(/\[(\d+)\]/g, (match: string, num: string) => {
     const id = parseInt(num)
     return idToDisplayNum[id] !== undefined ? `[${idToDisplayNum[id]}]` : match
   })
