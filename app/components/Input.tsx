@@ -19,7 +19,7 @@ export default function Input({ value, onChange, onKeyDown, placeholder = 'Passw
       onChange={e => onChange(e.target.value)}
       onKeyDown={onKeyDown}
       style={{
-        border: error ? '1.5px solid var(--color-accent-dark)' : undefined,
+        border: error ? '1.5px solid var(--accent-dark)' : undefined,
         width: '100%',
       }}
       aria-label={ariaLabel || placeholder}
