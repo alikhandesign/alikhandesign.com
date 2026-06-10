@@ -97,11 +97,11 @@ export default function Home() {
           <div className="grid-2" style={{ alignItems: 'center' }}>
             <div>
               <p className="eyebrow-dark">About Me</p>
-              <h2 className="font-serif" style={{ fontSize: '2rem', fontWeight: 400, color: 'var(--text-on-dark)', lineHeight: 1.2, marginBottom: '1rem' }}>I design for the questions, not just the answers.</h2>
-              <p style={{ fontSize: 'var(--text-md)', color: 'var(--text-on-dark)', lineHeight: 1.75, marginBottom: '1.5rem' }}>
+              <h2 className="font-serif" style={{ fontSize: '2rem', fontWeight: 400, color: 'var(--bg)', lineHeight: 1.2, marginBottom: '1rem' }}>I design for the questions, not just the answers.</h2>
+              <p style={{ fontSize: 'var(--text-md)', color: 'var(--bg)', lineHeight: 1.75, marginBottom: '1.5rem' }}>
                 With 10+ years in product design and UX research, I learned that the most valuable work happens before the first wireframe — understanding why people behave the way they do, and building systems that listen at scale.
               </p>
-              <Link href="/about" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--text-on-dark)', textDecoration: 'none', fontSize: 14, fontWeight: 500, borderBottom: '1px solid var(--accent)', paddingBottom: 2 }}>
+              <Link href="/about" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--bg)', textDecoration: 'none', fontSize: 14, fontWeight: 500, borderBottom: '1px solid var(--accent)', paddingBottom: 2 }}>
                 Read my full story →
               </Link>
             </div>
