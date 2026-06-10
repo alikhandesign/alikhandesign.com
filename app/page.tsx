@@ -50,8 +50,8 @@ export default function Home() {
               priority
             />
             <div style={{ position: 'absolute', bottom: '-1.5rem', left: '-1rem', background: 'var(--color-bg)', border: '1px solid var(--color-border)', padding: '0.75rem 1rem', borderRadius: 'var(--radius)' }}>
-              <div style={{ fontSize: 12, color: 'var(--color-text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>Status</div>
-              <div className="font-serif" style={{ fontSize: 18, color: 'var(--color-accent)', lineHeight: 1.2 }}>Available now</div>
+              <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>Status</div>
+              <div className="font-serif" style={{ fontSize: 'var(--text-lg)', color: 'var(--color-accent)', lineHeight: 1.2 }}>Available now</div>
             </div>
           </div>
         </div>
@@ -60,7 +60,7 @@ export default function Home() {
       {/* Pillars */}
       <div className="pillars-strip" style={{ background: 'var(--color-bg)' }}>
         {['Mixed-Methods Research', 'AI-Native Workflows', 'Systems Thinking & Roadmap Influence'].map(p => (
-          <div key={p} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: 14, fontWeight: 500, letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>
+          <div key={p} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: 'var(--text-base)', fontWeight: 500, letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-accent)', flexShrink: 0, display: 'block' }} />
             {p}
           </div>
@@ -101,7 +101,7 @@ export default function Home() {
               <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-bg)', lineHeight: 1.75, marginBottom: '1.5rem' }}>
                 With 10+ years in product design and UX research, I learned that the most valuable work happens before the first wireframe — understanding why people behave the way they do, and building systems that listen at scale.
               </p>
-              <Link href="/about" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--color-bg)', textDecoration: 'none', fontSize: 14, fontWeight: 500, borderBottom: '1px solid var(--color-accent)', paddingBottom: 2 }}>
+              <Link href="/about" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--color-bg)', textDecoration: 'none', fontSize: 'var(--text-base)', fontWeight: 500, borderBottom: '1px solid var(--color-accent)', paddingBottom: 2 }}>
                 Read my full story →
               </Link>
             </div>
