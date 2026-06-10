@@ -16,11 +16,11 @@ const bannerConfig = {
   },
   'principled-limit': {
     label: 'Restricted',
-    bg: 'var(--accent-bg)',
+    bg: 'var(--color-accent-bg)',
     border: '#FECACA',
-    barColor: 'var(--accent)',
+    barColor: 'var(--color-accent)',
     color: '#450A0A',
-    accentColor: 'var(--accent)',
+    accentColor: 'var(--color-accent)',
   },
   'probabilistic': {
     label: 'Contains probabilistic claims',
