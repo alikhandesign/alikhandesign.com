@@ -21,10 +21,10 @@ interface Message {
 }
 
 const SUGGESTED_QUESTIONS = [
-  'Walk me through the AI agent project',
-  'What is Ali\'s approach to UX research?',
-  'What roles is Ali looking for?',
-  'Tell me about the People-First redesign',
+  'What makes Ali different from other designers?',
+  'What is his experience with AI product design?',
+  'Has he worked at enterprise scale?',
+  'Is Ali available for full-time roles?',
 ]
 
 export default function ChatPage() {
@@ -124,7 +124,7 @@ export default function ChatPage() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: newMessages, unlocked }),
+        body: JSON.stringify({ messages: newMessages.map(({ role, content }) => ({ role, content })), unlocked }),
         signal: controller.signal,
       })
 
