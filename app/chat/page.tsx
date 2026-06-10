@@ -206,18 +206,18 @@ export default function ChatPage() {
       }}>
 
         {/* Header */}
-        <header className="page-header" style={{ borderBottom: '1px solid var(--border)' }}>
+        <header className="page-header" style={{ borderBottom: '1px solid var(--color-border)' }}>
           <nav style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-            <Link href="/" style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', textDecoration: 'none' }}>Home</Link>
-            <span style={{ color: 'var(--border-mid)' }}>›</span>
-            <span style={{ fontSize: 'var(--text-base)', color: 'var(--text)', fontWeight: 500 }}>Ask Ali</span>
+            <Link href="/" style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>Home</Link>
+            <span style={{ color: 'var(--color-border-mid)' }}>›</span>
+            <span style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', fontWeight: 500 }}>Ask Ali</span>
           </nav>
 
           <p className="eyebrow">Portfolio Assistant</p>
           <h1 className="font-serif" style={{ fontSize: 'var(--text-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>
             Ask Ali anything.
           </h1>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 1.6, maxWidth: 520, marginBottom: 'var(--space-4)' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 1.6, maxWidth: 520, marginBottom: 'var(--space-4)' }}>
             An AI assistant that knows Ali's work, background, and approach. Ask about specific projects, research methods, or what he's looking for next.
           </p>
 
@@ -230,7 +230,7 @@ export default function ChatPage() {
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 6,
                   background: 'none', border: 'none', cursor: 'pointer',
-                  fontSize: 'var(--text-sm)', color: 'var(--text-muted)',
+                  fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)',
                   fontFamily: 'var(--font-sans)', padding: 0,
                 }}
                 aria-expanded={showUnlock}
@@ -262,21 +262,21 @@ export default function ChatPage() {
                 style={{
                   position: 'absolute', top: 'calc(100% + 8px)', left: 0,
                   zIndex: 100, width: 380, maxWidth: 'calc(100vw - var(--space-8))',
-                  background: 'var(--surface)', border: '1px solid var(--border)',
+                  background: 'var(--color-surface)', border: '1px solid var(--color-border)',
                   borderRadius: 'var(--radius)',
                   padding: 'var(--space-5)',
                   boxSizing: 'border-box',
                 }}
               >
                 <p style={{ fontSize: 'var(--text-base)', fontWeight: 500, marginBottom: '0.4rem' }}>Enter access code</p>
-                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)', marginBottom: 'var(--space-4)', lineHeight: 1.6 }}>
+                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-4)', lineHeight: 1.6 }}>
                   Don't have a code?{' '}
                   <button
                     ref={contactTriggerRef}
                     onClick={() => { setShowUnlock(false); setContactModalOpen(true) }}
                     style={{
                       background: 'none', border: 'none', cursor: 'pointer',
-                      color: 'var(--accent)', fontFamily: 'var(--font-sans)',
+                      color: 'var(--color-accent)', fontFamily: 'var(--font-sans)',
                       fontSize: 'var(--text-xs)', padding: 0,
                     }}
                   >
@@ -299,7 +299,7 @@ export default function ChatPage() {
                   </button>
                 </div>
                 {passwordError && (
-                  <p style={{ fontSize: 'var(--text-xs)', color: 'var(--accent-dark)', marginTop: '0.4rem' }}>
+                  <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-accent-dark)', marginTop: '0.4rem' }}>
                     Incorrect code. Contact Ali to request access.
                   </p>
                 )}
@@ -316,7 +316,7 @@ export default function ChatPage() {
             gridTemplateColumns: (!isMobile && inspectorOpen) ? '1fr 260px' : '1fr',
             transition: 'grid-template-columns 0.25s ease',
             marginTop: 'var(--space-6)',
-            border: '1px solid var(--border)',
+            border: '1px solid var(--color-border)',
             borderRadius: 'var(--radius)',
             overflow: 'hidden',
           }}
@@ -324,7 +324,7 @@ export default function ChatPage() {
           {/* Left — message thread + input */}
           <div style={{
             display: 'flex', flexDirection: 'column',
-            background: 'var(--surface)',
+            background: 'var(--color-surface)',
             padding: 'var(--space-6)',
             minWidth: 0,
             flex: 1,
@@ -338,7 +338,7 @@ export default function ChatPage() {
             gap: 'var(--space-6)',
             paddingBottom: isEmpty ? 0 : 'var(--space-4)',
             scrollbarWidth: 'thin',
-            scrollbarColor: 'var(--border) transparent',
+            scrollbarColor: 'var(--color-border) transparent',
           }}>
             {messages.map((msg, i) => (
               <ChatBubble
@@ -353,7 +353,7 @@ export default function ChatPage() {
             {loading && (
               <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
                 <div style={{
-                  background: 'var(--surface)', border: '1px solid var(--border)',
+                  background: 'var(--color-surface)', border: '1px solid var(--color-border)',
                   borderRadius: '12px 12px 12px 2px',
                 }}>
                   <GenerationState phase={generationPhase} />
@@ -390,9 +390,9 @@ export default function ChatPage() {
           {showLimit && (
             <div style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              padding: '8px 12px', background: 'var(--accent-bg)',
-              borderLeft: '3px solid var(--accent)',
-              fontSize: 'var(--text-xs)', color: 'var(--accent)',
+              padding: '8px 12px', background: 'var(--color-accent-bg)',
+              borderLeft: '3px solid var(--color-accent)',
+              fontSize: 'var(--text-xs)', color: 'var(--color-accent)',
               marginBottom: 'var(--space-4)',
             }}>
               <span>You've used all available responses.</span>
@@ -400,7 +400,7 @@ export default function ChatPage() {
                 onClick={() => setContactModalOpen(true)}
                 style={{
                   background: 'none', border: 'none', cursor: 'pointer',
-                  color: 'var(--accent)', fontWeight: 500, fontFamily: 'var(--font-sans)',
+                  color: 'var(--color-accent)', fontWeight: 500, fontFamily: 'var(--font-sans)',
                   fontSize: 'var(--text-xs)', textDecoration: 'underline', padding: 0,
                 }}
               >
@@ -411,7 +411,7 @@ export default function ChatPage() {
 
           {/* Input area */}
           <div style={{
-            borderTop: isEmpty ? 'none' : '1px solid var(--border)',
+            borderTop: isEmpty ? 'none' : '1px solid var(--color-border)',
             paddingTop: isEmpty ? 0 : 'var(--space-6)',
           }}>
             {isEmpty && (
@@ -459,7 +459,7 @@ export default function ChatPage() {
             <div style={{
               position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50,
               height: '62vh',
-              background: 'var(--surface)',
+              background: 'var(--color-surface)',
               borderRadius: '16px 16px 0 0',
               boxShadow: '0 -4px 24px rgba(0,0,0,0.12)',
               display: 'flex', flexDirection: 'column',
@@ -473,7 +473,7 @@ export default function ChatPage() {
               }}>
                 <div style={{
                   width: 36, height: 4, borderRadius: 2,
-                  background: 'var(--border-mid)',
+                  background: 'var(--color-border-mid)',
                 }} />
               </div>
               <div style={{ flex: 1, overflow: 'hidden' }}>
