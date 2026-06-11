@@ -113,7 +113,7 @@ export const DesktopOverlayContext: Story = {
         display: 'flex', gap: 0, maxWidth: 800,
         fontFamily: 'var(--font-sans)',
         border: '1px solid var(--color-border)',
-        borderRadius: 'var(--radius)',
+        borderRadius: 'var(--radius-sm)',
         overflow: 'hidden',
         minHeight: 320,
       }}>
@@ -132,9 +132,9 @@ export const DesktopOverlayContext: Story = {
           <div style={{
             background: 'var(--color-surface)',
             border: '1px solid var(--color-border)',
-            borderRadius: 'var(--radius)',
+            borderRadius: 'var(--radius-sm)',
             padding: 'var(--space-3)',
-            fontSize: 'var(--text-sm)',
+            fontSize: 'var(--font-size-sm)',
             lineHeight: 1.6,
             color: 'var(--color-text)',
           }}>
