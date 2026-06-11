@@ -114,7 +114,7 @@ export default function CorrectionRefinementPage() {
         {/* Selectable response */}
         <div ref={responseRef} onMouseUp={handleMouseUp}
           style={{ padding: 'var(--space-6)', position: 'relative', userSelect: 'text', cursor: 'text' }}>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', lineHeight: 'var(--line-height-loose)', whiteSpace: 'pre-line' }}>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', lineHeight: 'var(--line-height-loose)', whiteSpace: 'pre-line' }}>
             {currentResponse}
           </p>
           {selection && (
@@ -216,7 +216,7 @@ function Definition() {
       ].map(item => (
         <div key={item.label}>
           <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>{item.label}</p>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
         </div>
       ))}
     </div>
