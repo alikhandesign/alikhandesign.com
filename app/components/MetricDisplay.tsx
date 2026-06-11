@@ -12,7 +12,7 @@ export default function MetricDisplay({
   return (
     <div>
       <p className="font-serif" style={{
-        fontSize: 'var(--text-4xl)',
+        fontSize: 'var(--font-size-4xl)',
         color: 'var(--color-accent)',
         lineHeight: 1,
         marginBottom: label ? '0.25rem' : 0,
@@ -21,7 +21,7 @@ export default function MetricDisplay({
       </p>
       {label && (
         <p style={{
-          fontSize: 'var(--text-xs)',
+          fontSize: 'var(--font-size-xs)',
           color: 'var(--color-text-muted)',
           letterSpacing: labelCase === 'upper' ? 'var(--letter-spacing-md)' : 'normal',
           textTransform: labelCase === 'upper' ? 'uppercase' : 'none',
