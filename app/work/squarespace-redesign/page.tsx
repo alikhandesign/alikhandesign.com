@@ -21,7 +21,7 @@ const INSIDE = [
 function Callout({ children }: { children: React.ReactNode }) {
   return (
     <div style={{ borderLeft: '3px solid var(--color-accent)', padding: '1.25rem 1.5rem', margin: '2rem 0', background: 'var(--color-surface)', borderRadius: '0 4px 4px 0' }}>
-      <p className="font-serif" style={{ fontSize: '1.25rem', color: 'var(--color-text)', lineHeight: 1.5, fontStyle: 'italic' }}>{children}</p>
+      <p className="font-serif" style={{ fontSize: 'var(--text-xl)', color: 'var(--color-text)', lineHeight: 1.5, fontStyle: 'italic' }}>{children}</p>
     </div>
   )
 }
@@ -30,14 +30,14 @@ function SectionIntro({ label, heading }: { label: string; heading: string }) {
   return (
     <>
       <p className="section-label">{label}</p>
-      <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>{heading}</h2>
+      <h2 className="font-serif" style={{ fontSize: 'var(--text-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>{heading}</h2>
     </>
   )
 }
 
 function Body({ children, mb = true }: { children: React.ReactNode; mb?: boolean }) {
   return (
-    <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: mb ? '1.25rem' : 0 }}>{children}</p>
+    <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: mb ? '1.25rem' : 0 }}>{children}</p>
   )
 }
 
@@ -244,9 +244,9 @@ export default function SquarespaceRedesignPage() {
             <span className="tag">UX Research</span>
             <span className="tag">Interaction Design</span>
           </div>
-          <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>From Checkboxes to Conversations</h1>
+          <h1 className="font-serif" style={{ fontSize: 'var(--text-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>From Checkboxes to Conversations</h1>
           <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Squarespace · Self-initiated · 2026</p>
-          <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-text)', lineHeight: 1.7, maxWidth: 680 }}>I didn't set out to audit Squarespace's AI. I set out to redesign my portfolio. What I found instead became this case study — a documented audit of Blueprint AI across two user journeys, twenty distinct failure modes, and a redesign grounded in the principles I use every time I work with AI as a design tool.</p>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', lineHeight: 1.7, maxWidth: 680 }}>I didn't set out to audit Squarespace's AI. I set out to redesign my portfolio. What I found instead became this case study — a documented audit of Blueprint AI across two user journeys, twenty distinct failure modes, and a redesign grounded in the principles I use every time I work with AI as a design tool.</p>
         </header>
       </div>
 
@@ -293,7 +293,7 @@ export default function SquarespaceRedesignPage() {
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '2.5rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '1rem' }}>
         <div>
           <p style={{ fontSize: 'var(--text-xs)', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
-          <p className="font-serif" style={{ fontSize: '1.25rem', fontWeight: 400 }}>The Portfolio Is the Product</p>
+          <p className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400 }}>The Portfolio Is the Product</p>
         </div>
         <Link href="/work/the-portfolio" style={{ fontSize: 'var(--text-sm)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
       </div>
