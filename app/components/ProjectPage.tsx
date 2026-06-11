@@ -29,9 +29,9 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
           <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem', flexWrap: 'wrap' as const }}>
             {tags.map(t => <span key={t} className="tag">{t}</span>)}
           </div>
-          <h1 className="font-serif page-title-lg" style={{ fontSize: 'var(--text-5xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: 'var(--space-2)' }}>{title}</h1>
+          <h1 className="font-serif page-title-lg" style={{ fontSize: 'var(--text-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: 'var(--space-2)' }}>{title}</h1>
           <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-sm)', marginBottom: 'var(--space-6)' }}>{company}</p>
-          <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-text)', lineHeight: 1.7, maxWidth: 680 }}>{hook}</p>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', lineHeight: 1.7, maxWidth: 680 }}>{hook}</p>
         </header>
       </div>
 
@@ -56,7 +56,7 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
             <p className="section-label">{s.label}</p>
             <h2 className="font-serif" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400, lineHeight: 1.2, marginBottom: 'var(--space-5)' }}>{s.title}</h2>
             {s.body.map((p, i) => (
-              <p key={i} style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: i < s.body.length - 1 ? 'var(--space-5)' : 0 }}>{p}</p>
+              <p key={i} style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: i < s.body.length - 1 ? 'var(--space-5)' : 0 }}>{p}</p>
             ))}
           </section>
         ))}
