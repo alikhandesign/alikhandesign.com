@@ -75,7 +75,7 @@ export const Default: Story = {
       'Internal validation results and accuracy breakdown',
       'Stakeholder presentation deck',
     ],
-    children: <p style={{ padding: '2rem', color: 'var(--text-muted)' }}>Protected content renders here after unlock.</p>,
+    children: <p style={{ padding: '2rem', color: 'var(--color-text-muted)' }}>Protected content renders here after unlock.</p>,
   },
 }
 
@@ -84,22 +84,22 @@ export const ErrorState: Story = {
   render: () => (
     <div style={{ maxWidth: 560 }}>
       <div style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--border)',
-        borderRadius: 'var(--radius)',
+        background: 'var(--color-surface)',
+        border: '1px solid var(--color-border)',
+        borderRadius: 'var(--radius-sm)',
         padding: 'var(--space-8)',
         position: 'relative',
         overflow: 'hidden',
       }}>
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--accent)' }} />
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--color-accent)' }} />
         <p className="eyebrow" style={{ marginBottom: '0.6rem' }}>Full Case Study</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400, lineHeight: 1.25, marginBottom: 'var(--space-2)' }}>Participant Listening Agent</h2>
-        <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>This case study contains proprietary workflow details and internal research findings.</p>
+        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-xl)', fontWeight: 400, lineHeight: 1.25, marginBottom: 'var(--space-2)' }}>Participant Listening Agent</h2>
+        <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>This case study contains proprietary workflow details and internal research findings.</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text)', fontWeight: 600 }}>Enter password to access</p>
+          <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text)', fontWeight: 600 }}>Enter password to access</p>
           <input type="password" className="password-input error" placeholder="Password" defaultValue="wrongpassword" style={{ width: '100%' }} aria-label="Case study password" readOnly />
           <button className="btn-primary" style={{ width: '100%', justifyContent: 'center' }}>View Full Case Study →</button>
-          <p role="alert" style={{ fontSize: 'var(--text-xs)', color: 'var(--accent-dark)' }}>Incorrect password. Try again or request access below.</p>
+          <p role="alert" style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-accent-dark)' }}>Incorrect password. Try again or request access below.</p>
         </div>
       </div>
     </div>
