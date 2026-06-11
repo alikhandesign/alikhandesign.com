@@ -30,7 +30,7 @@ function FullCaseStudy() {
           {[['My Role', 'Lead UX Designer & Researcher'], ['Timeline', 'Q2 2023'], ['Team', '1 Designer, 1 PM, 4 Engineers'], ['Methods', 'FullStory Analysis, User Interviews, Usability Testing']].map(([label, val]) => (
             <div key={label}>
               <p style={{ fontSize: 'var(--text-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>{label}</p>
-              <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', fontWeight: 500, lineHeight: 1.5 }}>{val}</p>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', fontWeight: 500, lineHeight: 1.5 }}>{val}</p>
             </div>
           ))}
         </div>
@@ -98,9 +98,9 @@ export default function PeopleFirstPage() {
     <main>
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <nav style={{ padding: '1.25rem 3rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Link href="/work" style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>My Work</Link>
-          <span style={{ fontSize: 'var(--text-base)', color: '#C4BDB7' }}>›</span>
-          <span style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', fontWeight: 500 }}>People-First Enrollment Redesign</span>
+          <Link href="/work" style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>My Work</Link>
+          <span style={{ fontSize: 'var(--text-sm)', color: '#C4BDB7' }}>›</span>
+          <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', fontWeight: 500 }}>People-First Enrollment Redesign</span>
         </nav>
 
         <header style={{ padding: '2.5rem 3rem 3rem' }}>
@@ -110,13 +110,13 @@ export default function PeopleFirstPage() {
             <span className="tag">Product Strategy</span>
           </div>
           <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>People-First Enrollment Redesign</h1>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Via Benefits · WTW · 2023</p>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Via Benefits · WTW · 2023</p>
           <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-text)', lineHeight: 1.7, maxWidth: 680 }}>What happens when a product is designed around how the business works instead of how people think? For Medicare enrollees navigating health insurance, the answer was abandonment, frustration, and a flood of support calls that didn't need to happen.</p>
         </header>
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem' }}>
-        <div style={{ width: '100%', height: 400, background: 'var(--color-border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Hero Project Image</div>
+        <div style={{ width: '100%', height: 400, background: 'var(--color-border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Hero Project Image</div>
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem', display: 'flex', gap: '3rem', flexWrap: 'wrap' as const, borderBottom: '1px solid var(--color-border)' }}>
@@ -154,7 +154,7 @@ export default function PeopleFirstPage() {
           <p style={{ fontSize: 'var(--text-xs)', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
           <p className="font-serif" style={{ fontSize: '1.25rem', fontWeight: 400 }}>IHE Scheduling Portal</p>
         </div>
-        <Link href="/work/ihe-portal" style={{ fontSize: 'var(--text-base)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
+        <Link href="/work/ihe-portal" style={{ fontSize: 'var(--text-sm)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
       </div>
       <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </main>
