@@ -77,7 +77,7 @@ export default function CaseStudyPage({
             {tags.map(t => <Tag key={t} label={t} variant="default" />)}
           </div>
           <h2 className="font-serif page-title-lg" style={{
-            fontSize: 'var(--text-4xl)',
+            fontSize: 'var(--font-size-4xl)',
             fontWeight: 400,
             lineHeight: 1.1,
             marginBottom: 'var(--space-2)',
@@ -85,7 +85,7 @@ export default function CaseStudyPage({
             {title}
           </h2>
           <p style={{
-            fontSize: 'var(--text-xs)',
+            fontSize: 'var(--font-size-xs)',
             color: 'var(--color-text-muted)',
             letterSpacing: 'var(--letter-spacing-sm)',
             marginBottom: 'var(--space-6)',
@@ -93,7 +93,7 @@ export default function CaseStudyPage({
             {company}
           </p>
           <p style={{
-            fontSize: 'var(--text-base)',
+            fontSize: 'var(--font-size-base)',
             color: 'var(--color-text)',
             lineHeight: 1.7,
             maxWidth: 680,
@@ -147,7 +147,7 @@ export default function CaseStudyPage({
         <div className="next-project">
           <div>
             <p style={{
-              fontSize: 'var(--text-xs)',
+              fontSize: 'var(--font-size-xs)',
               letterSpacing: 'var(--letter-spacing-lg)',
               textTransform: 'uppercase' as const,
               color: 'var(--color-text-muted)',
@@ -156,12 +156,12 @@ export default function CaseStudyPage({
             }}>
               {next.type === 'case-study' ? 'Next Case Study' : 'Next Project'}
             </p>
-            <p className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400 }}>
+            <p className="font-serif" style={{ fontSize: 'var(--font-size-xl)', fontWeight: 400 }}>
               {next.title}
             </p>
           </div>
           <Link href={next.href} style={{
-            fontSize: 'var(--text-sm)',
+            fontSize: 'var(--font-size-sm)',
             color: 'var(--color-accent)',
             fontWeight: 500,
             textDecoration: 'none',
