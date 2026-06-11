@@ -38,7 +38,7 @@ export default function SideNav({ sections, unlocked = true }: SideNavProps) {
     const isActive = active === id
     const isHovered = hovered === id && !isActive
     return {
-      fontSize: 'var(--text-base)',
+      fontSize: 'var(--text-sm)',
       color: isActive ? 'var(--color-accent)' : isHovered ? 'var(--color-text-mid)' : 'var(--color-text-muted)',
       fontWeight: isActive || isHovered ? 500 : 400,
       textDecoration: 'none',
