@@ -25,7 +25,7 @@ export default function GenerationState({ phase }: GenerationStateProps) {
         flexShrink: 0,
         opacity: phase === 'complete' || phase === 'error' ? 1 : undefined,
       }} />
-      <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)' }}>
+      <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>
         {config.label}
       </span>
       <style>{`
