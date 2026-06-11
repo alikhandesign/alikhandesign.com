@@ -30,8 +30,8 @@ export default function FeaturedProjectCard({ type, title, company, description,
         </div>
         <h3 className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400, lineHeight: 1.25, marginBottom: '0.25rem' }}>{title}</h3>
         <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-sm)', marginBottom: '0.75rem' }}>{company}</p>
-        <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 1.6, marginBottom: 'var(--space-4)' }}>{description}</p>
-        <span style={{ fontSize: 'var(--text-base)', color: 'var(--color-accent)', fontWeight: 'var(--font-weight-medium)' as any }}>{ctaLabel} →</span>
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 1.6, marginBottom: 'var(--space-4)' }}>{description}</p>
+        <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-accent)', fontWeight: 'var(--font-weight-medium)' as any }}>{ctaLabel} →</span>
       </div>
     </Link>
   )
