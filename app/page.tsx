@@ -35,7 +35,7 @@ export default function Home() {
               Designing systems that make research{' '}
               <em style={{ fontStyle: 'italic', color: 'var(--color-accent)' }}>scale.</em>
             </h1>
-            <p style={{ fontSize: 'var(--text-md)', lineHeight: 1.7, color: 'var(--color-text-muted)', marginBottom: '2rem' }}>
+            <p style={{ fontSize: 'var(--font-size-md)', lineHeight: 1.7, color: 'var(--color-text-muted)', marginBottom: '2rem' }}>
               I help product teams understand their users at scale — combining mixed-methods research, strategic synthesis, and AI-native workflows to turn insight into action.
             </p>
             <Link href="/work" className="btn-primary">View my work <span aria-hidden="true">→</span></Link>
@@ -46,12 +46,12 @@ export default function Home() {
               alt="Ali Khan"
               width={340} height={400}
               className="hero-img"
-              style={{ objectFit: 'cover', objectPosition: '75% top', borderRadius: 'var(--radius)' }}
+              style={{ objectFit: 'cover', objectPosition: '75% top', borderRadius: 'var(--radius-sm)' }}
               priority
             />
-            <div style={{ position: 'absolute', bottom: '-1.5rem', left: '-1rem', background: 'var(--color-bg)', border: '1px solid var(--color-border)', padding: '0.75rem 1rem', borderRadius: 'var(--radius)' }}>
-              <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>Status</div>
-              <div className="font-serif" style={{ fontSize: 'var(--text-lg)', color: 'var(--color-accent)', lineHeight: 1.2 }}>Available now</div>
+            <div style={{ position: 'absolute', bottom: '-1.5rem', left: '-1rem', background: 'var(--color-bg)', border: '1px solid var(--color-border)', padding: '0.75rem 1rem', borderRadius: 'var(--radius-sm)' }}>
+              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>Status</div>
+              <div className="font-serif" style={{ fontSize: 'var(--font-size-lg)', color: 'var(--color-accent)', lineHeight: 1.2 }}>Available now</div>
             </div>
           </div>
         </div>
@@ -60,7 +60,7 @@ export default function Home() {
       {/* Pillars */}
       <div className="pillars-strip" style={{ background: 'var(--color-bg)' }}>
         {['Mixed-Methods Research', 'AI-Native Workflows', 'Systems Thinking & Roadmap Influence'].map(p => (
-          <div key={p} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: 'var(--text-sm)', fontWeight: 500, letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>
+          <div key={p} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: 'var(--font-size-sm)', fontWeight: 500, letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-accent)', flexShrink: 0, display: 'block' }} />
             {p}
           </div>
@@ -70,7 +70,7 @@ export default function Home() {
       {/* Metrics */}
       <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad">
         <SectionLabel label="Impact" />
-        <h2 className="font-serif section-title" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400, marginBottom: '3rem', lineHeight: 1.15 }}>Work that moves the needle.</h2>
+        <h2 className="font-serif section-title" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 400, marginBottom: '3rem', lineHeight: 1.15 }}>Work that moves the needle.</h2>
         <div className="grid-3">
           {metrics.map(m => (
             <MetricCard key={m.company} company={m.company} value={m.value} description={m.desc} href={m.link} />
@@ -83,7 +83,7 @@ export default function Home() {
       {/* Featured Work */}
       <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad">
         <SectionLabel label="Featured Work" />
-        <h2 className="font-serif section-title" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400, marginBottom: '3rem', lineHeight: 1.15 }}>Research in action.</h2>
+        <h2 className="font-serif section-title" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 400, marginBottom: '3rem', lineHeight: 1.15 }}>Research in action.</h2>
         <div className="grid-2">
           {featured.map(f => (
             <FeaturedProjectCard key={f.title} type={f.type} title={f.title} company={f.company} description={f.desc} href={f.href} />
@@ -98,10 +98,10 @@ export default function Home() {
             <div>
               <p className="eyebrow-dark">About Me</p>
               <h2 className="font-serif" style={{ fontSize: '2rem', fontWeight: 400, color: 'var(--color-bg)', lineHeight: 1.2, marginBottom: '1rem' }}>I design for the questions, not just the answers.</h2>
-              <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-bg)', lineHeight: 1.75, marginBottom: '1.5rem' }}>
+              <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-bg)', lineHeight: 1.75, marginBottom: '1.5rem' }}>
                 With 10+ years in product design and UX research, I learned that the most valuable work happens before the first wireframe — understanding why people behave the way they do, and building systems that listen at scale.
               </p>
-              <Link href="/about" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--color-bg)', textDecoration: 'none', fontSize: 'var(--text-sm)', fontWeight: 500, borderBottom: '1px solid var(--color-accent)', paddingBottom: 2 }}>
+              <Link href="/about" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--color-bg)', textDecoration: 'none', fontSize: 'var(--font-size-sm)', fontWeight: 500, borderBottom: '1px solid var(--color-accent)', paddingBottom: 2 }}>
                 Read my full story →
               </Link>
             </div>
