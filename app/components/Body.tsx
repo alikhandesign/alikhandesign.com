@@ -12,9 +12,9 @@ export default function Body({
   color = 'var(--color-text-mid)',
 }: BodyProps) {
   const sizeMap = {
-    sm: 'var(--text-sm)',
-    base: 'var(--text-base)',
-    md: 'var(--text-md)',
+    sm: 'var(--font-size-sm)',
+    base: 'var(--font-size-base)',
+    md: 'var(--font-size-md)',
   }
 
   return (
