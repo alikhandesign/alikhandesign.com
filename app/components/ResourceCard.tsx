@@ -24,7 +24,7 @@ export default function ResourceCard({ title, description, href, external = fals
         padding: 'var(--space-6)',
         background: 'var(--color-surface)',
         border: '1px solid var(--color-border)',
-        borderRadius: 'var(--radius)',
+        borderRadius: 'var(--radius-sm)',
         textDecoration: 'none',
         color: 'inherit',
         transition: 'border-color var(--transition-base)',
@@ -33,7 +33,7 @@ export default function ResourceCard({ title, description, href, external = fals
     >
       <div>
         <p style={{
-          fontSize: 'var(--text-sm)',
+          fontSize: 'var(--font-size-sm)',
           fontWeight: 'var(--font-weight-semibold)' as any,
           color: 'var(--color-text)',
           marginBottom: '0.25rem',
@@ -41,7 +41,7 @@ export default function ResourceCard({ title, description, href, external = fals
           {title}
         </p>
         <p style={{
-          fontSize: 'var(--text-sm)',
+          fontSize: 'var(--font-size-sm)',
           color: 'var(--color-text-muted)',
           lineHeight: 1.5,
         }}>
@@ -50,7 +50,7 @@ export default function ResourceCard({ title, description, href, external = fals
       </div>
       <span style={{
         color: 'var(--color-accent)',
-        fontSize: 'var(--text-base)',
+        fontSize: 'var(--font-size-base)',
         flexShrink: 0,
       }}>
         →
