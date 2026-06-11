@@ -43,7 +43,7 @@ export default function ChatBubble({ role, content, sources = [], activeSourceId
         maxWidth: '80%',
         padding: '0.75rem 1rem',
         borderRadius: role === 'user' ? '12px 12px 2px 12px' : '12px 12px 12px 2px',
-        fontSize: 'var(--text-base)',
+        fontSize: 'var(--text-sm)',
         lineHeight: 1.7,
         background: role === 'user' ? 'var(--color-text)' : 'var(--color-surface)',
         color: role === 'user' ? 'var(--color-bg)' : 'var(--color-text)',
