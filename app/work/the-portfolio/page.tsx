@@ -9,7 +9,7 @@ import { useState } from 'react'
 function Callout({ children }: { children: React.ReactNode }) {
   return (
     <div style={{ borderLeft: '3px solid var(--color-accent)', padding: '1.25rem 1.5rem', margin: '2rem 0', background: 'var(--color-surface)', borderRadius: '0 4px 4px 0' }}>
-      <p className="font-serif" style={{ fontSize: 'var(--text-xl)', color: 'var(--color-text)', lineHeight: 1.5, fontStyle: 'italic' }}>{children}</p>
+      <p className="font-serif" style={{ fontSize: 'var(--font-size-xl)', color: 'var(--color-text)', lineHeight: 1.5, fontStyle: 'italic' }}>{children}</p>
     </div>
   )
 }
@@ -18,14 +18,14 @@ function SectionIntro({ label, heading }: { label: string; heading: string }) {
   return (
     <>
       <p className="section-label">{label}</p>
-      <h2 className="font-serif" style={{ fontSize: 'var(--text-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>{heading}</h2>
+      <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>{heading}</h2>
     </>
   )
 }
 
 function Body({ children, mb = true }: { children: React.ReactNode; mb?: boolean }) {
   return (
-    <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: mb ? '1.25rem' : 0 }}>{children}</p>
+    <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: mb ? '1.25rem' : 0 }}>{children}</p>
   )
 }
 
@@ -38,7 +38,7 @@ function FullCaseStudy() {
         <Body>Every designer eventually has to answer that question. For a while, mine described it. I was on Squarespace, like a lot of designers. It was fine. It looked professional. It didn't embarrass me. But it also didn't do anything a hiring manager couldn't get from reading my resume.</Body>
         <Body>The audit changed that. After spending time systematically evaluating Squarespace's AI design tools, I reached a conclusion I couldn't ignore: the platform was built for constraint, not expression. Its AI is a categorization engine wearing a personalization promise. And I had been using it to represent work that was, at its core, about breaking through exactly that kind of design mediocrity.</Body>
         <Body>The decision to build from scratch wasn't impulsive. It was the logical endpoint of the research.</Body>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', margin: '2rem 0', padding: '1.5rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', margin: '2rem 0', padding: '1.5rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)' }}>
           {[
             ['My Role', 'Product Designer, Design Technologist'],
             ['Stack', 'Next.js, React, Vercel, CSS custom properties, Figma'],
@@ -46,8 +46,8 @@ function FullCaseStudy() {
             ['Type', 'Self-initiated · 2026'],
           ].map(([label, val]) => (
             <div key={label}>
-              <p style={{ fontSize: 'var(--text-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>{label}</p>
-              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', fontWeight: 500, lineHeight: 1.5 }}>{val}</p>
+              <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>{label}</p>
+              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 500, lineHeight: 1.5 }}>{val}</p>
             </div>
           ))}
         </div>
@@ -71,10 +71,10 @@ function FullCaseStudy() {
             ['The platform constrains the message', 'Every design decision on Squarespace exists within what Squarespace allows. For most use cases that\'s a reasonable tradeoff. For a portfolio that\'s supposed to demonstrate design capability, it\'s a ceiling on the argument you can make.'],
             ['AI used as decoration is worse than no AI', 'Features that invoke AI as a marketing claim while delivering pattern matching are not neutral. They create expectations they can\'t meet. This project needed to use AI in a way that was honest about what AI actually does.'],
           ].map(([title, desc]) => (
-            <div key={title as string} style={{ padding: '1.25rem 1.5rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', position: 'relative', overflow: 'hidden' }}>
+            <div key={title as string} style={{ padding: '1.25rem 1.5rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: 3, background: 'var(--color-accent)' }} />
-              <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.5rem', paddingLeft: '0.75rem' }}>{title}</p>
-              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-mid)', lineHeight: 1.7, paddingLeft: '0.75rem' }}>{desc}</p>
+              <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.5rem', paddingLeft: '0.75rem' }}>{title}</p>
+              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.7, paddingLeft: '0.75rem' }}>{desc}</p>
             </div>
           ))}
         </div>
@@ -91,16 +91,16 @@ function FullCaseStudy() {
       <section id="the-design" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro label="The Design" heading="Four decisions that shaped everything" />
 
-        <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem' }}>Architecture first</p>
+        <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem' }}>Architecture first</p>
         <Body>The site is four pages: Home, My Work, About Me, and a footer-based contact section. Every navigation decision was made around the hiring manager's likely path, not around what a standard portfolio site includes. No dedicated contact page — a contact page implies the contact is the goal. The goal is the work. Contact follows from that.</Body>
 
-        <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '1.5rem' }}>The Honest Design System</p>
+        <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '1.5rem' }}>The Honest Design System</p>
         <Body>Rather than using an existing component library, this site is built on a custom design system created specifically for this project. <Link href="/work/honest-design-system" style={{ color: 'var(--color-accent)', textDecoration: 'none', fontWeight: 500 }}>Honest is documented separately as its own case study.</Link> The short version: 19 components, a two-layer token architecture, full Figma-to-code parity, and a Storybook integration that makes the system auditable. Using a custom system meant every visual decision was intentional, not inherited.</Body>
 
-        <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '1.5rem' }}>Password-gated case studies</p>
+        <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '1.5rem' }}>Password-gated case studies</p>
         <Body>Detailed case study content sits behind a password gate. This was a deliberate product decision: it signals the work exists without exposing it to unqualified access, creates a natural filter for serious candidates and recruiters, and positions the portfolio as something worth protecting rather than something available to anyone.</Body>
 
-        <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '1.5rem' }}>AI as execution layer</p>
+        <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '1.5rem' }}>AI as execution layer</p>
         <Body>Claude was used throughout the build for code generation, component architecture, copy editing, accessibility review, and typography decisions. The distinction that mattered: AI did not make design decisions. It executed them.</Body>
         <Body>Every page structure, every content hierarchy, every token value was decided first. Claude's job was to close the gap between the decision and the shipped component. That's a different relationship with AI than asking it to design something and accepting what it produces.</Body>
         <Callout>AI is a better collaborator when the human side of the collaboration is more rigorous. The quality of the output tracks the quality of the input — which turns out to be a design problem all the way down.</Callout>
@@ -121,10 +121,10 @@ function FullCaseStudy() {
             ['90%', 'Reduction in annual hosting cost'],
             ['$0', 'External labor cost'],
           ].map(([val, label]) => (
-            <div key={label} style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', padding: '1.25rem', position: 'relative', overflow: 'hidden' }}>
+            <div key={label} style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', padding: '1.25rem', position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--color-accent)' }} />
               <div className="font-serif" style={{ fontSize: '1.5rem', color: 'var(--color-accent)', lineHeight: 1, marginBottom: '0.35rem' }}>{val}</div>
-              <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', lineHeight: 1.4 }}>{label}</div>
+              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', lineHeight: 1.4 }}>{label}</div>
             </div>
           ))}
         </div>
@@ -155,9 +155,9 @@ export default function ThePortfolioPage() {
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <nav style={{ padding: '1.25rem 3rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Link href="/work" style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>My Work</Link>
-          <span style={{ fontSize: 'var(--text-sm)', color: '#C4BDB7' }}>›</span>
-          <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', fontWeight: 500 }}>The Portfolio Is the Product</span>
+          <Link href="/work" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>My Work</Link>
+          <span style={{ fontSize: 'var(--font-size-sm)', color: '#C4BDB7' }}>›</span>
+          <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 500 }}>The Portfolio Is the Product</span>
         </nav>
 
         <header style={{ padding: '2.5rem 3rem 3rem' }}>
@@ -167,9 +167,9 @@ export default function ThePortfolioPage() {
             <span className="tag">AI-Native Workflow</span>
             <span className="tag">Product Thinking</span>
           </div>
-          <h1 className="font-serif" style={{ fontSize: 'var(--text-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>The Portfolio Is the Product</h1>
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Self-initiated · 2026</p>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', lineHeight: 1.7, maxWidth: 680 }}>Most designers build a portfolio to show their work. I built one to demonstrate how I work — from scratch, with a custom design system, using AI as an execution layer rather than a design substitute. Under two weeks from first decision to shipped site.</p>
+          <h1 className="font-serif" style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>The Portfolio Is the Product</h1>
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Self-initiated · 2026</p>
+          <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text)', lineHeight: 1.7, maxWidth: 680 }}>Most designers build a portfolio to show their work. I built one to demonstrate how I work — from scratch, with a custom design system, using AI as an execution layer rather than a design substitute. Under two weeks from first decision to shipped site.</p>
         </header>
       </div>
 
@@ -189,7 +189,7 @@ export default function ThePortfolioPage() {
         ].map(([val, label]) => (
           <div key={label}>
             <div className="font-serif" style={{ fontSize: '2.25rem', color: 'var(--color-accent)', lineHeight: 1 }}>{val}</div>
-            <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginTop: 4, lineHeight: 1.4 }}>{label}</div>
+            <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginTop: 4, lineHeight: 1.4 }}>{label}</div>
           </div>
         ))}
       </div>
@@ -215,10 +215,10 @@ export default function ThePortfolioPage() {
       <div className="divider" />
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '2.5rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '1rem' }}>
         <div>
-          <p style={{ fontSize: 'var(--text-xs)', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
-          <p className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400 }}>Honest Design System</p>
+          <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
+          <p className="font-serif" style={{ fontSize: 'var(--font-size-xl)', fontWeight: 400 }}>Honest Design System</p>
         </div>
-        <Link href="/work/honest-design-system" style={{ fontSize: 'var(--text-sm)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
+        <Link href="/work/honest-design-system" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
       </div>
 
       <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
