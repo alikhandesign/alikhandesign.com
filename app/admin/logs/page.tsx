@@ -43,7 +43,7 @@ export default function AdminLogsPage() {
     return (
       <div style={{ maxWidth: 420, margin: '6rem auto', padding: '0 var(--space-6)' }}>
         <p className="eyebrow" style={{ marginBottom: '0.5rem' }}>Admin</p>
-        <h1 className="font-serif" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400, marginBottom: 'var(--space-6)' }}>Chat Logs</h1>
+        <h1 className="font-serif" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 400, marginBottom: 'var(--space-6)' }}>Chat Logs</h1>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
           <input
             type="password"
@@ -63,7 +63,7 @@ export default function AdminLogsPage() {
           >
             {loading ? 'Loading...' : 'View logs →'}
           </button>
-          {error && <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-accent-dark)' }}>{error}</p>}
+          {error && <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-accent-dark)' }}>{error}</p>}
         </div>
       </div>
     )
@@ -74,15 +74,15 @@ export default function AdminLogsPage() {
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 'var(--space-8)', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <p className="eyebrow" style={{ marginBottom: '0.5rem' }}>Admin</p>
-          <h1 className="font-serif" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400 }}>Chat Logs</h1>
+          <h1 className="font-serif" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 400 }}>Chat Logs</h1>
         </div>
         <div style={{ display: 'flex', gap: 'var(--space-4)', alignItems: 'center' }}>
-          <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)' }}>{logs.length} conversations</span>
+          <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>{logs.length} conversations</span>
           <button
             onClick={() => fetchLogs(password)}
             style={{
-              fontSize: 'var(--text-xs)', padding: '0.4rem 0.75rem',
-              border: '1px solid var(--color-border)', borderRadius: 'var(--radius)',
+              fontSize: 'var(--font-size-xs)', padding: '0.4rem 0.75rem',
+              border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)',
               background: 'transparent', cursor: 'pointer', fontFamily: 'var(--font-sans)',
               color: 'var(--color-text-muted)',
             }}
@@ -92,8 +92,8 @@ export default function AdminLogsPage() {
           <button
             onClick={() => setAuthed(false)}
             style={{
-              fontSize: 'var(--text-xs)', padding: '0.4rem 0.75rem',
-              border: '1px solid var(--color-border)', borderRadius: 'var(--radius)',
+              fontSize: 'var(--font-size-xs)', padding: '0.4rem 0.75rem',
+              border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)',
               background: 'transparent', cursor: 'pointer', fontFamily: 'var(--font-sans)',
               color: 'var(--color-text-muted)',
             }}
@@ -104,7 +104,7 @@ export default function AdminLogsPage() {
       </div>
 
       {logs.length === 0 && (
-        <div style={{ padding: 'var(--space-16)', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)' }}>
+        <div style={{ padding: 'var(--space-16)', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: 'var(--font-size-sm)' }}>
           No conversations yet.
         </div>
       )}
@@ -115,7 +115,7 @@ export default function AdminLogsPage() {
             key={i}
             style={{
               background: 'var(--color-surface)', border: '1px solid var(--color-border)',
-              borderRadius: 'var(--radius)', overflow: 'hidden',
+              borderRadius: 'var(--radius-sm)', overflow: 'hidden',
             }}
           >
             <button
@@ -130,22 +130,22 @@ export default function AdminLogsPage() {
             >
               <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{
-                  fontSize: 'var(--text-sm)', color: 'var(--color-text)', fontWeight: 500,
+                  fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 500,
                   whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                   marginBottom: '0.2rem',
                 }}>
                   {log.userMessage}
                 </p>
                 <div style={{ display: 'flex', gap: 'var(--space-4)', flexWrap: 'wrap' }}>
-                  <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)' }}>
+                  <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
                     {new Date(log.timestamp).toLocaleString()}
                   </span>
-                  <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-faint)' }}>
+                  <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-faint)' }}>
                     {log.ip}
                   </span>
                   {log.unlocked && (
                     <span style={{
-                      fontSize: 'var(--text-xs)', color: 'var(--color-accent)',
+                      fontSize: 'var(--font-size-xs)', color: 'var(--color-accent)',
                       background: 'var(--color-accent-bg)', padding: '0 0.4rem',
                       borderRadius: 2, fontWeight: 500,
                     }}>
@@ -154,7 +154,7 @@ export default function AdminLogsPage() {
                   )}
                 </div>
               </div>
-              <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', flexShrink: 0 }}>
+              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', flexShrink: 0 }}>
                 {expanded === i ? '▲' : '▼'}
               </span>
             </button>
@@ -162,12 +162,12 @@ export default function AdminLogsPage() {
             {expanded === i && (
               <div style={{ borderTop: '1px solid var(--color-border)', padding: 'var(--space-6)' }}>
                 <div style={{ marginBottom: 'var(--space-4)' }}>
-                  <p style={{ fontSize: 'var(--text-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.4rem' }}>User</p>
-                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', lineHeight: 1.7, background: 'var(--color-bg)', padding: '0.75rem', borderRadius: 'var(--radius)' }}>{log.userMessage}</p>
+                  <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.4rem' }}>User</p>
+                  <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', lineHeight: 1.7, background: 'var(--color-bg)', padding: '0.75rem', borderRadius: 'var(--radius-sm)' }}>{log.userMessage}</p>
                 </div>
                 <div>
-                  <p style={{ fontSize: 'var(--text-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.4rem' }}>Assistant</p>
-                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', lineHeight: 1.7, whiteSpace: 'pre-wrap', background: 'var(--color-bg)', padding: '0.75rem', borderRadius: 'var(--radius)' }}>{log.assistantMessage}</p>
+                  <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.4rem' }}>Assistant</p>
+                  <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', lineHeight: 1.7, whiteSpace: 'pre-wrap', background: 'var(--color-bg)', padding: '0.75rem', borderRadius: 'var(--radius-sm)' }}>{log.assistantMessage}</p>
                 </div>
               </div>
             )}
