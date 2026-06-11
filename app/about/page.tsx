@@ -101,9 +101,9 @@ export default function AboutPage() {
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--color-accent)' }} />
               <SectionLabel label="Open to Opportunities" />
               <h3 className="font-serif" style={{ fontSize: 'var(--text-2xl)', fontWeight: 400, lineHeight: 1.2, marginBottom: 'var(--space-3)' }}>Let's work together.</h3>
-              <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>I'm actively looking for senior product design and AI-focused roles. If you think there's a fit, I'd love to talk.</p>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>I'm actively looking for senior product design and AI-focused roles. If you think there's a fit, I'd love to talk.</p>
               <button onClick={() => setModalOpen(true)} className="btn-primary">Get in touch <span aria-hidden="true">→</span></button>
-              <Link href="/work" style={{ display: 'block', marginTop: 'var(--space-4)', fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>View my work instead →</Link>
+              <Link href="/work" style={{ display: 'block', marginTop: 'var(--space-4)', fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>View my work instead →</Link>
             </div>
           </div>
         </div>
