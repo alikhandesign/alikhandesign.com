@@ -60,6 +60,7 @@ export const Default: Story = {
 }
 
 export const SingleSource: Story = {
+  name: 'Single source',
   render: () => {
     const [activeId, setActiveId] = useState<number | null>(1)
     return (
@@ -70,6 +71,101 @@ export const SingleSource: Story = {
           onClose={() => setActiveId(null)}
           onSelect={setActiveId}
         />
+      </div>
+    )
+  },
+}
+
+// No source selected — all cards in inactive state, detail panel empty
+export const NoneSelected: Story = {
+  name: 'None selected',
+  render: () => {
+    const [activeId, setActiveId] = useState<number | null>(null)
+    return (
+      <div style={{ maxWidth: 520, fontFamily: 'var(--font-sans)' }}>
+        <SourceInspector
+          sources={MOCK_SOURCES}
+          activeId={activeId}
+          onClose={() => setActiveId(null)}
+          onSelect={setActiveId}
+        />
+      </div>
+    )
+  },
+}
+
+// Desktop overlay context — fixed-width panel beside a simulated chat bubble.
+// Matches the production layout where SourceInspector renders as a right-side
+// overlay without reflowing the message thread.
+export const DesktopOverlayContext: Story = {
+  name: 'Desktop overlay context',
+  parameters: {
+    docs: {
+      description: {
+        story: 'Simulates the desktop layout: SourceInspector renders as an overlay panel to the right of the chat thread. The message thread does not reflow when the panel opens.',
+      },
+    },
+  },
+  render: () => {
+    const [activeId, setActiveId] = useState<number | null>(1)
+    return (
+      <div style={{
+        display: 'flex', gap: 0, maxWidth: 800,
+        fontFamily: 'var(--font-sans)',
+        border: '1px solid var(--color-border)',
+        borderRadius: 'var(--radius)',
+        overflow: 'hidden',
+        minHeight: 320,
+      }}>
+        {/* Simulated chat thread */}
+        <div style={{
+          flex: 1, padding: 'var(--space-4)',
+          background: 'var(--color-bg)',
+          display: 'flex', flexDirection: 'column', gap: 'var(--space-3)',
+        }}>
+          <p style={{
+            margin: 0, color: 'var(--color-text-muted)',
+            letterSpacing: '0.05em', textTransform: 'uppercase', fontSize: '11px',
+          }}>
+            Message thread (does not reflow)
+          </p>
+          <div style={{
+            background: 'var(--color-surface)',
+            border: '1px solid var(--color-border)',
+            borderRadius: 'var(--radius)',
+            padding: 'var(--space-3)',
+            fontSize: 'var(--text-sm)',
+            lineHeight: 1.6,
+            color: 'var(--color-text)',
+          }}>
+            The AI Feedback &amp; Insights Agent{' '}
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              background: 'var(--color-accent)', color: '#fff',
+              borderRadius: 10, fontSize: 10, fontWeight: 600,
+              width: 16, height: 16, lineHeight: 1, cursor: 'pointer',
+            }}>1</span>{' '}
+            was built using Copilot Studio integrated with Qualtrics and Dataverse.{' '}
+            The enrollment redesign{' '}
+            <span style={{
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              background: 'var(--color-accent)', color: '#fff',
+              borderRadius: 10, fontSize: 10, fontWeight: 600,
+              width: 16, height: 16, lineHeight: 1, cursor: 'pointer',
+            }}>2</span>{' '}
+            reduced time-to-convert by 45%.
+          </div>
+        </div>
+
+        {/* SourceInspector panel */}
+        <div style={{ width: 260, flexShrink: 0, borderLeft: '1px solid var(--color-border)' }}>
+          <SourceInspector
+            sources={MOCK_SOURCES.slice(0, 2)}
+            activeId={activeId}
+            onClose={() => setActiveId(null)}
+            onSelect={setActiveId}
+          />
+        </div>
       </div>
     )
   },

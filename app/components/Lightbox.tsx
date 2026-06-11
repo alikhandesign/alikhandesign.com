@@ -186,7 +186,8 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
       {images.length > 1 && (
         <div style={{
           position: 'absolute', bottom: '1.5rem',
-          display: 'flex', gap: '0.4rem',
+          display: 'flex', gap: '0.25rem',
+          alignItems: 'center',
         }}>
           {images.map((_, i) => (
             <button
@@ -194,14 +195,23 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
               onClick={e => { e.stopPropagation(); setLoaded(false); setCurrent(i) }}
               aria-label={`Go to image ${i + 1}`}
               style={{
+                /* Invisible tap target — minimum 44px tall for touch */
+                minWidth: 24, minHeight: 44,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                padding: '0 6px',
+                background: 'none', border: 'none', cursor: 'pointer',
+              }}
+            >
+              <span style={{
+                display: 'block',
                 width: i === current ? 20 : 6,
                 height: 6,
                 borderRadius: 3,
                 background: i === current ? '#89181A' : 'rgba(255,255,255,0.3)',
-                border: 'none', cursor: 'pointer',
-                padding: 0, transition: 'all 0.2s',
-              }}
-            />
+                transition: 'all 0.2s',
+                pointerEvents: 'none',
+              }} />
+            </button>
           ))}
         </div>
       )}
