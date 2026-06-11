@@ -24,7 +24,7 @@ function FullCaseStudy() {
           ].map(([label, val]) => (
             <div key={label}>
               <p style={{ fontSize: 'var(--text-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>{label}</p>
-              <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', fontWeight: 500, lineHeight: 1.5 }}>{val}</p>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', fontWeight: 500, lineHeight: 1.5 }}>{val}</p>
             </div>
           ))}
         </div>
@@ -44,7 +44,7 @@ function FullCaseStudy() {
       <section id="token-architecture" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">Token Architecture</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Two layers: primitives and semantics</h2>
-        <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The token architecture has two layers. Primitive tokens define the raw values: hex colors, rem sizes, numeric weights. Semantic tokens map those primitives to intent: <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-base)', background: 'var(--color-surface-subtle)', padding: '2px 5px', borderRadius: 2 }}>--text-muted</code> is a semantic token that resolves to <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-base)', background: 'var(--color-surface-subtle)', padding: '2px 5px', borderRadius: 2 }}>#6B6560</code>. Components always reference semantic tokens, never raw values.</p>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The token architecture has two layers. Primitive tokens define the raw values: hex colors, rem sizes, numeric weights. Semantic tokens map those primitives to intent: <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-sm)', background: 'var(--color-surface-subtle)', padding: '2px 5px', borderRadius: 2 }}>--text-muted</code> is a semantic token that resolves to <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-sm)', background: 'var(--color-surface-subtle)', padding: '2px 5px', borderRadius: 2 }}>#6B6560</code>. Components always reference semantic tokens, never raw values.</p>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>This separation means that if the palette changes, the swap happens in one place. It also makes Figma documentation straightforward: every token in the Figma library maps directly to a CSS custom property, by name.</p>
         <div style={{ background: 'var(--color-bg-dark)', borderRadius: 'var(--radius)', padding: '1.5rem', margin: '2rem 0', overflowX: 'auto' as const }}>
           <pre style={{ fontSize: 'var(--text-sm)', color: '#C4BDB7', lineHeight: 1.7, fontFamily: 'monospace', margin: 0 }}>{`/* Primitives */
@@ -66,9 +66,9 @@ function FullCaseStudy() {
       <section id="type-and-spacing" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <p className="section-label">Type and Spacing</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Rem-based, predictable, and purposeful</h2>
-        <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The type scale is rem-based with a 16px root. Every size from <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-base)', background: 'var(--color-surface-subtle)', padding: '2px 5px', borderRadius: 2 }}>--text-xs</code> (12px) to <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-base)', background: 'var(--color-surface-subtle)', padding: '2px 5px', borderRadius: 2 }}>--text-5xl</code> (48px) is a named token. This makes the type scale accessible — it inherits user browser preferences rather than overriding them — and consistent across every component.</p>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The type scale is rem-based with a 16px root. Every size from <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-sm)', background: 'var(--color-surface-subtle)', padding: '2px 5px', borderRadius: 2 }}>--text-xs</code> (12px) to <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-sm)', background: 'var(--color-surface-subtle)', padding: '2px 5px', borderRadius: 2 }}>--text-5xl</code> (48px) is a named token. This makes the type scale accessible — it inherits user browser preferences rather than overriding them — and consistent across every component.</p>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>Two typefaces: DM Serif Display for headings, Inter for UI text. The pairing was chosen for contrast and warmth. Serif headings carry weight without formality. Inter handles small sizes and data cleanly without drawing attention to itself.</p>
-        <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>Letter spacing is one of the details that most design systems underspecify. Honest has three explicit values: <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-base)', background: 'var(--color-surface-subtle)', padding: '2px 5px', borderRadius: 2 }}>sm</code> (0.02em, nav links), <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-base)', background: 'var(--color-surface-subtle)', padding: '2px 5px', borderRadius: 2 }}>md</code> (0.08em, tags and callout titles), and <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-base)', background: 'var(--color-surface-subtle)', padding: '2px 5px', borderRadius: 2 }}>lg</code> (0.12em, eyebrows and section labels). Each scale value is tied to a specific use case, not used interchangeably.</p>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>Letter spacing is one of the details that most design systems underspecify. Honest has three explicit values: <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-sm)', background: 'var(--color-surface-subtle)', padding: '2px 5px', borderRadius: 2 }}>sm</code> (0.02em, nav links), <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-sm)', background: 'var(--color-surface-subtle)', padding: '2px 5px', borderRadius: 2 }}>md</code> (0.08em, tags and callout titles), and <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-sm)', background: 'var(--color-surface-subtle)', padding: '2px 5px', borderRadius: 2 }}>lg</code> (0.12em, eyebrows and section labels). Each scale value is tied to a specific use case, not used interchangeably.</p>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', margin: '2rem 0' }}>
           {[
             ['sm', '0.02em', 'Nav links'],
@@ -99,11 +99,11 @@ function FullCaseStudy() {
         <div style={{ margin: '2rem 0' }}>
           <div style={{ marginBottom: '1.5rem', padding: '1.5rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)' }}>
             <p style={{ fontSize: 'var(--text-sm)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.5rem' }}>ContactModal</p>
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-mid)', lineHeight: 1.7 }}>The contact flow uses a modal with form fields rather than a mailto link. Mailto opens a local email client — a reasonable assumption in 2012, not in 2026, when a growing percentage of people have no default mail client configured. A modal keeps the interaction in-context, works on every device, and gives me control over the experience. The tradeoff is complexity; the reason to accept that tradeoff is user reliability.</p>
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-mid)', lineHeight: 1.7 }}>The contact flow uses a modal with form fields rather than a mailto link. Mailto opens a local email client — a reasonable assumption in 2012, not in 2026, when a growing percentage of people have no default mail client configured. A modal keeps the interaction in-context, works on every device, and gives me control over the experience. The tradeoff is complexity; the reason to accept that tradeoff is user reliability.</p>
           </div>
           <div style={{ padding: '1.5rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)' }}>
             <p style={{ fontSize: 'var(--text-sm)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.5rem' }}>PasswordGate</p>
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-mid)', lineHeight: 1.7 }}>Several case studies contain work done under NDA or for clients whose data is sensitive. Rather than omit this work entirely or publish it without protection, PasswordGate provides controlled access. The pattern is intentionally low-friction for people with the password and appropriately blocked for those without one. It's a designed decision about information architecture, not just a lock on a door.</p>
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-mid)', lineHeight: 1.7 }}>Several case studies contain work done under NDA or for clients whose data is sensitive. Rather than omit this work entirely or publish it without protection, PasswordGate provides controlled access. The pattern is intentionally low-friction for people with the password and appropriately blocked for those without one. It's a designed decision about information architecture, not just a lock on a door.</p>
           </div>
         </div>
 
@@ -118,7 +118,7 @@ function FullCaseStudy() {
         <p className="section-label">Accessibility</p>
         <h2 className="font-serif" style={{ fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>WCAG 2.1 AA across every component</h2>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>Accessibility was a first-class requirement, not a post-build audit. All 35 WCAG 2.1 Level AA criteria pass. Lighthouse scores 100 on both desktop and mobile across all pages. Zero axe-reported errors. A full VoiceOver and keyboard audit was completed and documented.</p>
-        <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>One known gap: SideNavigation does not currently implement an <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-base)', background: 'var(--color-surface-subtle)', padding: '2px 5px', borderRadius: 2 }}>aria-live</code> region for active section announcements to screen reader users. This is documented, de-prioritized (the component is decorative navigation, not primary wayfinding), and on the backlog.</p>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>One known gap: SideNavigation does not currently implement an <code style={{ fontFamily: 'monospace', fontSize: 'var(--text-sm)', background: 'var(--color-surface-subtle)', padding: '2px 5px', borderRadius: 2 }}>aria-live</code> region for active section announcements to screen reader users. This is documented, de-prioritized (the component is decorative navigation, not primary wayfinding), and on the backlog.</p>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', margin: '2rem 0' }}>
           {[
             ['WCAG 2.1 AA', '35/35 criteria pass'],
@@ -128,7 +128,7 @@ function FullCaseStudy() {
           ].map(([metric, detail]) => (
             <div key={metric} style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', padding: '1.25rem', position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--color-accent)' }} />
-              <p style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.25rem' }}>{metric}</p>
+              <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.25rem' }}>{metric}</p>
               <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)' }}>{detail}</p>
             </div>
           ))}
@@ -186,9 +186,9 @@ export default function HonestDesignSystemPage() {
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <nav style={{ padding: '1.25rem 3rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Link href="/work" style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>My Work</Link>
-          <span style={{ fontSize: 'var(--text-base)', color: '#C4BDB7' }}>›</span>
-          <span style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', fontWeight: 500 }}>Honest Design System</span>
+          <Link href="/work" style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>My Work</Link>
+          <span style={{ fontSize: 'var(--text-sm)', color: '#C4BDB7' }}>›</span>
+          <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', fontWeight: 500 }}>Honest Design System</span>
         </nav>
 
         <header style={{ padding: '2.5rem 3rem 3rem' }}>
@@ -198,7 +198,7 @@ export default function HonestDesignSystemPage() {
             <span className="tag">Design Technologist</span>
           </div>
           <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>Honest Design System</h1>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Personal · 2025–2026</p>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Personal · 2025–2026</p>
           <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-text)', lineHeight: 1.7, maxWidth: 680 }}>Most portfolio sites are built on templates. This one is built on a design system — 19 components, a two-layer token architecture, and a Figma library that matches production code 1:1.</p>
         </header>
       </div>
@@ -253,7 +253,7 @@ export default function HonestDesignSystemPage() {
           <p style={{ fontSize: 'var(--text-xs)', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
           <p className="font-serif" style={{ fontSize: '1.25rem', fontWeight: 400 }}>AI Feedback & Insights Agent</p>
         </div>
-        <Link href="/work/ai-agent" style={{ fontSize: 'var(--text-base)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
+        <Link href="/work/ai-agent" style={{ fontSize: 'var(--text-sm)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
       </div>
 
       <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
