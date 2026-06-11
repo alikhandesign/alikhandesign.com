@@ -61,7 +61,7 @@ export default function UncertaintyPage() {
 
   const renderResponse = () => {
     if (!s.probabilisticClaims) {
-      return <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', lineHeight: 'var(--line-height-loose)' }}>{s.response}</p>
+      return <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', lineHeight: 'var(--line-height-loose)' }}>{s.response}</p>
     }
     let remaining = s.response
     const parts: Array<{ text: string; claimIdx: number | null }> = []
@@ -75,14 +75,14 @@ export default function UncertaintyPage() {
     if (remaining) parts.push({ text: remaining, claimIdx: null })
 
     return (
-      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', lineHeight: 'var(--line-height-loose)', position: 'relative' }}>
+      <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', lineHeight: 'var(--line-height-loose)', position: 'relative' }}>
         {parts.map((part, i) =>
           part.claimIdx !== null ? (
             <span key={i} onMouseEnter={() => setHoveredClaim(part.claimIdx)} onMouseLeave={() => setHoveredClaim(null)}
               style={{ borderBottom: '2px dotted #D97706', paddingBottom: 1, cursor: 'help', position: 'relative' }}>
               {part.text}
               {hoveredClaim === part.claimIdx && (
-                <span style={{ position: 'absolute', bottom: '100%', left: '50%', transform: 'translateX(-50%)', marginBottom: 8, background: 'var(--color-bg-dark)', color: 'var(--color-bg)', fontSize: 'var(--text-xs)', lineHeight: 'var(--line-height-normal)', padding: 'var(--space-2) var(--space-3)', borderRadius: 'var(--radius)', whiteSpace: 'normal', maxWidth: 280, zIndex: 10, pointerEvents: 'none', boxShadow: '0 2px 8px rgba(0,0,0,0.2)' }}>
+                <span style={{ position: 'absolute', bottom: '100%', left: '50%', transform: 'translateX(-50%)', marginBottom: 8, background: 'var(--color-bg-dark)', color: 'var(--color-bg)', fontSize: 'var(--font-size-xs)', lineHeight: 'var(--line-height-normal)', padding: 'var(--space-2) var(--space-3)', borderRadius: 'var(--radius-sm)', whiteSpace: 'normal', maxWidth: 280, zIndex: 10, pointerEvents: 'none', boxShadow: '0 2px 8px rgba(0,0,0,0.2)' }}>
                   {s.probabilisticClaims![part.claimIdx].reason}
                 </span>
               )}
@@ -100,12 +100,12 @@ export default function UncertaintyPage() {
         {(['none', 'knowledge-gap', 'principled-limit', 'probabilistic'] as Scenario[]).map(sc => (
           <button key={sc} onClick={() => setScenario(sc)} style={{
             padding: 'var(--space-2) var(--space-4)',
-            fontSize: 'var(--text-sm)',
+            fontSize: 'var(--font-size-sm)',
             fontWeight: scenario === sc ? 'var(--font-weight-semibold)' : 'var(--font-weight-medium)',
             color: scenario === sc ? 'var(--color-accent)' : 'var(--color-text-muted)',
             background: scenario === sc ? 'var(--color-accent-bg)' : 'var(--color-surface-subtle)',
             border: `1px solid ${scenario === sc ? 'var(--color-accent)' : 'var(--color-border)'}`,
-            borderRadius: 'var(--radius)',
+            borderRadius: 'var(--radius-sm)',
             cursor: 'pointer',
             fontFamily: 'var(--font-sans)',
             transition: 'all var(--transition-base)',
@@ -114,7 +114,7 @@ export default function UncertaintyPage() {
           </button>
         ))}
       </div>
-      <div style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'var(--color-surface)', overflow: 'hidden' }}>
+      <div style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', background: 'var(--color-surface)', overflow: 'hidden' }}>
         {s.banner && (
           <div style={{ padding: 'var(--space-3) var(--space-4)', borderBottom: '1px solid var(--color-border)' }}>
             <EpistemicBanner
@@ -137,7 +137,7 @@ export default function UncertaintyPage() {
         { type: 'principled-limit' as const, label: 'Principled limit', desc: 'The model cannot and should not access this information. Ethical boundary, not a knowledge gap.', actionLabel: 'View why' },
         { type: 'probabilistic' as const, label: 'Probabilistic claims', desc: 'Response contains assertions with meaningful uncertainty. Dotted underlines mark specific claims — hover for reason.' },
       ]).map(item => (
-        <div key={item.type} style={{ padding: 'var(--space-4)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', background: 'var(--color-surface)' }}>
+        <div key={item.type} style={{ padding: 'var(--space-4)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', background: 'var(--color-surface)' }}>
           <EpistemicBanner type={item.type} message={item.desc} actionLabel={item.actionLabel} onAction={item.actionLabel ? () => {} : undefined} />
         </div>
       ))}
@@ -169,7 +169,7 @@ function Definition() {
       ].map(item => (
         <div key={item.label}>
           <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>{item.label}</p>
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
         </div>
       ))}
     </div>
