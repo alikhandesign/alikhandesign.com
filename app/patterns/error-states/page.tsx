@@ -119,7 +119,7 @@ export default function ErrorStatesPage() {
             </div>
           )}
           {displayedText && (
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', lineHeight: 'var(--line-height-loose)' }}>
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', lineHeight: 'var(--line-height-loose)' }}>
               {displayedText}
               {simState === 'generating' && <span style={{ display:'inline-block', width:2, height:'1em', background:'var(--color-text)', marginLeft:2, animation:'blink 1s step-end infinite', verticalAlign:'text-bottom' }} />}
               <style>{`@keyframes blink{50%{opacity:0}}`}</style>
@@ -196,7 +196,7 @@ function Definition() {
       ].map(item => (
         <div key={item.label}>
           <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>{item.label}</p>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
         </div>
       ))}
     </div>
