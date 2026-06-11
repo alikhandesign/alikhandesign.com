@@ -137,7 +137,7 @@ export default function PatternsIndex() {
                   {p.svg}
                 </div>
                 <div style={{ padding: 'var(--space-5)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', flex: 1 }}>
-                  <h2 style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text)', lineHeight: 'var(--line-height-tight)' }}>
+                  <h2 style={{ fontSize: 'var(--text-xl)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text)', lineHeight: 'var(--line-height-tight)' }}>
                     {p.title}
                   </h2>
                   <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-normal)', flex: 1 }}>
