@@ -12,7 +12,7 @@ export default function CaseStudyDetails({ items }: CaseStudyDetailsProps) {
     <div style={{
       background: 'var(--color-surface)',
       border: '1px solid var(--color-border)',
-      borderRadius: 'var(--radius)',
+      borderRadius: 'var(--radius-sm)',
       padding: 'var(--space-8)',
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
@@ -22,7 +22,7 @@ export default function CaseStudyDetails({ items }: CaseStudyDetailsProps) {
       {items.map(item => (
         <div key={item.label}>
           <p style={{
-            fontSize: 'var(--text-xs)',
+            fontSize: 'var(--font-size-xs)',
             letterSpacing: 'var(--letter-spacing-lg)',
             textTransform: 'uppercase' as const,
             color: 'var(--color-text-muted)',
@@ -32,7 +32,7 @@ export default function CaseStudyDetails({ items }: CaseStudyDetailsProps) {
             {item.label}
           </p>
           <p style={{
-            fontSize: 'var(--text-sm)',
+            fontSize: 'var(--font-size-sm)',
             color: 'var(--color-text)',
             fontWeight: 500,
             lineHeight: 1.5,
