@@ -39,7 +39,7 @@ export default function EpistemicBanner({ type, message, actionLabel, onAction }
       borderTop: `4px solid ${c.barColor}`,
       background: c.bg,
       border: `1px solid ${c.border}`,
-      borderRadius: 'var(--radius)',
+      borderRadius: 'var(--radius-sm)',
       padding: 'var(--space-3) var(--space-4)',
       display: 'flex',
       alignItems: 'center',
@@ -49,7 +49,7 @@ export default function EpistemicBanner({ type, message, actionLabel, onAction }
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
         <span style={{
-          fontSize: 'var(--text-xs)',
+          fontSize: 'var(--font-size-xs)',
           fontWeight: 'var(--font-weight-semibold)',
           letterSpacing: 'var(--letter-spacing-md)',
           textTransform: 'uppercase',
@@ -63,19 +63,19 @@ export default function EpistemicBanner({ type, message, actionLabel, onAction }
           flexShrink: 0,
         }} />
         <span style={{
-          fontSize: 'var(--text-sm)',
+          fontSize: 'var(--font-size-sm)',
           color: c.color,
           lineHeight: 'var(--line-height-normal)',
         }}>{message}</span>
       </div>
       {actionLabel && onAction && (
         <button onClick={onAction} style={{
-          fontSize: 'var(--text-xs)',
+          fontSize: 'var(--font-size-xs)',
           fontWeight: 'var(--font-weight-semibold)',
           color: c.accentColor,
           background: 'none',
           border: `1px solid ${c.border}`,
-          borderRadius: 'var(--radius)',
+          borderRadius: 'var(--radius-sm)',
           padding: '4px var(--space-3)',
           cursor: 'pointer',
           fontFamily: 'var(--font-sans)',
