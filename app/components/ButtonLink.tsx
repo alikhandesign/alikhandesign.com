@@ -15,7 +15,7 @@ export default function ButtonLink({ label, href, variant = 'normal' }: ButtonLi
         gap: 8,
         color: 'var(--color-bg)',
         textDecoration: 'none',
-        fontSize: 'var(--text-sm)',
+        fontSize: 'var(--font-size-sm)',
         fontWeight: 500,
         borderBottom: '1px solid var(--color-accent)',
         paddingBottom: 2,
@@ -26,7 +26,7 @@ export default function ButtonLink({ label, href, variant = 'normal' }: ButtonLi
   }
   return (
     <Link href={href} style={{
-      fontSize: 'var(--text-sm)',
+      fontSize: 'var(--font-size-sm)',
       color: 'var(--color-accent)',
       textDecoration: 'none',
       fontWeight: 500,
