@@ -33,7 +33,7 @@ export default function Button({
           background: 'transparent',
           color: 'var(--color-text)',
           padding: '0.8rem var(--space-8)',
-          fontSize: 'var(--text-base)',
+          fontSize: 'var(--text-sm)',
           fontWeight: 'var(--font-weight-medium)',
           letterSpacing: 'var(--letter-spacing-sm)',
           borderRadius: 'var(--radius)',
