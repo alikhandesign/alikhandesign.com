@@ -8,7 +8,7 @@ const meta: Meta<typeof Body> = {
   parameters: {
     docs: {
       description: {
-        component: 'Standard body copy paragraph used throughout case study and project pages. Uses `--text-sm` (14px), `--color-text-mid`, and a generous line height of 1.85 for comfortable reading. The `mb` prop controls whether bottom margin is applied -- set to false on the last paragraph in a sequence.',
+        component: 'Standard body copy paragraph used throughout case study and project pages. Defaults to `--text-sm` (14px) and `--color-text-mid`. The `size` prop allows stepping up to `--text-base` (16px) or `--text-md` for intro paragraphs. The `mb` prop controls bottom margin -- set to false on the last paragraph in a sequence.',
       },
     },
   },
@@ -21,6 +21,15 @@ export const Default: Story = {
   args: {
     children: 'The research surfaced six distinct barrier categories. Each one mapped to a specific failure in how the product communicated value, trust, and process to users who were already skeptical before the first touchpoint.',
     mb: true,
+    size: 'sm',
+  },
+}
+
+export const LargerIntro: Story = {
+  args: {
+    children: 'For 40 years, Medicare enrollment meant sitting across from a benefits counselor. Conversational AI is changing that.',
+    size: 'base',
+    color: 'var(--color-text)',
   },
 }
 

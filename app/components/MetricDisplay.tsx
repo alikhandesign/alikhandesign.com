@@ -1,9 +1,14 @@
 interface MetricDisplayProps {
   value: string
   label?: string
+  labelCase?: 'upper' | 'sentence'
 }
 
-export default function MetricDisplay({ value, label }: MetricDisplayProps) {
+export default function MetricDisplay({
+  value,
+  label,
+  labelCase = 'sentence',
+}: MetricDisplayProps) {
   return (
     <div>
       <p className="font-serif" style={{
@@ -18,8 +23,8 @@ export default function MetricDisplay({ value, label }: MetricDisplayProps) {
         <p style={{
           fontSize: 'var(--text-xs)',
           color: 'var(--color-text-muted)',
-          letterSpacing: 'var(--letter-spacing-md)',
-          textTransform: 'uppercase',
+          letterSpacing: labelCase === 'upper' ? 'var(--letter-spacing-md)' : 'normal',
+          textTransform: labelCase === 'upper' ? 'uppercase' : 'none',
           fontWeight: 500,
         }}>
           {label}

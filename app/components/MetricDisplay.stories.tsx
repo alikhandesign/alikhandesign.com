@@ -8,7 +8,7 @@ const meta: Meta<typeof MetricDisplay> = {
   parameters: {
     docs: {
       description: {
-        component: 'Large accent metric display used in case study headers to communicate impact at a glance. The value renders at `--text-4xl` (40px) in `--color-accent`. The optional label renders below in `--text-xs` uppercase. Used for header-level metrics like "95%", "8 hrs → 8 min", "45%". For outcome metrics within the body of a case study, use MetricCard instead.',
+        component: 'Large accent metric display used in case study headers to communicate impact at a glance. The value renders at `--text-4xl` (40px) in `--color-accent`. The optional label defaults to sentence case. Set `labelCase="upper"` for all-caps treatment with letter spacing. For outcome metrics within the body of a case study, use MetricCard instead.',
       },
     },
   },
@@ -17,14 +17,23 @@ const meta: Meta<typeof MetricDisplay> = {
 export default meta
 type Story = StoryObj<typeof MetricDisplay>
 
-export const WithLabel: Story = {
+export const SentenceCase: Story = {
   args: {
     value: '95%',
     label: 'Categorization accuracy',
+    labelCase: 'sentence',
   },
 }
 
-export const WithoutLabel: Story = {
+export const UpperCase: Story = {
+  args: {
+    value: '95%',
+    label: 'Categorization accuracy',
+    labelCase: 'upper',
+  },
+}
+
+export const NoLabel: Story = {
   args: {
     value: '45%',
   },
