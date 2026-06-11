@@ -153,7 +153,7 @@ a { color: inherit; }
   padding: 0 var(--space-8);
   height: 48px;
   box-sizing: border-box;
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--letter-spacing-sm);
   border-radius: var(--radius);
@@ -170,7 +170,7 @@ a { color: inherit; }
   padding: 0.75rem 1rem;
   border: 1.5px solid var(--color-border);
   border-radius: var(--radius);
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   font-family: var(--font-sans);
   background: var(--color-surface);
   color: var(--color-text);
@@ -216,7 +216,7 @@ a { color: inherit; }
 /* ─── Desktop Nav Defaults ──────────────────────────────── */
 .site-nav { padding: 1.25rem var(--space-12); }
 .nav-links { gap: var(--space-8); }
-.nav-links a { font-size: var(--text-base); letter-spacing: var(--letter-spacing-sm); }
+.nav-links a { font-size: var(--text-sm); letter-spacing: var(--letter-spacing-sm); }
 
 /* ─── Tablet (max 900px) ─────────────────────────────────── */
 @media (max-width: 900px) {
@@ -258,7 +258,7 @@ a { color: inherit; }
   .dark-section { padding: var(--space-12) var(--space-5); }
   .site-nav { padding: 1rem var(--space-5); }
   .nav-links { gap: var(--space-6); }
-  .nav-links a { font-size: var(--text-base); }
+  .nav-links a { font-size: var(--text-sm); }
 }
 
 /* ─── Small mobile (max 480px) ───────────────────────────── */
@@ -278,7 +278,7 @@ a { color: inherit; }
   background: var(--color-accent);
   color: var(--color-bg);
   padding: 0.75rem 1.25rem;
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   font-weight: var(--font-weight-medium);
   border-radius: 0 0 var(--radius) var(--radius);
   text-decoration: none;
