@@ -36,7 +36,7 @@ export default function CaseStudyCard({ title, company, tags, description, outco
           </div>
           <h3 className="font-serif" style={{ fontSize: 'var(--text-2xl)', fontWeight: 400, lineHeight: 1.2, marginBottom: '0.25rem' }}>{title}</h3>
           <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.04em', marginBottom: '0.85rem' }}>{company}</p>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>{description}</p>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>{description}</p>
           <div style={{ display: 'flex', gap: 'var(--space-8)', flexWrap: 'wrap' as const, marginBottom: 'var(--space-6)' }}>
             {outcomes.map(o => (
               <div key={o.label}>
@@ -47,7 +47,7 @@ export default function CaseStudyCard({ title, company, tags, description, outco
           </div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', paddingTop: 'var(--space-6)', borderTop: '1px solid var(--color-border)' }}>
-          <span style={{ fontSize: 'var(--text-base)', color: 'var(--color-accent)', fontWeight: 500 }}>Read case study →</span>
+          <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-accent)', fontWeight: 500 }}>Read case study →</span>
         </div>
       </div>
     </Link>
