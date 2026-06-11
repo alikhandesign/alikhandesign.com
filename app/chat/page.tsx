@@ -208,16 +208,16 @@ export default function ChatPage() {
         {/* Header */}
         <header className="page-header" style={{ borderBottom: '1px solid var(--color-border)' }}>
           <nav style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-            <Link href="/" style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>Home</Link>
+            <Link href="/" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>Home</Link>
             <span style={{ color: 'var(--color-border-mid)' }}>›</span>
-            <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', fontWeight: 500 }}>Ask Ali</span>
+            <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 500 }}>Ask Ali</span>
           </nav>
 
           <p className="eyebrow">Portfolio Assistant</p>
-          <h1 className="font-serif" style={{ fontSize: 'var(--text-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>
+          <h1 className="font-serif" style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>
             Ask Ali anything.
           </h1>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 1.6, maxWidth: 520, marginBottom: 'var(--space-4)' }}>
+          <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', lineHeight: 1.6, maxWidth: 520, marginBottom: 'var(--space-4)' }}>
             An AI assistant that knows Ali's work, background, and approach. Ask about specific projects, research methods, or what he's looking for next.
           </p>
 
@@ -230,7 +230,7 @@ export default function ChatPage() {
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 6,
                   background: 'none', border: 'none', cursor: 'pointer',
-                  fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)',
+                  fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)',
                   fontFamily: 'var(--font-sans)', padding: 0,
                 }}
                 aria-expanded={showUnlock}
@@ -245,7 +245,7 @@ export default function ChatPage() {
             ) : (
               <span style={{
                 display: 'inline-flex', alignItems: 'center', gap: 6,
-                fontSize: 'var(--text-sm)', color: '#4A6130',
+                fontSize: 'var(--font-size-sm)', color: '#4A6130',
               }}>
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                   <rect x="3" y="7" width="10" height="8" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
@@ -263,13 +263,13 @@ export default function ChatPage() {
                   position: 'absolute', top: 'calc(100% + 8px)', left: 0,
                   zIndex: 100, width: 380, maxWidth: 'calc(100vw - var(--space-8))',
                   background: 'var(--color-surface)', border: '1px solid var(--color-border)',
-                  borderRadius: 'var(--radius)',
+                  borderRadius: 'var(--radius-sm)',
                   padding: 'var(--space-5)',
                   boxSizing: 'border-box',
                 }}
               >
-                <p style={{ fontSize: 'var(--text-sm)', fontWeight: 500, marginBottom: '0.4rem' }}>Enter access code</p>
-                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-4)', lineHeight: 1.6 }}>
+                <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, marginBottom: '0.4rem' }}>Enter access code</p>
+                <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-4)', lineHeight: 1.6 }}>
                   Don't have a code?{' '}
                   <button
                     ref={contactTriggerRef}
@@ -277,7 +277,7 @@ export default function ChatPage() {
                     style={{
                       background: 'none', border: 'none', cursor: 'pointer',
                       color: 'var(--color-accent)', fontFamily: 'var(--font-sans)',
-                      fontSize: 'var(--text-xs)', padding: 0,
+                      fontSize: 'var(--font-size-xs)', padding: 0,
                     }}
                   >
                     Request access →
@@ -299,7 +299,7 @@ export default function ChatPage() {
                   </button>
                 </div>
                 {passwordError && (
-                  <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-accent-dark)', marginTop: '0.4rem' }}>
+                  <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-accent-dark)', marginTop: '0.4rem' }}>
                     Incorrect code. Contact Ali to request access.
                   </p>
                 )}
@@ -315,7 +315,7 @@ export default function ChatPage() {
             position: 'relative',
             marginTop: 'var(--space-6)',
             border: '1px solid var(--color-border)',
-            borderRadius: 'var(--radius)',
+            borderRadius: 'var(--radius-sm)',
             overflow: 'hidden',
           }}
         >
@@ -368,7 +368,7 @@ export default function ChatPage() {
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               padding: '8px 12px', background: '#fdf6ec',
               borderLeft: '3px solid #92600A',
-              fontSize: 'var(--text-xs)', color: '#92600A',
+              fontSize: 'var(--font-size-xs)', color: '#92600A',
               marginBottom: 'var(--space-4)',
             }}>
               <span>{remaining} response{remaining === 1 ? '' : 's'} remaining.</span>
@@ -377,7 +377,7 @@ export default function ChatPage() {
                 style={{
                   background: 'none', border: 'none', cursor: 'pointer',
                   color: '#92600A', fontWeight: 500, fontFamily: 'var(--font-sans)',
-                  fontSize: 'var(--text-xs)', textDecoration: 'underline', padding: 0,
+                  fontSize: 'var(--font-size-xs)', textDecoration: 'underline', padding: 0,
                 }}
               >
                 Contact Ali
@@ -391,7 +391,7 @@ export default function ChatPage() {
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               padding: '8px 12px', background: 'var(--color-accent-bg)',
               borderLeft: '3px solid var(--color-accent)',
-              fontSize: 'var(--text-xs)', color: 'var(--color-accent)',
+              fontSize: 'var(--font-size-xs)', color: 'var(--color-accent)',
               marginBottom: 'var(--space-4)',
             }}>
               <span>You've used all available responses.</span>
@@ -400,7 +400,7 @@ export default function ChatPage() {
                 style={{
                   background: 'none', border: 'none', cursor: 'pointer',
                   color: 'var(--color-accent)', fontWeight: 500, fontFamily: 'var(--font-sans)',
-                  fontSize: 'var(--text-xs)', textDecoration: 'underline', padding: 0,
+                  fontSize: 'var(--font-size-xs)', textDecoration: 'underline', padding: 0,
                 }}
               >
                 Contact Ali for more
@@ -442,7 +442,7 @@ export default function ChatPage() {
               width: 260,
               zIndex: 10,
               boxShadow: '-4px 0 16px rgba(0,0,0,0.08)',
-              borderRadius: '0 var(--radius) var(--radius) 0',
+              borderRadius: '0 var(--radius-sm) var(--radius-sm) 0',
               overflow: 'hidden',
             }}>
               <SourceInspector
