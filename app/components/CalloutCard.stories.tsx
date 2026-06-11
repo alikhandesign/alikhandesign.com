@@ -2,71 +2,80 @@ import type { Meta, StoryObj } from '@storybook/react'
 import CalloutCard from './CalloutCard'
 
 /**
- * CalloutCard is used in the About strip on the homepage to display the four
- * core values: Empathy, Curiosity, Honesty, and Giving Back.
+ * CalloutCard has two variants:
  *
- * It uses a 3px left accent border — the same pattern as MetricCard and
- * PasswordGate — to signal elevated or featured content within a dark surface.
- * This is a deliberate cross-component visual language: red left border = highlighted content.
+ * **dark** (default) — Used in the About strip on the homepage to display the
+ * four core values. Always rendered on a dark background. Red left border,
+ * dark surface background, light text.
  *
- * Always rendered on a dark background (`--dark-surface`).
- * Never used on light surfaces.
+ * **light** — Used within case study content to highlight key findings,
+ * insights, or principles. White background, full border, red left border accent.
  *
- * ## Title casing
- * Pass `title` in natural casing (e.g. "Empathy", not "EMPATHY").
- * The component applies `text-transform: uppercase` via CSS.
+ * ## Tokens used (dark)
+ * - Background: `--color-surface-dark`
+ * - Title: `--text-xs`, uppercase, `--color-bg`
+ * - Body: `--text-sm`, `--color-text-on-dark`
  *
- * ## Tokens used
- * - Background: `--dark-surface`
- * - Left border: 3px solid `--accent`
- * - Border radius: `0 --radius --radius 0`
- * - Padding: `--space-4` (1rem)
- * - Title: `--text-xs`, `--letter-spacing-md`, uppercase, `--font-weight-semibold`, `--bg`
- * - Body: `--text-base`, `--warm-300` (#C4BDB7), line height 1.5
- *
- * ## Usage
- * Used exclusively in the About strip on the homepage (`/`).
- * Always appears as a 2×2 grid of four cards, one per core value.
+ * ## Tokens used (light)
+ * - Background: `--color-surface`
+ * - Border: `--color-border` (full) + `--color-accent` (left, 3px)
+ * - Title: `--text-xs`, uppercase, `--color-text`
+ * - Body: `--text-sm`, `--color-text-mid`
  */
 const meta: Meta<typeof CalloutCard> = {
   title: 'Core Components/Cards/CalloutCard',
   tags: ['autodocs'],
   component: CalloutCard,
-  parameters: { backgrounds: { default: 'dark' } },
   argTypes: {
-    title: { control: 'text', description: 'Short label for the value or concept. Pass in natural casing — CSS handles uppercase transform.' },
-    body: { control: 'text', description: 'One sentence description. Recommended max ~80 characters.' },
+    variant: {
+      control: 'select',
+      options: ['dark', 'light'],
+      description: 'dark: homepage AI principles section. light: case study findings and insights.',
+    },
+    title: { control: 'text' },
+    body: { control: 'text' },
   },
 }
 
 export default meta
 type Story = StoryObj<typeof CalloutCard>
 
-export const Empathy: Story = {
-  args: { title: 'Empathy', body: 'Learned through research, not assumed.' },
+export const Dark: Story = {
+  parameters: { backgrounds: { default: 'dark' } },
+  args: {
+    variant: 'dark',
+    title: 'Empathy',
+    body: 'Learned through research, not assumed.',
+  },
 }
 
-export const Curiosity: Story = {
-  args: { title: 'Curiosity', body: 'Lifelong student of people and systems.' },
-}
-
-export const Honesty: Story = {
-  args: { title: 'Honesty', body: 'Data as a mediator, not decoration.' },
-}
-
-export const GivingBack: Story = {
-  name: 'Giving Back',
-  args: { title: 'Giving Back', body: 'Volunteering, fostering, pro bono work.' },
-}
-
-export const AllValues: Story = {
-  name: 'All Values (Production Grid)',
+export const DarkGrid: Story = {
+  name: 'Dark — Production Grid',
+  parameters: { backgrounds: { default: 'dark' } },
   render: () => (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', maxWidth: 560 }}>
-      <CalloutCard title="Empathy" body="Learned through research, not assumed." />
-      <CalloutCard title="Curiosity" body="Lifelong student of people and systems." />
-      <CalloutCard title="Honesty" body="Data as a mediator, not decoration." />
-      <CalloutCard title="Giving Back" body="Volunteering, fostering, pro bono work." />
+      <CalloutCard variant="dark" title="Empathy" body="Learned through research, not assumed." />
+      <CalloutCard variant="dark" title="Curiosity" body="Lifelong student of people and systems." />
+      <CalloutCard variant="dark" title="Honesty" body="Data as a mediator, not decoration." />
+      <CalloutCard variant="dark" title="Giving Back" body="Volunteering, fostering, pro bono work." />
     </div>
   ),
+}
+
+export const LightInsight: Story = {
+  name: 'Light — Case Study Insight',
+  args: {
+    variant: 'light',
+    title: 'AI used as decoration is worse than no AI',
+    body: 'Features that invoke AI as a marketing claim while delivering pattern matching are not neutral. They create expectations they cannot meet.',
+  },
+}
+
+export const LightFinding: Story = {
+  name: 'Light — Research Finding',
+  args: {
+    variant: 'light',
+    title: 'The one-sided exchange insight',
+    body: 'Members knew what the visiting clinician could not do. The visit felt like a checkbox exercise masquerading as care.',
+  },
 }
