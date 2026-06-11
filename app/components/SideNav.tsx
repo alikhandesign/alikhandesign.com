@@ -38,7 +38,7 @@ export default function SideNav({ sections, unlocked = true }: SideNavProps) {
     const isActive = active === id
     const isHovered = hovered === id && !isActive
     return {
-      fontSize: 'var(--text-sm)',
+      fontSize: 'var(--font-size-sm)',
       color: isActive ? 'var(--color-accent)' : isHovered ? 'var(--color-text-mid)' : 'var(--color-text-muted)',
       fontWeight: isActive || isHovered ? 500 : 400,
       textDecoration: 'none',
@@ -53,7 +53,7 @@ export default function SideNav({ sections, unlocked = true }: SideNavProps) {
   return (
     <aside style={{ position: 'sticky', top: '5rem' }}>
       <p style={{
-        fontSize: 'var(--text-xs)',
+        fontSize: 'var(--font-size-xs)',
         letterSpacing: 'var(--letter-spacing-lg)',
         textTransform: 'uppercase' as const,
         color: 'var(--color-text-muted)',
