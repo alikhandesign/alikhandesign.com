@@ -43,13 +43,13 @@ export default function PasswordGate({ password, children, title, description, i
 
       <SectionLabel label="Full Case Study" />
       <h2 className="font-serif" style={{ fontSize: 'var(--text-xl)', fontWeight: 400, lineHeight: 1.25, marginBottom: 'var(--space-2)' }}>{title}</h2>
-      <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>{description}</p>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>{description}</p>
 
       <div style={{ marginBottom: 'var(--space-6)' }}>
         <p style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 'var(--font-weight-medium)' as any, marginBottom: '0.6rem' }}>What's inside</p>
         <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
           {inside.map(item => (
-            <li key={item} style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+            <li key={item} style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
               <span style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--color-accent)', flexShrink: 0, display: 'block' }} />
               {item}
             </li>
