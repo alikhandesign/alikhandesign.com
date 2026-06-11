@@ -7,12 +7,12 @@ export default function SuggestedPrompts({ prompts, onSelect }: SuggestedPrompts
   return (
     <div style={{
       background: 'var(--color-surface-subtle)',
-      borderRadius: 'var(--radius)',
+      borderRadius: 'var(--radius-sm)',
       padding: 'var(--space-4)',
       marginBottom: 'var(--space-4)',
     }}>
       <p style={{
-        fontSize: 'var(--text-xs)', fontWeight: 500, letterSpacing: '0.06em',
+        fontSize: 'var(--font-size-xs)', fontWeight: 500, letterSpacing: '0.06em',
         textTransform: 'uppercase', color: 'var(--color-text-faint)',
         marginBottom: 'var(--space-3)',
       }}>
@@ -25,7 +25,7 @@ export default function SuggestedPrompts({ prompts, onSelect }: SuggestedPrompts
             onClick={() => onSelect(prompt)}
             style={{
               padding: '0.375rem 0.875rem',
-              fontSize: 'var(--text-xs)',
+              fontSize: 'var(--font-size-xs)',
               fontFamily: 'var(--font-sans)', fontWeight: 400,
               border: '1px solid var(--color-border)',
               borderRadius: '20px',
