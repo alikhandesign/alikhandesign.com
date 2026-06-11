@@ -47,7 +47,7 @@ function FullCaseStudy() {
           ].map(([label, val]) => (
             <div key={label}>
               <p style={{ fontSize: 'var(--text-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>{label}</p>
-              <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', fontWeight: 500, lineHeight: 1.5 }}>{val}</p>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', fontWeight: 500, lineHeight: 1.5 }}>{val}</p>
             </div>
           ))}
         </div>
@@ -73,8 +73,8 @@ function FullCaseStudy() {
           ].map(([title, desc]) => (
             <div key={title as string} style={{ padding: '1.25rem 1.5rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: 3, background: 'var(--color-accent)' }} />
-              <p style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.5rem', paddingLeft: '0.75rem' }}>{title}</p>
-              <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-mid)', lineHeight: 1.7, paddingLeft: '0.75rem' }}>{desc}</p>
+              <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.5rem', paddingLeft: '0.75rem' }}>{title}</p>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-mid)', lineHeight: 1.7, paddingLeft: '0.75rem' }}>{desc}</p>
             </div>
           ))}
         </div>
@@ -91,16 +91,16 @@ function FullCaseStudy() {
       <section id="the-design" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro label="The Design" heading="Four decisions that shaped everything" />
 
-        <p style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem' }}>Architecture first</p>
+        <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem' }}>Architecture first</p>
         <Body>The site is four pages: Home, My Work, About Me, and a footer-based contact section. Every navigation decision was made around the hiring manager's likely path, not around what a standard portfolio site includes. No dedicated contact page — a contact page implies the contact is the goal. The goal is the work. Contact follows from that.</Body>
 
-        <p style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '1.5rem' }}>The Honest Design System</p>
+        <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '1.5rem' }}>The Honest Design System</p>
         <Body>Rather than using an existing component library, this site is built on a custom design system created specifically for this project. <Link href="/work/honest-design-system" style={{ color: 'var(--color-accent)', textDecoration: 'none', fontWeight: 500 }}>Honest is documented separately as its own case study.</Link> The short version: 19 components, a two-layer token architecture, full Figma-to-code parity, and a Storybook integration that makes the system auditable. Using a custom system meant every visual decision was intentional, not inherited.</Body>
 
-        <p style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '1.5rem' }}>Password-gated case studies</p>
+        <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '1.5rem' }}>Password-gated case studies</p>
         <Body>Detailed case study content sits behind a password gate. This was a deliberate product decision: it signals the work exists without exposing it to unqualified access, creates a natural filter for serious candidates and recruiters, and positions the portfolio as something worth protecting rather than something available to anyone.</Body>
 
-        <p style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '1.5rem' }}>AI as execution layer</p>
+        <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '1.5rem' }}>AI as execution layer</p>
         <Body>Claude was used throughout the build for code generation, component architecture, copy editing, accessibility review, and typography decisions. The distinction that mattered: AI did not make design decisions. It executed them.</Body>
         <Body>Every page structure, every content hierarchy, every token value was decided first. Claude's job was to close the gap between the decision and the shipped component. That's a different relationship with AI than asking it to design something and accepting what it produces.</Body>
         <Callout>AI is a better collaborator when the human side of the collaboration is more rigorous. The quality of the output tracks the quality of the input — which turns out to be a design problem all the way down.</Callout>
@@ -155,9 +155,9 @@ export default function ThePortfolioPage() {
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <nav style={{ padding: '1.25rem 3rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Link href="/work" style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>My Work</Link>
-          <span style={{ fontSize: 'var(--text-base)', color: '#C4BDB7' }}>›</span>
-          <span style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', fontWeight: 500 }}>The Portfolio Is the Product</span>
+          <Link href="/work" style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>My Work</Link>
+          <span style={{ fontSize: 'var(--text-sm)', color: '#C4BDB7' }}>›</span>
+          <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', fontWeight: 500 }}>The Portfolio Is the Product</span>
         </nav>
 
         <header style={{ padding: '2.5rem 3rem 3rem' }}>
@@ -168,7 +168,7 @@ export default function ThePortfolioPage() {
             <span className="tag">Product Thinking</span>
           </div>
           <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>The Portfolio Is the Product</h1>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Self-initiated · 2026</p>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Self-initiated · 2026</p>
           <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-text)', lineHeight: 1.7, maxWidth: 680 }}>Most designers build a portfolio to show their work. I built one to demonstrate how I work — from scratch, with a custom design system, using AI as an execution layer rather than a design substitute. Under two weeks from first decision to shipped site.</p>
         </header>
       </div>
@@ -218,7 +218,7 @@ export default function ThePortfolioPage() {
           <p style={{ fontSize: 'var(--text-xs)', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
           <p className="font-serif" style={{ fontSize: '1.25rem', fontWeight: 400 }}>Honest Design System</p>
         </div>
-        <Link href="/work/honest-design-system" style={{ fontSize: 'var(--text-base)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
+        <Link href="/work/honest-design-system" style={{ fontSize: 'var(--text-sm)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
       </div>
 
       <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
