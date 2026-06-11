@@ -208,16 +208,16 @@ export default function ChatPage() {
         {/* Header */}
         <header className="page-header" style={{ borderBottom: '1px solid var(--color-border)' }}>
           <nav style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-            <Link href="/" style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>Home</Link>
+            <Link href="/" style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>Home</Link>
             <span style={{ color: 'var(--color-border-mid)' }}>›</span>
-            <span style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', fontWeight: 500 }}>Ask Ali</span>
+            <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', fontWeight: 500 }}>Ask Ali</span>
           </nav>
 
           <p className="eyebrow">Portfolio Assistant</p>
           <h1 className="font-serif" style={{ fontSize: 'var(--text-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>
             Ask Ali anything.
           </h1>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 1.6, maxWidth: 520, marginBottom: 'var(--space-4)' }}>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 1.6, maxWidth: 520, marginBottom: 'var(--space-4)' }}>
             An AI assistant that knows Ali's work, background, and approach. Ask about specific projects, research methods, or what he's looking for next.
           </p>
 
@@ -268,7 +268,7 @@ export default function ChatPage() {
                   boxSizing: 'border-box',
                 }}
               >
-                <p style={{ fontSize: 'var(--text-base)', fontWeight: 500, marginBottom: '0.4rem' }}>Enter access code</p>
+                <p style={{ fontSize: 'var(--text-sm)', fontWeight: 500, marginBottom: '0.4rem' }}>Enter access code</p>
                 <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-4)', lineHeight: 1.6 }}>
                   Don't have a code?{' '}
                   <button
