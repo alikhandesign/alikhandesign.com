@@ -58,7 +58,7 @@ export default function SourceAttributionPage() {
       </p>
       <div style={{ display: 'grid', gridTemplateColumns: openSource ? '1fr 260px' : '1fr', gap: 0, border: '1px solid var(--color-border)', borderRadius: 'var(--radius)', overflow: 'hidden', transition: 'grid-template-columns 0.25s ease' }}>
         <div style={{ padding: 'var(--space-6)', borderRight: openSource ? '1px solid var(--color-border)' : 'none' }}>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', lineHeight: 2 }}>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', lineHeight: 2 }}>
             According to recent filings, the company reported $4.2B in Q1 revenue{citationBadge(1)} and expanded operations into Europe{citationBadge(2)}.
             {' '}Market entry in Asia was delayed{citationBadge(3)} due to local regulatory bottlenecks.
             {' '}Logistics costs increased significantly over the same period{uncitedMarker} — the largest year-over-year increase in five years.
@@ -137,7 +137,7 @@ function Definition() {
       ].map(item => (
         <div key={item.label}>
           <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>{item.label}</p>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
         </div>
       ))}
     </div>
