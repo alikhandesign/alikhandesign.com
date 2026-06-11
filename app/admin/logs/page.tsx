@@ -104,7 +104,7 @@ export default function AdminLogsPage() {
       </div>
 
       {logs.length === 0 && (
-        <div style={{ padding: 'var(--space-16)', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: 'var(--text-base)' }}>
+        <div style={{ padding: 'var(--space-16)', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)' }}>
           No conversations yet.
         </div>
       )}
@@ -130,7 +130,7 @@ export default function AdminLogsPage() {
             >
               <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{
-                  fontSize: 'var(--text-base)', color: 'var(--color-text)', fontWeight: 500,
+                  fontSize: 'var(--text-sm)', color: 'var(--color-text)', fontWeight: 500,
                   whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                   marginBottom: '0.2rem',
                 }}>
@@ -163,11 +163,11 @@ export default function AdminLogsPage() {
               <div style={{ borderTop: '1px solid var(--color-border)', padding: 'var(--space-6)' }}>
                 <div style={{ marginBottom: 'var(--space-4)' }}>
                   <p style={{ fontSize: 'var(--text-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.4rem' }}>User</p>
-                  <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', lineHeight: 1.7, background: 'var(--color-bg)', padding: '0.75rem', borderRadius: 'var(--radius)' }}>{log.userMessage}</p>
+                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', lineHeight: 1.7, background: 'var(--color-bg)', padding: '0.75rem', borderRadius: 'var(--radius)' }}>{log.userMessage}</p>
                 </div>
                 <div>
                   <p style={{ fontSize: 'var(--text-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.4rem' }}>Assistant</p>
-                  <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', lineHeight: 1.7, whiteSpace: 'pre-wrap', background: 'var(--color-bg)', padding: '0.75rem', borderRadius: 'var(--radius)' }}>{log.assistantMessage}</p>
+                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', lineHeight: 1.7, whiteSpace: 'pre-wrap', background: 'var(--color-bg)', padding: '0.75rem', borderRadius: 'var(--radius)' }}>{log.assistantMessage}</p>
                 </div>
               </div>
             )}
