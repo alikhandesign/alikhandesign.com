@@ -27,8 +27,8 @@ export default function AboutPage() {
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <header className="page-header">
           <SectionLabel label="About Me" />
-          <h1 className="font-serif page-title-lg" style={{ fontSize: 'var(--text-5xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.75rem' }}>The person behind the work.</h1>
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 1.7, maxWidth: 580 }}>Senior Product Designer and Researcher. Open to remote and in-person opportunities anywhere.</p>
+          <h1 className="font-serif page-title-lg" style={{ fontSize: 'var(--text-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.75rem' }}>The person behind the work.</h1>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 1.7, maxWidth: 580 }}>Senior Product Designer and Researcher. Open to remote and in-person opportunities anywhere.</p>
         </header>
       </div>
 
@@ -51,7 +51,7 @@ export default function AboutPage() {
       <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
         <SectionLabel label="Design Philosophy" />
         <h2 className="font-serif section-title" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400, marginBottom: '1.75rem', lineHeight: 1.15 }}>How I think about design.</h2>
-        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', lineHeight: 1.75, marginBottom: '3rem', maxWidth: 680 }}>The best design is the kind nobody notices. It just works. Getting there though requires a specific way of seeing problems, and over ten years I've found it comes down to three things.</p>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', lineHeight: 1.75, marginBottom: '3rem', maxWidth: 680 }}>The best design is the kind nobody notices. It just works. Getting there though requires a specific way of seeing problems, and over ten years I've found it comes down to three things.</p>
         <div>
           {pillars.map((p, i) => (
             <div key={p.num} className="pillar-grid" style={{ padding: '2.5rem 0', borderTop: '1px solid var(--color-border)', ...(i === pillars.length - 1 ? { borderBottom: '1px solid var(--color-border)' } : {}) }}>
@@ -63,7 +63,7 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
-        <p className="font-serif" style={{ fontSize: 'var(--text-2xl)', fontStyle: 'italic', color: 'var(--color-text)', marginTop: '2.5rem', paddingTop: '2.5rem', borderTop: '1px solid var(--color-border)', lineHeight: 1.4, maxWidth: 600 }}>
+        <p className="font-serif" style={{ fontSize: 'var(--text-2xl)', fontStyle: 'italic', color: 'var(--color-text)', marginTop: '2.5rem', lineHeight: 1.4, textAlign: 'center' as const }}>
           "I'll take a product that works over one that looks good, every time."
         </p>
       </section>
