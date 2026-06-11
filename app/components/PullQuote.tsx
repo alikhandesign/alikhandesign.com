@@ -12,7 +12,7 @@ export default function PullQuote({ children }: PullQuoteProps) {
       borderRadius: '0 var(--radius-sm) var(--radius-sm) 0',
     }}>
       <p className="font-serif" style={{
-        fontSize: 'var(--text-xl)',
+        fontSize: 'var(--font-size-xl)',
         color: 'var(--color-text)',
         lineHeight: 1.5,
         fontStyle: 'italic',
