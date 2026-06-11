@@ -37,7 +37,7 @@ export default function TabNavigation({
                     width: '100%',
                     textAlign: 'left',
                     padding: 'var(--space-2) 0 var(--space-2) var(--space-3)',
-                    fontSize: 'var(--text-sm)',
+                    fontSize: 'var(--font-size-sm)',
                     fontFamily: 'var(--font-sans)',
                     fontWeight: isActive || isHovered ? 500 : 400,
                     color: isActive ? 'var(--color-accent)' : isHovered ? 'var(--color-text-mid)' : 'var(--color-text-muted)',
@@ -82,7 +82,7 @@ export default function TabNavigation({
             aria-current={isActive ? 'true' : undefined}
             style={{
               padding: 'var(--space-4) var(--space-5)',
-              fontSize: 'var(--text-sm)',
+              fontSize: 'var(--font-size-sm)',
               fontFamily: 'var(--font-sans)',
               fontWeight: isActive ? 'var(--font-weight-semibold)' : isHovered ? 'var(--font-weight-medium)' : 'var(--font-weight-regular)',
               color: isActive ? 'var(--color-accent)' : isHovered ? 'var(--color-text-mid)' : 'var(--color-text-muted)',
