@@ -86,6 +86,7 @@ const filterStyles: React.CSSProperties = {
   fontSize: 'var(--text-xs)',
   fontWeight: 500,
   letterSpacing: '0.04em',
+  color: 'var(--color-text)',
   border: '1px solid var(--color-border)',
   borderRadius: 'var(--radius)',
   cursor: 'pointer',

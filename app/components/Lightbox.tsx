@@ -45,11 +45,11 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
   }, [onClose, prev, next])
 
   const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.changedTouches[0].screenX
+    touchStartX.current = e.changedTouches[0].clientX
   }
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    touchEndX.current = e.changedTouches[0].screenX
+    touchEndX.current = e.changedTouches[0].clientX
     const diff = touchStartX.current - touchEndX.current
     if (Math.abs(diff) > 50) {
       diff > 0 ? next() : prev()
@@ -61,6 +61,8 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
   return (
     <div
       onClick={onClose}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
       style={{
         position: 'fixed', inset: 0, zIndex: 1000,
         background: 'rgba(28, 28, 26, 0.95)',
@@ -119,8 +121,6 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
       {/* Image container */}
       <div
         onClick={e => e.stopPropagation()}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
         style={{
           maxWidth: '90vw', maxHeight: '75vh',
           display: 'flex', flexDirection: 'column',
