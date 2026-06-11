@@ -111,10 +111,10 @@ export default function PatternsIndex() {
     <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
       <div className="page-header">
         <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>Pattern Library</p>
-        <h1 className="font-serif" style={{ fontSize: 'var(--text-4xl)', fontWeight: 400, lineHeight: 'var(--line-height-tight)', marginBottom: 'var(--space-4)', color: 'var(--color-text)' }}>
+        <h1 className="font-serif" style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 400, lineHeight: 'var(--line-height-tight)', marginBottom: 'var(--space-4)', color: 'var(--color-text)' }}>
           AI Interface Patterns
         </h1>
-        <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-normal)', maxWidth: 640 }}>
+        <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-normal)', maxWidth: 640 }}>
           Six pattern categories derived from a competitive audit of ChatGPT, Claude, Gemini, Perplexity, Notion AI, and GitHub Copilot. Each pattern defines the problem, the prescription, the design decisions, and the tradeoffs.
         </p>
       </div>
@@ -125,7 +125,7 @@ export default function PatternsIndex() {
             <a key={p.slug} href={`/patterns/${p.slug}`} style={{ textDecoration: 'none' }}>
               <div className="work-card" style={{
                 border: '1px solid var(--color-border)',
-                borderRadius: 'var(--radius)',
+                borderRadius: 'var(--radius-sm)',
                 background: 'var(--color-surface)',
                 overflow: 'hidden',
                 display: 'flex',
@@ -137,14 +137,14 @@ export default function PatternsIndex() {
                   {p.svg}
                 </div>
                 <div style={{ padding: 'var(--space-5)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', flex: 1 }}>
-                  <h2 style={{ fontSize: 'var(--text-xl)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text)', lineHeight: 'var(--line-height-tight)' }}>
+                  <h2 style={{ fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--color-text)', lineHeight: 'var(--line-height-tight)' }}>
                     {p.title}
                   </h2>
-                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-normal)', flex: 1 }}>
+                  <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-normal)', flex: 1 }}>
                     {p.desc}
                   </p>
                   <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-accent)', fontWeight: 'var(--font-weight-medium)' }}>
+                    <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-accent)', fontWeight: 'var(--font-weight-medium)' }}>
                       View pattern →
                     </span>
                   </div>
