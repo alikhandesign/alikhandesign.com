@@ -28,9 +28,9 @@ export const Top: Story = {
   render: () => {
     const [active, setActive] = useState('definition')
     return (
-      <div style={{ background: 'var(--bg)', padding: '0 0 2rem' }}>
+      <div style={{ background: 'var(--color-bg)', padding: '0 0 2rem' }}>
         <TabNavigation tabs={TABS} activeTab={active} onTabChange={setActive} variant="top" />
-        <div style={{ padding: '1.5rem 3rem', fontSize: 14, color: 'var(--text-muted)' }}>
+        <div style={{ padding: '1.5rem 3rem', fontSize: 14, color: 'var(--color-text-muted)' }}>
           Active: {active}
         </div>
       </div>
@@ -42,7 +42,7 @@ export const Side: Story = {
   render: () => {
     const [active, setActive] = useState('definition')
     return (
-      <div style={{ background: 'var(--bg)', padding: '1.5rem', maxWidth: 200 }}>
+      <div style={{ background: 'var(--color-bg)', padding: '1.5rem', maxWidth: 200 }}>
         <TabNavigation tabs={TABS} activeTab={active} onTabChange={setActive} variant="side" />
       </div>
     )
