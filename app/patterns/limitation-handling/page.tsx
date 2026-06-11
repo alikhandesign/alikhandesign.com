@@ -38,7 +38,7 @@ export default function LimitationHandlingPage() {
   const ARIRow = ({ label, text }: { label: string; text: string }) => (
     <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'flex-start' }}>
       <span style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase', color: 'var(--color-text-faint)', fontWeight: 'var(--font-weight-medium)', paddingTop: 3, minWidth: 80, flexShrink: 0 }}>{label}</span>
-      <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', lineHeight: 'var(--line-height-normal)' }}>{text}</p>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', lineHeight: 'var(--line-height-normal)' }}>{text}</p>
     </div>
   )
 
@@ -194,7 +194,7 @@ function Definition() {
       ].map(item => (
         <div key={item.label}>
           <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>{item.label}</p>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
         </div>
       ))}
     </div>
