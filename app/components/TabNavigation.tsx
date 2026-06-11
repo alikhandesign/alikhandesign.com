@@ -37,7 +37,7 @@ export default function TabNavigation({
                     width: '100%',
                     textAlign: 'left',
                     padding: 'var(--space-2) 0 var(--space-2) var(--space-3)',
-                    fontSize: 'var(--text-base)',
+                    fontSize: 'var(--text-sm)',
                     fontFamily: 'var(--font-sans)',
                     fontWeight: isActive || isHovered ? 500 : 400,
                     color: isActive ? 'var(--color-accent)' : isHovered ? 'var(--color-text-mid)' : 'var(--color-text-muted)',
