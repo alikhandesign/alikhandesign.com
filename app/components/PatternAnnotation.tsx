@@ -13,7 +13,7 @@ export default function PatternAnnotation({ finding }: PatternAnnotationProps) {
         Audit finding
       </p>
       <p style={{
-        fontSize: 'var(--text-sm)',
+        fontSize: 'var(--font-size-sm)',
         color: 'var(--color-text-muted)',
         lineHeight: 'var(--line-height-normal)',
         maxWidth: 640,
