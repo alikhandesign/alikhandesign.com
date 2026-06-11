@@ -83,12 +83,12 @@ const filterStyles: React.CSSProperties = {
   paddingBottom: '0.4rem',
   paddingLeft: '0.875rem',
   paddingRight: '0.875rem',
-  fontSize: 'var(--text-xs)',
+  fontSize: 'var(--font-size-xs)',
   fontWeight: 500,
   letterSpacing: '0.04em',
   color: 'var(--color-text)',
   border: '1px solid var(--color-border)',
-  borderRadius: 'var(--radius)',
+  borderRadius: 'var(--radius-sm)',
   cursor: 'pointer',
   background: 'transparent',
   fontFamily: 'var(--font-sans)',
@@ -128,9 +128,9 @@ export default function WorkPage() {
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <header className="page-header">
           <SectionLabel label="Portfolio" />
-          <h1 className="font-serif page-title-lg" style={{ fontSize: 'var(--text-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.75rem' }}>My Work</h1>
-          <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-muted)', lineHeight: 1.6, maxWidth: 580, marginBottom: '0.75rem' }}>10+ years of product design and UX research — from AI-native research pipelines to zero-to-one product ecosystems.</p>
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+          <h1 className="font-serif page-title-lg" style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.75rem' }}>My Work</h1>
+          <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-muted)', lineHeight: 1.6, maxWidth: 580, marginBottom: '0.75rem' }}>10+ years of product design and UX research — from AI-native research pipelines to zero-to-one product ecosystems.</p>
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
             Have questions about the work?{' '}
             <Link href="/chat" style={{ color: 'var(--color-text)', textDecoration: 'underline', textUnderlineOffset: 3, fontWeight: 500 }}>
               Start a conversation with the portfolio assistant.
@@ -154,8 +154,8 @@ export default function WorkPage() {
       {showCaseStudies && (
         <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--color-border)' }}>
-            <h2 className="font-serif" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400 }}>Case Studies</h2>
-            <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em' }}>— {caseStudies.length} deep dives</span>
+            <h2 className="font-serif" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 400 }}>Case Studies</h2>
+            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em' }}>— {caseStudies.length} deep dives</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
             {caseStudies.map(cs => (
@@ -170,8 +170,8 @@ export default function WorkPage() {
       {showProjects && (
         <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--color-border)' }}>
-            <h2 className="font-serif" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400 }}>Projects</h2>
-            <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em' }}>— {projects.length} selected works</span>
+            <h2 className="font-serif" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 400 }}>Projects</h2>
+            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em' }}>— {projects.length} selected works</span>
           </div>
           <div className="grid-proj">
             {projects.map(p => (
