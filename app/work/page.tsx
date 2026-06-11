@@ -130,7 +130,7 @@ export default function WorkPage() {
           <SectionLabel label="Portfolio" />
           <h1 className="font-serif page-title-lg" style={{ fontSize: 'var(--text-5xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.75rem' }}>My Work</h1>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-muted)', lineHeight: 1.6, maxWidth: 580, marginBottom: '0.75rem' }}>10+ years of product design and UX research — from AI-native research pipelines to zero-to-one product ecosystems.</p>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
             Have questions about the work?{' '}
             <Link href="/chat" style={{ color: 'var(--color-text)', textDecoration: 'underline', textUnderlineOffset: 3, fontWeight: 500 }}>
               Start a conversation with the portfolio assistant.
