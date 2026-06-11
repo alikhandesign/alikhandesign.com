@@ -42,7 +42,7 @@ export default function Nav() {
             <button
               ref={triggerRef}
               onClick={() => setModalOpen(true)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-accent)', fontWeight: 500, fontFamily: 'var(--font-sans)', fontSize: 'var(--text-sm)', letterSpacing: 'var(--letter-spacing-sm)', padding: 0 }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-accent)', fontWeight: 500, fontFamily: 'var(--font-sans)', fontSize: 'var(--font-size-sm)', letterSpacing: 'var(--letter-spacing-sm)', padding: 0 }}
             >Let's Talk</button>
           </li>
         </ul>
