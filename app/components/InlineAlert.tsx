@@ -23,7 +23,7 @@ export default function InlineAlert({ variant, title, children, action, secondar
       background: s.bg,
       border: `1px solid ${s.border}`,
       borderLeft: `3px solid ${s.leftBar}`,
-      borderRadius: `0 var(--radius) var(--radius) 0`,
+      borderRadius: `0 var(--radius-sm) var(--radius-sm) 0`,
       padding: 'var(--space-4)',
       display: 'flex',
       flexDirection: 'column',
@@ -31,7 +31,7 @@ export default function InlineAlert({ variant, title, children, action, secondar
     }}>
       {title && (
         <p style={{
-          fontSize: 'var(--text-xs)',
+          fontSize: 'var(--font-size-xs)',
           fontWeight: 'var(--font-weight-semibold)',
           letterSpacing: 'var(--letter-spacing-md)',
           textTransform: 'uppercase',
@@ -39,14 +39,14 @@ export default function InlineAlert({ variant, title, children, action, secondar
           margin: 0,
         }}>{title}</p>
       )}
-      <div style={{ fontSize: 'var(--text-sm)', color: s.color, lineHeight: 'var(--line-height-normal)' }}>
+      <div style={{ fontSize: 'var(--font-size-sm)', color: s.color, lineHeight: 'var(--line-height-normal)' }}>
         {children}
       </div>
       {(action || secondaryAction) && (
         <div style={{ display: 'flex', gap: 'var(--space-3)', marginTop: 'var(--space-1)', flexWrap: 'wrap' }}>
           {action && (
             <button onClick={action.onClick} style={{
-              fontSize: 'var(--text-xs)',
+              fontSize: 'var(--font-size-xs)',
               fontWeight: 'var(--font-weight-semibold)',
               color: s.accent,
               background: 'none',
@@ -60,7 +60,7 @@ export default function InlineAlert({ variant, title, children, action, secondar
           )}
           {secondaryAction && (
             <button onClick={secondaryAction.onClick} style={{
-              fontSize: 'var(--text-xs)',
+              fontSize: 'var(--font-size-xs)',
               fontWeight: 'var(--font-weight-medium)',
               color: s.color,
               background: 'none',
