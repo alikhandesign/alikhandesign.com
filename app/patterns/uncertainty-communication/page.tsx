@@ -61,7 +61,7 @@ export default function UncertaintyPage() {
 
   const renderResponse = () => {
     if (!s.probabilisticClaims) {
-      return <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', lineHeight: 'var(--line-height-loose)' }}>{s.response}</p>
+      return <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', lineHeight: 'var(--line-height-loose)' }}>{s.response}</p>
     }
     let remaining = s.response
     const parts: Array<{ text: string; claimIdx: number | null }> = []
@@ -75,7 +75,7 @@ export default function UncertaintyPage() {
     if (remaining) parts.push({ text: remaining, claimIdx: null })
 
     return (
-      <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', lineHeight: 'var(--line-height-loose)', position: 'relative' }}>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', lineHeight: 'var(--line-height-loose)', position: 'relative' }}>
         {parts.map((part, i) =>
           part.claimIdx !== null ? (
             <span key={i} onMouseEnter={() => setHoveredClaim(part.claimIdx)} onMouseLeave={() => setHoveredClaim(null)}
@@ -169,7 +169,7 @@ function Definition() {
       ].map(item => (
         <div key={item.label}>
           <p className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>{item.label}</p>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 'var(--line-height-loose)' }}>{item.text}</p>
         </div>
       ))}
     </div>
