@@ -29,7 +29,7 @@ function FullCaseStudy() {
           {[['My Role', 'UX Researcher & Designer'], ['Methods', 'Qualitative Interviews, Thematic Synthesis'], ['Focus', 'Trust-First Design, Barrier Removal'], ['Output', 'Research findings + Portal redesign']].map(([label, val]) => (
             <div key={label}>
               <p style={{ fontSize: 'var(--text-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>{label}</p>
-              <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', fontWeight: 500, lineHeight: 1.5 }}>{val}</p>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', fontWeight: 500, lineHeight: 1.5 }}>{val}</p>
             </div>
           ))}
         </div>
@@ -54,7 +54,7 @@ function FullCaseStudy() {
           ['Frequency and harassment', 'Several members were being called constantly and had reached a point where they declined simply to be left alone.'],
         ].map(([title, text]) => (
           <div key={title} style={{ marginBottom: '1.5rem', paddingBottom: '1.5rem', borderBottom: '1px solid var(--color-border)' }}>
-            <h3 style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.4rem' }}>{title}</h3>
+            <h3 style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.4rem' }}>{title}</h3>
             <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-muted)', lineHeight: 1.7 }}>{text}</p>
           </div>
         ))}
@@ -88,7 +88,7 @@ function FullCaseStudy() {
             </div>
           ))}
         </div>
-        <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 1.6, fontStyle: 'italic' }}>Note: Program-level metrics reflect Signify Health's broader outcomes. I can't claim sole attribution — what I can say is the research identified the specific barriers preventing members from saying yes, and the redesign was built to remove them.</p>
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 1.6, fontStyle: 'italic' }}>Note: Program-level metrics reflect Signify Health's broader outcomes. I can't claim sole attribution — what I can say is the research identified the specific barriers preventing members from saying yes, and the redesign was built to remove them.</p>
       </section>
 
       <section>
@@ -108,9 +108,9 @@ export default function IHEPortalPage() {
     <main>
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <nav style={{ padding: '1.25rem 3rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Link href="/work" style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>My Work</Link>
-          <span style={{ fontSize: 'var(--text-base)', color: '#C4BDB7' }}>›</span>
-          <span style={{ fontSize: 'var(--text-base)', color: 'var(--color-text)', fontWeight: 500 }}>IHE Scheduling Portal</span>
+          <Link href="/work" style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>My Work</Link>
+          <span style={{ fontSize: 'var(--text-sm)', color: '#C4BDB7' }}>›</span>
+          <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text)', fontWeight: 500 }}>IHE Scheduling Portal</span>
         </nav>
         <header style={{ padding: '2.5rem 3rem 3rem' }}>
           <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem', flexWrap: 'wrap' as const }}>
@@ -119,13 +119,13 @@ export default function IHEPortalPage() {
             <span className="tag">UX Design</span>
           </div>
           <h1 className="font-serif" style={{ fontSize: '3rem', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>IHE Scheduling Portal</h1>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Signify Health · CVS Health</p>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Signify Health · CVS Health</p>
           <p style={{ fontSize: 'var(--text-lg)', color: 'var(--color-text)', lineHeight: 1.7, maxWidth: 680 }}>A free in-home health evaluation sounds like an obvious yes. A licensed clinician comes to your home, reviews your medications, checks your vitals, and coordinates with your doctor — at no cost. So why were millions of eligible members saying no?</p>
         </header>
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem' }}>
-        <div style={{ width: '100%', height: 400, background: 'var(--color-border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Hero Project Image</div>
+        <div style={{ width: '100%', height: 400, background: 'var(--color-border)', borderRadius: 'var(--radius)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Hero Project Image</div>
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem', display: 'flex', gap: '3rem', flexWrap: 'wrap' as const, borderBottom: '1px solid var(--color-border)' }}>
@@ -157,7 +157,7 @@ export default function IHEPortalPage() {
           <p style={{ fontSize: 'var(--text-xs)', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
           <p className="font-serif" style={{ fontSize: '1.25rem', fontWeight: 400 }}>From Checkboxes to Conversations</p>
         </div>
-        <Link href="/work/squarespace-redesign" style={{ fontSize: 'var(--text-base)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
+        <Link href="/work/squarespace-redesign" style={{ fontSize: 'var(--text-sm)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
       </div>
       <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </main>
