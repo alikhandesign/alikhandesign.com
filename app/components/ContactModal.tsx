@@ -137,7 +137,7 @@ export default function ContactModal({ isOpen, onClose, triggerRef }: ContactMod
             </button>
           </div>
 
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', lineHeight: 1.6, marginBottom: 'var(--space-6)' }}>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 1.6, marginBottom: 'var(--space-6)' }}>
             I'm actively looking for senior product design and AI-focused roles. Copy my email below or send directly — whatever works for you.
           </p>
 
@@ -168,7 +168,7 @@ export default function ContactModal({ isOpen, onClose, triggerRef }: ContactMod
               href="https://www.linkedin.com/in/alikhandesign"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', textDecoration: 'none', fontWeight: 500, minHeight: 44, padding: '8px 4px' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', textDecoration: 'none', fontWeight: 500, minHeight: 44, padding: '8px 4px' }}
             >
               <svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1" y="1" width="14" height="14" rx="2" stroke="currentColor" strokeWidth="1.5"/><path d="M4 6.5V12M4 4v.5M7.5 12V9c0-1.1.9-2 2-2s2 .9 2 2v3M7.5 6.5V12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
               LinkedIn
@@ -178,7 +178,7 @@ export default function ContactModal({ isOpen, onClose, triggerRef }: ContactMod
               href="https://github.com/alikhandesign"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 'var(--text-base)', color: 'var(--color-text-muted)', textDecoration: 'none', fontWeight: 500, minHeight: 44, padding: '8px 4px' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', textDecoration: 'none', fontWeight: 500, minHeight: 44, padding: '8px 4px' }}
             >
               <svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1C4.13 1 1 4.13 1 8c0 3.09 2 5.71 4.79 6.64.35.06.48-.15.48-.34v-1.2c-1.95.42-2.36-.94-2.36-.94-.32-.81-.78-1.03-.78-1.03-.64-.44.05-.43.05-.43.7.05 1.07.72 1.07.72.62 1.07 1.63.76 2.03.58.06-.45.24-.76.44-.93-1.56-.18-3.2-.78-3.2-3.47 0-.77.27-1.39.72-1.88-.07-.18-.31-.89.07-1.85 0 0 .59-.19 1.93.72A6.7 6.7 0 0 1 8 4.77c.6.003 1.2.08 1.76.24 1.34-.91 1.93-.72 1.93-.72.38.96.14 1.67.07 1.85.45.49.72 1.11.72 1.88 0 2.7-1.64 3.29-3.2 3.47.25.22.48.65.48 1.31v1.94c0 .19.12.4.48.33A7 7 0 0 0 15 8c0-3.87-3.13-7-7-7z" fill="currentColor"/></svg>
               GitHub
