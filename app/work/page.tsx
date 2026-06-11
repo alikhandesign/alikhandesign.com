@@ -128,7 +128,7 @@ export default function WorkPage() {
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <header className="page-header">
           <SectionLabel label="Portfolio" />
-          <h1 className="font-serif page-title-lg" style={{ fontSize: 'var(--text-5xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.75rem' }}>My Work</h1>
+          <h1 className="font-serif page-title-lg" style={{ fontSize: 'var(--text-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.75rem' }}>My Work</h1>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--color-text-muted)', lineHeight: 1.6, maxWidth: 580, marginBottom: '0.75rem' }}>10+ years of product design and UX research — from AI-native research pipelines to zero-to-one product ecosystems.</p>
           <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
             Have questions about the work?{' '}
@@ -154,7 +154,7 @@ export default function WorkPage() {
       {showCaseStudies && (
         <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--color-border)' }}>
-            <h2 className="font-serif" style={{ fontSize: 'var(--text-2xl)', fontWeight: 400 }}>Case Studies</h2>
+            <h2 className="font-serif" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400 }}>Case Studies</h2>
             <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em' }}>— {caseStudies.length} deep dives</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
@@ -170,7 +170,7 @@ export default function WorkPage() {
       {showProjects && (
         <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--color-border)' }}>
-            <h2 className="font-serif" style={{ fontSize: 'var(--text-2xl)', fontWeight: 400 }}>Projects</h2>
+            <h2 className="font-serif" style={{ fontSize: 'var(--text-3xl)', fontWeight: 400 }}>Projects</h2>
             <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em' }}>— {projects.length} selected works</span>
           </div>
           <div className="grid-proj">
