@@ -92,18 +92,18 @@ export const MidSectionActive: Story = {
     const sections = ['overview', 'research', 'design', 'outcomes', 'reflections']
     const active = 'design'
     const getLinkStyle = (id: string): React.CSSProperties => ({
-      fontSize: 'var(--text-base)',
-      color: id === active ? 'var(--accent)' : 'var(--text-muted)',
+      fontSize: 'var(--font-size-base)',
+      color: id === active ? 'var(--color-accent)' : 'var(--color-text-muted)',
       fontWeight: id === active ? 500 : 400,
       textDecoration: 'none',
       display: 'block',
       padding: 'var(--space-2) 0 var(--space-2) var(--space-3)',
-      borderLeft: `2px solid ${id === active ? 'var(--accent)' : 'var(--border)'}`,
+      borderLeft: `2px solid ${id === active ? 'var(--color-accent)' : 'var(--color-border)'}`,
       lineHeight: 1.4,
     })
     return (
       <aside>
-        <p style={{ fontSize: 'var(--text-xs)', letterSpacing: 'var(--letter-spacing-lg)', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 500, marginBottom: 'var(--space-4)' }}>Contents</p>
+        <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: 'var(--letter-spacing-lg)', textTransform: 'uppercase', color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: 'var(--space-4)' }}>Contents</p>
         <ul style={{ listStyle: 'none' }}>
           {sections.map(id => (
             <li key={id}>
