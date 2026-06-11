@@ -12,7 +12,7 @@ export default function CTAStrip({ eyebrow = 'Interested?', title, onContact }: 
       <div style={{ maxWidth: 780, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' as const }}>
         <div>
           <p className="eyebrow-dark" style={{ marginBottom: 'var(--space-2)' }}>{eyebrow}</p>
-          <h2 className="font-serif" style={{ fontSize: 'var(--text-2xl)', fontWeight: 400, color: 'var(--color-bg)', lineHeight: 1.25, maxWidth: 500 }}>{title}</h2>
+          <h2 className="font-serif" style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 400, color: 'var(--color-bg)', lineHeight: 1.25, maxWidth: 500 }}>{title}</h2>
         </div>
         <button
           onClick={onContact}
