@@ -57,7 +57,7 @@ export default function ChatInput({
           style={{
             flex: 1, resize: 'none', padding: '0.75rem 1rem',
             border: '1px solid var(--color-border)', borderRadius: 'var(--radius)',
-            fontFamily: 'var(--font-sans)', fontSize: 'var(--text-base)',
+            fontFamily: 'var(--font-sans)', fontSize: 'var(--text-sm)',
             lineHeight: 1.6, background: 'var(--color-surface)', color: 'var(--color-text)',
             outline: 'none', transition: 'border-color 0.15s',
             minHeight: 48, maxHeight: 160, boxSizing: 'border-box',
@@ -76,7 +76,7 @@ export default function ChatInput({
               padding: '0 1rem',
               background: 'var(--color-text)', color: 'var(--color-bg)',
               border: 'none', borderRadius: 'var(--radius)',
-              fontFamily: 'var(--font-sans)', fontSize: 'var(--text-base)',
+              fontFamily: 'var(--font-sans)', fontSize: 'var(--text-sm)',
               fontWeight: 500, cursor: 'pointer', whiteSpace: 'nowrap',
             }}
             aria-label="Pause and edit"
