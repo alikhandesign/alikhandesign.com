@@ -36,7 +36,7 @@ import ProjectImage from './ProjectImage'
  * process documentation. Typically appears inside a `.article-layout` content column.
  */
 const meta: Meta<typeof ProjectImage> = {
-  title: 'Templates/ProjectImage',
+  title: 'Core Components/Content/ProjectImage',
   tags: ['autodocs'],
   component: ProjectImage,
   argTypes: {

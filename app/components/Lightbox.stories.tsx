@@ -57,7 +57,7 @@ const SAMPLE_IMAGES = [
 ]
 
 const meta: Meta = {
-  title: 'Core Components/Content/Lightbox',
+  title: 'Templates/Overlays/Lightbox',
   tags: ['autodocs'],
   parameters: {
     docs: {
