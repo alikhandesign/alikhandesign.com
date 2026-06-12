@@ -49,6 +49,8 @@ export const Normal: Story = {
   args: { label: 'Read case study', href: '#', variant: 'normal' },
 }
 
+// TODO: per-story background default not applying in Storybook 10 Docs view.
+// Toggle background manually using the toolbar. Tracked for future fix.
 export const UnderlineDark: Story = {
   name: 'Underline — dark background',
   args: { label: 'Read my full story', href: '#', variant: 'underline' },
