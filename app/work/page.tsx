@@ -92,7 +92,7 @@ const filterStyles: React.CSSProperties = {
   cursor: 'pointer',
   background: 'transparent',
   fontFamily: 'var(--font-sans)',
-  transition: 'border-color 0.15s, background 0.15s, color 0.15s',
+  transition: 'background 0.15s, color 0.15s',
 }
 
 export default function WorkPage() {
@@ -105,7 +105,7 @@ export default function WorkPage() {
   const activeStyle: React.CSSProperties = {
     ...filterStyles,
     background: 'var(--color-text)',
-    borderColor: 'var(--color-text)',
+    border: '1px solid var(--color-text)',
     color: 'var(--color-bg)',
   }
 

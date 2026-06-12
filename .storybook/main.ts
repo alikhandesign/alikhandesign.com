@@ -7,6 +7,8 @@ const config: StorybookConfig = {
   ],
   addons: [
     '@storybook/addon-docs',
+    '@storybook/addon-backgrounds',
+    'storybook-addon-pseudo-states',
   ],
   framework: {
     name: '@storybook/nextjs-vite',
