@@ -31,7 +31,7 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
             {tags.map(t => <span key={t} className="tag">{t}</span>)}
           </div>
           <h1 className="font-serif page-title-lg" style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: 'var(--space-2)' }}>{title}</h1>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-sm)', marginBottom: 'var(--space-6)' }}>{company}</p>
+          <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-sm)', marginBottom: 'var(--space-6)' }}>{company}</p>
           <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text)', lineHeight: 1.7, maxWidth: 680 }}>{hook}</p>
         </header>
       </div>
