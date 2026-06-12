@@ -13,7 +13,11 @@ export default function CalloutCard({ title, body, variant = 'dark' }: CalloutCa
       borderLeft: '3px solid var(--color-accent)',
       background: isDark ? 'var(--color-surface-dark)' : 'var(--color-surface)',
       borderRadius: '0 var(--radius-sm) var(--radius-sm) 0',
-      ...(isDark ? {} : { border: '1px solid var(--color-border)', borderLeft: '3px solid var(--color-accent)' }),
+      ...(isDark ? {} : {
+        borderTop: '1px solid var(--color-border)',
+        borderRight: '1px solid var(--color-border)',
+        borderBottom: '1px solid var(--color-border)',
+      }),
     }}>
       <p style={{
         fontSize: 'var(--font-size-xs)',

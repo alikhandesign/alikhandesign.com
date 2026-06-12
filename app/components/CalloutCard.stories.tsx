@@ -4,23 +4,23 @@ import CalloutCard from './CalloutCard'
 /**
  * CalloutCard has two variants:
  *
- * **dark** (default) — Used in the About strip on the homepage to display the
- * four core values. Always rendered on a dark background. Red left border,
- * dark surface background, light text.
+ * **dark** — Used in the About strip on the homepage to display the four core
+ * values. Always rendered on a dark background. Red left border, dark surface
+ * background, light text.
  *
- * **light** — Used within case study content to highlight key findings,
- * insights, or principles. White background, full border, red left border accent.
+ * **light** — Used within case study content to highlight a key finding,
+ * insight, or principle. White background, full border, 3px red left accent.
  *
  * ## Tokens used (dark)
  * - Background: `--color-surface-dark`
- * - Title: `--text-xs`, uppercase, `--color-bg`
- * - Body: `--text-sm`, `--color-text-on-dark`
+ * - Title: `--font-size-xs`, uppercase, `--color-bg`
+ * - Body: `--font-size-sm`, `--color-text-on-dark`
  *
  * ## Tokens used (light)
  * - Background: `--color-surface`
- * - Border: `--color-border` (full) + `--color-accent` (left, 3px)
- * - Title: `--text-xs`, uppercase, `--color-text`
- * - Body: `--text-sm`, `--color-text-mid`
+ * - Border: `--color-border` (top/right/bottom) + `--color-accent` (left, 3px)
+ * - Title: `--font-size-xs`, uppercase, `--color-text`
+ * - Body: `--font-size-sm`, `--color-text-mid`
  */
 const meta: Meta<typeof CalloutCard> = {
   title: 'Core Components/Cards/CalloutCard',
@@ -30,7 +30,7 @@ const meta: Meta<typeof CalloutCard> = {
     variant: {
       control: 'select',
       options: ['dark', 'light'],
-      description: 'dark: homepage AI principles section. light: case study findings and insights.',
+      description: 'dark: homepage values section. light: case study findings and insights.',
     },
     title: { control: 'text' },
     body: { control: 'text' },
@@ -50,7 +50,7 @@ export const Dark: Story = {
 }
 
 export const DarkGrid: Story = {
-  name: 'Dark — Production Grid',
+  name: 'Dark — production grid',
   parameters: { backgrounds: { default: 'dark' } },
   render: () => (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', maxWidth: 560 }}>
@@ -62,20 +62,10 @@ export const DarkGrid: Story = {
   ),
 }
 
-export const LightInsight: Story = {
-  name: 'Light — Case Study Insight',
+export const Light: Story = {
   args: {
     variant: 'light',
     title: 'AI used as decoration is worse than no AI',
     body: 'Features that invoke AI as a marketing claim while delivering pattern matching are not neutral. They create expectations they cannot meet.',
-  },
-}
-
-export const LightFinding: Story = {
-  name: 'Light — Research Finding',
-  args: {
-    variant: 'light',
-    title: 'The one-sided exchange insight',
-    body: 'Members knew what the visiting clinician could not do. The visit felt like a checkbox exercise masquerading as care.',
   },
 }
