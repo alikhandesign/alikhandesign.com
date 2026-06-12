@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import CaseStudyPage from './CaseStudyPage'
 import Body from './Body'
-import Blockquote from './Blockquote'
+import PullQuote from './PullQuote'
 
 const meta: Meta<typeof CaseStudyPage> = {
   title: 'Templates/CaseStudyPage',
@@ -40,7 +40,7 @@ export const Default: Story = {
     children: (
       <div>
         <Body>This is where the case study body content goes. Each section uses Body, Blockquote, and other components to build the narrative.</Body>
-        <Blockquote>A key insight or pull quote from the research.</Blockquote>
+        <PullQuote>A key insight or pull quote from the research.</PullQuote>
         <Body mb={false}>The final paragraph with no bottom margin.</Body>
       </div>
     ),
