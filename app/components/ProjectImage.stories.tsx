@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import CaseStudyImage from './CaseStudyImage'
+import ProjectImage from './ProjectImage'
 
 /**
- * CaseStudyImage is used inside case study pages to display research artifacts,
+ * ProjectImage is used inside case study and project pages to display research artifacts,
  * screenshots, and process documentation. It supports an optional caption for
  * labeling figures.
  *
@@ -35,10 +35,10 @@ import CaseStudyImage from './CaseStudyImage'
  * Used inside case study pages to display research artifacts, wireframes, and
  * process documentation. Typically appears inside a `.article-layout` content column.
  */
-const meta: Meta<typeof CaseStudyImage> = {
-  title: 'Templates/CaseStudyImage',
+const meta: Meta<typeof ProjectImage> = {
+  title: 'Templates/ProjectImage',
   tags: ['autodocs'],
-  component: CaseStudyImage,
+  component: ProjectImage,
   argTypes: {
     src: { control: 'text', description: 'Image source URL. If omitted, a warm placeholder is shown.' },
     alt: { control: 'text', description: 'Alt text for accessibility. Always provide descriptive alt for images that communicate research content. Leave empty only for purely decorative images.' },
@@ -47,7 +47,7 @@ const meta: Meta<typeof CaseStudyImage> = {
 }
 
 export default meta
-type Story = StoryObj<typeof CaseStudyImage>
+type Story = StoryObj<typeof ProjectImage>
 
 export const Placeholder: Story = {
   args: {

@@ -4,7 +4,7 @@ import Image from 'next/image'
 import SideNav from '@/app/components/SideNav'
 import CTAStrip from '@/app/components/CTAStrip'
 import ContactModal from '@/app/components/ContactModal'
-import { CaseStudyImage } from '@/app/components/Lightbox'
+import { ProjectImage } from '@/app/components/Lightbox'
 import { useState } from 'react'
 
 function FullCaseStudy() {
@@ -56,7 +56,7 @@ function FullCaseStudy() {
 --color-bg:      var(--warm-50);`}</pre>
         </div>
         <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '2rem' }}>All spacing, typography, color, motion, and radius values are tokenized. There are no magic numbers in component code.</p>
-        <CaseStudyImage
+        <ProjectImage
           src="/images/honest-ds-tokens.png"
           alt="Honest Design System token architecture in Figma — primitive and semantic layers side by side"
           caption="Primitive tokens (left) and semantic tokens (right) in the Figma library. Every CSS custom property has a matching Figma variable by name."
@@ -90,7 +90,7 @@ function FullCaseStudy() {
         <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The component inventory came from the site itself, not from a wishlist. Every component in the system has a live instance somewhere on the site. If a component was proposed during build and couldn't be placed, it was cut.</p>
         <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '2rem' }}>Two components are worth calling out because the decisions behind them reflect the system's philosophy:</p>
 
-        <CaseStudyImage
+        <ProjectImage
           src="/images/honest-ds-cards.png"
           alt="MetricCard, FeaturedProjectCard, and CaseStudyCard components in Figma — default and hover states"
           caption="Card components in both light and dark states. Each variant is documented in Figma and has a corresponding Storybook story."
@@ -107,7 +107,7 @@ function FullCaseStudy() {
           </div>
         </div>
 
-        <CaseStudyImage
+        <ProjectImage
           src="/images/honest-ds-password-gate.png"
           alt="PasswordGate component in Figma showing the locked state with password input and access request link"
           caption="PasswordGate in Figma. The component exposes a title, description, bullet list of contents, and password field — all configurable per case study."
@@ -133,7 +133,7 @@ function FullCaseStudy() {
             </div>
           ))}
         </div>
-        <CaseStudyImage
+        <ProjectImage
           src="/images/honest-ds-lighthouse.png"
           alt="Lighthouse audit showing 100 scores across Performance, Accessibility, Best Practices, and SEO"
           caption="Lighthouse 100 across all four categories. Scores are consistent across desktop and mobile on every page."
@@ -145,7 +145,7 @@ function FullCaseStudy() {
         <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Documentation as a live artifact</h2>
         <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>Every component in the system has a corresponding Storybook story. Stories document the component's props, variants, states, and intended use cases. The Storybook instance is deployed publicly at <a href="https://honest-design-system.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-accent)', textDecoration: 'none', fontWeight: 500 }}>honest-design-system.vercel.app</a>.</p>
         <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '2rem' }}>The Storybook serves a specific purpose for this project: it lets a hiring manager or collaborator inspect the system in isolation, separate from the portfolio site. You can see how each component behaves across its states without navigating the site to find an instance. That's the difference between documentation and evidence.</p>
-        <CaseStudyImage
+        <ProjectImage
           src="/images/honest-ds-storybook.png"
           alt="Storybook showing a component story with controls panel open — props, variants, and states documented"
           caption="The Storybook instance at honest-design-system.vercel.app. Every component has a story; every story has documented controls."
@@ -157,7 +157,7 @@ function FullCaseStudy() {
         <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Design leads code, not the other way around</h2>
         <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The Figma component library matches the production codebase 1:1. Token names, component names, prop names, and variant names are identical across both environments. This isn't just for neatness — it removes ambiguity in handoff and makes the Figma library useful as a reference for development, not just a source of screenshots.</p>
         <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '2rem' }}>One deliberate constraint: Figma design decisions lead code changes, not the reverse. When design specs change, code is updated to match. This preserves Figma as the source of truth and prevents the library from drifting from what's actually on the screen.</p>
-        <CaseStudyImage
+        <ProjectImage
           src="/images/honest-ds-figma-components.png"
           alt="Honest Design System Figma component library showing navigation components with variants and states"
           caption="The Figma component library. Component names, variant names, and token references match production code exactly."
@@ -205,7 +205,7 @@ export default function HonestDesignSystemPage() {
 
       {/* Hero image */}
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem' }}>
-        <CaseStudyImage
+        <ProjectImage
           src="/images/honest-ds-hero.png"
           alt="Honest Design System — component library overview showing cards, navigation, and tag components in Figma"
         />

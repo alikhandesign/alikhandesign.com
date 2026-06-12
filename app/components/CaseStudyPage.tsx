@@ -5,7 +5,7 @@ import Breadcrumb from './Breadcrumb'
 import CTAStrip from './CTAStrip'
 import ContactModal from './ContactModal'
 import SideNav from './SideNav'
-import CaseStudyDetails from './CaseStudyDetails'
+import DetailsCard from './DetailsCard'
 import MetricDisplay from './MetricDisplay'
 import Tag from './Tag'
 
@@ -120,7 +120,7 @@ export default function CaseStudyPage({
       {/* ── Details bar ── */}
       {details && details.length > 0 && (
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-          <CaseStudyDetails items={details} />
+          <DetailsCard items={details} />
         </div>
       )}
 

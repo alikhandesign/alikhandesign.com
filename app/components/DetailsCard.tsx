@@ -1,13 +1,13 @@
-interface CaseStudyDetailsItem {
+interface DetailsCardItem {
   label: string
   value: string
 }
 
-interface CaseStudyDetailsProps {
-  items: CaseStudyDetailsItem[]
+interface DetailsCardProps {
+  items: DetailsCardItem[]
 }
 
-export default function CaseStudyDetails({ items }: CaseStudyDetailsProps) {
+export default function DetailsCard({ items }: DetailsCardProps) {
   return (
     <div style={{
       background: 'var(--color-surface)',

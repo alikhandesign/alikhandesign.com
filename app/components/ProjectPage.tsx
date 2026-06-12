@@ -5,6 +5,7 @@ import { useState } from 'react'
 import ContactModal from './ContactModal'
 import Breadcrumb from './Breadcrumb'
 import CTAStrip from './CTAStrip'
+import DetailsCard from './DetailsCard'
 
 interface Section { label: string; title: string; body: string[] }
 interface ProjectPageProps {
@@ -40,14 +41,7 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-        <div className="details-bar">
-          {details.map(d => (
-            <div key={d.label}>
-              <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: 'var(--space-1)' }}>{d.label}</p>
-              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 500 }}>{d.value}</p>
-            </div>
-          ))}
-        </div>
+        <DetailsCard items={details} />
       </div>
 
       <div style={{ maxWidth: 780, margin: '0 auto', padding: '4rem 3rem' }}>

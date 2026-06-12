@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import SideNav from '@/app/components/SideNav'
-import { CaseStudyImage } from '@/app/components/Lightbox'
+import { ProjectImage } from '@/app/components/Lightbox'
 import CTAStrip from '@/app/components/CTAStrip'
 import ContactModal from '@/app/components/ContactModal'
 import { useState } from 'react'
@@ -105,7 +105,7 @@ function FullCaseStudy() {
         <Body>Every page structure, every content hierarchy, every token value was decided first. Claude's job was to close the gap between the decision and the shipped component. That's a different relationship with AI than asking it to design something and accepting what it produces.</Body>
         <Callout>AI is a better collaborator when the human side of the collaboration is more rigorous. The quality of the output tracks the quality of the input — which turns out to be a design problem all the way down.</Callout>
 
-        <CaseStudyImage
+        <ProjectImage
           src="/images/portfolio-site-hero.png"
           alt="alikhandesign.com homepage — hero section with photo, headline, and three pillar strip"
           caption="The finished site at alikhandesign.com. Four pages, one design system, zero templates."
@@ -174,7 +174,7 @@ export default function ThePortfolioPage() {
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem' }}>
-        <CaseStudyImage
+        <ProjectImage
           src="/images/portfolio-site-hero.png"
           alt="alikhandesign.com — the finished portfolio site"
         />

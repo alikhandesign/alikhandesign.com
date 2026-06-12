@@ -1,10 +1,10 @@
-interface CaseStudyImageProps {
+interface ProjectImageProps {
   src?: string
   alt?: string
   caption?: string
 }
 
-export default function CaseStudyImage({ src, alt = '', caption }: CaseStudyImageProps) {
+export default function ProjectImage({ src, alt = '', caption }: ProjectImageProps) {
   return (
     <figure style={{ margin: 0 }}>
       {src ? (

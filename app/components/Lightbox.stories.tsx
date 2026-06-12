@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
-import { CaseStudyImage } from './Lightbox'
+import { ProjectImage } from './Lightbox'
 
 /**
  * Lightbox renders a full-screen overlay for viewing case study images at full
- * resolution. It is not consumed directly — use `CaseStudyImage` (single image
+ * resolution. It is not consumed directly — use `ProjectImage` (single image
  * with zoom-in trigger) or `GalleryGrid` (multi-image grid) instead.
  *
  * ## Behavior
@@ -63,7 +63,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'Full-screen image overlay. Consumed via `CaseStudyImage` (single image trigger) or `GalleryGrid` (gallery grid trigger). Supports keyboard navigation, touch swipe, and multi-image dot navigation with WCAG-compliant tap targets.',
+          'Full-screen image overlay. Consumed via `ProjectImage` (single image trigger) or `GalleryGrid` (gallery grid trigger). Supports keyboard navigation, touch swipe, and multi-image dot navigation with WCAG-compliant tap targets.',
       },
     },
   },
@@ -73,12 +73,12 @@ export default meta
 type Story = StoryObj
 
 // ─── Default (closed state) ───────────────────────────────────────────────────
-// Shows the CaseStudyImage trigger — what the user sees before opening
+// Shows the ProjectImage trigger — what the user sees before opening
 export const Default: Story = {
   name: 'Default (trigger, not open)',
   render: () => (
     <div style={{ maxWidth: 480, fontFamily: 'var(--font-sans)' }}>
-      <CaseStudyImage
+      <ProjectImage
         src={SAMPLE_IMAGES[0].src}
         alt={SAMPLE_IMAGES[0].alt}
         caption={SAMPLE_IMAGES[0].caption}
@@ -114,7 +114,7 @@ export const Open: Story = {
           </button>
         )}
         {open && (
-          <CaseStudyImage
+          <ProjectImage
             src={SAMPLE_IMAGES[0].src}
             alt={SAMPLE_IMAGES[0].alt}
             caption={SAMPLE_IMAGES[0].caption}
@@ -167,7 +167,7 @@ export const MultiImage: Story = {
           </div>
         )}
         {open && (
-          <CaseStudyImage
+          <ProjectImage
             src={SAMPLE_IMAGES[0].src}
             alt={SAMPLE_IMAGES[0].alt}
             caption={SAMPLE_IMAGES[0].caption}

@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import PasswordGate from '@/app/components/PasswordGate'
 import SideNav from '@/app/components/SideNav'
-import { CaseStudyImage } from '@/app/components/Lightbox'
+import { ProjectImage } from '@/app/components/Lightbox'
 import { useState } from 'react'
 import CTAStrip from '@/app/components/CTAStrip'
 import ContactModal from '@/app/components/ContactModal'
@@ -110,12 +110,12 @@ function FullCaseStudy() {
         <Callout>"I selected 'Design' from the dropdown. The AI generated a site with a chair as the hero image. I went back, searched for 'UI/UX Design,' and ran it again. The chair became a phone. The headline changed by two words. Everything else stayed exactly the same."</Callout>
         <Body>This single observation contains two findings. First: the system has more specificity than it surfaces — Discoverability Failure. "UI/UX Design" exists as a more granular input but is only discoverable by searching. A non-technical user who accepts "Design" from the default list never knows a better option exists. Second: even when you find the more specific input and use it, the fundamental failures persist. The AI changed the visual props but not the script.</Body>
 
-        <CaseStudyImage src="" alt="Design vs UI/UX Design — chair becomes phone, headline changes by two words" caption="Selecting 'Design' produced a chair and 'Strategic Design Excellence.' Selecting 'UI/UX Design' produced a phone and 'Strategic Interface Design.' Two words changed. Everything else stayed the same." />
+        <ProjectImage src="" alt="Design vs UI/UX Design — chair becomes phone, headline changes by two words" caption="Selecting 'Design' produced a chair and 'Strategic Design Excellence.' Selecting 'UI/UX Design' produced a phone and 'Strategic Interface Design.' Two words changed. Everything else stayed the same." />
 
         <Body>The most revealing moment in Track A was font pairing. I worried the entire time about whether my selection would clash with my logo — my actual signature, which is the most personal and distinctive brand element I have. The system never asked about it. Not once. It made every visual design decision assuming I was starting from zero.</Body>
         <Body>When I tried to add a Portfolio page after generation — the one page my stated goal required — the templates were populated with floristry photography. The system knew I was a UI/UX designer. It gave me flowers.</Body>
 
-        <CaseStudyImage src="" alt="Portfolio page templates populated with floristry photography for a UI/UX designer" caption="The system recommended Homepage, About, and Contact — no Portfolio page. When I added one manually, it populated with floristry stock photography." />
+        <ProjectImage src="" alt="Portfolio page templates populated with floristry photography for a UI/UX designer" caption="The system recommended Homepage, About, and Contact — no Portfolio page. When I added one manually, it populated with floristry stock photography." />
 
         <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginTop: '1.5rem', marginBottom: '0.5rem' }}>Track A synthesis</p>
         <Callout>"Blueprint AI gives you a coherent website for someone like you. Not a website for you."</Callout>
@@ -124,7 +124,7 @@ function FullCaseStudy() {
         <Body>I used my existing Squarespace site and directed the AI with twelve portfolio-specific prompts — drawn directly from decisions I'd already made when building my actual portfolio. The prompts were specific: write a headline that signals AI expertise without being generic, generate a case study hook for a specific project, write a bio without using the word "passionate."</Body>
         <Body>The AI failed every constraint simultaneously. It ignored the "not generic" instruction in Intent 1 and repeated the same vocabulary — "human-centered," "trustworthy," "AI experiences" — across every subsequent intent. It fabricated metrics, invented credentials, and in Intent 12 confirmed the pattern definitively: asked to summarize what it knew about me after twelve prompts, it produced a therapy profile for a stranger.</Body>
 
-        <CaseStudyImage src="" alt="Intent 7: AI renamed user Alexandre Khan with fabricated credentials" caption="Intent 7: The AI generated a bio for 'Alexandre Khan' — complete with invented degrees in cognitive science and a speaking career I don't have." />
+        <ProjectImage src="" alt="Intent 7: AI renamed user Alexandre Khan with fabricated credentials" caption="Intent 7: The AI generated a bio for 'Alexandre Khan' — complete with invented degrees in cognitive science and a speaking career I don't have." />
 
         <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginTop: '1.5rem', marginBottom: '0.5rem' }}>Track B synthesis</p>
         <Callout>"Squarespace's AI cannot distinguish between you and anyone else — and it was never designed to."</Callout>
@@ -178,21 +178,21 @@ function FullCaseStudy() {
         <Callout>"Before we start making things look pretty — tell me about yourself. Who are you, what do you do, and what is this site actually for?"</Callout>
         <Body>The AI asks clarifying questions when answers are vague. If you type "designer," it asks what kind. Goals are woven into the audience question rather than separated into a checkbox grid. The intake ends with a summary of what the AI understood, editable before anything is generated.</Body>
 
-        <CaseStudyImage src="" alt="Moment 1: Conversational intake replacing checkbox onboarding" caption="Before: six steps, five categorical selections, one personal input. After: three open-ended questions that build real context before generating anything." />
+        <ProjectImage src="" alt="Moment 1: Conversational intake replacing checkbox onboarding" caption="Before: six steps, five categorical selections, one personal input. After: three open-ended questions that build real context before generating anything." />
 
         <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '2.5rem' }}>Moment 2 — The Transparent Builder</p>
         <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-accent)', fontWeight: 500, marginBottom: '0.75rem' }}>Show AI reasoning</p>
         <Body>The current builder generates a complete website silently. No explanation for any decision. No visibility into how inputs affected outputs. No mechanism to redirect specific choices without starting over.</Body>
         <Body>The redesign lets users click any section of the live preview to see why the AI made that decision. Each reasoning callout names the assumption behind the choice, identifies the failure mode it introduces, and suggests a specific override. Users direct the AI by pointing at what they want to change — closer to Figma Make or Vercel's v0 than to a settings panel.</Body>
 
-        <CaseStudyImage src="" alt="Moment 2: Click-to-select sections with AI reasoning shown inline" caption="Before: silent generation, no explanation for any decision. After: click any section to see the AI's reasoning and override it directly." />
+        <ProjectImage src="" alt="Moment 2: Click-to-select sections with AI reasoning shown inline" caption="Before: silent generation, no explanation for any decision. After: click any section to see the AI's reasoning and override it directly." />
 
         <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '2.5rem' }}>Moment 3 — The Context Layer</p>
         <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-accent)', fontWeight: 500, marginBottom: '0.75rem' }}>Learn from behavior</p>
         <Body>The current system has no memory between sessions. Every editing prompt starts from zero. The post-generation dashboard shows no record of what the user said during onboarding.</Body>
         <Body>The redesign shows a persistent panel with what the AI currently understands — built from intake answers, updated as the user edits, annotated with confidence levels and source attribution. When the AI makes an assumption it surfaces it. When the user corrects it, the correction applies forward across all generated content.</Body>
 
-        <CaseStudyImage src="" alt="Moment 3: Persistent context layer showing AI's understanding with confidence levels" caption="Before: no memory, every session starts from zero. After: a persistent model of the user, updated through edits, with confidence levels showing what the AI knows vs. assumes." />
+        <ProjectImage src="" alt="Moment 3: Persistent context layer showing AI's understanding with confidence levels" caption="Before: no memory, every session starts from zero. After: a persistent model of the user, updated through edits, with confidence levels showing what the AI knows vs. assumes." />
 
         <div style={{ margin: '2.5rem 0', padding: '1.25rem 1.5rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)' }}>
           <a href="https://squarespace-ai-redesign.vercel.app" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', textDecoration: 'none' }}>

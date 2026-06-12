@@ -227,9 +227,9 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
   )
 }
 
-// ─── CaseStudyImage ────────────────────────────────────────
+// ─── ProjectImage ────────────────────────────────────────
 // Drop-in replacement for inline images within case studies
-interface CaseStudyImageProps {
+interface ProjectImageProps {
   src: string
   alt: string
   caption?: string
@@ -237,7 +237,7 @@ interface CaseStudyImageProps {
   imageIndex?: number
 }
 
-export function CaseStudyImage({ src, alt, caption, allImages, imageIndex = 0 }: CaseStudyImageProps) {
+export function ProjectImage({ src, alt, caption, allImages, imageIndex = 0 }: ProjectImageProps) {
   const [open, setOpen] = useState(false)
   const images = allImages || [{ src, alt, caption }]
 

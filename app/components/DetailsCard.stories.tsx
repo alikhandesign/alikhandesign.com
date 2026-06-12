@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import CaseStudyDetails from './CaseStudyDetails'
+import DetailsCard from './DetailsCard'
 
-const meta: Meta<typeof CaseStudyDetails> = {
-  title: 'Core Components/Content/CaseStudyDetails',
-  component: CaseStudyDetails,
+const meta: Meta<typeof DetailsCard> = {
+  title: 'Core Components/Content/DetailsCard',
+  component: DetailsCard,
   tags: ['autodocs'],
   parameters: {
     backgrounds: { default: 'warm' },
@@ -16,7 +16,7 @@ const meta: Meta<typeof CaseStudyDetails> = {
 }
 
 export default meta
-type Story = StoryObj<typeof CaseStudyDetails>
+type Story = StoryObj<typeof DetailsCard>
 
 export const Default: Story = {
   args: {
