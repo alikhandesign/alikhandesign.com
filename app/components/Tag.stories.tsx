@@ -57,7 +57,7 @@ import Tag from './Tag'
  * filter tabs. Always rendered uppercase via CSS — pass labels in natural casing.
  */
 const meta: Meta<typeof Tag> = {
-  title: 'Core Components/Tag',
+  title: 'Core Components/Labels/Tag',
   tags: ['autodocs'],
   component: Tag,
   argTypes: {

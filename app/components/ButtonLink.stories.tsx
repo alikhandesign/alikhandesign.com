@@ -24,7 +24,7 @@ import ButtonLink from './ButtonLink'
  * - Font weight: `--font-weight-medium` (500)
  */
 const meta: Meta<typeof ButtonLink> = {
-  title: 'Core Components/ButtonLink',
+  title: 'Core Components/Actions/ButtonLink',
   tags: ['autodocs'],
   component: ButtonLink,
   argTypes: {

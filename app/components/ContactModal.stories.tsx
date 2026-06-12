@@ -30,7 +30,7 @@ import ContactModal from './ContactModal'
  * - Copy button active: `--color-accent`
  */
 const meta: Meta<typeof ContactModal> = {
-  title: 'Templates/ContactModal',
+  title: 'Templates/Overlays/ContactModal',
   component: ContactModal,
   tags: ['autodocs'],
   parameters: {

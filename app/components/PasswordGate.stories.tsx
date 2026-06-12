@@ -48,7 +48,7 @@ import PasswordGate from './PasswordGate'
  * as its `children`. Currently used on the Participant Listening Agent case study.
  */
 const meta: Meta<typeof PasswordGate> = {
-  title: 'Core Components/PasswordGate',
+  title: 'Core Components/Forms/PasswordGate',
   component: PasswordGate,
   tags: ['autodocs'],
   argTypes: {

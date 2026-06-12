@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import CaseStudyDetails from './CaseStudyDetails'
 
 const meta: Meta<typeof CaseStudyDetails> = {
-  title: 'Core Components/CaseStudyDetails',
+  title: 'Core Components/Content/CaseStudyDetails',
   component: CaseStudyDetails,
   tags: ['autodocs'],
   parameters: {
