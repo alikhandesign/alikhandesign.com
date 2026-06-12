@@ -8,8 +8,19 @@ const meta: Meta<typeof Body> = {
   parameters: {
     docs: {
       description: {
-        component: 'Standard body copy paragraph used throughout case study and project pages. Defaults to `--font-size-sm` (14px) and `--color-text-mid`. The `size` prop allows stepping up to `--font-size-base` (16px) or `--font-size-md` for intro paragraphs. The `mb` prop controls bottom margin -- set to false on the last paragraph in a sequence.',
+        component: 'Standard body copy paragraph used throughout case study and project pages. Defaults to `--font-size-sm` (14px) and `--color-text-mid`. The `size` prop steps up to `--font-size-base` (16px) for intro paragraphs. The `mb` prop controls bottom margin — set to false on the last paragraph in a sequence.',
       },
+    },
+  },
+  argTypes: {
+    size: {
+      control: 'select',
+      options: ['sm', 'base'],
+      description: 'sm (14px) for body copy. base (16px) for intro paragraphs.',
+    },
+    mb: {
+      control: 'boolean',
+      description: 'Bottom margin. Set to false on the last paragraph in a sequence.',
     },
   },
 }
@@ -20,12 +31,12 @@ type Story = StoryObj<typeof Body>
 export const Default: Story = {
   args: {
     children: 'The research surfaced six distinct barrier categories. Each one mapped to a specific failure in how the product communicated value, trust, and process to users who were already skeptical before the first touchpoint.',
-    mb: true,
     size: 'sm',
+    mb: true,
   },
 }
 
-export const LargerIntro: Story = {
+export const Intro: Story = {
   args: {
     children: 'For 40 years, Medicare enrollment meant sitting across from a benefits counselor. Conversational AI is changing that.',
     size: 'base',
@@ -33,14 +44,8 @@ export const LargerIntro: Story = {
   },
 }
 
-export const NoMargin: Story = {
-  args: {
-    children: 'This is the last paragraph in a sequence. No bottom margin is applied.',
-    mb: false,
-  },
-}
-
 export const Sequence: Story = {
+  name: 'Sequence — production layout',
   render: () => (
     <div style={{ maxWidth: 680 }}>
       <Body>The research surfaced six distinct barrier categories. Each one mapped to a specific failure in how the product communicated value, trust, and process to users who were already skeptical before the first touchpoint.</Body>

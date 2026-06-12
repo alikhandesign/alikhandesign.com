@@ -6,36 +6,33 @@ import SectionLabel from './SectionLabel'
  * It appears above section headings on the homepage, My Work page, and About page.
  *
  * ## Design rationale
- * The tighter letter spacing (`--letter-spacing-lg`, 0.12em) distinguishes this
+ * The wide letter spacing (`--letter-spacing-lg`, 0.12em) distinguishes this
  * component from body text and creates the visual separation needed for a label
- * that appears above a large heading. This value is the largest letter spacing
- * in the system — reserved for this component and related eyebrow treatments.
- * It signals hierarchy without requiring additional weight or size.
+ * that appears above a large heading. This is the largest letter spacing in the
+ * system — reserved for this component and related eyebrow treatments.
  *
  * ## Label casing
  * Pass `label` in natural casing (e.g. "Featured Work", not "FEATURED WORK").
- * The component applies `text-transform: uppercase` via CSS.
+ * The component applies `text-transform: uppercase` via the `.eyebrow` CSS class.
  *
  * ## Tokens used
- * - Default color: `--color-accent` (#89181A)
- * - Dark color: `--color-text-on-dark` (#C4BDB7) — for sufficient contrast on `--dark-bg`
+ * - Default color: `--color-accent` (#89181A) via `.eyebrow` class
+ * - Dark color: `--color-text-on-dark` (#C4BDB7) via `.eyebrow-dark` class
  * - Font size: `--font-size-xs` (0.75rem / 12px)
  * - Font weight: `--font-weight-medium` (500)
- * - Letter spacing: `--letter-spacing-lg` (0.12em) — the largest in the system
- * - Transform: uppercase (CSS)
- *
- * ## Usage
- * Used above section headings throughout the site:
- * - Default variant: homepage Impact, Featured Work, My Work page header, About page sections
- * - Dark variant: About strip on the homepage (dark background section)
+ * - Letter spacing: `--letter-spacing-lg` (0.12em)
  */
 const meta: Meta<typeof SectionLabel> = {
-  title: 'Core Components/SectionLabel',
+  title: 'Core Components/Typography/SectionLabel',
   tags: ['autodocs'],
   component: SectionLabel,
   argTypes: {
-    label: { control: 'text', description: 'The eyebrow text. Pass in natural casing — CSS applies uppercase transform.' },
-    variant: { control: 'select', options: ['default', 'dark'], description: 'Default for light backgrounds. Dark for dark section backgrounds — uses --warm-300 for contrast.' },
+    label: { control: 'text' },
+    variant: {
+      control: 'select',
+      options: ['default', 'dark'],
+      description: 'Default for light backgrounds. Dark for dark section backgrounds.',
+    },
   },
 }
 

@@ -8,7 +8,7 @@ const meta: Meta<typeof ChatBubble> = {
   parameters: {
     docs: {
       description: {
-        component: 'A single chat message bubble. User messages are right-aligned with a dark fill and a 2px tail on the bottom-right corner. Assistant messages are left-aligned with a surface background, border, and a 2px tail on the bottom-left corner.',
+        component: 'A single chat message bubble. User messages are right-aligned with a dark fill and a 2px tail on the bottom-right corner. Assistant messages are left-aligned with a surface background, border, and a 2px tail on the bottom-left corner. Both variants use `--radius-lg` (12px) on three corners and a 2px radius on the tail corner, giving the bubble its distinctive shape.',
       },
     },
   },

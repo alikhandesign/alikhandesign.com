@@ -10,7 +10,7 @@ const meta: Meta<typeof CaseStudyPage> = {
   parameters: {
     docs: {
       description: {
-        component: 'Shell component for all case study pages. Encodes consistent layout: breadcrumb, header (title, company, tags, hook), optional header metrics, optional details bar, optional side nav, body content via children, CTA strip, and next case study/project. All case study pages use this component as their root.',
+        component: 'Shell component for all case study pages. Encodes consistent layout: breadcrumb, header (title, company, tags, hook), optional header metrics, optional details bar, optional side nav, body content via children, CTA strip, and next case study/project link.',
       },
     },
   },
@@ -39,7 +39,7 @@ export const Default: Story = {
     next: { title: 'People-First Enrollment Redesign', href: '/work/people-first', type: 'case-study' },
     children: (
       <div>
-        <Body>This is where the case study body content goes. Each section uses Body, Blockquote, and other components to build the narrative.</Body>
+        <Body>This is where the case study body content goes. Each section uses Body, PullQuote, and other components to build the narrative.</Body>
         <PullQuote>A key insight or pull quote from the research.</PullQuote>
         <Body mb={false}>The final paragraph with no bottom margin.</Body>
       </div>
@@ -51,12 +51,5 @@ export const WithSideNav: Story = {
   args: {
     ...Default.args,
     sections: ['the-context', 'the-problem', 'the-research', 'the-outcome'],
-  },
-}
-
-export const ProjectNext: Story = {
-  args: {
-    ...Default.args,
-    next: { title: 'Vivio Clinical App', href: '/work/vivio', type: 'project' },
   },
 }

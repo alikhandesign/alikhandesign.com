@@ -9,7 +9,7 @@ const meta: Meta<typeof TabNavigation> = {
   parameters: {
     docs: {
       description: {
-        component: 'Tab navigation component with two variants. The `top` variant renders a horizontal tab bar with a bottom-border active indicator — used in the AI Pattern Library shell. The `side` variant renders a vertical list with a left-border active indicator, matching the SideNav visual language used in case study pages. Both variants have three states: default, hover, and active.',
+        component: 'Tab navigation with two variants. The `top` variant renders a horizontal tab bar with a bottom-border active indicator — used in the AI Pattern Library shell. Active tab shows `--color-accent` border; hover shows `--color-border-mid`. The `side` variant renders a vertical list with a left-border indicator, matching the Side navigation visual language. Both variants have default, hover, and active states.',
       },
     },
   },
@@ -35,7 +35,7 @@ export const Top: Story = {
         </div>
       </div>
     )
-  }
+  },
 }
 
 export const Side: Story = {
@@ -46,5 +46,5 @@ export const Side: Story = {
         <TabNavigation tabs={TABS} activeTab={active} onTabChange={setActive} variant="side" />
       </div>
     )
-  }
+  },
 }

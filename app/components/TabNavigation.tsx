@@ -88,7 +88,7 @@ export default function TabNavigation({
               color: isActive ? 'var(--color-accent)' : isHovered ? 'var(--color-text-mid)' : 'var(--color-text-muted)',
               background: 'none',
               border: 'none',
-              borderBottom: `2px solid ${isActive ? 'var(--color-accent)' : 'transparent'}`,
+              borderBottom: `2px solid ${isActive ? 'var(--color-accent)' : isHovered ? 'var(--color-border-mid)' : 'transparent'}`,
               cursor: 'pointer',
               marginBottom: -1,
               whiteSpace: 'nowrap',

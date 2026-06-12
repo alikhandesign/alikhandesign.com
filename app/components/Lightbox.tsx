@@ -125,6 +125,7 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
           maxWidth: '90vw', maxHeight: '75vh',
           display: 'flex', flexDirection: 'column',
           alignItems: 'center', gap: '1rem',
+          paddingBottom: images.length > 1 ? '3.5rem' : 0,
         }}
       >
         <div style={{ position: 'relative', maxWidth: '100%', maxHeight: '70vh' }}>
@@ -185,7 +186,7 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
       {/* Dot indicators */}
       {images.length > 1 && (
         <div style={{
-          position: 'absolute', bottom: '1.5rem',
+          position: 'absolute', bottom: '1rem',
           display: 'flex', gap: '0.25rem',
           alignItems: 'center',
         }}>

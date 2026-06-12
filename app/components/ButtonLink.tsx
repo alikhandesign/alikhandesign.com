@@ -4,16 +4,17 @@ interface ButtonLinkProps {
   label: string
   href: string
   variant?: 'normal' | 'underline'
+  color?: string
 }
 
-export default function ButtonLink({ label, href, variant = 'normal' }: ButtonLinkProps) {
+export default function ButtonLink({ label, href, variant = 'normal', color }: ButtonLinkProps) {
   if (variant === 'underline') {
     return (
       <Link href={href} style={{
         display: 'inline-flex',
         alignItems: 'center',
         gap: 8,
-        color: 'var(--color-bg)',
+        color: color ?? 'var(--color-bg)',
         textDecoration: 'none',
         fontSize: 'var(--font-size-sm)',
         fontWeight: 500,
@@ -27,7 +28,7 @@ export default function ButtonLink({ label, href, variant = 'normal' }: ButtonLi
   return (
     <Link href={href} style={{
       fontSize: 'var(--font-size-sm)',
-      color: 'var(--color-accent)',
+      color: color ?? 'var(--color-accent)',
       textDecoration: 'none',
       fontWeight: 500,
     }}>

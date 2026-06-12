@@ -6,35 +6,39 @@ import ButtonLink from './ButtonLink'
  * secondary CTAs — "Read case study", "View project", and "Read my full story".
  *
  * ## Variant: Normal
- * Used on light backgrounds. Accent color text, no underline.
- * The standard CTA at the bottom of cards and sections.
+ * Used on light backgrounds. Accent color text, no underline. The standard
+ * CTA at the bottom of cards and sections.
  *
  * ## Variant: Underline
- * Used on dark backgrounds only. White (`--color-bg`) text with a 1px `--color-accent`
- * underline and 2px bottom padding. Used in the About strip on the homepage
- * for "Read my full story →". The underline provides contrast against the dark
- * background where accent-colored text alone would be too subtle.
- *
- * All instances use `--font-size-base` (0.875rem / 14px) — standardized during the
- * build to replace inconsistent 12px, 13px, and 14px values found across the codebase.
+ * Used when a link needs to stand out against a non-accent background — for
+ * example, on the About/dark strip ("Read my full story →") and inline on
+ * the My Work page where the chat link sits in body-colored text. The optional
+ * `color` prop overrides the default white, allowing the underline variant to
+ * work on light surfaces too.
  *
  * ## Tokens used
  * - Normal color: `--color-accent`
- * - Underline color: `--color-bg` (text) + `--color-accent` (border)
- * - Font size: `--font-size-base` (0.875rem / 14px)
+ * - Underline default color: `--color-bg` (white, for dark backgrounds)
+ * - Underline border: `--color-accent`
+ * - Font size: `--font-size-sm`
  * - Font weight: `--font-weight-medium` (500)
- *
- * ## Usage
- * Used on FeaturedProjectCard, CaseStudyCard, and inline in page sections.
  */
 const meta: Meta<typeof ButtonLink> = {
   title: 'Core Components/ButtonLink',
   tags: ['autodocs'],
   component: ButtonLink,
   argTypes: {
-    label: { control: 'text', description: 'Link label text. Arrow (→) is appended automatically. Keep concise.' },
-    href: { control: 'text', description: 'Destination URL. Use relative paths for internal links.' },
-    variant: { control: 'select', options: ['normal', 'underline'], description: 'Normal for light backgrounds. Underline for dark backgrounds only.' },
+    label: { control: 'text' },
+    href: { control: 'text' },
+    variant: {
+      control: 'select',
+      options: ['normal', 'underline'],
+      description: 'Normal for accent-colored CTAs. Underline when the link sits within non-accent text.',
+    },
+    color: {
+      control: 'text',
+      description: 'Overrides default link color. Use for underline variant on light backgrounds.',
+    },
   },
 }
 
@@ -45,7 +49,18 @@ export const Normal: Story = {
   args: { label: 'Read case study', href: '#', variant: 'normal' },
 }
 
-export const Underline: Story = {
+export const UnderlineDark: Story = {
+  name: 'Underline — dark background',
   args: { label: 'Read my full story', href: '#', variant: 'underline' },
   parameters: { backgrounds: { default: 'dark' } },
+}
+
+export const UnderlineLight: Story = {
+  name: 'Underline — light background',
+  args: {
+    label: 'Try the AI assistant',
+    href: '/chat',
+    variant: 'underline',
+    color: 'var(--color-text)',
+  },
 }

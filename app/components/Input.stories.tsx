@@ -6,7 +6,7 @@ import Input from './Input'
  * It has three states that reflect the user's interaction with the password form.
  *
  * ## State: Default
- * The resting state. Border is `--color-border` (warm/100) — intentionally neutral and
+ * The resting state. Border is `--color-border` — intentionally neutral and
  * unobtrusive. The default border does not use the accent color, which was a
  * deliberate correction from the original build where the default border was
  * `--color-accent`. Using accent as a default border conflated brand color with
@@ -15,43 +15,35 @@ import Input from './Input'
  *
  * ## State: Focus
  * When the input is active, the border transitions to `--color-text` (dark) and a
- * subtle box shadow appears using `--color-border-mid` (warm/200). The shadow color
- * was chosen over the full accent color to keep the focus ring calm — the
- * PasswordGate is already a high-attention moment and a bright red focus ring
- * would add visual noise without improving clarity.
+ * subtle box shadow appears using `--color-border-mid`. The shadow color was chosen
+ * over the full accent color to keep the focus ring calm — the PasswordGate is
+ * already a high-attention moment and a bright red focus ring would add visual
+ * noise without improving clarity.
  *
  * ## State: Error
- * When an incorrect password is submitted, the border changes to `--color-accent-dark`
- * (red/800). Using `--color-accent-dark` rather than a separate error red keeps the
- * palette minimal — the system only has one red ramp, and `--color-accent-dark` is
- * sufficiently distinct from the default and focus states to communicate failure
- * clearly without introducing a new color token.
- *
- * ## Background
- * The input sits on `--dark-bg` because PasswordGate always renders inside a
- * dark-surface context. The input background is `--dark-bg` with white caret
- * and white placeholder text (at reduced opacity).
+ * When an incorrect password is submitted, the border changes to `--color-accent-dark`.
+ * Using `--color-accent-dark` rather than a separate error red keeps the palette
+ * minimal — the system only has one red ramp. The accompanying error message renders
+ * below the input in `--color-accent-dark` at `--font-size-xs` — see PasswordGate
+ * for the full error treatment in context.
  *
  * ## Tokens used
- * - Background: `--dark-bg`
+ * - Background: `--color-surface`
  * - Default border: `--color-border` (1.5px)
  * - Focus border: `--color-text` (1.5px) + box shadow `--color-border-mid`
  * - Error border: `--color-accent-dark` (1.5px)
- * - Font: `--font-sans`, `--font-size-base` (1rem / 16px)
- * - Placeholder: `--text-faint`
- * - Padding: 0.75rem 1rem (`--space-3` / `--space-4`)
+ * - Font: `--font-sans`, `--font-size-base`
  * - Border radius: `--radius-sm`
- * - Transition: `--transition-base` (150ms ease)
+ * - Transition: `--transition-base`
  */
 const meta: Meta<typeof Input> = {
   title: 'Core Components/Input',
   tags: ['autodocs'],
   component: Input,
-  parameters: { backgrounds: { default: 'dark' } },
   argTypes: {
-    placeholder: { control: 'text', description: 'Placeholder text shown when input is empty.' },
-    error: { control: 'boolean', description: 'When true, applies the error border color (--accent-dark). Set by PasswordGate when an incorrect password is submitted.' },
-    value: { control: 'text', description: 'Current input value. Controlled by parent component.' },
+    placeholder: { control: 'text' },
+    error: { control: 'boolean', description: 'Applies error border. Set by PasswordGate on incorrect submission.' },
+    value: { control: 'text' },
   },
 }
 
