@@ -25,8 +25,8 @@ import CTAStrip from './CTAStrip'
  * ## Tokens used
  * - Background: --dark-bg
  * - Padding: 4rem 3rem
- * - Eyebrow: eyebrow-dark class (--text-xs, --letter-spacing-lg, --warm-300)
- * - Title: --text-2xl, --font-serif, weight 400, --bg color
+ * - Eyebrow: eyebrow-dark class (--font-size-xs, --letter-spacing-lg, --color-text-on-dark)
+ * - Title: --font-size-2xl, --font-serif, weight 400, --bg color
  * - Button: btn-primary class
  * - Max width: 780px (content column width, not --max-w)
  *

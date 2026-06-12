@@ -10,18 +10,18 @@ import ButtonLink from './ButtonLink'
  * The standard CTA at the bottom of cards and sections.
  *
  * ## Variant: Underline
- * Used on dark backgrounds only. White (`--bg`) text with a 1px `--accent`
+ * Used on dark backgrounds only. White (`--color-bg`) text with a 1px `--color-accent`
  * underline and 2px bottom padding. Used in the About strip on the homepage
  * for "Read my full story →". The underline provides contrast against the dark
  * background where accent-colored text alone would be too subtle.
  *
- * All instances use `--text-base` (0.875rem / 14px) — standardized during the
+ * All instances use `--font-size-base` (0.875rem / 14px) — standardized during the
  * build to replace inconsistent 12px, 13px, and 14px values found across the codebase.
  *
  * ## Tokens used
- * - Normal color: `--accent`
- * - Underline color: `--bg` (text) + `--accent` (border)
- * - Font size: `--text-base` (0.875rem / 14px)
+ * - Normal color: `--color-accent`
+ * - Underline color: `--color-bg` (text) + `--color-accent` (border)
+ * - Font size: `--font-size-base` (0.875rem / 14px)
  * - Font weight: `--font-weight-medium` (500)
  *
  * ## Usage

@@ -34,17 +34,17 @@ import ContactModal from './ContactModal'
  * Focus returns to the trigger element (Let's Talk button) when the modal closes.
  *
  * ## Tokens used
- * - Background: --bg
+ * - Background: --color-bg
  * - Border radius: --radius
  * - Accent bar: 3px, --accent
  * - Padding: --space-8
  * - Overlay: rgba(28,28,26,0.75) — --dark-bg at 75% opacity
- * - Email row background: --surface
- * - Title: --text-2xl, --font-serif, weight 400
- * - Body: --text-base, --text-muted
- * - Copy button active color: --accent
+ * - Email row background: --color-surface
+ * - Title: --font-size-2xl, --font-serif, weight 400
+ * - Body: --font-size-base, --color-text-muted
+ * - Copy button active color: --color-accent
  * - Primary button: btn-primary class
- * - Link colors: --text-muted
+ * - Link colors: --color-text-muted
  * - Transition: --transition-base
  *
  * ## Usage

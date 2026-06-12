@@ -15,10 +15,10 @@ import Breadcrumb from './Breadcrumb'
  * aria-current="page" and is not a link. Separator characters are aria-hidden.
  *
  * ## Tokens used
- * - Link color: --text-muted
+ * - Link color: --color-text-muted
  * - Current page color: --text, weight 500
- * - Separator color: --border-mid
- * - Font size: --text-base
+ * - Separator color: --color-border-mid
+ * - Font size: --font-size-base
  * - Gap: --space-2
  *
  * ## Usage

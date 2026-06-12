@@ -8,7 +8,7 @@ import CaseStudyImage from './CaseStudyImage'
  *
  * ## Design rationale
  * When no `src` is provided, the component renders a warm fill placeholder using
- * `--border` (warm/100) rather than a grey box or broken image icon. This keeps
+ * `--color-border` (warm/100) rather than a grey box or broken image icon. This keeps
  * the palette consistent during content development and clearly signals that an
  * image slot exists without looking broken.
  *
@@ -20,11 +20,11 @@ import CaseStudyImage from './CaseStudyImage'
  * and describe what it shows.
  *
  * ## Tokens used
- * - Placeholder fill: `--border` (warm/100, #EDE9E4)
+ * - Placeholder fill: `--color-border` (warm/100, #EDE9E4)
  * - Placeholder height: 320px fixed
- * - Placeholder text: `--text-xs`, `--text-muted`, `--letter-spacing-md`, uppercase
- * - Border radius: `--radius` (4px)
- * - Caption: `--text-xs`, `--text-muted`, italic, centered
+ * - Placeholder text: `--font-size-xs`, `--color-text-muted`, `--letter-spacing-md`, uppercase
+ * - Border radius: `--radius-sm` (4px)
+ * - Caption: `--font-size-xs`, `--color-text-muted`, italic, centered
  * - Caption margin top: 0.5rem
  *
  * ## Image area note

@@ -22,9 +22,9 @@ import SideNav from './SideNav'
  * in-page navigation is handled by native scroll.
  *
  * ## State model
- * - Default: `--text-muted`, weight 400, `--border` left border
- * - Hover: `--text-mid`, weight 500, `--border-mid` left border
- * - Active: `--accent`, weight 500, `--accent` left border
+ * - Default: `--color-text-muted`, weight 400, `--color-border` left border
+ * - Hover: `--color-text-mid`, weight 500, `--color-border-mid` left border
+ * - Active: `--color-accent`, weight 500, `--color-accent` left border
  *
  * ## Section label generation
  * Labels are auto-generated from section IDs by splitting on hyphens and
@@ -45,14 +45,14 @@ import SideNav from './SideNav'
  *
  * ## Tokens used
  * - Position: sticky, top 5rem
- * - Contents label: `--text-xs`, `--letter-spacing-lg`, uppercase, `--text-muted`, weight 500
- * - Link font size: `--text-base` (0.875rem / 14px)
- * - Default color: `--text-muted`
- * - Hover color: `--text-mid`
- * - Active color: `--accent`
- * - Default border: `--border`
- * - Hover border: `--border-mid`
- * - Active border: `--accent`
+ * - Contents label: `--font-size-xs`, `--letter-spacing-lg`, uppercase, `--color-text-muted`, weight 500
+ * - Link font size: `--font-size-base` (0.875rem / 14px)
+ * - Default color: `--color-text-muted`
+ * - Hover color: `--color-text-mid`
+ * - Active color: `--color-accent`
+ * - Default border: `--color-border`
+ * - Hover border: `--color-border-mid`
+ * - Active border: `--color-accent`
  * - Link padding: `--space-2` 0 `--space-2` `--space-3`
  * - Transition: color `--transition-base`, border-color `--transition-base`
  *

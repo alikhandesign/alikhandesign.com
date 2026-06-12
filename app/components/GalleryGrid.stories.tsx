@@ -32,9 +32,9 @@ import GalleryGrid from './GalleryGrid'
  * ## Tokens used
  * - Grid gap: 1rem (intentionally hardcoded — between `--space-4` at 1rem and `--space-2`
  *   at 0.5rem; 1rem was chosen for visual balance at 3 columns)
- * - Image border radius: `--radius` (4px)
- * - Placeholder fill: `--border` (warm/100)
- * - Placeholder text: `--text-xs`, `--text-muted`, `--letter-spacing-md`, uppercase
+ * - Image border radius: `--radius-sm` (4px)
+ * - Placeholder fill: `--color-border` (warm/100)
+ * - Placeholder text: `--font-size-xs`, `--color-text-muted`, `--letter-spacing-md`, uppercase
  * - Wide item: `aspect-ratio: 16/9`
  * - Standard item: `aspect-ratio: 4/3`
  *

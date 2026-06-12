@@ -11,12 +11,12 @@ import MetricCard from './MetricCard'
  * used in PasswordGate and CalloutCard. This creates a consistent visual language
  * across the system: a red top or left accent bar signals highlighted content.
  *
- * The metric value is displayed in DM Serif Display at `--text-5xl` (3rem) — the
+ * The metric value is displayed in DM Serif Display at `--font-size-5xl` (3rem) — the
  * largest type size used in any card component. This is intentional. The number
  * is the message. Everything else is supporting context.
  *
  * ## Hover state
- * On hover, the border transitions from `--border` to `--accent` via `--transition-base`
+ * On hover, the border transitions from `--color-border` to `--color-accent` via `--transition-base`
  * (150ms ease). Consistent with FeaturedProjectCard and CaseStudyCard — all card
  * types share this interactive affordance.
  *
@@ -36,15 +36,15 @@ import MetricCard from './MetricCard'
  * to avoid awkward line breaks at 3rem in DM Serif Display.
  *
  * ## Tokens used
- * - Background: `--surface`
- * - Border: `--border` (hover: `--accent`)
- * - Border radius: `--radius`
- * - Accent bar: 3px, `--accent`
+ * - Background: `--color-surface`
+ * - Border: `--color-border` (hover: `--color-accent`)
+ * - Border radius: `--radius-sm`
+ * - Accent bar: 3px, `--color-accent`
  * - Padding: `--space-8` (2rem) all sides
- * - Company: `--text-xs`, `--letter-spacing-md`, uppercase, `--text-muted`, `--font-weight-medium`
- * - Value: `--text-5xl` (3rem), `--font-serif`, `--text`, line height 1
- * - Description: `--text-base`, `--text-muted`, line height 1.6
- * - CTA: `--text-base`, `--accent`, `--font-weight-medium`
+ * - Company: `--font-size-xs`, `--letter-spacing-md`, uppercase, `--color-text-muted`, `--font-weight-medium`
+ * - Value: `--font-size-5xl` (3rem), `--font-serif`, `--color-text`, line height 1
+ * - Description: `--font-size-base`, `--color-text-muted`, line height 1.6
+ * - CTA: `--font-size-base`, `--color-accent`, `--font-weight-medium`
  *
  * ## Usage
  * Used exclusively on the homepage (`/`) in the Impact section.

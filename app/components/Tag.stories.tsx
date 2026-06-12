@@ -8,12 +8,12 @@ import Tag from './Tag'
  * ## Variant: Default
  * Used for discipline tags — the areas of practice associated with a piece of work.
  * Examples: "UX Research", "AI Design", "Product Strategy".
- * Styled with `--warm-75` background and `--text-muted` text.
+ * Styled with `--color-surface-subtle` background and `--color-text-muted` text.
  * Multiple default tags can appear together on a single card.
  *
  * ## Variant: Accent
  * Used exclusively to signal content type — specifically "Case Study".
- * Styled with `--accent-bg` (red/50) background and `--accent` text.
+ * Styled with `--color-accent-bg` (red/50) background and `--color-accent` text.
  * There is only ever one accent tag per card, and it always reads "Case Study".
  *
  * On CaseStudyCard, the accent tag is prepended automatically by the component —
@@ -37,14 +37,14 @@ import Tag from './Tag'
  * even when visual hierarchy is flattened on smaller screens.
  *
  * ## Tokens used
- * - Default background: `--warm-75` (#F2EFE9)
- * - Default text: `--text-muted`
- * - Accent background: `--accent-bg` (#FDF0F0, red/50)
- * - Accent text: `--accent` (#89181A, red/700)
- * - Font size: `--text-xs` (0.75rem / 12px)
+ * - Default background: `--color-surface-subtle` (#F2EFE9)
+ * - Default text: `--color-text-muted`
+ * - Accent background: `--color-accent-bg` (#FDF0F0, red/50)
+ * - Accent text: `--color-accent` (#89181A, red/700)
+ * - Font size: `--font-size-xs` (0.75rem / 12px)
  * - Font weight: `--font-weight-medium` (500)
  * - Letter spacing: `--letter-spacing-md` (0.08em)
- * - Border radius: `--radius` (4px)
+ * - Border radius: `--radius-sm` (4px)
  * - Padding: 4px 10px (intentionally hardcoded — not on the spacing scale)
  *
  * ## Usage rules

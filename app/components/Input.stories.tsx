@@ -6,24 +6,24 @@ import Input from './Input'
  * It has three states that reflect the user's interaction with the password form.
  *
  * ## State: Default
- * The resting state. Border is `--border` (warm/100) — intentionally neutral and
+ * The resting state. Border is `--color-border` (warm/100) — intentionally neutral and
  * unobtrusive. The default border does not use the accent color, which was a
  * deliberate correction from the original build where the default border was
- * `--accent`. Using accent as a default border conflated brand color with
+ * `--color-accent`. Using accent as a default border conflated brand color with
  * interactive feedback, making it harder to distinguish the default state from
  * an error state.
  *
  * ## State: Focus
- * When the input is active, the border transitions to `--text` (dark) and a
- * subtle box shadow appears using `--border-mid` (warm/200). The shadow color
+ * When the input is active, the border transitions to `--color-text` (dark) and a
+ * subtle box shadow appears using `--color-border-mid` (warm/200). The shadow color
  * was chosen over the full accent color to keep the focus ring calm — the
  * PasswordGate is already a high-attention moment and a bright red focus ring
  * would add visual noise without improving clarity.
  *
  * ## State: Error
- * When an incorrect password is submitted, the border changes to `--accent-dark`
- * (red/800). Using `--accent-dark` rather than a separate error red keeps the
- * palette minimal — the system only has one red ramp, and `--accent-dark` is
+ * When an incorrect password is submitted, the border changes to `--color-accent-dark`
+ * (red/800). Using `--color-accent-dark` rather than a separate error red keeps the
+ * palette minimal — the system only has one red ramp, and `--color-accent-dark` is
  * sufficiently distinct from the default and focus states to communicate failure
  * clearly without introducing a new color token.
  *
@@ -34,13 +34,13 @@ import Input from './Input'
  *
  * ## Tokens used
  * - Background: `--dark-bg`
- * - Default border: `--border` (1.5px)
- * - Focus border: `--text` (1.5px) + box shadow `--border-mid`
- * - Error border: `--accent-dark` (1.5px)
- * - Font: `--font-sans`, `--text-base` (1rem / 16px)
+ * - Default border: `--color-border` (1.5px)
+ * - Focus border: `--color-text` (1.5px) + box shadow `--color-border-mid`
+ * - Error border: `--color-accent-dark` (1.5px)
+ * - Font: `--font-sans`, `--font-size-base` (1rem / 16px)
  * - Placeholder: `--text-faint`
  * - Padding: 0.75rem 1rem (`--space-3` / `--space-4`)
- * - Border radius: `--radius`
+ * - Border radius: `--radius-sm`
  * - Transition: `--transition-base` (150ms ease)
  */
 const meta: Meta<typeof Input> = {

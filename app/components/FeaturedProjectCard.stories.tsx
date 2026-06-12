@@ -21,7 +21,7 @@ import FeaturedProjectCard from './FeaturedProjectCard'
  * are supporting work — without reading a single word of explanation.
  *
  * ## Hover state
- * On hover, the border transitions from `--border` to `--accent` via `--transition-base`
+ * On hover, the border transitions from `--color-border` to `--color-accent` via `--transition-base`
  * (150ms ease). Consistent with CaseStudyCard and MetricCard — all card types share
  * this interactive affordance.
  *
@@ -35,23 +35,23 @@ import FeaturedProjectCard from './FeaturedProjectCard'
  * ## Token standardization
  * During the build, font size values were inconsistently set to raw pixel values
  * (12px, 13px, 14px) in the original implementation. These were corrected to use
- * token references (`--text-xs`, `--text-base`) as part of a codebase-wide
+ * token references (`--font-size-xs`, `--font-size-base`) as part of a codebase-wide
  * font size standardization pass.
  *
  * ## Image area
- * The image area currently renders as a warm placeholder (`--border` fill, 200px
+ * The image area currently renders as a warm placeholder (`--color-border` fill, 200px
  * fixed height). An `imageSrc` prop will be added when case study assets are finalized.
  *
  * ## Tokens used
- * - Background: `--surface`
- * - Border: `--border` (hover: `--accent`)
- * - Border radius: `--radius`
- * - Image area: 200px fixed height, `--border` fill
+ * - Background: `--color-surface`
+ * - Border: `--color-border` (hover: `--color-accent`)
+ * - Border radius: `--radius-sm`
+ * - Image area: 200px fixed height, `--color-border` fill
  * - Content padding: `--space-6` (1.5rem)
- * - Title: `--text-xl`, `--font-serif`, weight 400, line height 1.25
- * - Company: `--text-xs`, `--text-muted`, `--letter-spacing-sm`
- * - Description: `--text-base`, `--text-muted`, line height 1.6
- * - CTA: `--text-base`, `--accent`, `--font-weight-medium`
+ * - Title: `--font-size-xl`, `--font-serif`, weight 400, line height 1.25
+ * - Company: `--font-size-xs`, `--color-text-muted`, `--letter-spacing-sm`
+ * - Description: `--font-size-base`, `--color-text-muted`, line height 1.6
+ * - CTA: `--font-size-base`, `--color-accent`, `--font-weight-medium`
  *
  * ## Usage
  * - Homepage (`/`): Featured Work section, 2 cards side by side

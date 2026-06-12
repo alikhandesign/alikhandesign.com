@@ -17,9 +17,9 @@ import SectionLabel from './SectionLabel'
  * The component applies `text-transform: uppercase` via CSS.
  *
  * ## Tokens used
- * - Default color: `--accent` (#89181A)
- * - Dark color: `--warm-300` (#C4BDB7) — for sufficient contrast on `--dark-bg`
- * - Font size: `--text-xs` (0.75rem / 12px)
+ * - Default color: `--color-accent` (#89181A)
+ * - Dark color: `--color-text-on-dark` (#C4BDB7) — for sufficient contrast on `--dark-bg`
+ * - Font size: `--font-size-xs` (0.75rem / 12px)
  * - Font weight: `--font-weight-medium` (500)
  * - Letter spacing: `--letter-spacing-lg` (0.12em) — the largest in the system
  * - Transform: uppercase (CSS)

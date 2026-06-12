@@ -21,8 +21,8 @@ import Nav from './Nav'
  *
  * ## State model
  * Each page link has three states:
- * - Default: --text-muted, weight 400
- * - Hover: --accent-dark, weight 500 — handled inline via onMouseEnter/onMouseLeave
+ * - Default: --color-text-muted, weight 400
+ * - Hover: --color-accent-dark, weight 500 — handled inline via onMouseEnter/onMouseLeave
  *   rather than CSS because inline styles override CSS class-based hover rules
  * - Active: --text (dark), weight 500 — set when pathname matches the link's href
  *
@@ -39,16 +39,16 @@ import Nav from './Nav'
  * Focus visible styles apply a 2px --accent outline.
  *
  * ## Tokens used
- * - Background: --bg (warm/50)
- * - Bottom border: --border
+ * - Background: --color-bg (warm/50)
+ * - Bottom border: --color-border
  * - Padding: 1.25rem vertical, --space-12 (3rem) horizontal
- * - Link font size: --text-base (0.875rem / 14px)
+ * - Link font size: --font-size-base (0.875rem / 14px)
  * - Link letter spacing: --letter-spacing-sm (0.02em)
  * - Link gap: --space-8 (2rem)
- * - Default color: --text-muted
- * - Hover color: --accent-dark
- * - Active color: --text
- * - CTA color: --accent
+ * - Default color: --color-text-muted
+ * - Hover color: --color-accent-dark
+ * - Active color: --color-text
+ * - CTA color: --color-accent
  * - Transition: color --transition-base
  *
  * ## Usage
@@ -71,7 +71,7 @@ type Story = StoryObj<typeof Nav>
 
 /**
  * No page is active. Shown when visiting the homepage (pathname: '/').
- * All page links render in --text-muted at regular weight.
+ * All page links render in --color-text-muted at regular weight.
  */
 export const Default: Story = {
   parameters: {

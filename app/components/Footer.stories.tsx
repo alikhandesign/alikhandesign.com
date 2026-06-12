@@ -17,11 +17,11 @@ import Footer from './Footer'
  * than to be walked through a modal experience.
  *
  * ## Tokens used
- * - Background: --bg
- * - Copyright font size: --text-xs (0.75rem / 12px)
- * - Copyright color: --text-muted
- * - Link font size: --text-base (0.875rem / 14px)
- * - Link color: --text-muted
+ * - Background: --color-bg
+ * - Copyright font size: --font-size-xs (0.75rem / 12px)
+ * - Copyright color: --color-text-muted
+ * - Link font size: --font-size-base (0.875rem / 14px)
+ * - Link color: --color-text-muted
  * - Link weight: --font-weight-medium (500)
  * - Link gap: --space-6 (1.5rem)
  * - Container padding: site-footer class (--space-8 vertical, --space-12 horizontal)

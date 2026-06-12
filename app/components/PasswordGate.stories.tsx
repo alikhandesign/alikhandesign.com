@@ -17,7 +17,7 @@ import PasswordGate from './PasswordGate'
  *
  * ## Visual design
  * Uses the same 3px accent bar pattern as MetricCard — signaling elevated content.
- * The `--surface` background on a page with `--bg` fill creates visual separation
+ * The `--color-surface` background on a page with `--color-bg` fill creates visual separation
  * without requiring a modal or overlay.
  *
  * ## Interaction model
@@ -32,16 +32,16 @@ import PasswordGate from './PasswordGate'
  * via `aria-describedby` when an error is present.
  *
  * ## Tokens used
- * - Background: `--surface`
- * - Border: `--border`
- * - Border radius: `--radius`
- * - Accent bar: 3px, `--accent`
+ * - Background: `--color-surface`
+ * - Border: `--color-border`
+ * - Border radius: `--radius-sm`
+ * - Accent bar: 3px, `--color-accent`
  * - Padding: `--space-8` (2rem)
- * - Title: `--text-xl`, `--font-serif`, weight 400
- * - Description: `--text-base`, `--text-muted`
- * - Inside label: `--text-xs`, `--letter-spacing-md`, uppercase, `--text-muted`
- * - Inside items: `--text-base`, `--text-muted`
- * - Error message: `--text-xs`, `--accent-dark`
+ * - Title: `--font-size-xl`, `--font-serif`, weight 400
+ * - Description: `--font-size-base`, `--color-text-muted`
+ * - Inside label: `--font-size-xs`, `--letter-spacing-md`, uppercase, `--color-text-muted`
+ * - Inside items: `--font-size-base`, `--color-text-muted`
+ * - Error message: `--font-size-xs`, `--color-accent-dark`
  *
  * ## Usage
  * Used once per protected case study page, wrapping the full case study content

@@ -17,7 +17,7 @@ import CaseStudyCard from './CaseStudyCard'
  * persuasive signal for a hiring manager scanning multiple candidates.
  *
  * ## Hover state
- * On hover, the border transitions from `--border` to `--accent` via `--transition-base`
+ * On hover, the border transitions from `--color-border` to `--color-accent` via `--transition-base`
  * (150ms ease). This matches the hover behavior of FeaturedProjectCard and MetricCard,
  * creating a consistent interactive affordance across all card types.
  *
@@ -27,22 +27,22 @@ import CaseStudyCard from './CaseStudyCard'
  * "AI Design"). This enforces the design convention at the component level.
  *
  * ## Image area
- * The image area currently renders as a warm placeholder (`--border` fill). An `imageSrc`
+ * The image area currently renders as a warm placeholder (`--color-border` fill). An `imageSrc`
  * prop will be added when case study assets are finalized.
  *
  * ## Tokens used
- * - Background: `--surface`
- * - Border: `--border` (hover: `--accent`)
- * - Border radius: `--radius`
- * - Image placeholder: `--border`
+ * - Background: `--color-surface`
+ * - Border: `--color-border` (hover: `--color-accent`)
+ * - Border radius: `--radius-sm`
+ * - Image placeholder: `--color-border`
  * - Content padding: 2rem 2rem 2rem 2.5rem
- * - Title: `--text-2xl`, `--font-serif`, weight 400, line height 1.2
- * - Company: `--text-xs`, `--text-muted`, `--letter-spacing-sm`
- * - Description: `--text-base`, `--text-muted`, line height 1.7
- * - Outcome value: `--text-2xl`, `--font-serif`, `--accent`, line height 1
- * - Outcome label: `--text-xs`, `--text-muted`
+ * - Title: `--font-size-2xl`, `--font-serif`, weight 400, line height 1.2
+ * - Company: `--font-size-xs`, `--color-text-muted`, `--letter-spacing-sm`
+ * - Description: `--font-size-base`, `--color-text-muted`, line height 1.7
+ * - Outcome value: `--font-size-2xl`, `--font-serif`, `--color-accent`, line height 1
+ * - Outcome label: `--font-size-xs`, `--color-text-muted`
  * - Outcomes gap: `--space-8`
- * - CTA: `--text-base`, `--accent`, `--font-weight-medium`
+ * - CTA: `--font-size-base`, `--color-accent`, `--font-weight-medium`
  * - Footer padding top: `--space-6`
  *
  * ## Usage
