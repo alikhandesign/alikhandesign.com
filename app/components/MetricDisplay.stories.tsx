@@ -8,7 +8,7 @@ const meta: Meta<typeof MetricDisplay> = {
   parameters: {
     docs: {
       description: {
-        component: 'Large accent metric display used in case study headers to communicate impact at a glance. The value renders at `--text-4xl` (40px) in `--color-accent`. The optional label defaults to sentence case. Set `labelCase="upper"` for all-caps treatment with letter spacing. For outcome metrics within the body of a case study, use MetricCard instead.',
+        component: 'Large accent metric display used in case study headers to communicate impact at a glance. The value renders at `--font-size-4xl` (40px) in `--color-accent`. The optional label defaults to sentence case. Set `labelCase="upper"` for all-caps treatment with letter spacing. For outcome metrics within the body of a case study, use MetricCard instead.',
       },
     },
   },

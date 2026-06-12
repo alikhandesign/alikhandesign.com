@@ -8,7 +8,7 @@ const meta: Meta<typeof Body> = {
   parameters: {
     docs: {
       description: {
-        component: 'Standard body copy paragraph used throughout case study and project pages. Defaults to `--text-sm` (14px) and `--color-text-mid`. The `size` prop allows stepping up to `--text-base` (16px) or `--text-md` for intro paragraphs. The `mb` prop controls bottom margin -- set to false on the last paragraph in a sequence.',
+        component: 'Standard body copy paragraph used throughout case study and project pages. Defaults to `--font-size-sm` (14px) and `--color-text-mid`. The `size` prop allows stepping up to `--font-size-base` (16px) or `--font-size-md` for intro paragraphs. The `mb` prop controls bottom margin -- set to false on the last paragraph in a sequence.',
       },
     },
   },

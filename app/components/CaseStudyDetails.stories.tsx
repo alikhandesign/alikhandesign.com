@@ -8,7 +8,7 @@ const meta: Meta<typeof CaseStudyDetails> = {
   parameters: {
     docs: {
       description: {
-        component: 'Details card for case study and project pages. Displays structured metadata — My Role, Timeline, Methods, Output — in a 2-column grid inside a white card with a subtle border. Labels use `--text-xs` uppercase with wide letter spacing. Values use `--text-sm` medium weight. The card sits between the hero image and the body content.',
+        component: 'Details card for case study and project pages. Displays structured metadata — My Role, Timeline, Methods, Output — in a 2-column grid inside a white card with a subtle border. Labels use `--font-size-xs` uppercase with wide letter spacing. Values use `--font-size-sm` medium weight. The card sits between the hero image and the body content.',
       },
     },
     backgrounds: { default: 'warm' },

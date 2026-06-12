@@ -8,7 +8,7 @@ const meta: Meta<typeof PullQuote> = {
   parameters: {
     docs: {
       description: {
-        component: 'Typographically styled pull quote for case study narrative. Uses font-serif italic at `--text-xl` with a red left border accent. Used to surface a key direct quote from research participants or a pivotal moment in the narrative. For highlighted findings with a title, use CalloutCard with `variant="light"` instead.',
+        component: 'Typographically styled pull quote for case study narrative. Uses font-serif italic at `--font-size-xl` with a red left border accent. Used to surface a key direct quote from research participants or a pivotal moment in the narrative. For highlighted findings with a title, use CalloutCard with `variant="light"` instead.',
       },
     },
   },
