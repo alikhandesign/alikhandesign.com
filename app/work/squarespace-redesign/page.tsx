@@ -1,7 +1,6 @@
 'use client'
 import { getNextWork } from '@/app/work.config'
 import Link from 'next/link'
-import PasswordGate from '@/app/components/PasswordGate'
 import SideNav from '@/app/components/SideNav'
 import { ProjectImage } from '@/app/components/Lightbox'
 import { useState } from 'react'
@@ -9,15 +8,6 @@ import CTAStrip from '@/app/components/CTAStrip'
 import ContactModal from '@/app/components/ContactModal'
 
 
-
-const INSIDE = [
-  'Full audit findings across Track A (new user) and Track B (power user)',
-  '20 failure modes defined, evidenced, and taxonomized',
-  'The diagnosis: why Squarespace\'s AI fails at a structural level',
-  'Three redesigned moments with before/after comparisons',
-  'Link to the full audit spreadsheet (22 documented intents)',
-  'Link to the interactive prototype (built in React and Vercel)',
-]
 
 function Callout({ children }: { children: React.ReactNode }) {
   return (
@@ -227,7 +217,6 @@ function FullCaseStudy() {
 }
 
 export default function SquarespaceRedesignPage() {
-  const [unlocked, setUnlocked] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   return (
     <main>
@@ -269,19 +258,10 @@ export default function SquarespaceRedesignPage() {
       {/* Article layout with side nav + password gate */}
       <div className="article-layout" style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '4rem 3rem' }}>
         <SideNav
-          unlocked={unlocked}
           sections={['the-context', 'the-problem', 'the-research', 'the-insight', 'the-design', 'the-outcomes', 'the-reflection']}
         />
         <div>
-          <PasswordGate
-            password="4likh4n"
-            onUnlock={() => setUnlocked(true)}
-            title="The full audit, diagnosis, and redesign"
-            description="Twenty failure modes. Two user journeys. Three redesigned moments. The complete case study walks through every finding in detail."
-            inside={INSIDE}
-          >
-            <FullCaseStudy />
-          </PasswordGate>
+          <FullCaseStudy />
         </div>
       </div>
 
