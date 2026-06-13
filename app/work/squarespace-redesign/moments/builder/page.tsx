@@ -1,6 +1,6 @@
 'use client'
-import MomentNav from '../MomentNav'
 import { useState } from 'react'
+import MomentNav from '../MomentNav'
 
 const SQ = {
   black: '#0e0e0e', white: '#ffffff', grayLight: '#f2f2f2',
@@ -9,41 +9,30 @@ const SQ = {
   amber: '#f0a500', amberBg: '#fffbf0',
 }
 
-const SQLogoMark = () => (
-  <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-    <path d="M16 3C8.82 3 3 8.82 3 16s5.82 13 13 13 13-5.82 13-13S23.18 3 16 3zm-3.25 18L7.5 15.75l2.25-2.25 3 3 9.5-9.5 2.25 2.25-12 12z" fill={SQ.black}/>
-  </svg>
-)
-
-// Sections in the live preview
 const SECTIONS = [
   {
-    id: 'hero',
-    label: 'Hero',
+    id: 'hero', label: 'Hero',
     current: { headline: 'Strategic Interface Design', sub: 'Advancing Digital Interfaces With Strategic Precision', img: '📱' },
     reasoning: "I chose a tech-forward headline because you selected UI/UX Design as your topic. The mobile imagery matches that category.",
     failureMode: "Generic Output + Opacity",
     override: "Try: 'I help product teams understand their users at scale' — specific to your actual work",
   },
   {
-    id: 'about',
-    label: 'About',
-    current: { headline: 'Delivering Measurable User Impact', sub: 'The studio specializes in synthesizing research, strategy, and visual polish to construct digital products that facilitate sustained engagement.', img: '🖥️' },
+    id: 'about', label: 'About',
+    current: { headline: 'Delivering Measurable User Impact', sub: "The studio specializes in synthesizing research, strategy, and visual polish to construct digital products that facilitate sustained engagement.", img: '🖥️' },
     reasoning: "I generated this about section from your topic category. 'The studio' was assumed — you may be an individual, not an agency.",
     failureMode: "Identity Fabrication + Voice Displacement",
     override: "Enter your actual name and a sentence about your background to replace this",
   },
   {
-    id: 'cta',
-    label: 'Contact',
+    id: 'cta', label: 'Contact',
     current: { headline: 'Initiate Your Project Consultation', sub: 'Submit the inquiry form to enable a comprehensive evaluation of your requirements.', img: '📋' },
     reasoning: "I chose 'Project Consultation' framing because 'Consulting' appeared in related topics. But you may not be selling consulting services.",
     failureMode: "Context Collapse + Literal Compliance",
     override: "Try: 'Let's Talk' with a simple email link — matches the portfolio context better",
   },
   {
-    id: 'portfolio',
-    label: 'Portfolio',
+    id: 'portfolio', label: 'Portfolio',
     current: { headline: 'Our Work Speaks For Itself', sub: 'The Atlas Project · The Lumen Project · The Echo Project', img: '🌸' },
     reasoning: "No portfolio page was recommended by default. When you added one, I populated it with floristry stock photography — the closest match in my library to a generic 'creative portfolio'.",
     failureMode: "Domain Collapse + Template Prison",
@@ -51,34 +40,15 @@ const SECTIONS = [
   },
 ]
 
-const SIDE_IMG = "https://images.unsplash.com/photo-1555421689-3f034debb7a6?w=800&q=80"
-
-export default function Moment2() {
-  const [view, setView] = useState<'before' | 'after'>('after')
-  const [selectedSection, setSelectedSection] = useState<string | null>(null)
-  const [prompt, setPrompt] = useState('')
-  const [overrides, setOverrides] = useState<Record<string, string>>({})
-  const [submitted, setSubmitted] = useState<Record<string, boolean>>({})
-
-  const selected = SECTIONS.find(s => s.id === selectedSection)
-
-  const handleSubmitOverride = () => {
-    if (!selectedSection || !prompt.trim()) return
-    setOverrides(prev => ({ ...prev, [selectedSection]: prompt.trim() }))
-    setSubmitted(prev => ({ ...prev, [selectedSection]: true }))
-    setPrompt('')
-  }
-
-  // ── BEFORE ─────────────────────────────────────────────────
-  const BeforeView = () => (
+// ── Before view ────────────────────────────────────────────
+function BeforeView() {
+  return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', height: '100%' }}>
-      {/* Left: live preview (current Squarespace output) */}
       <div style={{ borderRight: `1px solid ${SQ.graySubtle}`, overflow: 'auto', background: '#fafafa' }}>
         <div style={{ padding: '8px 16px', background: '#fff8f0', borderBottom: `1px solid ${SQ.graySubtle}`, position: 'sticky', top: 0 }}>
-          <span style={{ fontSize: 11, color: '#c47a00', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>Before — Current Squarespace Output</span>
+          <span style={{ fontSize: 11, color: '#c47a00', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>Current Squarespace — Generated Output</span>
         </div>
         <div style={{ padding: 24 }}>
-          {/* Mini site preview */}
           <div style={{ background: SQ.white, border: `1px solid ${SQ.graySubtle}`, overflow: 'hidden' }}>
             <div style={{ padding: '8px 16px', borderBottom: `1px solid ${SQ.graySubtle}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 12, color: SQ.black, fontWeight: 500 }}>Ali Khan Design</span>
@@ -99,20 +69,18 @@ export default function Moment2() {
             ))}
           </div>
           <p style={{ marginTop: 16, fontSize: 12, color: '#c47a00', fontStyle: 'italic', lineHeight: 1.6 }}>
-            ⚠ This site was generated from just a topic category and a personality selection. None of the content reflects Ali Khan's actual work, voice, or goals.
+            ⚠ This site was generated from a topic category and a personality selection. None of the content reflects Ali Khan's actual work, voice, or goals.
           </p>
         </div>
       </div>
 
-      {/* Right: controls panel (current Squarespace) */}
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div style={{ padding: '8px 16px', background: '#fff8f0', borderBottom: `1px solid ${SQ.graySubtle}` }}>
-          <span style={{ fontSize: 11, color: '#c47a00', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>Before — Controls Panel</span>
+          <span style={{ fontSize: 11, color: '#c47a00', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>Current Squarespace — Controls Panel</span>
         </div>
         <div style={{ flex: 1, padding: 24, overflow: 'auto' }}>
           <p style={{ fontSize: 15, fontWeight: 500, color: SQ.black, marginBottom: 8 }}>Choose a color palette</p>
-          <p style={{ fontSize: 13, color: SQ.grayMid, marginBottom: 20, lineHeight: 1.5 }}>These custom palettes were curated by our designers. You can always change up your colors later.</p>
-
+          <p style={{ fontSize: 13, color: SQ.grayMid, marginBottom: 20, lineHeight: 1.5 }}>These custom palettes were curated by our designers.</p>
           <p style={{ fontSize: 12, fontWeight: 600, color: SQ.black, marginBottom: 12, letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Professional <span style={{ background: '#e8f0fe', color: '#1967d2', padding: '2px 8px', fontSize: 11, fontWeight: 500, marginLeft: 8 }}>Recommended</span></p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 20 }}>
             {[['#fff', '#ccc', '#000'], ['#fff', '#4a7c99', '#000'], ['#fff', '#3c3', '#000'], ['#f0f0ff', '#66f', '#000']].map((palette, i) => (
@@ -121,26 +89,46 @@ export default function Moment2() {
               </div>
             ))}
           </div>
-
-          <p style={{ fontSize: 11, color: SQ.grayMid, lineHeight: 1.6, fontStyle: 'italic', marginTop: 16, padding: '12px', background: SQ.grayLight, borderLeft: `3px solid #c47a00` }}>
-            ⚠ No explanation for why "Professional" was recommended. No way to know how this palette will interact with your existing logo.
+          <p style={{ fontSize: 11, color: SQ.grayMid, lineHeight: 1.6, fontStyle: 'italic', padding: '12px', background: SQ.grayLight, borderLeft: '3px solid #c47a00' }}>
+            ⚠ No explanation for why "Professional" was recommended. No way to know how this palette interacts with your existing logo.
           </p>
         </div>
         <div style={{ background: SQ.white, boxShadow: '0px -4px 32px 0px rgba(0,0,0,0.12)', height: 94, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px' }}>
-          <button style={{ background: SQ.white, color: SQ.black, border: `1px solid ${SQ.graySubtle}`, padding: '16px 22px', fontSize: 14, letterSpacing: '3.5px', textTransform: 'uppercase' as const }}>BACK</button>
-          <button style={{ background: SQ.black, color: SQ.white, border: 'none', padding: '16px 22px', fontSize: 14, letterSpacing: '3.5px', textTransform: 'uppercase' as const }}>NEXT</button>
+          <button style={{ background: SQ.white, color: SQ.black, border: `1px solid ${SQ.graySubtle}`, padding: '16px 22px', fontSize: 14, letterSpacing: '3.5px', textTransform: 'uppercase' as const, fontFamily: 'inherit' }}>BACK</button>
+          <button style={{ background: SQ.black, color: SQ.white, border: 'none', padding: '16px 22px', fontSize: 14, letterSpacing: '3.5px', textTransform: 'uppercase' as const, fontFamily: 'inherit' }}>NEXT</button>
         </div>
       </div>
     </div>
   )
+}
 
-  // ── AFTER ──────────────────────────────────────────────────
-  const AfterView = () => (
+// ── After view ─────────────────────────────────────────────
+interface AfterViewProps {
+  selectedSection: string | null
+  setSelectedSection: (s: string | null) => void
+  prompt: string
+  setPrompt: (s: string) => void
+  overrides: Record<string, string>
+  setOverrides: React.Dispatch<React.SetStateAction<Record<string, string>>>
+  submitted: Record<string, boolean>
+  setSubmitted: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
+}
+
+function AfterView({ selectedSection, setSelectedSection, prompt, setPrompt, overrides, setOverrides, submitted, setSubmitted }: AfterViewProps) {
+  const selected = SECTIONS.find(s => s.id === selectedSection)
+
+  const handleSubmitOverride = () => {
+    if (!selectedSection || !prompt.trim()) return
+    setOverrides(prev => ({ ...prev, [selectedSection]: prompt.trim() }))
+    setSubmitted(prev => ({ ...prev, [selectedSection]: true }))
+    setPrompt('')
+  }
+
+  return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', height: '100%' }}>
-      {/* Left: interactive preview */}
       <div style={{ borderRight: `1px solid ${SQ.graySubtle}`, overflow: 'auto', background: '#fafafa' }}>
         <div style={{ padding: '8px 16px', background: '#f0f7f0', borderBottom: `1px solid ${SQ.graySubtle}`, position: 'sticky', top: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: 11, color: '#2a7a2a', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>After — Transparent Builder</span>
+          <span style={{ fontSize: 11, color: '#2a7a2a', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>Redesign — Transparent Builder</span>
           <span style={{ fontSize: 11, color: SQ.grayMid }}>Click any section to see AI reasoning + override</span>
         </div>
         <div style={{ padding: 24 }}>
@@ -148,29 +136,18 @@ export default function Moment2() {
             <div style={{ padding: '8px 16px', borderBottom: `1px solid ${SQ.graySubtle}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 12, color: SQ.black, fontWeight: 500 }}>Ali Khan Design</span>
               <div style={{ display: 'flex', gap: 16 }}>
-                {['Work', 'About', 'Let\'s Talk'].map(n => <span key={n} style={{ fontSize: 11, color: SQ.grayMid }}>{n}</span>)}
+                {['Work', 'About', "Let's Talk"].map(n => <span key={n} style={{ fontSize: 11, color: SQ.grayMid }}>{n}</span>)}
               </div>
             </div>
             {SECTIONS.map(s => (
               <div
                 key={s.id}
                 onClick={() => setSelectedSection(s.id === selectedSection ? null : s.id)}
-                style={{
-                  padding: s.id === 'hero' ? '48px 24px' : '24px',
-                  borderBottom: `1px solid ${SQ.graySubtle}`,
-                  background: s.id === 'hero' ? '#1a1a1a' : SQ.white,
-                  cursor: 'pointer',
-                  outline: selectedSection === s.id ? `2px solid ${SQ.amber}` : 'none',
-                  outlineOffset: -2,
-                  position: 'relative' as const,
-                  transition: 'outline 0.15s',
-                }}
+                style={{ padding: s.id === 'hero' ? '48px 24px' : '24px', borderBottom: `1px solid ${SQ.graySubtle}`, background: s.id === 'hero' ? '#1a1a1a' : SQ.white, cursor: 'pointer', outline: selectedSection === s.id ? `2px solid ${SQ.amber}` : 'none', outlineOffset: -2, position: 'relative' as const, transition: 'outline 0.15s' }}
               >
-                {/* Click indicator */}
                 <div style={{ position: 'absolute', top: 8, right: 8, background: selectedSection === s.id ? SQ.amber : 'rgba(0,0,0,0.15)', color: SQ.white, fontSize: 10, padding: '2px 8px', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>
                   {selectedSection === s.id ? '● Selected' : 'Click to inspect'}
                 </div>
-                {/* Override badge */}
                 {submitted[s.id] && (
                   <div style={{ position: 'absolute', top: 8, left: 8, background: '#2a7a2a', color: SQ.white, fontSize: 10, padding: '2px 8px', fontWeight: 600 }}>✓ Overridden</div>
                 )}
@@ -191,12 +168,10 @@ export default function Moment2() {
         </div>
       </div>
 
-      {/* Right: reasoning + override panel */}
       <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <div style={{ padding: '8px 16px', background: '#f0f7f0', borderBottom: `1px solid ${SQ.graySubtle}` }}>
           <span style={{ fontSize: 11, color: '#2a7a2a', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' as const }}>AI Reasoning + Override</span>
         </div>
-
         <div style={{ flex: 1, overflow: 'auto', padding: 24 }}>
           {!selectedSection ? (
             <div style={{ textAlign: 'center' as const, paddingTop: 60 }}>
@@ -206,26 +181,18 @@ export default function Moment2() {
           ) : (
             <div>
               <p style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: SQ.grayMid, fontWeight: 600, marginBottom: 12 }}>{selected?.label} Section</p>
-
-              {/* AI reasoning */}
               <div style={{ background: SQ.amberBg, borderLeft: `3px solid ${SQ.amber}`, padding: '12px 16px', marginBottom: 20 }}>
                 <p style={{ fontSize: 11, fontWeight: 600, color: SQ.amber, letterSpacing: '0.05em', textTransform: 'uppercase' as const, marginBottom: 6 }}>Why I chose this</p>
                 <p style={{ fontSize: 13, color: '#5a4a00', lineHeight: 1.6 }}>{selected?.reasoning}</p>
               </div>
-
-              {/* Failure mode tag */}
               <div style={{ marginBottom: 20 }}>
                 <p style={{ fontSize: 11, fontWeight: 600, color: '#c47a00', letterSpacing: '0.05em', textTransform: 'uppercase' as const, marginBottom: 6 }}>Failure mode</p>
                 <span style={{ display: 'inline-block', background: '#fff8f0', border: '1px solid #f0a500', color: '#c47a00', fontSize: 11, padding: '3px 10px' }}>{selected?.failureMode}</span>
               </div>
-
-              {/* Override suggestion */}
               <div style={{ background: '#f0f7f0', borderLeft: '3px solid #2a7a2a', padding: '12px 16px', marginBottom: 20 }}>
                 <p style={{ fontSize: 11, fontWeight: 600, color: '#2a7a2a', letterSpacing: '0.05em', textTransform: 'uppercase' as const, marginBottom: 6 }}>Suggested override</p>
                 <p style={{ fontSize: 13, color: '#1a4a1a', lineHeight: 1.6 }}>{selected?.override}</p>
               </div>
-
-              {/* Override input */}
               {!submitted[selectedSection] ? (
                 <div>
                   <p style={{ fontSize: 12, fontWeight: 600, color: SQ.black, marginBottom: 8, letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Override this section</p>
@@ -236,11 +203,7 @@ export default function Moment2() {
                     rows={3}
                     style={{ width: '100%', border: `1px solid ${SQ.graySubtle}`, outline: 'none', padding: '10px 12px', fontSize: 13, fontFamily: 'inherit', resize: 'none', color: SQ.black, lineHeight: 1.6, boxSizing: 'border-box' as const, marginBottom: 8 }}
                   />
-                  <button
-                    onClick={handleSubmitOverride}
-                    disabled={!prompt.trim()}
-                    style={{ width: '100%', background: prompt.trim() ? SQ.black : SQ.graySubtle, color: prompt.trim() ? SQ.white : SQ.grayMid, border: 'none', padding: '14px 22px', fontSize: 13, fontWeight: 500, letterSpacing: '3px', textTransform: 'uppercase' as const }}
-                  >
+                  <button onClick={handleSubmitOverride} disabled={!prompt.trim()} style={{ width: '100%', background: prompt.trim() ? SQ.black : SQ.graySubtle, color: prompt.trim() ? SQ.white : SQ.grayMid, border: 'none', padding: '14px 22px', fontSize: 13, fontWeight: 500, letterSpacing: '3px', textTransform: 'uppercase' as const, cursor: prompt.trim() ? 'pointer' : 'default', fontFamily: 'inherit' }}>
                     APPLY OVERRIDE
                   </button>
                 </div>
@@ -248,26 +211,45 @@ export default function Moment2() {
                 <div style={{ background: '#f0f7f0', padding: '16px', textAlign: 'center' as const }}>
                   <p style={{ fontSize: 13, color: '#2a7a2a', fontWeight: 500 }}>✓ Override applied</p>
                   <p style={{ fontSize: 12, color: SQ.grayMid, marginTop: 4 }}>The preview has been updated.</p>
-                  <button onClick={() => { setSubmitted(prev => ({ ...prev, [selectedSection]: false })); setOverrides(prev => { const n = {...prev}; delete n[selectedSection]; return n }) }} style={{ marginTop: 12, background: 'transparent', border: `1px solid ${SQ.graySubtle}`, color: SQ.grayMid, padding: '8px 16px', fontSize: 12, letterSpacing: '2px', textTransform: 'uppercase' as const }}>UNDO</button>
+                  <button onClick={() => { setSubmitted(prev => { const n = {...prev}; delete n[selectedSection]; return n }); setOverrides(prev => { const n = {...prev}; delete n[selectedSection]; return n }) }} style={{ marginTop: 12, background: 'transparent', border: `1px solid ${SQ.graySubtle}`, color: SQ.grayMid, padding: '8px 16px', fontSize: 12, letterSpacing: '2px', textTransform: 'uppercase' as const, cursor: 'pointer', fontFamily: 'inherit' }}>UNDO</button>
                 </div>
               )}
             </div>
           )}
         </div>
-
         <div style={{ background: SQ.white, boxShadow: '0px -4px 32px 0px rgba(0,0,0,0.12)', height: 94, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', flexShrink: 0 }}>
-          <button style={{ background: SQ.white, color: SQ.black, border: `1px solid ${SQ.graySubtle}`, padding: '16px 22px', fontSize: 14, letterSpacing: '3.5px', textTransform: 'uppercase' as const }}>BACK</button>
-          <button style={{ background: SQ.black, color: SQ.white, border: 'none', padding: '16px 22px', fontSize: 14, letterSpacing: '3.5px', textTransform: 'uppercase' as const }}>NEXT</button>
+          <button style={{ background: SQ.white, color: SQ.black, border: `1px solid ${SQ.graySubtle}`, padding: '16px 22px', fontSize: 14, letterSpacing: '3.5px', textTransform: 'uppercase' as const, fontFamily: 'inherit' }}>BACK</button>
+          <button style={{ background: SQ.black, color: SQ.white, border: 'none', padding: '16px 22px', fontSize: 14, letterSpacing: '3.5px', textTransform: 'uppercase' as const, fontFamily: 'inherit' }}>NEXT</button>
         </div>
       </div>
     </div>
   )
+}
+
+// ── Main ───────────────────────────────────────────────────
+export default function Moment2() {
+  const [view, setView] = useState<'before' | 'after'>('after')
+  const [selectedSection, setSelectedSection] = useState<string | null>(null)
+  const [prompt, setPrompt] = useState('')
+  const [overrides, setOverrides] = useState<Record<string, string>>({})
+  const [submitted, setSubmitted] = useState<Record<string, boolean>>({})
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: SQ.white, fontFamily: "'Helvetica Neue', Arial, sans-serif", paddingTop: 101 }}>
       <MomentNav current={2} view={view} onViewChange={setView} />
       <div style={{ flex: 1, overflow: 'hidden' }}>
-        {view === 'before' ? <BeforeView /> : <AfterView />}
+        {view === 'before' ? <BeforeView /> : (
+          <AfterView
+            selectedSection={selectedSection}
+            setSelectedSection={setSelectedSection}
+            prompt={prompt}
+            setPrompt={setPrompt}
+            overrides={overrides}
+            setOverrides={setOverrides}
+            submitted={submitted}
+            setSubmitted={setSubmitted}
+          />
+        )}
       </div>
     </div>
   )
