@@ -39,14 +39,12 @@ export default function MomentsPage() {
     <main style={{ minHeight: '100vh', background: 'var(--color-bg)' }}>
 
       {/* Breadcrumb */}
-      <div style={{ borderBottom: '1px solid var(--color-border)', padding: 'var(--space-4) var(--space-6)' }}>
-        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-          <Breadcrumb items={[
-            { label: 'My Work', href: '/work' },
-            { label: 'From Checkboxes to Conversations', href: '/work/squarespace-redesign' },
-            { label: 'Interactive Prototypes' },
-          ]} />
-        </div>
+      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: 'var(--space-4) var(--space-6) 0' }}>
+        <Breadcrumb items={[
+          { label: 'My Work', href: '/work' },
+          { label: 'From Checkboxes to Conversations', href: '/work/squarespace-redesign' },
+          { label: 'Interactive Prototypes' },
+        ]} />
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: 'var(--space-12) var(--space-6)' }}>
