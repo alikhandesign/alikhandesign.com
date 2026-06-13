@@ -1,0 +1,203 @@
+/* Squarespace design tokens — isolated to /moments subtree only */
+/* Do not import this file outside of app/work/squarespace-redesign/moments/ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --sq-black: #0e0e0e;
+  --sq-white: #ffffff;
+  --sq-gray-light: #f2f2f2;
+  --sq-gray-mid: #878787;
+  --sq-gray-placeholder: #afafaf;
+  --sq-gray-border: #666666;
+  --sq-gray-subtle: #e7e7e7;
+  --sq-progress-base: #b7b7b7;
+  --sq-font: 'Helvetica Neue', Arial, sans-serif;
+}
+
+html, body { height: 100%; background: #fff; }
+
+body {
+  font-family: var(--sq-font);
+  color: var(--sq-black);
+  -webkit-font-smoothing: antialiased;
+}
+
+button { cursor: pointer; font-family: var(--sq-font); }
+a { text-decoration: none; color: inherit; }
+textarea, input { font-family: var(--sq-font); }
+
+/* Squarespace button styles */
+.sq-btn-primary {
+  background: var(--sq-black);
+  color: var(--sq-white);
+  border: none;
+  padding: 16px 22px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sq-btn-primary:disabled {
+  background: var(--sq-gray-subtle);
+  color: var(--sq-gray-mid);
+  cursor: default;
+}
+
+.sq-btn-secondary {
+  background: var(--sq-white);
+  color: var(--sq-black);
+  border: 1px solid var(--sq-gray-subtle);
+  padding: 16px 22px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* Search field */
+.sq-search {
+  background: var(--sq-gray-light);
+  border: none;
+  border-bottom: 1px solid var(--sq-gray-border);
+  height: 60px;
+  width: 100%;
+  max-width: 466px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  outline: none;
+  font-size: 15px;
+  font-family: var(--sq-font);
+  color: var(--sq-gray-placeholder);
+  padding: 0 16px;
+}
+
+/* Progress bar */
+.sq-progress {
+  position: relative;
+  height: 2px;
+  width: 88px;
+  background: var(--sq-progress-base);
+  border-radius: 5px;
+}
+
+.sq-progress-fill {
+  position: absolute;
+  top: 0; left: 0;
+  height: 2px;
+  background: var(--sq-black);
+  border-radius: 5px;
+  transition: width 0.3s ease;
+}
+
+/* Footer nav */
+.sq-footer {
+  background: var(--sq-white);
+  box-shadow: 0px -4px 32px 0px rgba(0,0,0,0.12);
+  height: 94px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 20px;
+  width: 100%;
+}
+
+.sq-footer-both {
+  justify-content: space-between;
+}
+
+/* Tag pills for mobile */
+.sq-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 14px;
+  border: 1px solid var(--sq-gray-subtle);
+  font-size: 13px;
+  color: var(--sq-black);
+  background: var(--sq-white);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sq-tag:hover { background: var(--sq-gray-light); }
+.sq-tag.selected { background: var(--sq-black); color: var(--sq-white); border-color: var(--sq-black); }
+
+/* AI chat bubbles */
+.sq-ai-bubble {
+  background: var(--sq-gray-light);
+  color: var(--sq-black);
+  padding: 12px 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 80%;
+  border-radius: 2px 12px 12px 12px;
+}
+
+.sq-user-bubble {
+  background: var(--sq-black);
+  color: var(--sq-white);
+  padding: 12px 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 80%;
+  border-radius: 12px 12px 2px 12px;
+}
+
+/* Reasoning callout */
+.sq-reasoning {
+  background: #fffbf0;
+  border-left: 3px solid #f0a500;
+  padding: 10px 14px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #666;
+}
+
+/* Context panel */
+.sq-context-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--sq-gray-subtle);
+}
+
+.sq-context-item:last-child { border-bottom: none; }
+
+/* Before/after toggle */
+.sq-toggle {
+  display: flex;
+  background: var(--sq-gray-light);
+  border: 1px solid var(--sq-gray-subtle);
+  overflow: hidden;
+}
+
+.sq-toggle-btn {
+  flex: 1;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: transparent;
+  border: none;
+  color: var(--sq-gray-mid);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sq-toggle-btn.active {
+  background: var(--sq-black);
+  color: var(--sq-white);
+}
+
+/* Section label */
+.sq-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sq-gray-mid);
+}
