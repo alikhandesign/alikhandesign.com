@@ -1,4 +1,5 @@
 'use client'
+import { getNextWork } from '@/app/work.config'
 import Link from 'next/link'
 import SideNav from '@/app/components/SideNav'
 import CTAStrip from '@/app/components/CTAStrip'

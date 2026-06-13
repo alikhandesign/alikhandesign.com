@@ -1,3 +1,4 @@
+import { getNextWork } from '@/app/work.config'
 import ProjectPage from '@/app/components/ProjectPage'
 
 
@@ -20,6 +21,6 @@ export default function Page() {
         { src: '', alt: 'Error States', caption: 'Instructive error state designs' },
         { src: '', alt: 'Offline Mode', caption: 'Offline mode and unsent recordings experience' }]}
     cta={{ title: 'Want to see how I built a scalable design system and designed for failure in a zero-to-one clinical iOS product?' }}
-    next={{ title: 'Signify Health Rebrand', href: '/work/signify-rebrand' }}
+    next={getNextWork('vivio')!}
   />
 }

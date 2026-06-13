@@ -1,3 +1,4 @@
+import { getNextWork } from '@/app/work.config'
 import ProjectPage from '@/app/components/ProjectPage'
 
 
@@ -19,6 +20,6 @@ export default function Page() {
         { src: '', alt: 'Heuristic Mapping', caption: 'Heuristic to prompt mapping' },
         { src: '', alt: 'Before/After Comparison', caption: 'Manual vs AI audit output comparison' }]}
     cta={{ title: 'Want to see how AI can systematize UX audits at scale?' }}
-    next={{ title: 'Design Handoff Checklist', href: '/work/design-handoff' }}
+    next={getNextWork('llm-prompts')!}
   />
 }

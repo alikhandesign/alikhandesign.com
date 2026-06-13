@@ -1,3 +1,4 @@
+import { getNextWork } from '@/app/work.config'
 import ProjectPage from '@/app/components/ProjectPage'
 
 
@@ -20,6 +21,6 @@ export default function Page() {
         { src: '', alt: 'Recommendations Framework', caption: 'Prioritized recommendations framework' },
         { src: '', alt: 'Before/After IA', caption: 'Before and after information architecture comparison' }]}
     cta={{ title: 'Want to see how mixed-methods research can simplify complex decision-making?' }}
-    next={{ title: 'Vivio Clinical App', href: '/work/vivio' }}
+    next={getNextWork('ancillary-journey')!}
   />
 }

@@ -1,3 +1,4 @@
+import { getNextWork } from '@/app/work.config'
 import ProjectPage from '@/app/components/ProjectPage'
 
 
@@ -19,6 +20,6 @@ export default function Page() {
         { src: '', alt: 'Before/After Handoff Quality', caption: 'Handoff quality before and after' },
         { src: '', alt: 'Team Adoption', caption: 'Team adoption and usage patterns' }]}
     cta={{ title: 'Want to see how a structured handoff process eliminates design-to-dev friction?' }}
-    next={{ title: 'Optimizing the Ancillary Insurance Journey', href: '/work/ancillary-journey' }}
+    next={getNextWork('design-handoff')!}
   />
 }

@@ -14,7 +14,7 @@ interface ProjectPageProps {
   sections: Section[];
   gallery: { src: string; alt: string; caption?: string }[];
   cta: { title: string };
-  next: { title: string; href: string };
+  next: { title: string; href: string; type: 'case-study' | 'project' };
 }
 
 export default function ProjectPage({ title, company, tags, hook, details, sections, gallery, cta, next }: ProjectPageProps) {
@@ -69,10 +69,10 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
         <div className="next-project">
           <div>
-            <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: 'var(--letter-spacing-lg)', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: 'var(--space-1)' }}>Next Project</p>
+            <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: 'var(--letter-spacing-lg)', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: 'var(--space-1)' }}>{next.type === 'case-study' ? 'Next Case Study' : 'Next Project'}</p>
             <p className="font-serif" style={{ fontSize: 'var(--font-size-xl)', fontWeight: 400 }}>{next.title}</p>
           </div>
-          <Link href={next.href} style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
+          <Link href={next.href} style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>{next.type === 'case-study' ? 'Read case study' : 'View project'} →</Link>
         </div>
       </div>
 

@@ -63,6 +63,6 @@ export const Default: Story = {
       { src: '', alt: 'Recording Workflow', caption: '5-step recording workflow' },
     ],
     cta: { title: 'Want to see how I built a scalable design system for a zero-to-one clinical product?' },
-    next: { title: 'Signify Health Rebrand', href: '/work/signify-rebrand' },
+    next: { title: 'Signify Health Rebrand', href: '/work/signify-rebrand', type: 'project' as const },
   },
 }
