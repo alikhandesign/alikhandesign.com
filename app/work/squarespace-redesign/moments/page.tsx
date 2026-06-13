@@ -39,7 +39,7 @@ export default function MomentsPage() {
     <main style={{ minHeight: '100vh', background: 'var(--color-bg)' }}>
 
       {/* Breadcrumb */}
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: 'var(--space-4) var(--space-6) 0' }}>
+      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '1.25rem 3rem 0' }}>
         <Breadcrumb items={[
           { label: 'My Work', href: '/work' },
           { label: 'From Checkboxes to Conversations', href: '/work/squarespace-redesign' },
@@ -47,7 +47,7 @@ export default function MomentsPage() {
         ]} />
       </div>
 
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: 'var(--space-12) var(--space-6)' }}>
+      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '2.5rem 3rem 3rem' }}>
 
         {/* Header */}
         <SectionLabel label="From Checkboxes to Conversations" />
