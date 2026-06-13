@@ -188,7 +188,7 @@ export default function WorkPage() {
         <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--color-border)' }}>
             <h2 className="font-serif" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 400 }}>Case Studies</h2>
-            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em' }}>— {caseStudies.length} deep dives</span>
+            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em' }}>— {visibleCaseStudies.length} deep dives</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
             {visibleCaseStudies.map(cs => (
