@@ -66,6 +66,8 @@ interface Message {
   pendingQuestion?: number
 }
 
+import MomentNav from '../MomentNav'
+
 // ── Side panel image (tech-lifestyle unsplash) ─────────────
 const SIDE_IMG = "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&q=80"
 
@@ -318,22 +320,8 @@ export default function Moment1() {
   )
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: SQ.white, fontFamily: "'Helvetica Neue', Arial, sans-serif" }}>
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '22px 40px', flexShrink: 0, borderBottom: `1px solid ${SQ.graySubtle}` }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <SQLogoMark />
-          <span style={{ fontSize: 15, fontWeight: 600, letterSpacing: '1px', color: SQ.black, textTransform: 'uppercase' as const }}>Squarespace</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          {/* Before/after toggle */}
-          <div style={{ display: 'flex', border: `1px solid ${SQ.graySubtle}` }}>
-            <button onClick={() => setView('before')} style={{ padding: '8px 16px', fontSize: 12, fontWeight: 500, letterSpacing: '2px', textTransform: 'uppercase' as const, background: view === 'before' ? SQ.black : 'transparent', color: view === 'before' ? SQ.white : SQ.grayMid, border: 'none', cursor: 'pointer', transition: 'all 0.2s' }}>Before</button>
-            <button onClick={() => setView('after')} style={{ padding: '8px 16px', fontSize: 12, fontWeight: 500, letterSpacing: '2px', textTransform: 'uppercase' as const, background: view === 'after' ? SQ.black : 'transparent', color: view === 'after' ? SQ.white : SQ.grayMid, border: 'none', cursor: 'pointer', transition: 'all 0.2s' }}>After</button>
-          </div>
-          <span style={{ fontSize: 14, letterSpacing: '3.5px', textTransform: 'uppercase' as const, color: SQ.black, fontWeight: 500 }}>I'M JUST BROWSING</span>
-        </div>
-      </div>
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: SQ.white, fontFamily: "'Helvetica Neue', Arial, sans-serif", paddingTop: 101 }}>
+      <MomentNav current={1} view={view} onViewChange={setView} />
 
       {/* Body */}
       <div style={{ flex: 1, overflow: 'hidden' }}>

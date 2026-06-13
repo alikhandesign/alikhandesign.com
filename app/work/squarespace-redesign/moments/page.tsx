@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import SectionLabel from '@/app/components/SectionLabel'
 import StatCard from '@/app/components/StatCard'
+import Breadcrumb from '@/app/components/Breadcrumb'
 
 const moments = [
   {
@@ -37,16 +38,16 @@ export default function MomentsPage() {
   return (
     <main style={{ minHeight: '100vh', background: 'var(--color-bg)' }}>
 
-      {/* Nav */}
-      <nav style={{ borderBottom: '1px solid var(--color-border)', padding: '1rem var(--space-6)' }}>
-        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-          <Link href="/work/squarespace-redesign" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>
-            ← Case study
-          </Link>
-          <span style={{ color: 'var(--color-border-mid)', fontSize: 'var(--font-size-sm)' }}>·</span>
-          <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>Interactive prototypes</span>
+      {/* Breadcrumb */}
+      <div style={{ borderBottom: '1px solid var(--color-border)', padding: 'var(--space-4) var(--space-6)' }}>
+        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
+          <Breadcrumb items={[
+            { label: 'My Work', href: '/work' },
+            { label: 'From Checkboxes to Conversations', href: '/work/squarespace-redesign' },
+            { label: 'Interactive Prototypes' },
+          ]} />
         </div>
-      </nav>
+      </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: 'var(--space-12) var(--space-6)' }}>
 
@@ -157,8 +158,18 @@ export default function MomentsPage() {
 
         {/* Footer */}
         <div style={{ marginTop: 'var(--space-12)', paddingTop: 'var(--space-6)', borderTop: '1px solid var(--color-border)' }}>
-          <Link href="/work/squarespace-redesign" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>
-            ← Back to case study
+          <Link href="/work/squarespace-redesign" style={{
+            fontSize: 'var(--font-size-sm)',
+            color: 'var(--color-accent)',
+            textDecoration: 'none',
+            fontWeight: 500,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+            borderBottom: '1px solid var(--color-accent)',
+            paddingBottom: 2,
+          }}>
+            Back to case study →
           </Link>
         </div>
 

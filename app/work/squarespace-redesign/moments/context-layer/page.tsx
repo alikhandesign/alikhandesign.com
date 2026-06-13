@@ -1,4 +1,5 @@
 'use client'
+import MomentNav from '../MomentNav'
 import { useState } from 'react'
 
 const SQ = {
@@ -39,6 +40,7 @@ const EDIT_SUGGESTIONS: Record<string, string> = {
 
 export default function Moment3() {
   const [view, setView] = useState<'before' | 'after'>('after')
+  const [published, setPublished] = useState(false)
   const [context, setContext] = useState(INITIAL_CONTEXT)
   const [editing, setEditing] = useState<string | null>(null)
   const [editInput, setEditInput] = useState('')
@@ -242,31 +244,34 @@ export default function Moment3() {
           ))}
         </div>
 
-        <div style={{ background: SQ.white, boxShadow: '0px -4px 32px 0px rgba(0,0,0,0.12)', height: 94, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', flexShrink: 0 }}>
-          <button style={{ background: SQ.white, color: SQ.black, border: `1px solid ${SQ.graySubtle}`, padding: '16px 22px', fontSize: 14, letterSpacing: '3.5px', textTransform: 'uppercase' as const }}>BACK</button>
-          <button style={{ background: SQ.black, color: SQ.white, border: 'none', padding: '16px 22px', fontSize: 14, letterSpacing: '3.5px', textTransform: 'uppercase' as const }}>PUBLISH →</button>
-        </div>
+        {published ? (
+          <div style={{ background: '#f0f7f0', borderTop: '1px solid #2a7a2a', padding: '20px 24px', flexShrink: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div>
+                <p style={{ fontSize: 14, fontWeight: 600, color: '#2a7a2a', marginBottom: 4 }}>✓ Your site is live</p>
+                <p style={{ fontSize: 12, color: '#2a7a2a', lineHeight: 1.5 }}>
+                  This is what happens when the AI actually understood you from the start —<br />
+                  a site that reflects who you are, not who the algorithm assumed you'd be.
+                </p>
+              </div>
+              <a href="/work/squarespace-redesign" style={{ fontSize: 12, color: '#2a7a2a', textDecoration: 'none', letterSpacing: '2px', textTransform: 'uppercase' as const, border: '1px solid #2a7a2a', padding: '10px 16px', flexShrink: 0, marginLeft: 24 }}>
+                BACK TO CASE STUDY →
+              </a>
+            </div>
+          </div>
+        ) : (
+          <div style={{ background: SQ.white, boxShadow: '0px -4px 32px 0px rgba(0,0,0,0.12)', height: 94, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', flexShrink: 0 }}>
+            <button style={{ background: SQ.white, color: SQ.black, border: `1px solid ${SQ.graySubtle}`, padding: '16px 22px', fontSize: 14, letterSpacing: '3.5px', textTransform: 'uppercase' as const }}>BACK</button>
+            <button onClick={() => setPublished(true)} style={{ background: SQ.black, color: SQ.white, border: 'none', padding: '16px 22px', fontSize: 14, letterSpacing: '3.5px', textTransform: 'uppercase' as const, cursor: 'pointer' }}>PUBLISH →</button>
+          </div>
+        )}
       </div>
     </div>
   )
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: SQ.white, fontFamily: "'Helvetica Neue', Arial, sans-serif" }}>
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '22px 40px', flexShrink: 0, borderBottom: `1px solid ${SQ.graySubtle}` }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <SQLogoMark />
-          <span style={{ fontSize: 15, fontWeight: 600, letterSpacing: '1px', color: SQ.black, textTransform: 'uppercase' as const }}>Squarespace</span>
-          <span style={{ fontSize: 12, color: SQ.grayMid, marginLeft: 8 }}>Blueprint AI</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <div style={{ display: 'flex', border: `1px solid ${SQ.graySubtle}` }}>
-            <button onClick={() => setView('before')} style={{ padding: '8px 16px', fontSize: 12, fontWeight: 500, letterSpacing: '2px', textTransform: 'uppercase' as const, background: view === 'before' ? SQ.black : 'transparent', color: view === 'before' ? SQ.white : SQ.grayMid, border: 'none', cursor: 'pointer', transition: 'all 0.2s' }}>Before</button>
-            <button onClick={() => setView('after')} style={{ padding: '8px 16px', fontSize: 12, fontWeight: 500, letterSpacing: '2px', textTransform: 'uppercase' as const, background: view === 'after' ? SQ.black : 'transparent', color: view === 'after' ? SQ.white : SQ.grayMid, border: 'none', cursor: 'pointer', transition: 'all 0.2s' }}>After</button>
-          </div>
-          <span style={{ fontSize: 14, letterSpacing: '3.5px', textTransform: 'uppercase' as const, color: SQ.black, fontWeight: 500 }}>I'M JUST BROWSING</span>
-        </div>
-      </div>
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: SQ.white, fontFamily: "'Helvetica Neue', Arial, sans-serif", paddingTop: 101 }}>
+      <MomentNav current={3} view={view} onViewChange={setView} />
       <div style={{ flex: 1, overflow: 'hidden' }}>
         {view === 'before' ? <BeforeView /> : <AfterView />}
       </div>
