@@ -28,6 +28,10 @@ interface CaseStudyPageProps {
   // Optional password gate
   unlocked?: boolean
 
+  // Optional hero image
+  heroImage?: string
+  heroImageAlt?: string
+
   // Main content
   children: React.ReactNode
 
@@ -47,6 +51,8 @@ export default function CaseStudyPage({
   details,
   sections,
   unlocked,
+  heroImage,
+  heroImageAlt = 'Case study hero image',
   children,
   cta,
   next,
@@ -101,6 +107,17 @@ export default function CaseStudyPage({
             {hook}
           </p>
         </header>
+
+        {/* ── Hero image ── */}
+        {heroImage && (
+          <div style={{ padding: '0 3rem 2rem' }}>
+            <img
+              src={heroImage}
+              alt={heroImageAlt}
+              style={{ width: '100%', borderRadius: 'var(--radius-sm)', display: 'block' }}
+            />
+          </div>
+        )}
 
         {/* ── Header metrics ── */}
         {metrics && metrics.length > 0 && (

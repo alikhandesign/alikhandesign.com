@@ -190,6 +190,8 @@ export default function SquarespaceRedesignPage() {
         { label: 'Type', value: 'Self-initiated, 2026' },
       ]}
       sections={['the-context', 'the-problem', 'the-research', 'the-insight', 'the-design', 'the-outcomes', 'the-reflection']}
+      heroImage="/images/work/squarespace-redesign/hero-before-after.jpg"
+      heroImageAlt="Before: Squarespace Blueprint AI generates 'Strategic Design Excellence' for a UX designer. After: the redesigned transparent builder showing AI reasoning inline."
       cta={{ title: 'Interested in how this came together?' }}
       next={getNextWork('squarespace-redesign')!}
     >
