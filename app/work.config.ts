@@ -45,3 +45,41 @@ export function getNextWork(slug: string): NextWork | null {
   const next = workItems[(index + 1) % workItems.length]
   return { title: next.title, href: `/work/${next.slug}`, type: next.type }
 }
+
+/**
+ * Server-side: returns work items merged with KV overrides.
+ * Order and visibility from KV take precedence over work.config.ts defaults.
+ * Falls back to config file order with all items visible if KV has no data.
+ * Only call this from server components or API routes.
+ */
+export async function getWorkItems(): Promise<(WorkItem & { visible: boolean })[]> {
+  try {
+    const { Redis } = await import('@upstash/redis')
+    const kv = new Redis({
+      url: process.env.KV_REST_API_URL!,
+      token: process.env.KV_REST_API_TOKEN!,
+    })
+
+    const [kvOrder, kvConfig] = await Promise.all([
+      kv.get<string[]>('admin:work:order'),
+      kv.get<Record<string, { visible: boolean }>>('admin:work:config'),
+    ])
+
+    // Determine order
+    const orderedSlugs: string[] = kvOrder
+      ? kvOrder
+      : workItems.map(i => i.slug)
+
+    // Build ordered list, merging visibility from KV
+    return orderedSlugs
+      .map(slug => workItems.find(i => i.slug === slug))
+      .filter((item): item is WorkItem => !!item)
+      .map(item => ({
+        ...item,
+        visible: kvConfig?.[item.slug]?.visible ?? true,
+      }))
+  } catch {
+    // KV unavailable — return all items visible in config order
+    return workItems.map(item => ({ ...item, visible: true }))
+  }
+}

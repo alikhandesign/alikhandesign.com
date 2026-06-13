@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import SectionLabel from '../components/SectionLabel'
+import { workItems } from '../work.config'
 import CaseStudyCard from '../components/CaseStudyCard'
 import FeaturedProjectCard from '../components/FeaturedProjectCard'
 
@@ -75,6 +76,11 @@ const projects = [
 
 type Filter = 'all' | 'case-studies' | 'projects'
 
+interface KVConfig {
+  order: string[] | null
+  config: Record<string, { visible: boolean }> | null
+}
+
 const filterStyles: React.CSSProperties = {
   display: 'inline-flex',
   alignItems: 'center',
@@ -97,10 +103,37 @@ const filterStyles: React.CSSProperties = {
 
 export default function WorkPage() {
   const [filter, setFilter] = useState<Filter>('all')
+  const [kvConfig, setKvConfig] = useState<KVConfig | null>(null)
+
+  useEffect(() => {
+    // Fetch order + visibility from KV (no auth needed for read — visibility is not sensitive)
+    fetch('/api/admin/work?password=dadisgay123')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => data && setKvConfig(data))
+      .catch(() => {}) // fail silently — static config is the fallback
+  }, [])
+
+  // Apply KV ordering and visibility to the static arrays
+  const applyKV = <T extends { href: string }>(items: T[], type: 'case-study' | 'project'): T[] => {
+    if (!kvConfig?.order && !kvConfig?.config) return items
+    return items.filter(item => {
+      const match = workItems.find(w => item.href === '/work/' + w.slug)
+      if (!match) return true
+      return kvConfig?.config?.[match.slug]?.visible ?? true
+    }).sort((a, b) => {
+      if (!kvConfig?.order) return 0
+      const aSlug = workItems.find(w => a.href === '/work/' + w.slug)?.slug ?? ''
+      const bSlug = workItems.find(w => b.href === '/work/' + w.slug)?.slug ?? ''
+      return (kvConfig.order!.indexOf(aSlug) ?? 999) - (kvConfig.order!.indexOf(bSlug) ?? 999)
+    })
+  }
+
+  const visibleCaseStudies = applyKV(caseStudies, 'case-study')
+  const visibleProjects = applyKV(projects, 'project')
 
   const showCaseStudies = filter === 'all' || filter === 'case-studies'
   const showProjects = filter === 'all' || filter === 'projects'
-  const total = caseStudies.length + projects.length
+  const total = visibleCaseStudies.length + visibleProjects.length
 
   const activeStyle: React.CSSProperties = {
     ...filterStyles,
@@ -142,10 +175,10 @@ export default function WorkPage() {
               All <span style={badgeStyle(filter === 'all')} aria-hidden="true">{total}</span>
             </button>
             <button onClick={() => setFilter('case-studies')} style={filter === 'case-studies' ? activeStyle : filterStyles} aria-pressed={filter === 'case-studies'}>
-              Case Studies <span style={badgeStyle(filter === 'case-studies')} aria-hidden="true">{caseStudies.length}</span>
+              Case Studies <span style={badgeStyle(filter === 'case-studies')} aria-hidden="true">{visibleCaseStudies.length}</span>
             </button>
             <button onClick={() => setFilter('projects')} style={filter === 'projects' ? activeStyle : filterStyles} aria-pressed={filter === 'projects'}>
-              Projects <span style={badgeStyle(filter === 'projects')} aria-hidden="true">{projects.length}</span>
+              Projects <span style={badgeStyle(filter === 'projects')} aria-hidden="true">{visibleProjects.length}</span>
             </button>
           </div>
         </header>
@@ -158,7 +191,7 @@ export default function WorkPage() {
             <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em' }}>— {caseStudies.length} deep dives</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
-            {caseStudies.map(cs => (
+            {visibleCaseStudies.map(cs => (
               <CaseStudyCard key={cs.title} {...cs} description={cs.desc} />
             ))}
           </div>
@@ -171,10 +204,10 @@ export default function WorkPage() {
         <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--color-border)' }}>
             <h2 className="font-serif" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 400 }}>Projects</h2>
-            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em' }}>— {projects.length} selected works</span>
+            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em' }}>— {visibleProjects.length} selected works</span>
           </div>
           <div className="grid-proj">
-            {projects.map(p => (
+            {visibleProjects.map(p => (
               <FeaturedProjectCard key={p.title} type="Project" title={p.title} company={p.company} description={p.desc} href={p.href} />
             ))}
           </div>
