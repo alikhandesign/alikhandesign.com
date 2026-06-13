@@ -10,6 +10,7 @@ export default function CalloutCard({ title, body, variant = 'dark' }: CalloutCa
   return (
     <div style={{
       padding: 'var(--space-4)',
+      marginBottom: '1.25rem',
       borderLeft: '3px solid var(--color-accent)',
       background: isDark ? 'var(--color-surface-dark)' : 'var(--color-surface)',
       borderRadius: '0 var(--radius-sm) var(--radius-sm) 0',

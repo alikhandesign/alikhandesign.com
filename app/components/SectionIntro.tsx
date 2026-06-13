@@ -8,7 +8,7 @@ export default function SectionIntro({ label, heading }: SectionIntroProps) {
     <>
       <p className="section-label">{label}</p>
       <h2 className="font-serif" style={{
-        fontSize: 'var(--font-size-base)',
+        fontSize: 'var(--font-size-2xl)',
         fontWeight: 400,
         lineHeight: 1.2,
         marginBottom: '1.25rem',

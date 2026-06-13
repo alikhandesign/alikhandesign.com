@@ -114,7 +114,7 @@ export default function CaseStudyPage({
             <img
               src={heroImage}
               alt={heroImageAlt}
-              style={{ width: '100%', borderRadius: 'var(--radius-sm)', display: 'block' }}
+              style={{ width: '100%', borderRadius: 'var(--radius-sm)', display: 'block', border: '1px solid var(--color-border)' }}
             />
           </div>
         )}
