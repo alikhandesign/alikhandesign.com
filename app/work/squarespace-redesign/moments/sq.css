@@ -15,7 +15,7 @@
   --sq-font: 'Helvetica Neue', Arial, sans-serif;
 }
 
-html, body { height: 100%; background: #fff; }
+/* html/body background applied via layout wrapper to avoid leaking into main site during client-side navigation */
 
 body {
   font-family: var(--sq-font);

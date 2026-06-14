@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function MomentsLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body style={{ margin: 0, padding: 0, background: '#fff' }}>
+      <body style={{ margin: 0, padding: 0, background: '#fff', minHeight: '100vh' }}>
         {children}
       </body>
     </html>
