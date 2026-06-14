@@ -28,6 +28,23 @@ export const workItems: WorkItem[] = [
   { slug: 'design-handoff',      title: 'Design Handoff Checklist',            type: 'project'    },
 ]
 
+// Metadata for each work item when surfaced in the Featured Work section
+// on the home page. Covers all items so any can be flagged as featured.
+export const featuredMeta: Record<string, { company: string; description: string }> = {
+  'pattern-library':      { company: 'Self-initiated',       description: 'An empirically grounded pattern library treating AI-specific interaction problems — uncertainty, silence, failure, correction — as a distinct design domain.' },
+  'ai-agent':             { company: 'Willis Towers Watson', description: 'An agentic AI pipeline that automated qualitative synthesis — reducing a full day of analysis to minutes with 95% accuracy.' },
+  'people-first':         { company: 'Via Benefits · WTW',   description: 'Dismantling a legacy product-first gate to drive a 15% lift in total enrollments and 45% faster time-to-convert.' },
+  'ihe-portal':           { company: 'Signify Health',       description: 'Research-led redesign of a scheduling portal to remove trust and access barriers for Medicare members declining a free clinical service.' },
+  'squarespace-redesign': { company: 'Self-initiated',       description: 'A systematic audit of Squarespace\'s AI tools across two user journeys — uncovering 20 distinct failure modes and the design decisions that caused them.' },
+  'the-portfolio':        { company: 'Self-initiated',       description: 'Building a portfolio from scratch as a deliberate demonstration of craft — the site itself as the argument for why the work matters.' },
+  'honest-design-system': { company: 'Self-initiated',       description: 'A token-first design system built specifically for this portfolio — Figma and code in 1:1 correspondence, with a live Storybook documentation site.' },
+  'vivio':                { company: 'Ventric Health',       description: 'Zero-to-one design system and native iOS app for a non-invasive heart failure diagnostic tool — designed for failure states as carefully as the happy path.' },
+  'ancillary-journey':    { company: 'Willis Towers Watson', description: 'Mixed-methods research into how Medicare enrollees navigate ancillary insurance — mapping comprehension gaps across the shopping flow to surface actionable findings.' },
+  'signify-rebrand':      { company: 'Signify Health',       description: 'Brand and web redesign translating an evolved mission into a live digital experience — resulting in a 50% increase in website traffic post-launch.' },
+  'llm-prompts':          { company: 'Willis Towers Watson', description: 'A structured prompt framework for AI-powered UX audits — producing heuristic-grounded, prioritized findings in hours instead of days.' },
+  'design-handoff':       { company: 'Willis Towers Watson', description: 'A shared design-to-development handoff framework that eliminated implicit expectations and reduced rework across design and engineering teams.' },
+}
+
 /**
  * Returns the next work item for a given slug.
  * Wraps around — last item links back to first.
@@ -81,5 +98,25 @@ export async function getWorkItems(): Promise<(WorkItem & { visible: boolean })[
   } catch {
     // KV unavailable — return all items visible in config order
     return workItems.map(item => ({ ...item, visible: true }))
+  }
+}
+
+/**
+ * Server-side: returns the featured work slugs from KV.
+ * Falls back to ['people-first', 'ai-agent'] if KV has no data.
+ * Only call this from server components or API routes.
+ */
+export async function getFeaturedSlugs(): Promise<string[]> {
+  try {
+    const { Redis } = await import('@upstash/redis')
+    const kv = new Redis({
+      url: process.env.KV_REST_API_URL!,
+      token: process.env.KV_REST_API_TOKEN!,
+    })
+    const featured = await kv.get<string[]>('admin:work:featured')
+    if (Array.isArray(featured) && featured.length > 0) return featured
+    return ['people-first', 'ai-agent']
+  } catch {
+    return ['people-first', 'ai-agent']
   }
 }

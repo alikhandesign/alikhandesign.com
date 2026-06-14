@@ -18,9 +18,16 @@ export async function GET(req: NextRequest) {
   }
   try {
     const kv = await getKV()
-    const order = await kv.get<string[]>('admin:work:order')
-    const config = await kv.get<Record<string, { visible: boolean }>>('admin:work:config')
-    return NextResponse.json({ order: order ?? null, config: config ?? null })
+    const [order, config, featured] = await Promise.all([
+      kv.get<string[]>('admin:work:order'),
+      kv.get<Record<string, { visible: boolean }>>('admin:work:config'),
+      kv.get<string[]>('admin:work:featured'),
+    ])
+    return NextResponse.json({
+      order: order ?? null,
+      config: config ?? null,
+      featured: featured ?? null,
+    })
   } catch (err) {
     console.error('Admin work GET error:', err)
     return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 })
@@ -35,10 +42,18 @@ export async function POST(req: NextRequest) {
   }
   try {
     const body = await req.json()
-    const { order, config } = body
+    const { order, config, featured } = body
+
+    if (Array.isArray(featured) && featured.length > 2) {
+      return NextResponse.json({ error: 'Maximum 2 featured items allowed' }, { status: 400 })
+    }
+
     const kv = await getKV()
-    await kv.set('admin:work:order', JSON.stringify(order))
-    await kv.set('admin:work:config', JSON.stringify(config))
+    await Promise.all([
+      kv.set('admin:work:order', JSON.stringify(order)),
+      kv.set('admin:work:config', JSON.stringify(config)),
+      kv.set('admin:work:featured', JSON.stringify(featured ?? [])),
+    ])
     return NextResponse.json({ ok: true })
   } catch (err) {
     console.error('Admin work POST error:', err)

@@ -4,16 +4,12 @@ import SectionLabel from './components/SectionLabel'
 import MetricCard from './components/MetricCard'
 import FeaturedProjectCard from './components/FeaturedProjectCard'
 import CalloutCard from './components/CalloutCard'
+import { workItems, featuredMeta, getFeaturedSlugs } from './work.config'
 
 const metrics = [
   { company: 'Via Benefits', value: '45%', desc: 'Faster time-to-convert after replacing a product-first gate with an identity-driven enrollment flow.', link: '/work/people-first' },
   { company: 'WTW', value: '8 hrs → 8 min', desc: 'Research synthesis time slashed using an agentic AI pipeline with 95% categorization accuracy.', link: '/work/ai-agent' },
   { company: 'Signify Health', value: '73 NPS', desc: 'Post-visit member satisfaction score for a program whose scheduling portal I redesigned to remove trust and access barriers.', link: '/work/ihe-portal' },
-]
-
-const featured = [
-  { type: 'Case Study' as const, title: 'People-First Enrollment Redesign', company: 'Via Benefits · WTW', desc: 'Dismantling a legacy product-first gate to drive a 15% lift in total enrollments and 45% faster time-to-convert.', href: '/work/people-first' },
-  { type: 'Case Study' as const, title: 'AI Feedback & Insights Agent', company: 'WTW', desc: 'An agentic AI pipeline that automated qualitative synthesis — reducing a full day of analysis to minutes with 95% accuracy.', href: '/work/ai-agent' },
 ]
 
 const values = [
@@ -23,7 +19,24 @@ const values = [
   { name: 'Giving Back', text: 'Volunteering, fostering, pro bono work.' },
 ]
 
-export default function Home() {
+export default async function Home() {
+  const featuredSlugs = await getFeaturedSlugs()
+
+  const featured = featuredSlugs
+    .map(slug => {
+      const item = workItems.find(w => w.slug === slug)
+      const meta = featuredMeta[slug]
+      if (!item || !meta) return null
+      return {
+        type: item.type === 'case-study' ? 'Case Study' as const : 'Project' as const,
+        title: item.title,
+        company: meta.company,
+        desc: meta.description,
+        href: `/work/${slug}`,
+      }
+    })
+    .filter((f): f is NonNullable<typeof f> => f !== null)
+
   return (
     <main>
       {/* Hero */}
@@ -86,7 +99,7 @@ export default function Home() {
         <h2 className="font-serif section-title" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 400, marginBottom: '3rem', lineHeight: 1.15 }}>Research in action.</h2>
         <div className="grid-2">
           {featured.map(f => (
-            <FeaturedProjectCard key={f.title} type={f.type} title={f.title} company={f.company} description={f.desc} href={f.href} />
+            <FeaturedProjectCard key={f.href} type={f.type} title={f.title} company={f.company} description={f.desc} href={f.href} />
           ))}
         </div>
       </section>
