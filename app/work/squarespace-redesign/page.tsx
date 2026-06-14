@@ -99,21 +99,21 @@ function FullCaseStudy() {
         <CalloutCard variant="light" title="Before we start making things look pretty — tell me about yourself." body="Who are you, what do you do, and what is this site actually for? The AI asks clarifying questions when answers are vague. Goals are woven into the audience question rather than separated into a checkbox grid." />
         <Body>The intake ends with a summary of what the AI understood, editable before anything is generated.</Body>
 
-        <ProjectImage src="/images/work/squarespace-redesign/moment-1-before-after.jpg" alt="Moment 1: Before and after — checkbox goals grid vs conversational intake" caption="Before: 'What do you want to do with your website?' — twelve checkboxes, no option for 'get hired.' After: three open-ended questions that build real context before generating anything." />
+        <ProjectImage src="/images/work/squarespace-redesign/moment-1-before-after.jpg" alt="Moment 1: Before and after — checkbox goals grid vs conversational intake" caption="The intake is where intent gets lost. Twelve checkboxes can't express 'I need to get hired.' Three open questions can — and the AI responds to what you actually said, not the category it mapped you to." />
 
         <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '2.5rem' }}>Moment 2 — The Transparent Builder</p>
         <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-accent)', fontWeight: 500, marginBottom: '0.75rem' }}>Show AI reasoning</p>
         <Body>The current builder generates a complete website silently. No explanation for any decision. No visibility into how inputs affected outputs. No mechanism to redirect specific choices without starting over.</Body>
         <Body>The redesign lets users click any section of the live preview to see why the AI made that decision. Each reasoning callout names the assumption behind the choice, identifies the failure mode it introduces, and suggests a specific override. Users direct the AI by pointing at what they want to change — closer to Figma Make or Vercel's v0 than to a settings panel.</Body>
 
-        <ProjectImage src="/images/work/squarespace-redesign/moment-2-before-after.jpg" alt="Moment 2: Before and after — silent generation vs transparent builder with AI reasoning" caption="Before: a complete site generated silently — no explanation for any decision, no way to redirect specific choices. After: click any section to see why the AI made that decision, name the failure mode, and apply an override directly." />
+        <ProjectImage src="/images/work/squarespace-redesign/moment-2-before-after.jpg" alt="Moment 2: Before and after — silent generation vs transparent builder with AI reasoning" caption="Opacity is what makes AI-generated content feel wrong without being able to say why. When the reasoning is visible — 'I chose this because you selected UI/UX Design' — you can redirect it. When it isn't, you can only start over." />
 
         <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '2.5rem' }}>Moment 3 — The Context Layer</p>
         <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-accent)', fontWeight: 500, marginBottom: '0.75rem' }}>Learn from behavior</p>
         <Body>The current system has no memory between sessions. Every editing prompt starts from zero. The post-generation dashboard shows no record of what the user said during onboarding.</Body>
         <Body>The redesign shows a persistent panel with what the AI currently understands — built from intake answers, updated as the user edits, annotated with confidence levels and source attribution. When the AI makes an assumption it surfaces it. When the user corrects it, the correction applies forward across all generated content.</Body>
 
-        <ProjectImage src="/images/work/squarespace-redesign/moment-3-before-after.jpg" alt="Moment 3: Before and after — generic setup checklist vs persistent context layer" caption="Before: 'Welcome, Ali' — a generic setup checklist with no memory of anything from onboarding. After: a persistent model of who you are, built from your intake answers and updated as you edit." />
+        <ProjectImage src="/images/work/squarespace-redesign/moment-3-before-after.jpg" alt="Moment 3: Before and after — generic setup checklist vs persistent context layer" caption="Session Blindness is the root failure. The system knew Ali Khan had a site called 'Ali Khan Design' with a professional personality — and presented him with a generic setup checklist anyway. The context layer shows what it looks like when the AI actually carries that knowledge forward." />
 
         <ResourceCard
           title="Interactive prototype"
@@ -132,6 +132,12 @@ function FullCaseStudy() {
           <StatCard value="4" label="Design principles" />
         </div>
 
+        <CalloutCard
+          variant="light"
+          title="How we'd know this works"
+          body="Validation would focus on three signals: intake completion rate (does conversational onboarding reduce drop-off vs. the checkbox flow?), override frequency in the transparent builder (does visible reasoning increase user agency?), and session continuity (does the context layer reduce repeated explanations across editing sessions?)."
+        />
+
         <Body>I came in wanting to update my portfolio. I left with a clearer picture of why that felt impossible: there was no way to tell Squarespace's AI what I actually needed. I needed to get hired. That intent — the real goal behind every decision about the site — had no place in the system's model of the world. The closest option in the goals checklist was 'Showcase work/expertise.' That's not the same thing.</Body>
         <Body mb={false}>I ended up leaving Squarespace entirely and building this site from scratch with Claude. Not because the audit frustrated me into it — but because working through what the system couldn't do made it obvious what a better process would look like. The difference wasn't technical. It was how the AI was designed to understand you.</Body>
       </section>
@@ -140,7 +146,8 @@ function FullCaseStudy() {
         <SectionIntro label="The Reflection" heading="Design is the difference" />
         <Body>This project started as a frustration and became a framework. The twenty failure modes aren't a list of bugs — they're a taxonomy of what happens when a product is designed around its own needs instead of its users' needs. That's a pattern that shows up far beyond Squarespace, and one I'll carry into every AI product I work on from here.</Body>
         <Body>The most important thing I learned: the gap between AI that gets in the way and AI that genuinely helps isn't about model capability. It's about how the system is designed to gather context, surface reasoning, and learn from behavior. Those are design problems. And design problems have design solutions.</Body>
-        <Body mb={false}>The failure mode taxonomy from this project became the foundation for a broader question: if these are the patterns that make AI interfaces fail, what does it look like when they succeed? That question led directly to the next case study.</Body>
+        <Body>The failure mode taxonomy from this project became the foundation for a broader question: if these are the patterns that make AI interfaces fail, what does it look like when they succeed? That question led directly to the next case study.</Body>
+        <Body mb={false}>AI onboarding systems fail when they optimize for categorization instead of understanding. That's not a technical problem. It's a design problem — and it has a design solution.</Body>
       </section>
 
     </div>
