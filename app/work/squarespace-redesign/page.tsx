@@ -7,6 +7,7 @@ import SectionIntro from '@/app/components/SectionIntro'
 import StatCard from '@/app/components/StatCard'
 import ResourceCard from '@/app/components/ResourceCard'
 import { ProjectImage } from '@/app/components/Lightbox'
+import FailureModeTaxonomy from '@/app/components/FailureModeTaxonomy'
 
 function FullCaseStudy() {
   return (
@@ -30,29 +31,11 @@ function FullCaseStudy() {
 
       <section id="the-research" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro label="The Research" heading="Twenty failure modes across two user journeys" />
-        <Body>I documented every failure systematically. Twenty distinct failure modes emerged — organized into three categories.</Body>
+        <Body>I documented every failure systematically. Twenty distinct failure modes emerged across four categories — click any category to explore, and any failure mode to see its definition.</Body>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', margin: '2rem 0' }}>
-          {[
-            ['Accuracy failures', 'The AI invented things that were never provided. Alexandre Khan with degrees in cognitive science. A fake phone number with specific calling hours. Six hundred words of chemical synthesis documentation for a UX pipeline. These outputs were presented with complete confidence, making fabricated content difficult to detect without careful scrutiny.'],
-            ['Relevance failures', 'The AI produced correct-format output for the wrong context. "Strategic Interface Design" for a job-search portfolio. Floristry photography for a UI/UX designer. E-commerce framing applied to a healthcare enrollment metric. The AI understood the structure of the request but not the meaning behind it.'],
-            ['Voice failures', "Even when output was technically acceptable, it belonged to no one in particular. Intent 9 produced genuinely good writing — thoughtful, well-structured — that could have been written by any senior designer anywhere. It replaced my voice with a competent anonymous one. That's harder to catch than obvious failure, and in some ways more dangerous."],
-          ].map(([title, desc]) => (
-            <div key={title as string} style={{ padding: '1.25rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', position: 'relative', overflow: 'hidden' }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: 3, background: 'var(--color-accent)' }} />
-              <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.5rem', paddingLeft: '0.75rem' }}>{title}</p>
-              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.7, paddingLeft: '0.75rem' }}>{desc}</p>
-            </div>
-          ))}
-        </div>
+        <FailureModeTaxonomy />
 
         <Body>The most consistent failure — appearing in eleven of twelve Track B intents and structuring the entire Track A experience — was Session Blindness. The AI has no persistent model of the user. Every interaction is the first interaction. Asked to summarize what it knew about me after twelve prompts, it produced a profile for a stranger.</Body>
-
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', margin: '2rem 0' }}>
-          <StatCard value="11" label="Session Blindness appearances" />
-          <StatCard value="10" label="Generic Output appearances" />
-          <StatCard value="8" label="Opacity appearances" />
-        </div>
 
         <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '1rem', marginTop: '2rem' }}>Track A — New user journey</p>
         <Body>I went through the full Blueprint AI onboarding as myself — a designer who knew exactly what he needed. The system asked me six questions. One was personal (site title). The rest were categorical: topic dropdown, goal checkboxes, personality archetype, color palette, font pairing.</Body>
