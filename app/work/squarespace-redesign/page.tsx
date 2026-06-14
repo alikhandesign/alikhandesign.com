@@ -43,8 +43,6 @@ function FullCaseStudy() {
         <Body>The default dropdown showed eight popular topics: Photography, Design, Education, Consulting, Art, Health, Marketing, Technology. I selected "Design" and proceeded. The AI generated a site with a chair as the hero image and "Strategic Design Excellence" as the headline.</Body>
         <Body>I went back. I typed "Design" into the search field and noticed "UI/UX Design" appear as a sub-option. It wasn't in the default list — only discoverable by searching. I selected it and ran the onboarding again. The chair became a phone. The headline became "Strategic Interface Design." Two words changed. The structure, copy quality, page recommendations, and fundamental personalization failures remained completely identical.</Body>
         <CalloutCard variant="light" title="I selected 'Design.' The AI gave me a chair." body="I went back, searched for 'UI/UX Design,' and ran it again. The chair became a phone. The headline changed by two words. Everything else stayed exactly the same." />
-        <Body>This single observation contains two findings. First: the system has more specificity than it surfaces — Discoverability Failure. "UI/UX Design" exists as a more granular input but is only discoverable by searching. A non-technical user who accepts "Design" from the default list never knows a better option exists. Second: even when you find the more specific input and use it, the fundamental failures persist.</Body>
-
         <ProjectImage src="/images/work/squarespace-redesign/research-design-vs-uiux.jpg" alt="Design vs UI/UX Design — chair becomes phone, headline changes by two words" caption="Selecting 'Design' produced a chair and 'Strategic Design Excellence.' Selecting 'UI/UX Design' produced a phone and 'Strategic Interface Design.' Two words changed. Everything else stayed the same." />
 
         <Body>The most revealing moment in Track A was font pairing. I worried the entire time about whether my selection would clash with my logo — my actual signature, which is the most personal and distinctive brand element I have. The system never asked about it. Not once.</Body>
@@ -59,9 +57,6 @@ function FullCaseStudy() {
         <Body>The AI failed every constraint simultaneously. It ignored the "not generic" instruction in Intent 1 and repeated the same vocabulary — "human-centered," "trustworthy," "AI experiences" — across every subsequent intent. It fabricated metrics, invented credentials, and in Intent 12 confirmed the pattern definitively: asked to summarize what it knew about me after twelve prompts, it produced a therapy profile for a stranger.</Body>
 
         <ProjectImage src="/images/work/squarespace-redesign/research-alexandre-khan.jpg" alt="Intent 7: AI renamed user Alexandre Khan with fabricated credentials" caption="Intent 7: The AI generated a bio for 'Alexandre Khan' — complete with invented degrees in cognitive science and a speaking career I don't have." />
-
-        <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '1rem', marginTop: '2rem' }}>The comparison</p>
-        <Body>Running both tracks revealed a three-way breakdown. Failures shared across both tracks — Generic Output, Template Prison, Opacity — are systemic. Track B failures are generative. Track A failures are architectural — they happen before the AI generates anything, in how the system is designed to gather input.</Body>
 
         <ResourceCard
           title="Full audit spreadsheet"
