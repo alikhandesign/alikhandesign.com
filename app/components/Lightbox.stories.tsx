@@ -8,14 +8,21 @@ import { ProjectImage } from './Lightbox'
  * with zoom-in trigger) or `GalleryGrid` (multi-image grid) instead.
  *
  * ## Behavior
- * - **Single image**: close button and counter are present; dot indicators and
- *   arrow navigation are hidden (no set to navigate).
+ * - **Single image**: click to zoom. Counter and dot indicators are hidden —
+ *   there is nothing to navigate to.
  * - **Multi-image**: dot indicators appear at the bottom. Each dot has a 44px
  *   tall touch target for mobile. The active dot expands to a 20px pill. Left/right
  *   arrow buttons appear on desktop and are hidden on mobile via media query.
  *   Swipe left/right navigates on touch devices.
  * - Keyboard: `Escape` closes, `ArrowLeft`/`ArrowRight` navigates.
  * - Clicking the backdrop closes the lightbox; clicking the image does not.
+ *
+ * ## Design rationale
+ * Lightbox in a case study is for zooming, not browsing. Case study images
+ * serve different narrative purposes at different points in the story — cycling
+ * through them out of order removes that context. Each `ProjectImage` therefore
+ * shows only itself in the lightbox. Multi-image cycling is reserved for
+ * `GalleryGrid` where images are explicitly presented as a set.
  *
  * ## Tokens used
  * - Backdrop: `rgba(28, 28, 26, 0.95)` (matches `--color-bg-dark` at near-full opacity)
@@ -35,7 +42,7 @@ import { ProjectImage } from './Lightbox'
  * ## Tap target sizing
  * Dot indicator buttons have a minimum height of 44px and minimum width of 24px,
  * satisfying WCAG 2.5.5 (Target Size). The visual dot (6px × 6px / 20px × 6px)
- * is rendered as an inner `<span>` so the tap zone is larger than the visible dot.
+ * is rendered as an inner span so the tap zone is larger than the visible dot.
  */
 
 const SAMPLE_IMAGES = [
@@ -63,7 +70,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'Full-screen image overlay. Consumed via `ProjectImage` (single image trigger) or `GalleryGrid` (gallery grid trigger). Supports keyboard navigation, touch swipe, and multi-image dot navigation with WCAG-compliant tap targets.',
+          'Full-screen image overlay. Consumed via `ProjectImage` (single image zoom trigger) or `GalleryGrid` (gallery grid trigger). Single images show no counter or dots. Multi-image sets show dot navigation with WCAG-compliant tap targets and keyboard/swipe support.',
       },
     },
   },
@@ -72,10 +79,8 @@ const meta: Meta = {
 export default meta
 type Story = StoryObj
 
-// ─── Default (closed state) ───────────────────────────────────────────────────
-// Shows the ProjectImage trigger — what the user sees before opening
 export const Default: Story = {
-  name: 'Default (trigger, not open)',
+  name: 'Default — single image trigger',
   render: () => (
     <div style={{ maxWidth: 480, fontFamily: 'var(--font-sans)' }}>
       <ProjectImage
@@ -87,63 +92,14 @@ export const Default: Story = {
         marginTop: '1rem', fontSize: 13,
         color: 'var(--color-text-muted)', fontFamily: 'var(--font-sans)',
       }}>
-        Click the image to open the lightbox overlay.
+        Click the image to open the lightbox. No counter or dots — single image zoom only.
       </p>
     </div>
   ),
 }
 
-// ─── Open (single image) ──────────────────────────────────────────────────────
-// Simulates the lightbox open with a single image — no dots, no arrows
-export const Open: Story = {
-  name: 'Open — single image',
-  render: () => {
-    const [open, setOpen] = useState(true)
-    return (
-      <div style={{ fontFamily: 'var(--font-sans)' }}>
-        {!open && (
-          <button
-            onClick={() => setOpen(true)}
-            style={{
-              padding: '0.5rem 1rem', background: 'var(--color-accent)',
-              color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer',
-              fontFamily: 'var(--font-sans)',
-            }}
-          >
-            Reopen lightbox
-          </button>
-        )}
-        {open && (
-          <ProjectImage
-            src={SAMPLE_IMAGES[0].src}
-            alt={SAMPLE_IMAGES[0].alt}
-            caption={SAMPLE_IMAGES[0].caption}
-          />
-        )}
-        {open && (
-          <div style={{
-            position: 'fixed', inset: 0, zIndex: 999,
-            display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
-            pointerEvents: 'none', paddingBottom: '5rem',
-          }}>
-            <p style={{
-              color: 'rgba(255,255,255,0.4)', fontSize: 12,
-              fontFamily: 'var(--font-sans)', letterSpacing: '0.05em',
-              pointerEvents: 'none',
-            }}>
-              Press Escape or click the backdrop to close
-            </p>
-          </div>
-        )}
-      </div>
-    )
-  },
-}
-
-// ─── Multi-image ──────────────────────────────────────────────────────────────
-// Three images — dot indicators and arrow navigation active
 export const MultiImage: Story = {
-  name: 'Multi-image (dot navigation)',
+  name: 'Multi-image — dot navigation',
   render: () => {
     const [open, setOpen] = useState(true)
     return (
@@ -152,7 +108,7 @@ export const MultiImage: Story = {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: 480 }}>
             <p style={{ color: 'var(--color-text-muted)', fontSize: 13, margin: 0 }}>
               Lightbox closed. Dot indicators (bottom center) have 44px touch targets.
-              Arrows are visible on desktop, hidden on mobile.
+              Arrows visible on desktop, hidden on mobile.
             </p>
             <button
               onClick={() => setOpen(true)}

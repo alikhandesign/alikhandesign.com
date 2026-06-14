@@ -88,15 +88,17 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
         onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
       >✕</button>
 
-      {/* Counter */}
-      <p style={{
-        position: 'absolute', top: '1.5rem', left: '50%',
-        transform: 'translateX(-50%)',
-        fontSize: 14, color: 'rgba(255,255,255,0.5)',
-        letterSpacing: '0.08em', fontFamily: 'Inter, sans-serif',
-      }}>
-        {current + 1} of {images.length}
-      </p>
+      {/* Counter — only shown when multiple images */}
+      {images.length > 1 && (
+        <p style={{
+          position: 'absolute', top: '1.5rem', left: '50%',
+          transform: 'translateX(-50%)',
+          fontSize: 14, color: 'rgba(255,255,255,0.5)',
+          letterSpacing: '0.08em', fontFamily: 'Inter, sans-serif',
+        }}>
+          {current + 1} of {images.length}
+        </p>
+      )}
 
       {/* Prev arrow — desktop only */}
       {images.length > 1 && (
@@ -259,15 +261,9 @@ export function ProjectImage({ src, alt, caption, allImages, imageIndex = 0 }: P
             width: '100%',
             borderRadius: 4,
             display: 'block',
-            filter: 'grayscale(100%)',
             transition: 'filter 0.3s, brightness 0.3s',
           }}
-          onMouseEnter={e => {
-            e.currentTarget.style.filter = 'grayscale(100%) brightness(1.08)'
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.filter = 'grayscale(100%)'
-          }}
+
         />
         {caption && (
           <p style={{
@@ -330,12 +326,10 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                   style={{
                     width: '100%', height: '100%',
                     objectFit: 'cover',
-                    filter: 'grayscale(100%)',
                     transition: 'filter 0.3s, brightness 0.3s',
                     display: 'block',
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.filter = 'grayscale(100%) brightness(1.08)' }}
-                  onMouseLeave={e => { e.currentTarget.style.filter = 'grayscale(100%)' }}
+
                 />
               ) : (
                 <div style={{
