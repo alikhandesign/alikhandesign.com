@@ -105,11 +105,10 @@ function FullCaseStudy() {
 
         <div style={{ marginBottom: '1.5rem' }}>
           <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '0.75rem',
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '1.5rem',
             marginBottom: '0.75rem',
-            maxWidth: 480,
           }}>
             {[
               { src: '/images/work/pattern-library/claude-spinner.gif', label: 'Claude' },
@@ -117,26 +116,23 @@ function FullCaseStudy() {
               { src: '/images/work/pattern-library/gemini-spinner.gif', label: 'Gemini' },
               { src: '/images/work/pattern-library/perplexity-spinner.gif', label: 'Perplexity' },
             ].map(({ src, label }) => (
-              <div key={label} style={{ position: 'relative' }}>
+              <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
                 <img
                   src={src}
                   alt={`${label} generation indicator looping indefinitely`}
                   style={{
-                    width: '100%',
+                    width: 160,
+                    height: 160,
+                    objectFit: 'contain',
                     display: 'block',
                     borderRadius: 'var(--radius-sm)',
                     border: '1px solid var(--color-border)',
+                    background: '#000',
                   }}
                 />
                 <span style={{
-                  position: 'absolute',
-                  bottom: '0.5rem',
-                  left: '0.5rem',
                   fontSize: 'var(--font-size-xs)',
                   color: 'var(--color-text-muted)',
-                  background: 'var(--color-bg)',
-                  padding: '2px 6px',
-                  borderRadius: '3px',
                   fontWeight: 500,
                 }}>
                   {label}
