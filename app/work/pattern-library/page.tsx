@@ -109,6 +109,7 @@ function FullCaseStudy() {
             gridTemplateColumns: '1fr 1fr',
             gap: '0.75rem',
             marginBottom: '0.75rem',
+            maxWidth: 480,
           }}>
             {[
               { src: '/images/work/pattern-library/claude-spinner.gif', label: 'Claude' },
@@ -175,6 +176,7 @@ function FullCaseStudy() {
                   loop
                   muted
                   playsInline
+                  controls
                   style={{
                     width: '100%',
                     display: 'block',
@@ -361,3 +363,4 @@ export default function PatternLibraryPage() {
     </CaseStudyPage>
   )
 }
+
