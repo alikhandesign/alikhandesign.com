@@ -1,10 +1,12 @@
 'use client'
 import { getNextWork } from '@/app/work.config'
+import CaseStudyPage from '@/app/components/CaseStudyPage'
+import SectionIntro from '@/app/components/SectionIntro'
+import Body from '@/app/components/Body'
+import CalloutCard from '@/app/components/CalloutCard'
+import StatCard from '@/app/components/StatCard'
+import PullQuote from '@/app/components/PullQuote'
 import Link from 'next/link'
-import SideNav from '@/app/components/SideNav'
-import CTAStrip from '@/app/components/CTAStrip'
-import ContactModal from '@/app/components/ContactModal'
-import { useState } from 'react'
 
 const SECTIONS = [
   'the-context',
@@ -12,6 +14,7 @@ const SECTIONS = [
   'the-framework',
   'the-audit',
   'the-findings',
+  'the-principles',
   'the-patterns',
   'the-build',
   'the-outcomes',
@@ -20,42 +23,45 @@ const SECTIONS = [
 
 function FullCaseStudy() {
   return (
-    <div style={{ maxWidth: 680 }}>
+    <div>
 
       <section id="the-context" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
-        <p className="section-label">The Context</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>AI interfaces are being designed without a shared language for their failure modes</h2>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>Conversational AI products have proliferated faster than the design thinking required to evaluate them. Most UI pattern libraries were built for conventional software — deterministic systems where inputs produce predictable outputs and failure states are well-understood. AI interfaces don't behave that way. They generate rather than retrieve. They fail silently. They express uncertainty inconsistently. They require correction as a routine interaction mode rather than an edge case.</p>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>Designers working on these products are largely working without shared infrastructure. There is no publicly available, empirically grounded pattern library that treats AI-specific interaction problems as a distinct design domain. This project is an attempt to build one.</p>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', margin: '2rem 0', padding: '1.5rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)' }}>
-          {[
-            ['My Role', 'Senior Product Designer (self-initiated)'],
-            ['Output', 'Competitive audit, pattern definitions, React implementation, design system components'],
-            ['Timeline', '2025–2026'],
-            ['Status', 'Phase 1 complete — conversational AI patterns'],
-          ].map(([label, val]) => (
-            <div key={label}>
-              <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>{label}</p>
-              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 500, lineHeight: 1.5 }}>{val}</p>
-            </div>
-          ))}
-        </div>
+        <SectionIntro
+          label="The Context"
+          heading="Designers working on AI products don't have a shared vocabulary for their failure modes"
+        />
+        <Body>
+          Conversational AI products have proliferated faster than the design thinking required to evaluate them. Most UI pattern libraries were built for conventional software — deterministic systems where inputs produce predictable outputs and failure states are well-understood. AI interfaces don't behave that way. They generate rather than retrieve. They fail silently. They express uncertainty inconsistently. They require correction as a routine interaction mode rather than an edge case.
+        </Body>
+        <Body mb={false}>
+          What doesn't exist publicly is an empirically grounded pattern library that treats AI-specific interaction problems as a distinct design domain — one built from observed behavior across real products, not from first principles or speculation. This project is an attempt to build one.
+        </Body>
       </section>
 
       <section id="the-problem" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
-        <p className="section-label">The Problem</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>The interfaces don't match the outputs they're presenting</h2>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>When I started using AI products seriously as a designer and researcher, I noticed a consistent gap between what the models were producing and what the interfaces were communicating about those outputs. A response that was partially fabricated looked identical to one grounded in verified sources. A generation that had silently stalled looked identical to one actively streaming. A knowledge gap — something the model simply didn't have in its training data — looked identical to a principled limit, something the model couldn't and shouldn't access.</p>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>These aren't aesthetic problems. They're trust problems. And they're solvable design problems — if you can first define what's actually going wrong and why.</p>
-        <div style={{ borderLeft: '3px solid var(--color-accent)', padding: '1.25rem 1.5rem', margin: '2rem 0', background: 'var(--color-surface)', borderRadius: '0 4px 4px 0' }}>
-          <p className="font-serif" style={{ fontSize: 'var(--font-size-xl)', color: 'var(--color-text)', lineHeight: 1.5, fontStyle: 'italic' }}>The core issue: AI output is probabilistic, but AI interfaces are designed as if it isn't. Every pattern I eventually defined traces back to this single mismatch.</p>
-        </div>
+        <SectionIntro
+          label="The Problem"
+          heading="The interfaces don't match the outputs they're presenting"
+        />
+        <Body>
+          When I started using AI products seriously as a designer and researcher, I noticed a consistent gap between what the models were producing and what the interfaces were communicating about those outputs. A response that was partially fabricated looked identical to one grounded in verified sources. A generation that had silently stalled looked identical to one actively streaming. A knowledge gap — something the model simply didn't have in its training data — looked identical to a principled limit, something the model couldn't and shouldn't access.
+        </Body>
+        <Body>
+          These aren't aesthetic problems. They're trust problems. And they're solvable — if you can first define what's actually going wrong and why.
+        </Body>
+        <PullQuote>
+          The core issue: AI output is probabilistic, but AI interfaces are designed as if it isn't. Every pattern I eventually defined traces back to this single mismatch.
+        </PullQuote>
       </section>
 
       <section id="the-framework" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
-        <p className="section-label">The Framework</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Four properties that make AI interfaces categorically different</h2>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>Before auditing any product, I needed to establish what made AI interfaces distinct enough to warrant their own pattern language. I identified four properties that separate them from conventional software interfaces.</p>
+        <SectionIntro
+          label="The Framework"
+          heading="Four properties that separate AI interfaces from everything that came before"
+        />
+        <Body>
+          Before auditing any product, I needed to establish what made AI interfaces distinct enough to warrant their own pattern language. Four properties set them apart from conventional software.
+        </Body>
         {[
           ['Inherent uncertainty', 'Every AI response carries some degree of uncertainty. Unlike a database query that returns a correct or incorrect result, model output exists on a confidence spectrum the interface rarely communicates.'],
           ['Generative output', "AI doesn't retrieve — it generates. Responses can be partially correct, confidently wrong, or accurate in ways that are impossible to verify without domain expertise. Interfaces designed around retrieved content don't account for this."],
@@ -67,49 +73,198 @@ function FullCaseStudy() {
             <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>{body}</p>
           </div>
         ))}
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>These four properties defined the six pattern categories: Generation States, Uncertainty Communication, Source & Attribution, Limitation Handling, Correction & Refinement, and Error States.</p>
+        <Body mb={false}>
+          These four properties defined the six pattern categories: Generation States, Uncertainty Communication, Source & Attribution, Limitation Handling, Correction & Refinement, and Error States.
+        </Body>
       </section>
 
       <section id="the-audit" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
-        <p className="section-label">The Audit</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Observed behavior across six products, using a standardized prompt set</h2>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>I audited six products: ChatGPT, Claude, Gemini, Perplexity, Notion AI, and GitHub Copilot. The methodology was designed to produce comparable, defensible findings rather than impressionistic product reviews.</p>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>A standard prompt set of 23 prompts was written before any product was tested and applied verbatim across all six. Prompts were designed to surface behavior in each of the six pattern categories — real-time data requests to test limitation handling, ambiguous correction signals to test refinement flows, network interruption scenarios to test error states.</p>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>Two data sources were treated as distinct throughout: observed product behavior and model self-assessment. Where products were asked to assess their own behavior, divergences between self-reported and observed behavior were flagged as key findings rather than used interchangeably.</p>
-        <div style={{ borderLeft: '3px solid var(--color-accent)', padding: '1.25rem 1.5rem', margin: '2rem 0', background: 'var(--color-surface)', borderRadius: '0 4px 4px 0' }}>
-          <p className="font-serif" style={{ fontSize: 'var(--font-size-xl)', color: 'var(--color-text)', lineHeight: 1.5, fontStyle: 'italic' }}>One finding was corrected mid-audit: Claude's response to a real-time stock price request was initially characterized as a hallucination. On review, Claude had used web search and disclosed it — the correct behavior. The error traced to a gap in the audit instrument: no field existed for web search disclosure. The finding was corrected and the instrument updated. This kind of self-correction is what a rigorous methodology requires.</p>
-        </div>
+        <SectionIntro
+          label="The Audit"
+          heading="Six products, 23 prompts, applied verbatim"
+        />
+        <Body>
+          I audited ChatGPT, Claude, Gemini, Perplexity, Notion AI, and GitHub Copilot. The methodology was designed to produce comparable, defensible findings rather than impressionistic product reviews.
+        </Body>
+        <Body>
+          A standard prompt set of 23 prompts was written before any product was tested and applied verbatim across all six. Prompts were designed to surface behavior in each of the six pattern categories — real-time data requests to test limitation handling, ambiguous correction signals to test refinement flows, network interruption scenarios to test error states.
+        </Body>
+        <Body mb={false}>
+          Two data sources were treated as distinct throughout: observed product behavior and model self-assessment. Where products were asked to describe their own behavior, divergences between self-reported and observed behavior were flagged as findings rather than used interchangeably.
+        </Body>
       </section>
 
       <section id="the-findings" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
-        <p className="section-label">The Findings</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>What six products revealed about the current state of AI interface design</h2>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.5rem' }}>Several findings were consistent enough across products to constitute documented gaps rather than individual product failures.</p>
+        <SectionIntro
+          label="The Findings"
+          heading="What six products revealed about the state of AI interface design"
+        />
+        <Body>
+          The most consistent failure in the audit wasn't a product-specific bug. It was a category-wide pattern gap.
+        </Body>
+
+        <div style={{ marginBottom: '1.5rem' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '0.75rem',
+            marginBottom: '0.75rem',
+          }}>
+            {[
+              { src: '/images/work/pattern-library/claude-spinner.gif', label: 'Claude' },
+              { src: '/images/work/pattern-library/chatgpt-spinner.gif', label: 'ChatGPT' },
+              { src: '/images/work/pattern-library/gemini-spinner.gif', label: 'Gemini' },
+              { src: '/images/work/pattern-library/perplexity-spinner.gif', label: 'Perplexity' },
+            ].map(({ src, label }) => (
+              <div key={label} style={{ position: 'relative' }}>
+                <img
+                  src={src}
+                  alt={`${label} generation indicator looping indefinitely`}
+                  style={{
+                    width: '100%',
+                    display: 'block',
+                    borderRadius: 'var(--radius-sm)',
+                    border: '1px solid var(--color-border)',
+                  }}
+                />
+                <span style={{
+                  position: 'absolute',
+                  bottom: '0.5rem',
+                  left: '0.5rem',
+                  fontSize: 'var(--font-size-xs)',
+                  color: 'var(--color-text-muted)',
+                  background: 'var(--color-bg)',
+                  padding: '2px 6px',
+                  borderRadius: '3px',
+                  fontWeight: 500,
+                }}>
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', lineHeight: 1.6 }}>
+            All four indicators loop indefinitely. None distinguish active generation from a frozen state.
+          </p>
+        </div>
+
+        <div style={{ marginBottom: '1.75rem' }}>
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 600, marginBottom: '0.5rem' }}>No product differentiates between generating and frozen.</p>
+          <Body>
+            The hung generation state — where a spinner continues running with no visual distinction between "still working" and "stalled" — was observed across Claude, ChatGPT, Gemini, and Perplexity. Four of six products. The interface shows identical behavior whether the model is three seconds from completing or has been stuck for three minutes. This isn't a design oversight — the model itself has no awareness of its own generation state. A hung generation is typically an infrastructure failure between the API and the client, which means the interface is flying blind. GitHub Copilot is the only product in the audit that breaks from this: when generation is interrupted, it surfaces the message "Copilot was interrupted before it could finish this message." Simple, specific, honest. No other product does this.
+          </Body>
+        </div>
+
+        <div style={{ marginBottom: '1.75rem' }}>
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 600, marginBottom: '0.5rem' }}>No product uses a visual confidence indicator.</p>
+          <Body>
+            Every product in this audit communicates uncertainty exclusively through language. Not one uses color, iconography, or structural treatment to distinguish a reliable claim from an uncertain one (distinct from model confidence in the technical sense, which refers to token prediction probability — not factual accuracy). The closest exception is Gemini's Double-Check feature — a post-response source verification tool that color-highlights claims as verified or contradicted by external sources — but that's a verification mechanism, not a confidence indicator at the point of generation. The absence of visual confidence design across the entire field is the most striking finding in the audit.
+          </Body>
+        </div>
+
+        <div style={{ marginBottom: '1.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginBottom: '0.75rem' }}>
+            {[
+              { src: '/images/work/pattern-library/perplexity-citation.mp4', label: 'Perplexity' },
+              { src: '/images/work/pattern-library/claude-citation.mp4', label: 'Claude' },
+            ].map(({ src, label }) => (
+              <div key={label} style={{ position: 'relative' }}>
+                <video
+                  src={src}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  style={{
+                    width: '100%',
+                    display: 'block',
+                    borderRadius: 'var(--radius-sm)',
+                    border: '1px solid var(--color-border)',
+                  }}
+                />
+                <span style={{
+                  position: 'absolute',
+                  bottom: '0.5rem',
+                  left: '0.5rem',
+                  fontSize: 'var(--font-size-xs)',
+                  color: 'var(--color-text-muted)',
+                  background: 'var(--color-bg)',
+                  padding: '2px 6px',
+                  borderRadius: '3px',
+                  fontWeight: 500,
+                }}>
+                  {label}
+                </span>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', lineHeight: 1.6 }}>
+            Perplexity cites on nearly every response. Claude presents equivalent claims with no attribution. Inconsistency is a worse trust signal than silence.
+          </p>
+        </div>
+
+        <div style={{ marginBottom: '1.75rem' }}>
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 600, marginBottom: '0.5rem' }}>Citation inconsistency is a worse trust signal than no citation.</p>
+          <Body>
+            Perplexity cites on nearly every factual response — inline footnotes, a persistent source panel, hover previews, links that resolve correctly. Claude cites on some responses and presents equivalent claims without attribution on others: health benefits of coffee got confident, uncited assertions; a startup failure rate claim appeared with no source. The problem isn't just the missing attribution — it's that users can't build a reliable mental model of when to verify. Inconsistency teaches either constant doubt or misplaced trust.
+          </Body>
+        </div>
+
+        <div style={{ marginBottom: '1.75rem' }}>
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 600, marginBottom: '0.5rem' }}>No product distinguishes "I don't know" from "I can't know."</p>
+          <Body mb={false}>
+            When a model's training data doesn't include a recent event, and when a model is structurally prevented from knowing something — private communications, unpublished information — the interface response is identical. These are different epistemic states requiring different user responses: one invites a web search, the other doesn't. No product surfaces this distinction visually or structurally.
+          </Body>
+        </div>
+
+        <CalloutCard
+          variant="light"
+          title="The clearest anti-pattern"
+          body="Notion AI hit a usage limit at 20 responses — mid-task, without prior warning — discarded work in progress, and replaced the limitation explanation with a marketing upsell. No progressive disclosure. No graceful exit. This is what limitation handling looks like when it's treated as an edge case."
+        />
+
+        <Body mb={false}>
+          The positive findings were as instructive. Claude's handling of real-time data requests — searching proactively and disclosing the search — is the correct pattern for capability limitation handling. GitHub Copilot's interrupted state notification is the correct pattern for hung states. Perplexity's source panel is the closest existing implementation of consistent citation infrastructure. The patterns already exist in fragments. The work is naming and systematizing them.
+        </Body>
+      </section>
+
+      <section id="the-principles" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
+        <SectionIntro
+          label="The Principles"
+          heading="Five principles that emerged from 23 prompts across six products"
+        />
+        <Body>
+          These aren't prior convictions — they're what the data kept pointing to.
+        </Body>
         {[
-          ['The hung state problem is the most widespread', 'No product in the audit differentiates between active generation and a stalled one. The streaming indicator runs identically whether the model is generating or frozen. Users have no signal to distinguish between the two and no prompt to intervene.'],
-          ['Inconsistent citation compounds trust problems', 'Perplexity cites on nearly every response with inline footnotes, a persistent source panel, and hover previews. ChatGPT and Claude cite inconsistently — sometimes attributing, sometimes not, for claims of equivalent credibility. Inconsistent citation is a worse trust signal than no citation: users cannot build a reliable mental model of when to verify.'],
-          ['No product differentiates epistemic states', "When a model lacks information because its training data doesn't include it, and when a model lacks information because it structurally cannot access it, the interface response is identical. These are different situations requiring different user responses."],
-          ['The clearest anti-pattern: Notion AI', 'Notion AI surfaced a hard usage limit mid-task without prior warning, discarding work in progress and replacing the limitation explanation with marketing copy. No product in the audit offered a proactive redirect before a limitation was hit.'],
-          ['The positive findings were as informative', "Claude's handling of real-time data requests — searching proactively and disclosing the search — is the correct pattern for knowledge limitation handling. GitHub Copilot is the only product that explicitly marks an interrupted response as incomplete. Perplexity's source panel is the closest existing implementation of consistent citation infrastructure."],
+          ['Status should be specific, not just present', "Generic loading indicators tell users something is happening but not what. AI generation is not a download; it's a reasoning process. The interface should reflect that distinction. An indicator that escalates from \"generating\" to \"something may be wrong\" after a defined threshold is more honest than one that runs indefinitely."],
+          ['Uncertainty should be visible before it\'s harmful', "Every AI response carries some degree of uncertainty. The interface's job is not to eliminate it but to make it legible — and to surface it at the beginning of a response, not buried within it. Absence of uncertainty signaling is itself a design choice. In AI interfaces, it's the wrong one."],
+          ['Inconsistent citation is more damaging than no citation', "Citations exist to give users the information they need to verify claims independently. When a product sometimes cites and sometimes doesn't for equivalent claims, it creates the illusion of accountability without actually providing it. Every empirical claim should be attributed, or the interface should be honest that attribution isn't available."],
+          ['Limitation handling is a first-class design problem', "A good limitation response tells the user what the system cannot do, why, and what they can do instead. Commercial limitations deserve the same honest treatment as technical ones. Users should know constraints exist before they hit them, not at the moment they're blocked."],
+          ["The most dangerous error is the one users don't notice", "Silent failures erode trust in ways that explicit errors don't, because users can't respond to what they can't see. Every failure state should tell the user what happened, what they might have lost, and what they can do next. If the system doesn't know why it failed, it should say so rather than displaying the same animation it shows when it's working."],
         ].map(([title, body]) => (
-          <div key={title} style={{ marginBottom: '1.75rem' }}>
-            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 600, marginBottom: '0.5rem' }}>{title}</p>
+          <div key={title} style={{ marginBottom: '1.5rem', paddingLeft: '1.25rem', borderLeft: '2px solid var(--color-border)' }}>
+            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 600, marginBottom: '0.35rem' }}>{title}</p>
             <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>{body}</p>
           </div>
         ))}
       </section>
 
       <section id="the-patterns" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
-        <p className="section-label">The Patterns</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Six definitions grounded in what the audit actually found</h2>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.5rem' }}>Each pattern definition answers four questions: what problem does it solve, what does it prescribe, what design decisions does it involve, and what tradeoffs exist. The definitions are the intellectual core of the library — the part that demonstrates design thinking rather than visual execution.</p>
+        <SectionIntro
+          label="The Patterns"
+          heading="Six definitions grounded in what the audit actually found"
+        />
+        <Body>
+          Each pattern definition answers four questions: what problem does it solve, what does it prescribe, what design decisions does it involve, and what tradeoffs exist. The definitions are the intellectual core of the library.
+        </Body>
         {[
-          ['Generation States', 'Four distinct states minimum: thinking, streaming, complete, and hung. Each requires a distinct visual treatment. Completion must be communicated explicitly, not inferred. The hung state must escalate from a generation indicator to an explicit error-adjacent state after a defined timeout, with a recovery affordance.'],
+          ['Generation States', 'Four distinct states minimum: thinking, streaming, complete, and hung. Each requires a distinct visual treatment. Completion must be communicated explicitly, not inferred from UI returning to its resting state. The hung state must escalate from a generation indicator to an explicit error-adjacent state after a defined timeout, with a recovery affordance.'],
           ['Uncertainty Communication', 'Epistemic banners appear before the response body, not within it. Three distinct states: knowledge gap, principled limit, and probabilistic claims. Claim-level uncertainty uses dotted underlines with hover explanations rather than response-level confidence scores.'],
           ['Source & Attribution', 'Citation must be consistent across comparable claims, inline rather than aggregated, and accessible without requiring a click-through. The Source Inspector panel slides in on citation click. Absent citation is marked explicitly so its absence is a deliberate signal rather than an interface gap.'],
           ['Limitation Handling', 'Three limitation types require distinct handling: capability limits redirect proactively, knowledge limits trigger a web search before responding, and commercial limits disclose progressively before the threshold is hit. The ARI structure — Acknowledge, Redirect, Invite — applies across all three.'],
           ['Correction & Refinement', 'Vague corrections trigger a Clarification Interceptor rather than blind regeneration. The interceptor presents structured options including a tone dropdown and inline text selection for targeted rephrasing. All prior versions are preserved and navigable.'],
-          ['Error States', 'A four-error taxonomy: hung state, network failure, context length exceeded, and policy refusal. Each has distinct visual treatment, specific copy, input preservation, and a recovery path. The user\'s prompt is never cleared during any error type.'],
+          ['Error States', "A four-error taxonomy: hung state, network failure, context length exceeded, and policy refusal. Each has distinct visual treatment, specific copy, input preservation, and a recovery path. The user's prompt is never cleared during any error type."],
         ].map(([title, body]) => (
           <div key={title} style={{ marginBottom: '1.5rem', paddingLeft: '1.25rem', borderLeft: '2px solid var(--color-border)' }}>
             <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 600, marginBottom: '0.35rem' }}>{title}</p>
@@ -124,40 +279,53 @@ function FullCaseStudy() {
       </section>
 
       <section id="the-build" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
-        <p className="section-label">The Build</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Pattern definitions proved in React, documented in Storybook</h2>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The pattern library is implemented as a Next.js route within the Honest Design System repository. Each pattern has three tabs: Pattern Definition (the intellectual core), Interactive Demo (proof of buildability), and All States (component reference).</p>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The interactive demos are behavioral rather than visual — they demonstrate state changes, timing, and conditional logic that static Figma frames cannot communicate. The Generation States demo runs a live streaming simulation with a watchdog timer that escalates to the hung state after five seconds without new tokens. The Source & Attribution demo slides the Source Inspector panel in on citation click. The Correction & Refinement demo triggers the Clarification Interceptor on vague input and supports inline text selection with a contextual toolbar.</p>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>Three net-new components were added to the Honest Design System as direct outputs of this work: TabNavigation (top and side variants), PatternAnnotation (an audit finding callout used consistently across all six demo tabs), and a secondary variant for the existing Button component. All three are documented in Storybook.</p>
+        <SectionIntro
+          label="The Build"
+          heading="Pattern definitions proved in React, documented in Storybook"
+        />
+        <Body>
+          The pattern library is implemented as a Next.js route within the portfolio repository. Each of the six patterns has three tabs: Pattern Definition (the intellectual core), Interactive Demo (proof of buildability), and All States (component reference).
+        </Body>
+        <Body mb={false}>
+          The interactive demos are behavioral rather than visual — they demonstrate state changes, timing, and conditional logic that static Figma frames can't communicate. The Generation States demo runs a live streaming simulation with a watchdog timer that escalates to the hung state after five seconds without new tokens. The Source & Attribution demo slides the Source Inspector panel in on citation click. The Correction & Refinement demo triggers the Clarification Interceptor on vague input and supports inline text selection with a contextual toolbar.
+        </Body>
+
+
       </section>
 
       <section id="the-outcomes" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
-        <p className="section-label">The Outcomes</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>A research artifact that didn't exist before</h2>
+        <SectionIntro
+          label="The Outcomes"
+          heading="A research artifact that didn't exist before"
+        />
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', margin: '2rem 0' }}>
-          {[
-            ['6', 'Pattern categories with formal definitions'],
-            ['6', 'Products audited'],
-            ['3', 'Net-new design system components'],
-            ['Public', 'Empirically grounded pattern library'],
-          ].map(([val, label]) => (
-            <div key={label} style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', padding: '1.25rem', position: 'relative', overflow: 'hidden' }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--color-accent)' }} />
-              <div className="font-serif" style={{ fontSize: '1.5rem', color: 'var(--color-accent)', lineHeight: 1, marginBottom: '0.35rem' }}>{val}</div>
-              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', lineHeight: 1.4 }}>{label}</div>
-            </div>
-          ))}
+          <StatCard value="6" label="Products audited" />
+          <StatCard value="6" label="Pattern categories defined" />
+          <StatCard value="23" label="Standardized prompts" />
+          <StatCard value="Public" label="Empirically grounded pattern library" />
         </div>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1rem' }}>What this work does not claim: these patterns are not exhaustive, not validated through user research, and not final. They are a structured starting point grounded in observed behavior — which is more than currently exists publicly.</p>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>The audit also produced a documented methodology and standard prompt set reusable for future audits — including the next phase, agentic AI patterns, which present a categorically harder design problem.</p>
+        <Body>
+          What this work does not claim: these patterns are not exhaustive, not validated through large-scale user research, and not final. They are a structured starting point grounded in observed behavior — which is more than currently exists publicly.
+        </Body>
+        <Body>
+          A subset of these patterns is currently in live implementation in the portfolio chatbot at alikhandesign.com/chat. Sessions are instrumented — pattern triggers, citation events, session continuity, and rate limit hits are logged per conversation. This is ongoing; findings will inform the next revision of the pattern definitions and are available on request.
+        </Body>
+        <Body mb={false}>
+          The audit also produced a reusable methodology: a standard prompt set designed for cross-product comparability, an audit instrument covering six pattern categories, and a synthesis framework that keeps observed behavior and model self-assessment as distinct data sources. The next phase — agentic AI patterns — presents a categorically harder design problem, and the instrument will need to be rebuilt from scratch for it.
+        </Body>
       </section>
 
       <section id="the-reflection" style={{ scrollMarginTop: '5rem' }}>
-        <p className="section-label">The Reflection</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Designing for intent, not output</h2>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The hardest part was resisting the temptation to solve for interfaces I'd want to build rather than problems I'd actually observed. Several early pattern prescriptions were too prescriptive — they described ideal systems rather than the minimum viable design decisions that address the documented failure. Anchoring every prescription to a specific audit finding kept the work honest.</p>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The audit instrument gap — no field for web search disclosure — produced one incorrect finding before it was caught and corrected. Methodology gaps produce findings gaps. The correction is documented, but the better answer is building the instrument carefully enough that the correction isn't necessary.</p>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>The deeper shift this work points to is one of framing. Conventional interface design operates on deterministic assumptions — a defined input produces a defined output, and the designer's job is to make that transaction as clear as possible. AI doesn't work that way. Designing for that reality means shifting from prescribing outputs to understanding intent — what is the user actually trying to accomplish — and then building interfaces transparent enough to guide them toward it, even when the system's response is uncertain, incomplete, or wrong. That is a different kind of design problem, and this pattern library is one attempt to name what it requires.</p>
+        <SectionIntro
+          label="The Reflection"
+          heading="Designing for intent, not output"
+        />
+        <Body>
+          The hardest part was resisting the temptation to solve for interfaces I'd want to build rather than problems I'd actually observed. Several early pattern prescriptions were too prescriptive — they described ideal systems rather than the minimum viable design decisions that address the documented failure. Anchoring every prescription to a specific audit finding kept the work honest.
+        </Body>
+        <Body mb={false}>
+          The deeper shift this work points to is one of framing. Conventional interface design operates on deterministic assumptions — a defined input produces a defined output, and the designer's job is to make that transaction as clear as possible. AI doesn't work that way. Designing for that reality means shifting from prescribing outputs to understanding intent — what is the user actually trying to accomplish — and then building interfaces transparent enough to guide them toward it, even when the system's response is uncertain, incomplete, or wrong. That is a different kind of design problem, and this pattern library is one attempt to name what it requires.
+        </Body>
       </section>
 
     </div>
@@ -165,77 +333,31 @@ function FullCaseStudy() {
 }
 
 export default function PatternLibraryPage() {
-  const [modalOpen, setModalOpen] = useState(false)
-
   return (
-    <main>
-      <h1 style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', borderWidth: 0 }}>
-        AI Interface Pattern Library
-      </h1>
-
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-        <nav style={{ padding: '1.25rem 3rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Link href="/work" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>My Work</Link>
-          <span style={{ fontSize: 'var(--font-size-sm)', color: '#C4BDB7' }}>›</span>
-          <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 500 }}>AI Interface Pattern Library</span>
-        </nav>
-
-        <header style={{ padding: '2.5rem 3rem 3rem' }}>
-          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem', flexWrap: 'wrap' as const }}>
-            <span className="tag-cs">Case Study</span>
-            <span className="tag">AI Design</span>
-            <span className="tag">UX Research</span>
-            <span className="tag">Design Systems</span>
-          </div>
-          <h1 className="font-serif" style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>AI Interface Pattern Library</h1>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Self-initiated · 2025–2026</p>
-          <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text)', lineHeight: 1.7, maxWidth: 680 }}>For 40 years, interface design has operated on one assumption: software does what you tell it. AI doesn't. The output is probabilistic, failure is often silent, and the user's relationship with the interface is defined less by commands than by negotiation. But the products being built on top of these models are still designed as if the old assumption holds — the same loading spinners, the same error states, the same correction flows, all inherited from systems that never had to guess. I audited six of them to find out exactly where that breaks down, and built a pattern library from what I found.</p>
-        </header>
-      </div>
-
-      {/* Hero placeholder */}
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem' }}>
-        <div style={{ width: '100%', height: 400, background: 'var(--color-border)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>
-          Hero Image
-        </div>
-      </div>
-
-      {/* Metrics strip */}
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem', display: 'flex', gap: '3rem', flexWrap: 'wrap' as const, borderBottom: '1px solid var(--color-border)' }}>
-        {[
-          ['6', 'Products audited'],
-          ['6', 'Pattern categories defined'],
-          ['3', 'Design system components'],
-          ['Public', 'Empirically grounded pattern library'],
-        ].map(([val, label]) => (
-          <div key={label}>
-            <div className="font-serif" style={{ fontSize: '2.25rem', color: 'var(--color-accent)', lineHeight: 1 }}>{val}</div>
-            <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginTop: 4, lineHeight: 1.4 }}>{label}</div>
-          </div>
-        ))}
-      </div>
-
-      {/* Article layout */}
-      <div className="article-layout" style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '4rem 3rem' }}>
-        <SideNav unlocked={true} sections={SECTIONS} />
-        <FullCaseStudy />
-      </div>
-
-      <CTAStrip
-        title="Want to talk through the research or the patterns?"
-        onContact={() => setModalOpen(true)}
-      />
-
-      <div className="divider" />
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '2.5rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '1rem' }}>
-        <div>
-          <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
-          <p className="font-serif" style={{ fontSize: 'var(--font-size-xl)', fontWeight: 400 }}>AI Feedback & Insights Agent</p>
-        </div>
-        <Link href="/work/ai-agent" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
-      </div>
-
-      <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
-    </main>
+    <CaseStudyPage
+      title="AI Interface Pattern Library"
+      company="Self-initiated · 2025–2026"
+      tags={['Case Study', 'AI Design', 'UX Research', 'Design Systems']}
+      hook="For 40 years, interface design has operated on one assumption: software does what you tell it. AI doesn't. The output is probabilistic, failure is often silent, and the user's relationship with the interface is defined less by commands than by negotiation. But the products being built on top of these models are still designed as if the old assumption holds — the same loading spinners, the same error states, the same correction flows, all inherited from systems that never had to guess. I audited six of them to find out exactly where that breaks down, and built a pattern library from what I found."
+      heroImage="/images/work/pattern-library/hero-audit-grid.jpg"
+      heroImageAlt="Six AI product interfaces arranged in a grid, audited for AI-specific interaction patterns"
+      metrics={[
+        { value: '6', label: 'Products audited' },
+        { value: '6', label: 'Pattern categories' },
+        { value: '23', label: 'Standardized prompts' },
+        { value: 'Public', label: 'Empirically grounded' },
+      ]}
+      details={[
+        { label: 'My Role', value: 'Senior Product Designer (self-initiated)' },
+        { label: 'Methods', value: 'Competitive audit, heuristic analysis, pattern definition' },
+        { label: 'Tools', value: 'Next.js, React, Storybook, Figma' },
+        { label: 'Status', value: 'Phase 1 complete — conversational AI patterns' },
+      ]}
+      sections={SECTIONS}
+      cta={{ title: 'Want to talk through the research or the patterns?' }}
+      next={getNextWork('pattern-library')!}
+    >
+      <FullCaseStudy />
+    </CaseStudyPage>
   )
 }

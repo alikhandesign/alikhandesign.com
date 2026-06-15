@@ -3,6 +3,17 @@ import { NextRequest, NextResponse } from 'next/server'
 const RATE_LIMIT_WINDOW = 60 * 60 // 1 hour in seconds
 const RATE_LIMIT_MAX = 15 // messages per window
 
+const LIMITATION_PHRASES = [
+  "i'm not able to",
+  "i can't",
+  "i don't have access",
+  "that's outside",
+  "i'm unable to",
+  "i'm designed to",
+  "i don't have information",
+  "i'm not sure i have",
+]
+
 // Lazy KV import — only runs server-side
 async function getKV() {
   const { Redis } = await import('@upstash/redis')
@@ -33,10 +44,19 @@ async function checkRateLimit(ip: string): Promise<{ allowed: boolean; remaining
 
 async function logConversation(entry: {
   ip: string
+  sessionId: string
+  messageIndex: number
   userMessage: string
   assistantMessage: string
   unlocked: boolean
   timestamp: string
+  patterns: {
+    cited_sources: boolean
+    source_count: number
+    limitation_handling: boolean
+    error_state: boolean
+    rate_limited: boolean
+  }
 }) {
   try {
     const kv = await getKV()
@@ -53,7 +73,6 @@ function isAllowedOrigin(origin: string, host: string): boolean {
   if (!origin && !host) return false
   const isLocal = host.includes('localhost') || host.includes('127.0.0.1')
   if (isLocal) return true
-  // Allow any vercel.app preview + production domain
   const allowed = [
     'alikhandesign.com',
     'alikhandesign-com.vercel.app',
@@ -73,17 +92,40 @@ export async function POST(req: NextRequest) {
   // Rate limiting
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0] ?? 'unknown'
   const { allowed, remaining } = await checkRateLimit(ip)
+
   if (!allowed) {
+    // Log the rate limit hit so we can see where sessions are hitting walls
+    await logConversation({
+      ip,
+      sessionId: 'unknown',
+      messageIndex: -1,
+      userMessage: '',
+      assistantMessage: '',
+      unlocked: false,
+      timestamp: new Date().toISOString(),
+      patterns: {
+        cited_sources: false,
+        source_count: 0,
+        limitation_handling: false,
+        error_state: false,
+        rate_limited: true,
+      },
+    })
     return NextResponse.json(
       { error: 'Too many messages. Please try again in an hour.' },
       { status: 429 }
     )
   }
 
-  const { messages, unlocked } = await req.json()
+  const { messages, unlocked, sessionId, messageIndex } = await req.json()
   if (!messages || !Array.isArray(messages)) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
   }
+
+  const resolvedSessionId = typeof sessionId === 'string' && sessionId.length > 0
+    ? sessionId
+    : 'unknown'
+  const resolvedMessageIndex = typeof messageIndex === 'number' ? messageIndex : 0
 
   // Build system prompt
   const { PUBLIC_SYSTEM_PROMPT, PROTECTED_SYSTEM_PROMPT } = await import('@/lib/systemPrompt')
@@ -145,13 +187,26 @@ export async function POST(req: NextRequest) {
     .map(id => SITE_SOURCES.find(s => s.id === id))
     .filter(Boolean)
 
+  // Detect which patterns fired in this response
+  const lowerMessage = renumberedMessage.toLowerCase()
+  const patterns = {
+    cited_sources: seenIds.length > 0,
+    source_count: seenIds.length,
+    limitation_handling: LIMITATION_PHRASES.some(p => lowerMessage.includes(p)),
+    error_state: renumberedMessage.includes('Something went wrong on my end'),
+    rate_limited: false,
+  }
+
   const userMessage = messages[messages.length - 1]?.content ?? ''
   await logConversation({
     ip,
+    sessionId: resolvedSessionId,
+    messageIndex: resolvedMessageIndex,
     userMessage: typeof userMessage === 'string' ? userMessage : JSON.stringify(userMessage),
     assistantMessage: renumberedMessage,
     unlocked,
     timestamp: new Date().toISOString(),
+    patterns,
   })
 
   return NextResponse.json(

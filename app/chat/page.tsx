@@ -14,6 +14,11 @@ const CHAT_PASSWORD = '4likh4n'
 const RATE_LIMIT_WARN = 7
 const RATE_LIMIT_MAX = 10
 
+// Generate a stable session ID for this page load
+function generateSessionId(): string {
+  return Math.random().toString(36).slice(2, 9)
+}
+
 interface Message {
   role: 'user' | 'assistant'
   content: string
@@ -45,6 +50,11 @@ export default function ChatPage() {
   const unlockPanelRef = useRef<HTMLDivElement>(null)
   const abortRef = useRef<AbortController | null>(null)
   const contactTriggerRef = useRef<HTMLButtonElement>(null)
+
+  // Stable session ID for this page load — used to group log entries into sessions
+  const sessionIdRef = useRef<string>(generateSessionId())
+  // Track turn number within this session
+  const messageIndexRef = useRef<number>(0)
 
   const [isMobile, setIsMobile] = useState(false)
   useEffect(() => {
@@ -120,11 +130,20 @@ export default function ChatPage() {
     const controller = new AbortController()
     abortRef.current = controller
 
+    // Capture and increment message index for this turn
+    const currentMessageIndex = messageIndexRef.current
+    messageIndexRef.current += 1
+
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: newMessages.map(({ role, content }) => ({ role, content })), unlocked }),
+        body: JSON.stringify({
+          messages: newMessages.map(({ role, content }) => ({ role, content })),
+          unlocked,
+          sessionId: sessionIdRef.current,
+          messageIndex: currentMessageIndex,
+        }),
         signal: controller.signal,
       })
 
@@ -508,8 +527,3 @@ export default function ChatPage() {
     </>
   )
 }
-
-
-
-
-
