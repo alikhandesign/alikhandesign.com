@@ -6,6 +6,7 @@ import ContactModal from './ContactModal'
 import Breadcrumb from './Breadcrumb'
 import CTAStrip from './CTAStrip'
 import DetailsCard from './DetailsCard'
+import Heading from './Heading'
 
 interface Section { label: string; title: string; body: string[] }
 interface ProjectPageProps {
@@ -30,7 +31,7 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
           <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem', flexWrap: 'wrap' as const }}>
             {tags.map(t => <span key={t} className="tag">{t}</span>)}
           </div>
-          <h1 className="font-serif page-title-lg" style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: 'var(--space-2)' }}>{title}</h1>
+          <Heading level={1} className="page-title-lg" lineHeight={1.1}>{title}</Heading>
           <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-sm)', marginBottom: 'var(--space-6)' }}>{company}</p>
           <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text)', lineHeight: 1.7, maxWidth: 680 }}>{hook}</p>
         </header>
@@ -48,7 +49,7 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
         {sections.map(s => (
           <section key={s.label} style={{ marginBottom: '3.5rem' }}>
             <p className="section-label">{s.label}</p>
-            <h2 className="font-serif" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 400, lineHeight: 1.2, marginBottom: 'var(--space-5)' }}>{s.title}</h2>
+            <Heading level={2} lineHeight={1.2}>{s.title}</Heading>
             {s.body.map((p, i) => (
               <p key={i} style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: i < s.body.length - 1 ? 'var(--space-5)' : 0 }}>{p}</p>
             ))}

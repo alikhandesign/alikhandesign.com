@@ -4,6 +4,7 @@ import SectionLabel from './components/SectionLabel'
 import MetricCard from './components/MetricCard'
 import FeaturedProjectCard from './components/FeaturedProjectCard'
 import CalloutCard from './components/CalloutCard'
+import Heading from './components/Heading'
 import { workItems, featuredMeta, getFeaturedSlugs } from './work.config'
 
 const metrics = [
@@ -44,10 +45,10 @@ export default async function Home() {
         <div className="grid-2" style={{ paddingTop: '5rem', paddingBottom: '4rem', alignItems: 'center' }}>
           <div>
             <p className="eyebrow">Senior Product Designer & Researcher</p>
-            <h1 className="font-serif hero-title" style={{ fontSize: '3rem', lineHeight: 1.1, color: 'var(--color-text)', marginBottom: '1.25rem', fontWeight: 400 }}>
+            <Heading level={1} size="5xl" className="hero-title" lineHeight={1.1}>
               Designing systems that make research{' '}
               <em style={{ fontStyle: 'italic', color: 'var(--color-accent)' }}>scale.</em>
-            </h1>
+            </Heading>
             <p style={{ fontSize: 'var(--font-size-md)', lineHeight: 1.7, color: 'var(--color-text-muted)', marginBottom: '2rem' }}>
               I help product teams understand their users at scale — combining mixed-methods research, strategic synthesis, and AI-native workflows to turn insight into action.
             </p>
@@ -83,7 +84,7 @@ export default async function Home() {
       {/* Metrics */}
       <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad">
         <SectionLabel label="Impact" />
-        <h2 className="font-serif section-title" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 400, marginBottom: '3rem', lineHeight: 1.15 }}>Work that moves the needle.</h2>
+        <Heading level={2} className="section-title" lineHeight={1.15}>Work that moves the needle.</Heading>
         <div className="grid-3">
           {metrics.map(m => (
             <MetricCard key={m.company} company={m.company} value={m.value} description={m.desc} href={m.link} />
@@ -96,7 +97,7 @@ export default async function Home() {
       {/* Featured Work */}
       <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad">
         <SectionLabel label="Featured Work" />
-        <h2 className="font-serif section-title" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 400, marginBottom: '3rem', lineHeight: 1.15 }}>Research in action.</h2>
+        <Heading level={2} className="section-title" lineHeight={1.15}>Research in action.</Heading>
         <div className="grid-2">
           {featured.map(f => (
             <FeaturedProjectCard key={f.href} type={f.type} title={f.title} company={f.company} description={f.desc} href={f.href} />
@@ -110,7 +111,7 @@ export default async function Home() {
           <div className="grid-2" style={{ alignItems: 'center' }}>
             <div>
               <p className="eyebrow-dark">About Me</p>
-              <h2 className="font-serif" style={{ fontSize: '2rem', fontWeight: 400, color: 'var(--color-bg)', lineHeight: 1.2, marginBottom: '1rem' }}>I design for the questions, not just the answers.</h2>
+              <Heading level={2} color="var(--color-bg)" lineHeight={1.2}>I design for the questions, not just the answers.</Heading>
               <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-bg)', lineHeight: 1.75, marginBottom: '1.5rem' }}>
                 With 10+ years in product design and UX research, I learned that the most valuable work happens before the first wireframe — understanding why people behave the way they do, and building systems that listen at scale.
               </p>

@@ -1,4 +1,5 @@
 'use client'
+import Heading from './Heading'
 
 interface CTAStripProps {
   eyebrow?: string
@@ -12,13 +13,9 @@ export default function CTAStrip({ eyebrow = 'Interested?', title, onContact }: 
       <div style={{ maxWidth: 780, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' as const }}>
         <div>
           <p className="eyebrow-dark" style={{ marginBottom: 'var(--space-2)' }}>{eyebrow}</p>
-          <h2 className="font-serif" style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 400, color: 'var(--color-bg)', lineHeight: 1.25, maxWidth: 500 }}>{title}</h2>
+          <Heading level={2} size="2xl" color="var(--color-bg)" lineHeight={1.25}>{title}</Heading>
         </div>
-        <button
-          onClick={onContact}
-          className="btn-primary"
-          style={{ flexShrink: 0 }}
-        >
+        <button onClick={onContact} className="btn-primary" style={{ flexShrink: 0 }}>
           Get in touch <span aria-hidden="true">→</span>
         </button>
       </div>

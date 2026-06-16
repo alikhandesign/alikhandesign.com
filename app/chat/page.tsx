@@ -8,6 +8,7 @@ import ChatBubble from '../components/ChatBubble'
 import SuggestedPrompts from '../components/SuggestedPrompts'
 import ChatInput from '../components/ChatInput'
 import SourceInspector from '../components/SourceInspector'
+import Heading from '../components/Heading'
 import type { SiteSource } from '@/lib/sources'
 
 const CHAT_PASSWORD = '4likh4n'
@@ -233,9 +234,7 @@ export default function ChatPage() {
           </nav>
 
           <p className="eyebrow">Portfolio Assistant</p>
-          <h1 className="font-serif" style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>
-            Ask Ali anything.
-          </h1>
+          <Heading level={1} lineHeight={1.1}>Ask Ali anything.</Heading>
           <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', lineHeight: 1.6, maxWidth: 520, marginBottom: 'var(--space-4)' }}>
             An AI assistant that knows Ali's work, background, and approach. Ask about specific projects, research methods, or what he's looking for next.
           </p>
