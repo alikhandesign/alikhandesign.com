@@ -30,11 +30,8 @@ function FullCaseStudy() {
           label="The Context"
           heading="Designers working on AI products don't have a shared vocabulary for their failure modes"
         />
-        <Body>
-          Conversational AI products have proliferated faster than the design thinking required to evaluate them. Most UI pattern libraries were built for conventional software — deterministic systems where inputs produce predictable outputs and failure states are well-understood. AI interfaces don't behave that way. They generate rather than retrieve. They fail silently. They express uncertainty inconsistently. They require correction as a routine interaction mode rather than an edge case.
-        </Body>
         <Body mb={false}>
-          What doesn't exist publicly is an empirically grounded pattern library that treats AI-specific interaction problems as a distinct design domain — one built from observed behavior across real products, not from first principles or speculation. This project is an attempt to build one.
+          Most UI pattern libraries were built for conventional software — deterministic systems where inputs produce predictable outputs and failure states are well-understood. AI interfaces don't behave that way. They generate rather than retrieve. They fail silently. They require correction as a routine interaction mode rather than an edge case. What doesn't exist publicly is a pattern library that treats these as a distinct design domain, built from observed behavior rather than first principles. This project is an attempt to build one.
         </Body>
       </section>
 
@@ -63,19 +60,46 @@ function FullCaseStudy() {
           Before auditing any product, I needed to establish what made AI interfaces distinct enough to warrant their own pattern language. Four properties set them apart from conventional software.
         </Body>
         {[
-          ['Inherent uncertainty', 'Every AI response carries some degree of uncertainty. Unlike a database query that returns a correct or incorrect result, model output exists on a confidence spectrum the interface rarely communicates.'],
-          ['Generative output', "AI doesn't retrieve — it generates. Responses can be partially correct, confidently wrong, or accurate in ways that are impossible to verify without domain expertise. Interfaces designed around retrieved content don't account for this."],
-          ['Silent failure risk', 'AI systems fail in ways that produce no visible signal. A hung generation looks like a slow one. A fabricated response looks like an accurate one. The interface has no mechanism to flag what it cannot know.'],
-          ['Correction as a first-class interaction mode', 'With conventional software, correction is an edge case — an undo, a retry. With AI, iteration is the expected workflow. Most interfaces treat correction as an afterthought.'],
+          ['Inherent uncertainty', 'Model output exists on a confidence spectrum the interface rarely communicates. Unlike a database query, there is no binary correct/incorrect — only degrees of reliability.'],
+          ['Generative output', "AI doesn't retrieve — it generates. Responses can be partially correct, confidently wrong, or accurate in ways that are impossible to verify without domain expertise."],
+          ['Silent failure risk', 'AI systems fail in ways that produce no visible signal. A hung generation looks like a slow one. A fabricated response looks like an accurate one.'],
+          ['Correction as a first-class interaction mode', 'With conventional software, correction is an edge case. With AI, iteration is the expected workflow. Most interfaces treat it as an afterthought.'],
         ].map(([title, body]) => (
           <div key={title} style={{ marginBottom: '1.5rem', paddingLeft: '1.25rem', borderLeft: '2px solid var(--color-border)' }}>
             <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 600, marginBottom: '0.35rem' }}>{title}</p>
             <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>{body}</p>
           </div>
         ))}
-        <Body mb={false}>
-          These four properties defined the six pattern categories: Generation States, Uncertainty Communication, Source & Attribution, Limitation Handling, Correction & Refinement, and Error States.
+        <Body>
+          These four properties defined the six pattern categories. The mapping isn't one-to-one — some patterns address multiple properties, which reflects the actual complexity of the problem space.
         </Body>
+        <div style={{ overflowX: 'auto', marginBottom: '1rem' }}>
+          <table style={{
+            width: '100%',
+            borderCollapse: 'collapse',
+            fontSize: 'var(--font-size-sm)',
+          }}>
+            <thead>
+              <tr>
+                <th style={{ textAlign: 'left', padding: '0.6rem 1rem 0.6rem 0', borderBottom: '1px solid var(--color-border)', color: 'var(--color-text-muted)', fontWeight: 500, width: '40%' }}>Property</th>
+                <th style={{ textAlign: 'left', padding: '0.6rem 0', borderBottom: '1px solid var(--color-border)', color: 'var(--color-text-muted)', fontWeight: 500 }}>Patterns it drove</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                ['Inherent uncertainty', 'Uncertainty Communication, Source & Attribution'],
+                ['Generative output', 'Generation States, Source & Attribution'],
+                ['Silent failure risk', 'Generation States, Error States'],
+                ['Correction as a first-class mode', 'Correction & Refinement, Limitation Handling'],
+              ].map(([property, patterns], i, arr) => (
+                <tr key={property}>
+                  <td style={{ padding: '0.6rem 1rem 0.6rem 0', borderBottom: i < arr.length - 1 ? '1px solid var(--color-border-subtle, var(--color-border))' : 'none', color: 'var(--color-text)', verticalAlign: 'top', opacity: 0.9 }}>{property}</td>
+                  <td style={{ padding: '0.6rem 0', borderBottom: i < arr.length - 1 ? '1px solid var(--color-border-subtle, var(--color-border))' : 'none', color: 'var(--color-text-muted)', verticalAlign: 'top' }}>{patterns}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section id="the-audit" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
@@ -84,13 +108,10 @@ function FullCaseStudy() {
           heading="Six products, 23 prompts, applied verbatim"
         />
         <Body>
-          I audited ChatGPT, Claude, Gemini, Perplexity, Notion AI, and GitHub Copilot. The methodology was designed to produce comparable, defensible findings rather than impressionistic product reviews.
-        </Body>
-        <Body>
-          A standard prompt set of 23 prompts was written before any product was tested and applied verbatim across all six. Prompts were designed to surface behavior in each of the six pattern categories — real-time data requests to test limitation handling, ambiguous correction signals to test refinement flows, network interruption scenarios to test error states.
+          I audited ChatGPT, Claude, Gemini, Perplexity, Notion AI, and GitHub Copilot using a standard set of 23 prompts written before any product was tested and applied verbatim across all six. Prompts were designed to surface behavior in each pattern category — real-time data requests to test limitation handling, ambiguous correction signals to test refinement flows, network interruption scenarios to test error states.
         </Body>
         <Body mb={false}>
-          Two data sources were treated as distinct throughout: observed product behavior and model self-assessment. Where products were asked to describe their own behavior, divergences between self-reported and observed behavior were flagged as findings rather than used interchangeably.
+          Two data sources were kept distinct throughout: observed product behavior and model self-assessment. Where divergences appeared between self-reported and observed behavior, they were flagged as findings rather than reconciled.
         </Body>
       </section>
 
@@ -254,22 +275,59 @@ function FullCaseStudy() {
           heading="Six definitions grounded in what the audit actually found"
         />
         <Body>
-          Each pattern definition answers four questions: what problem does it solve, what does it prescribe, what design decisions does it involve, and what tradeoffs exist. The definitions are the intellectual core of the library.
+          Each pattern definition answers four questions: what problem does it solve, what does it prescribe, what design decisions does it involve, and what tradeoffs exist.
         </Body>
         {[
-          ['Generation States', 'Four distinct states minimum: thinking, streaming, complete, and hung. Each requires a distinct visual treatment. Completion must be communicated explicitly, not inferred from UI returning to its resting state. The hung state must escalate from a generation indicator to an explicit error-adjacent state after a defined timeout, with a recovery affordance.'],
-          ['Uncertainty Communication', 'Epistemic banners appear before the response body, not within it. Three distinct states: knowledge gap, principled limit, and probabilistic claims. Claim-level uncertainty uses dotted underlines with hover explanations rather than response-level confidence scores.'],
-          ['Source & Attribution', 'Citation must be consistent across comparable claims, inline rather than aggregated, and accessible without requiring a click-through. The Source Inspector panel slides in on citation click. Absent citation is marked explicitly so its absence is a deliberate signal rather than an interface gap.'],
-          ['Limitation Handling', 'Three limitation types require distinct handling: capability limits redirect proactively, knowledge limits trigger a web search before responding, and commercial limits disclose progressively before the threshold is hit. The ARI structure — Acknowledge, Redirect, Invite — applies across all three.'],
-          ['Correction & Refinement', 'Vague corrections trigger a Clarification Interceptor rather than blind regeneration. The interceptor presents structured options including a tone dropdown and inline text selection for targeted rephrasing. All prior versions are preserved and navigable.'],
-          ['Error States', "A four-error taxonomy: hung state, network failure, context length exceeded, and policy refusal. Each has distinct visual treatment, specific copy, input preservation, and a recovery path. The user's prompt is never cleared during any error type."],
-        ].map(([title, body]) => (
-          <div key={title} style={{ marginBottom: '1.5rem', paddingLeft: '1.25rem', borderLeft: '2px solid var(--color-border)' }}>
+          {
+            slug: 'generation-states',
+            title: 'Generation States',
+            body: 'Four distinct states minimum: thinking, streaming, complete, and hung. The hung state must escalate to an explicit error-adjacent state after a defined timeout — not continue showing the same animation it shows when working.',
+          },
+          {
+            slug: 'uncertainty-communication',
+            title: 'Uncertainty Communication',
+            body: 'Epistemic banners appear before the response body, not within it. Claim-level uncertainty uses dotted underlines with hover explanations. Three distinct states: knowledge gap, principled limit, and probabilistic claims.',
+          },
+          {
+            slug: 'source-attribution',
+            title: 'Source & Attribution',
+            body: 'Citation must be consistent across comparable claims, inline rather than aggregated, and accessible without a click-through. Absent citation is marked explicitly — its absence should be a deliberate signal, not an interface gap.',
+          },
+          {
+            slug: 'limitation-handling',
+            title: 'Limitation Handling',
+            body: 'Three limitation types require distinct handling: capability limits redirect proactively, knowledge limits trigger a web search before responding, commercial limits disclose progressively before the threshold is hit. The ARI structure — Acknowledge, Redirect, Invite — applies across all three.',
+          },
+          {
+            slug: 'correction-refinement',
+            title: 'Correction & Refinement',
+            body: 'Vague corrections trigger a Clarification Interceptor rather than blind regeneration. The interceptor presents structured options including inline text selection for targeted rephrasing. All prior versions are preserved and navigable.',
+          },
+          {
+            slug: 'error-states',
+            title: 'Error States',
+            body: "A four-error taxonomy: hung state, network failure, context length exceeded, and policy refusal. Each has distinct visual treatment, specific copy, and a recovery path. The user's prompt is never cleared during any error type.",
+          },
+        ].map(({ slug, title, body }) => (
+          <div key={slug} style={{ marginBottom: '2rem' }}>
+            <div style={{
+              height: 200,
+              overflow: 'hidden',
+              borderRadius: 'var(--radius-sm)',
+              border: '1px solid var(--color-border)',
+              marginBottom: '0.75rem',
+            }}>
+              <img
+                src={`/images/patterns/${slug}.jpg`}
+                alt={title}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block' }}
+              />
+            </div>
             <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 600, marginBottom: '0.35rem' }}>{title}</p>
             <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>{body}</p>
           </div>
         ))}
-        <div style={{ marginTop: '2rem' }}>
+        <div style={{ marginTop: '1rem' }}>
           <Link href="/patterns" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>
             View the pattern library →
           </Link>
@@ -281,11 +339,8 @@ function FullCaseStudy() {
           label="The Build"
           heading="Pattern definitions proved in React, documented in Storybook"
         />
-        <Body>
-          The pattern library is implemented as a Next.js route within the portfolio repository. Each of the six patterns has three tabs: Pattern Definition (the intellectual core), Interactive Demo (proof of buildability), and All States (component reference).
-        </Body>
         <Body mb={false}>
-          The interactive demos are behavioral rather than visual — they demonstrate state changes, timing, and conditional logic that static Figma frames can't communicate. The Generation States demo runs a live streaming simulation with a watchdog timer that escalates to the hung state after five seconds without new tokens. The Source & Attribution demo slides the Source Inspector panel in on citation click. The Correction & Refinement demo triggers the Clarification Interceptor on vague input and supports inline text selection with a contextual toolbar.
+          The pattern library is implemented as a Next.js route within the portfolio repository. Each pattern has three tabs: Pattern Definition, Interactive Demo, and All States. The demos are behavioral rather than visual — they demonstrate state changes, timing, and conditional logic that static frames can't communicate. The Generation States demo runs a live streaming simulation with a watchdog timer that escalates to the hung state after five seconds without new tokens. The Correction & Refinement demo triggers the Clarification Interceptor on vague input and supports inline text selection.
         </Body>
 
 
@@ -306,10 +361,13 @@ function FullCaseStudy() {
           What this work does not claim: these patterns are not exhaustive, not validated through large-scale user research, and not final. They are a structured starting point grounded in observed behavior — which is more than currently exists publicly.
         </Body>
         <Body>
-          A subset of these patterns is currently in live implementation in the portfolio chatbot at alikhandesign.com/chat. Sessions are instrumented — pattern triggers, citation events, session continuity, and rate limit hits are logged per conversation. This is ongoing; findings will inform the next revision of the pattern definitions and are available on request.
+          A subset of these patterns is in live implementation in the portfolio chatbot at alikhandesign.com/chat. The Source & Attribution pattern drives the citation badge and Source Inspector. The Limitation Handling pattern drives how the chatbot handles questions outside its scope. The Generation States pattern informed the hung state watchdog timer. Sessions are instrumented — pattern triggers, citation events, session continuity, and rate limit hits are logged per conversation. Early signal from that instrumentation is informing the next revision of the pattern definitions. Findings are available on request.
+        </Body>
+        <Body>
+          The audit also produced three transferable artifacts: a 23-prompt standard set designed for cross-product comparability, an audit instrument covering six pattern categories with separate tracks for observed behavior and model self-assessment, and a synthesis framework that has already been used to correct one mid-audit finding before it made it into the final output. Each of these is reusable for the next phase of this work.
         </Body>
         <Body mb={false}>
-          The audit also produced a reusable methodology: a standard prompt set designed for cross-product comparability, an audit instrument covering six pattern categories, and a synthesis framework that keeps observed behavior and model self-assessment as distinct data sources. The next phase — agentic AI patterns — presents a categorically harder design problem, and the instrument will need to be rebuilt from scratch for it.
+          The next phase — agentic AI patterns — presents a categorically harder design problem. Agentic systems take multi-step actions, fail mid-task, and require trust at a different level than conversational AI. The audit instrument will need to be rebuilt from scratch for it.
         </Body>
       </section>
 
@@ -359,4 +417,5 @@ export default function PatternLibraryPage() {
     </CaseStudyPage>
   )
 }
+
 

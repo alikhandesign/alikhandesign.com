@@ -329,3 +329,22 @@ button:focus-visible {
   .gallery-grid { grid-template-columns: 1fr; }
   .gallery-grid-item-wide { grid-column: span 1; }
 }
+
+
+/* ─── Case Study Layout ──────────────────────────────────── */
+.case-study-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: var(--space-12);
+  padding: 4rem 3rem;
+  align-items: start;
+}
+@media (max-width: 768px) {
+  .case-study-layout {
+    grid-template-columns: 1fr;
+    padding: 2rem 1.25rem;
+  }
+  .case-study-layout aside {
+    display: none;
+  }
+}

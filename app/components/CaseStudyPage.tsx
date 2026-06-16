@@ -143,7 +143,7 @@ export default function CaseStudyPage({
 
       {/* ── Side nav + content ── */}
       {sections && sections.length > 0 ? (
-        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', display: 'grid', gridTemplateColumns: '200px 1fr', gap: 'var(--space-12)', padding: '4rem 3rem', alignItems: 'start' }}>
+        <div className="case-study-layout" style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
           <SideNav unlocked={unlocked ?? true} sections={sections} />
           <div style={{ maxWidth: 780 }}>
             {children}
@@ -192,3 +192,4 @@ export default function CaseStudyPage({
     </main>
   )
 }
+
