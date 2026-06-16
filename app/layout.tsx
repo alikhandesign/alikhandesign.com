@@ -1,7 +1,23 @@
 import type { Metadata } from 'next'
+import { DM_Serif_Display, Inter } from 'next/font/google'
 import './globals.css'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
+
+const dmSerifDisplay = DM_Serif_Display({
+  weight: ['400'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-serif',
+})
+
+const inter = Inter({
+  weight: ['300', '400', '500', '600'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-sans',
+})
 
 export const metadata: Metadata = {
   title: 'Ali Khan — Senior Product Designer & Researcher',
@@ -18,7 +34,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${dmSerifDisplay.variable} ${inter.variable}`}>
       <body style={{ background: 'var(--color-bg)' }}>
         <Nav />
         <main id="main-content" tabIndex={-1}>
