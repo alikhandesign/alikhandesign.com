@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import Tag from './Tag'
 
 interface Outcome {
@@ -13,9 +14,10 @@ interface CaseStudyCardProps {
   description: string
   outcomes: Outcome[]
   href: string
+  image?: string
 }
 
-export default function CaseStudyCard({ title, company, tags, description, outcomes, href }: CaseStudyCardProps) {
+export default function CaseStudyCard({ title, company, tags, description, outcomes, href, image }: CaseStudyCardProps) {
   return (
     <Link href={href} aria-label={`View case study: ${title}`} className="work-card cs-card-grid" style={{
       background: 'var(--color-surface)',
@@ -25,8 +27,20 @@ export default function CaseStudyCard({ title, company, tags, description, outco
       textDecoration: 'none',
       color: 'inherit',
     }}>
-      <div style={{ background: 'var(--color-border)', minHeight: 220, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>
-        Project Preview
+      <div style={{ position: 'relative', minHeight: 220, background: 'var(--color-border)', overflow: 'hidden' }}>
+        {image ? (
+          <Image
+            src={image}
+            alt={`${title} preview`}
+            fill
+            style={{ objectFit: 'cover', objectPosition: 'center top' }}
+            sizes="320px"
+          />
+        ) : (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: 220, fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>
+            Project Preview
+          </div>
+        )}
       </div>
       <div style={{ padding: '2rem 2rem 2rem 2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <div>
