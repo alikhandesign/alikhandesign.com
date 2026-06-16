@@ -27,7 +27,16 @@ export default function CaseStudyCard({ title, company, tags, description, outco
       textDecoration: 'none',
       color: 'inherit',
     }}>
-      <div style={{ position: 'relative', height: 220, background: 'var(--color-border)', overflow: 'hidden', flexShrink: 0 }}>
+      <div style={{
+        position: 'relative',
+        width: 320,
+        height: '100%',
+        minHeight: 220,
+        background: 'var(--color-border)',
+        overflow: 'hidden',
+        flexShrink: 0,
+        alignSelf: 'stretch',
+      }}>
         {image ? (
           <Image
             src={image}
@@ -37,7 +46,7 @@ export default function CaseStudyCard({ title, company, tags, description, outco
             sizes="320px"
           />
         ) : (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', minHeight: 220, fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>
             Project Preview
           </div>
         )}
