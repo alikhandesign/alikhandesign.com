@@ -5,6 +5,7 @@ import MetricCard from './components/MetricCard'
 import FeaturedProjectCard from './components/FeaturedProjectCard'
 import CalloutCard from './components/CalloutCard'
 import Heading from './components/Heading'
+import ButtonLink from './components/ButtonLink'
 import { workItems, featuredMeta, getFeaturedSlugs } from './work.config'
 
 const metrics = [
@@ -115,9 +116,7 @@ export default async function Home() {
               <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-bg)', lineHeight: 1.75, marginBottom: '1.5rem' }}>
                 With 10+ years in product design and UX research, I learned that the most valuable work happens before the first wireframe — understanding why people behave the way they do, and building systems that listen at scale.
               </p>
-              <Link href="/about" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--color-bg)', textDecoration: 'none', fontSize: 'var(--font-size-sm)', fontWeight: 500, borderBottom: '1px solid var(--color-accent)', paddingBottom: 2 }}>
-                Read my full story →
-              </Link>
+              <ButtonLink href="/about" label="Read my full story" variant="underline" />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               {values.map(v => (

@@ -1,34 +1,21 @@
 'use client'
 import { getNextWork } from '@/app/work.config'
 import Link from 'next/link'
-import SideNav from '@/app/components/SideNav'
+import CaseStudyPage from '@/app/components/CaseStudyPage'
+import SectionIntro from '@/app/components/SectionIntro'
+import Body from '@/app/components/Body'
+import PullQuote from '@/app/components/PullQuote'
 import { ProjectImage } from '@/app/components/Lightbox'
-import CTAStrip from '@/app/components/CTAStrip'
-import ContactModal from '@/app/components/ContactModal'
-import { useState } from 'react'
 
-function Callout({ children }: { children: React.ReactNode }) {
-  return (
-    <div style={{ borderLeft: '3px solid var(--color-accent)', padding: '1.25rem 1.5rem', margin: '2rem 0', background: 'var(--color-surface)', borderRadius: '0 4px 4px 0' }}>
-      <p className="font-serif" style={{ fontSize: 'var(--font-size-xl)', color: 'var(--color-text)', lineHeight: 1.5, fontStyle: 'italic' }}>{children}</p>
-    </div>
-  )
-}
-
-function SectionIntro({ label, heading }: { label: string; heading: string }) {
-  return (
-    <>
-      <p className="section-label">{label}</p>
-      <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>{heading}</h2>
-    </>
-  )
-}
-
-function Body({ children, mb = true }: { children: React.ReactNode; mb?: boolean }) {
-  return (
-    <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: mb ? '1.25rem' : 0 }}>{children}</p>
-  )
-}
+const SECTIONS = [
+  'the-context',
+  'the-problem',
+  'the-research',
+  'the-insight',
+  'the-design',
+  'the-outcomes',
+  'the-reflection',
+]
 
 function FullCaseStudy() {
   return (
@@ -59,7 +46,7 @@ function FullCaseStudy() {
         <Body>Not because designers lack taste, but because they all start from the same place. The same platforms, the same templates, the same AI tools making the same decisions. The output looks different on the surface and identical underneath.</Body>
         <Body>The deeper problem is that most portfolio sites are deliverables. A designer finishes their work, then builds a container to hold it. The portfolio is an artifact of a job search, not a demonstration of how the designer actually thinks.</Body>
         <Body>That framing gets the user wrong. A hiring manager isn't just looking at your work. They're trying to answer a specific question: can this person solve problems I haven't told them about yet? A portfolio that's just a gallery of past work doesn't answer that question. A portfolio that is itself evidence of product thinking does.</Body>
-        <Callout>The job to be done was clear: build something that demonstrates the work in the act of existing.</Callout>
+        <PullQuote>The job to be done was clear: build something that demonstrates the work in the act of existing.</PullQuote>
       </section>
 
       <section id="the-research" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
@@ -68,9 +55,9 @@ function FullCaseStudy() {
         <Body>Three findings from that audit directly shaped this build:</Body>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', margin: '2rem 0' }}>
           {[
-            ['Templates masquerade as strategy', 'Squarespace gives you a starting point and calls it a brand identity. The starting point is fine. Calling it a brand identity is the problem. This project needed to start from actual positioning decisions, not a theme selection.'],
-            ['The platform constrains the message', 'Every design decision on Squarespace exists within what Squarespace allows. For most use cases that\'s a reasonable tradeoff. For a portfolio that\'s supposed to demonstrate design capability, it\'s a ceiling on the argument you can make.'],
-            ['AI used as decoration is worse than no AI', 'Features that invoke AI as a marketing claim while delivering pattern matching are not neutral. They create expectations they can\'t meet. This project needed to use AI in a way that was honest about what AI actually does.'],
+            ['Templates masquerade as strategy', "Squarespace gives you a starting point and calls it a brand identity. The starting point is fine. Calling it a brand identity is the problem. This project needed to start from actual positioning decisions, not a theme selection."],
+            ['The platform constrains the message', "Every design decision on Squarespace exists within what Squarespace allows. For most use cases that's a reasonable tradeoff. For a portfolio that's supposed to demonstrate design capability, it's a ceiling on the argument you can make."],
+            ['AI used as decoration is worse than no AI', "Features that invoke AI as a marketing claim while delivering pattern matching are not neutral. They create expectations they can't meet. This project needed to use AI in a way that was honest about what AI actually does."],
           ].map(([title, desc]) => (
             <div key={title as string} style={{ padding: '1.25rem 1.5rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: 3, background: 'var(--color-accent)' }} />
@@ -86,7 +73,7 @@ function FullCaseStudy() {
         <Body>The audit produced a diagnosis. The reframe was simple.</Body>
         <Body>A product has a user — the hiring manager. A job to be done — get to the interview. And success criteria — does it move someone to reach out? It means research before decisions, not after. The design system isn't decoration, it's infrastructure. AI is a collaborator in execution, not a substitute for thinking.</Body>
         <Body>This is not a novel idea. It's just rarely applied to personal work with the same rigor applied to client work. The gap between how designers treat their own portfolios and how they'd treat a client's product is where most portfolios fail.</Body>
-        <Callout>The portfolio needed to answer a question before anyone asked it: does this designer apply the same thinking to their own work that they'd apply to mine?</Callout>
+        <PullQuote>The portfolio needed to answer a question before anyone asked it: does this designer apply the same thinking to their own work that they'd apply to mine?</PullQuote>
       </section>
 
       <section id="the-design" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
@@ -96,7 +83,7 @@ function FullCaseStudy() {
         <Body>The site is four pages: Home, My Work, About Me, and a footer-based contact section. Every navigation decision was made around the hiring manager's likely path, not around what a standard portfolio site includes. No dedicated contact page — a contact page implies the contact is the goal. The goal is the work. Contact follows from that.</Body>
 
         <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '1.5rem' }}>The Honest Design System</p>
-        <Body>Rather than using an existing component library, this site is built on a custom design system created specifically for this project. <Link href="/work/honest-design-system" style={{ color: 'var(--color-accent)', textDecoration: 'none', fontWeight: 500 }}>Honest is documented separately as its own case study.</Link> The short version: 19 components, a two-layer token architecture, full Figma-to-code parity, and a Storybook integration that makes the system auditable. Using a custom system meant every visual decision was intentional, not inherited.</Body>
+        <Body>Rather than using an existing component library, this site is built on a custom design system created specifically for this project. <Link href="/work/honest-design-system" style={{ color: 'var(--color-accent)', textDecoration: 'none', fontWeight: 500 }}>Honest is documented separately as its own case study.</Link> The short version: 39 components, a two-layer token architecture, full Figma-to-code parity, and a Storybook integration that makes the system auditable. Using a custom system meant every visual decision was intentional, not inherited.</Body>
 
         <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '1.5rem' }}>Password-gated case studies</p>
         <Body>Detailed case study content sits behind a password gate. This was a deliberate product decision: it signals the work exists without exposing it to unqualified access, creates a natural filter for serious candidates and recruiters, and positions the portfolio as something worth protecting rather than something available to anyone.</Body>
@@ -104,7 +91,7 @@ function FullCaseStudy() {
         <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.75rem', marginTop: '1.5rem' }}>AI as execution layer</p>
         <Body>Claude was used throughout the build for code generation, component architecture, copy editing, accessibility review, and typography decisions. The distinction that mattered: AI did not make design decisions. It executed them.</Body>
         <Body>Every page structure, every content hierarchy, every token value was decided first. Claude's job was to close the gap between the decision and the shipped component. That's a different relationship with AI than asking it to design something and accepting what it produces.</Body>
-        <Callout>AI is a better collaborator when the human side of the collaboration is more rigorous. The quality of the output tracks the quality of the input — which turns out to be a design problem all the way down.</Callout>
+        <PullQuote>AI is a better collaborator when the human side of the collaboration is more rigorous. The quality of the output tracks the quality of the input — which turns out to be a design problem all the way down.</PullQuote>
 
         <ProjectImage
           src="/images/portfolio-site-hero.png"
@@ -146,83 +133,31 @@ function FullCaseStudy() {
 }
 
 export default function ThePortfolioPage() {
-  const [modalOpen, setModalOpen] = useState(false)
-
   return (
-    <main>
-      <h1 style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', borderWidth: 0 }}>
-        The Portfolio Is the Product
-      </h1>
-
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-        <nav style={{ padding: '1.25rem 3rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Link href="/work" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>My Work</Link>
-          <span style={{ fontSize: 'var(--font-size-sm)', color: '#C4BDB7' }}>›</span>
-          <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 500 }}>The Portfolio Is the Product</span>
-        </nav>
-
-        <header style={{ padding: '2.5rem 3rem 3rem' }}>
-          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem', flexWrap: 'wrap' as const }}>
-            <span className="tag-cs">Case Study</span>
-            <span className="tag">Design Technologist</span>
-            <span className="tag">AI-Native Workflow</span>
-            <span className="tag">Product Thinking</span>
-          </div>
-          <h1 className="font-serif" style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>The Portfolio Is the Product</h1>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Self-initiated · 2026</p>
-          <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text)', lineHeight: 1.7, maxWidth: 680 }}>Most designers build a portfolio to show their work. I built one to demonstrate how I work — from scratch, with a custom design system, using AI as an execution layer rather than a design substitute. Under two weeks from first decision to shipped site.</p>
-        </header>
-      </div>
-
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem' }}>
-        <ProjectImage
-          src="/images/portfolio-site-hero.png"
-          alt="alikhandesign.com — the finished portfolio site"
-        />
-      </div>
-
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem', display: 'flex', gap: '3rem', flexWrap: 'wrap' as const, borderBottom: '1px solid var(--color-border)' }}>
-        {[
-          ['12+', 'Pages built'],
-          ['< 2 weeks', 'Concept to shipped'],
-          ['90%', 'Hosting cost reduction'],
-          ['$0', 'External labor'],
-        ].map(([val, label]) => (
-          <div key={label}>
-            <div className="font-serif" style={{ fontSize: '2.25rem', color: 'var(--color-accent)', lineHeight: 1 }}>{val}</div>
-            <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginTop: 4, lineHeight: 1.4 }}>{label}</div>
-          </div>
-        ))}
-      </div>
-
-      <div className="article-layout" style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '4rem 3rem' }}>
-        <SideNav sections={[
-          'the-context',
-          'the-problem',
-          'the-research',
-          'the-insight',
-          'the-design',
-          'the-outcomes',
-          'the-reflection',
-        ]} />
-        <FullCaseStudy />
-      </div>
-
-      <CTAStrip
-        title="Interested in how this came together?"
-        onContact={() => setModalOpen(true)}
-      />
-
-      <div className="divider" />
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '2.5rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '1rem' }}>
-        <div>
-          <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
-          <p className="font-serif" style={{ fontSize: 'var(--font-size-xl)', fontWeight: 400 }}>Honest Design System</p>
-        </div>
-        <Link href="/work/honest-design-system" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
-      </div>
-
-      <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
-    </main>
+    <CaseStudyPage
+      title="The Portfolio Is the Product"
+      company="Self-initiated · 2026"
+      tags={['Case Study', 'Design Technologist', 'AI-Native Workflow', 'Product Thinking']}
+      hook="Most designers build a portfolio to show their work. I built one to demonstrate how I work — from scratch, with a custom design system, using AI as an execution layer rather than a design substitute. Under two weeks from first decision to shipped site."
+      heroImage="/images/portfolio-site-hero.png"
+      heroImageAlt="alikhandesign.com — the finished portfolio site"
+      metrics={[
+        { value: '12+', label: 'Pages built' },
+        { value: '< 2 weeks', label: 'Concept to shipped' },
+        { value: '90%', label: 'Hosting cost reduction' },
+        { value: '$0', label: 'External labor' },
+      ]}
+      details={[
+        { label: 'My Role', value: 'Product Designer, Design Technologist' },
+        { label: 'Stack', value: 'Next.js, React, Vercel, CSS custom properties, Figma' },
+        { label: 'Timeline', value: 'Under 2 weeks, concept to shipped' },
+        { label: 'Type', value: 'Self-initiated · 2026' },
+      ]}
+      sections={SECTIONS}
+      cta={{ title: 'Interested in how this came together?' }}
+      next={getNextWork('the-portfolio')!}
+    >
+      <FullCaseStudy />
+    </CaseStudyPage>
   )
 }

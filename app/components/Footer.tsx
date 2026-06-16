@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import ButtonLink from './ButtonLink'
 
 export default function Footer() {
   return (
@@ -14,13 +14,7 @@ export default function Footer() {
             style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', textDecoration: 'none', fontWeight: 500, transition: 'color 0.15s' }}
           >{label}</a>
         ))}
-        <Link
-          href="/chat"
-          className="footer-link"
-          style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-accent)', textDecoration: 'none', fontWeight: 500, transition: 'color 0.15s' }}
-        >
-          Chat with Ali →
-        </Link>
+        <ButtonLink href="/chat" label="Chat with Ali" />
       </div>
     </footer>
   )

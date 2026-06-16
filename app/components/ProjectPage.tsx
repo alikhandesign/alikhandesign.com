@@ -1,5 +1,4 @@
 'use client'
-import Link from 'next/link'
 import { GalleryGrid } from './Lightbox'
 import { useState } from 'react'
 import ContactModal from './ContactModal'
@@ -7,6 +6,7 @@ import Breadcrumb from './Breadcrumb'
 import CTAStrip from './CTAStrip'
 import DetailsCard from './DetailsCard'
 import Heading from './Heading'
+import ButtonLink from './ButtonLink'
 
 interface Section { label: string; title: string; body: string[] }
 interface ProjectPageProps {
@@ -73,7 +73,10 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
             <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: 'var(--letter-spacing-lg)', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: 'var(--space-1)' }}>{next.type === 'case-study' ? 'Next Case Study' : 'Next Project'}</p>
             <p className="font-serif" style={{ fontSize: 'var(--font-size-xl)', fontWeight: 400 }}>{next.title}</p>
           </div>
-          <Link href={next.href} style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>{next.type === 'case-study' ? 'Read case study' : 'View project'} →</Link>
+          <ButtonLink
+            href={next.href}
+            label={next.type === 'case-study' ? 'Read case study' : 'View project'}
+          />
         </div>
       </div>
 

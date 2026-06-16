@@ -6,7 +6,7 @@ import Body from '@/app/components/Body'
 import CalloutCard from '@/app/components/CalloutCard'
 import StatCard from '@/app/components/StatCard'
 import PullQuote from '@/app/components/PullQuote'
-import Link from 'next/link'
+import ButtonLink from '@/app/components/ButtonLink'
 
 const SECTIONS = [
   'the-context',
@@ -328,9 +328,7 @@ function FullCaseStudy() {
           </div>
         ))}
         <div style={{ marginTop: '1rem' }}>
-          <Link href="/patterns" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>
-            View the pattern library →
-          </Link>
+          <ButtonLink href="/patterns" label="View the pattern library" />
         </div>
       </section>
 
