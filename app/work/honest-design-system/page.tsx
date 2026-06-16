@@ -26,19 +26,6 @@ function FullCaseStudy() {
         <SectionIntro label="The Context" heading="A portfolio that needed to mean something" />
         <Body>When I decided to rebuild my portfolio from scratch, the question was never what to show. The question was whether the portfolio itself would hold up as a piece of craft. Most designer portfolios are built on templates — fine for shipping quickly, not so useful when the portfolio is supposed to demonstrate exactly what you can do.</Body>
         <Body>I wanted the site to feel like me: warm but not precious, structured but not rigid, and honest about what it is. A template couldn't get there. A design system built specifically for this context could.</Body>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', margin: '2rem 0', padding: '1.5rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)' }}>
-          {[
-            ['My Role', 'Designer and engineer'],
-            ['Stack', 'Next.js, React, TypeScript, CSS custom properties, Storybook'],
-            ['Timeline', '2025–2026'],
-            ['Status', 'Deployed to production'],
-          ].map(([label, val]) => (
-            <div key={label}>
-              <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>{label}</p>
-              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 500, lineHeight: 1.5 }}>{val}</p>
-            </div>
-          ))}
-        </div>
       </section>
 
       <section id="the-decision" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>

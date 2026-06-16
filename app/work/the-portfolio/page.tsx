@@ -26,19 +26,6 @@ function FullCaseStudy() {
         <Body>Every designer eventually has to answer that question. For a while, mine described it. I was on Squarespace, like a lot of designers. It was fine. It looked professional. It didn't embarrass me. But it also didn't do anything a hiring manager couldn't get from reading my resume.</Body>
         <Body>The audit changed that. After spending time systematically evaluating Squarespace's AI design tools, I reached a conclusion I couldn't ignore: the platform was built for constraint, not expression. Its AI is a categorization engine wearing a personalization promise. And I had been using it to represent work that was, at its core, about breaking through exactly that kind of design mediocrity.</Body>
         <Body>The decision to build from scratch wasn't impulsive. It was the logical endpoint of the research.</Body>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', margin: '2rem 0', padding: '1.5rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)' }}>
-          {[
-            ['My Role', 'Product Designer, Design Technologist'],
-            ['Stack', 'Next.js, React, Vercel, CSS custom properties, Figma'],
-            ['Timeline', 'Under 2 weeks, concept to shipped'],
-            ['Type', 'Self-initiated · 2026'],
-          ].map(([label, val]) => (
-            <div key={label}>
-              <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>{label}</p>
-              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 500, lineHeight: 1.5 }}>{val}</p>
-            </div>
-          ))}
-        </div>
       </section>
 
       <section id="the-problem" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
