@@ -6,7 +6,7 @@ import type { SiteSource } from '@/lib/sources'
 const MOCK_SOURCES: SiteSource[] = [
   {
     id: 1,
-    title: 'AI Patterns/Response/SourceInspector',
+    title: 'AI Pattern Library — Source & Attribution',
     url: '/work/ai-insights-agent',
     description: 'Agentic AI research pipeline at WTW — automated qualitative synthesis, PHI/PII redaction, and daily stakeholder reporting. 95% accuracy, 8+ hours to minutes.',
   },
@@ -25,7 +25,7 @@ const MOCK_SOURCES: SiteSource[] = [
 ]
 
 const meta: Meta<typeof SourceInspector> = {
-  title: 'Chat UI/SourceInspector',
+  title: 'AI Patterns/Response/SourceInspector',
   component: SourceInspector,
   tags: ['autodocs'],
   parameters: {
@@ -170,4 +170,5 @@ export const DesktopOverlayContext: Story = {
     )
   },
 }
+
 
