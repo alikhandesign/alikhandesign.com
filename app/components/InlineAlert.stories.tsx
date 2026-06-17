@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import InlineAlert from './InlineAlert'
 
 const meta: Meta<typeof InlineAlert> = {
-  title: 'AI Patterns/Uncertainty/InlineAlert',
+  title: 'AI Patterns/Response/InlineAlert',
   component: InlineAlert,
   tags: ['autodocs'],
   parameters: {

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import EpistemicBanner from './EpistemicBanner'
 
 const meta: Meta<typeof EpistemicBanner> = {
-  title: 'AI Patterns/Uncertainty/EpistemicBanner',
+  title: 'AI Patterns/Response/EpistemicBanner',
   component: EpistemicBanner,
   tags: ['autodocs'],
   parameters: {

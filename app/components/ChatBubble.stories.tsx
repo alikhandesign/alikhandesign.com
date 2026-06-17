@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import ChatBubble from './ChatBubble'
 
 const meta: Meta<typeof ChatBubble> = {
-  title: 'AI Patterns/Chat/ChatBubble',
+  title: 'AI Patterns/Response/ChatBubble',
   component: ChatBubble,
   tags: ['autodocs'],
   parameters: {

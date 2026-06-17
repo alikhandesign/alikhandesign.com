@@ -6,7 +6,7 @@ import type { SiteSource } from '@/lib/sources'
 const MOCK_SOURCES: SiteSource[] = [
   {
     id: 1,
-    title: 'AI Patterns/Attribution/SourceInspector',
+    title: 'AI Patterns/Response/SourceInspector',
     url: '/work/ai-insights-agent',
     description: 'Agentic AI research pipeline at WTW — automated qualitative synthesis, PHI/PII redaction, and daily stakeholder reporting. 95% accuracy, 8+ hours to minutes.',
   },

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import GenerationState from './GenerationState'
 
 const meta: Meta<typeof GenerationState> = {
-  title: 'AI Patterns/Chat/GenerationState',
+  title: 'AI Patterns/Status/GenerationState',
   component: GenerationState,
   tags: ['autodocs'],
   parameters: {
