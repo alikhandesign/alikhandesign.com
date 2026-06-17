@@ -8,19 +8,16 @@ export interface WorkItem {
 
 // Single source of truth for work order.
 // The next/prev links on each page are derived from this list automatically.
-// Case studies and projects are interleaved — update this order once
-// all work pages are complete.
 export const workItems: WorkItem[] = [
   // ── Case Studies ──────────────────────────────────────────────────────
-  { slug: 'pattern-library',     title: 'AI Interface Pattern Library',       type: 'case-study' },
   { slug: 'ai-agent',            title: 'AI Feedback & Insights Agent',        type: 'case-study' },
   { slug: 'people-first',        title: 'People-First Enrollment Redesign',    type: 'case-study' },
+  { slug: 'pattern-library',     title: 'AI Interface Pattern Library',        type: 'case-study' },
   { slug: 'ihe-portal',          title: 'IHE Scheduling Portal',               type: 'case-study' },
   { slug: 'squarespace-redesign',title: 'From Checkboxes to Conversations',    type: 'case-study' },
   { slug: 'the-portfolio',       title: 'The Portfolio Is the Product',        type: 'case-study' },
   { slug: 'honest-design-system',title: 'Honest Design System',                type: 'case-study' },
   // ── Projects ─────────────────────────────────────────────────────────
-  // Order TBD — add slugs here once project pages are complete
   { slug: 'vivio',               title: 'Vivio Clinical App',                  type: 'project'    },
   { slug: 'ancillary-journey',   title: 'Optimizing the Ancillary Insurance Journey', type: 'project' },
   { slug: 'signify-rebrand',     title: 'Signify Health Rebrand',              type: 'project'    },
@@ -29,11 +26,10 @@ export const workItems: WorkItem[] = [
 ]
 
 // Metadata for each work item when surfaced in the Featured Work section
-// on the home page. Covers all items so any can be flagged as featured.
 export const featuredMeta: Record<string, { company: string; description: string }> = {
-  'pattern-library':      { company: 'Self-initiated',       description: 'An empirically grounded pattern library treating AI-specific interaction problems — uncertainty, silence, failure, correction — as a distinct design domain.' },
   'ai-agent':             { company: 'Willis Towers Watson', description: 'An agentic AI pipeline that automated qualitative synthesis — reducing a full day of analysis to minutes with 95% accuracy.' },
   'people-first':         { company: 'Via Benefits · WTW',   description: 'Dismantling a legacy product-first gate to drive a 15% lift in total enrollments and 45% faster time-to-convert.' },
+  'pattern-library':      { company: 'Self-initiated',       description: 'An empirically grounded pattern library treating AI-specific interaction problems — uncertainty, silence, failure, correction — as a distinct design domain.' },
   'ihe-portal':           { company: 'Signify Health',       description: 'Research-led redesign of a scheduling portal to remove trust and access barriers for Medicare members declining a free clinical service.' },
   'squarespace-redesign': { company: 'Self-initiated',       description: 'A systematic audit of Squarespace\'s AI tools across two user journeys — uncovering 20 distinct failure modes and the design decisions that caused them.' },
   'the-portfolio':        { company: 'Self-initiated',       description: 'Building a portfolio from scratch as a deliberate demonstration of craft — the site itself as the argument for why the work matters.' },
@@ -45,11 +41,6 @@ export const featuredMeta: Record<string, { company: string; description: string
   'design-handoff':       { company: 'Willis Towers Watson', description: 'A shared design-to-development handoff framework that eliminated implicit expectations and reduced rework across design and engineering teams.' },
 }
 
-/**
- * Returns the next work item for a given slug.
- * Wraps around — last item links back to first.
- * Returns null only if the slug isn't found.
- */
 export interface NextWork {
   title: string
   href: string
@@ -63,12 +54,6 @@ export function getNextWork(slug: string): NextWork | null {
   return { title: next.title, href: `/work/${next.slug}`, type: next.type }
 }
 
-/**
- * Server-side: returns work items merged with KV overrides.
- * Order and visibility from KV take precedence over work.config.ts defaults.
- * Falls back to config file order with all items visible if KV has no data.
- * Only call this from server components or API routes.
- */
 export async function getWorkItems(): Promise<(WorkItem & { visible: boolean })[]> {
   try {
     const { Redis } = await import('@upstash/redis')
@@ -76,36 +61,20 @@ export async function getWorkItems(): Promise<(WorkItem & { visible: boolean })[
       url: process.env.KV_REST_API_URL!,
       token: process.env.KV_REST_API_TOKEN!,
     })
-
     const [kvOrder, kvConfig] = await Promise.all([
       kv.get<string[]>('admin:work:order'),
       kv.get<Record<string, { visible: boolean }>>('admin:work:config'),
     ])
-
-    // Determine order
-    const orderedSlugs: string[] = kvOrder
-      ? kvOrder
-      : workItems.map(i => i.slug)
-
-    // Build ordered list, merging visibility from KV
+    const orderedSlugs: string[] = kvOrder ? kvOrder : workItems.map(i => i.slug)
     return orderedSlugs
       .map(slug => workItems.find(i => i.slug === slug))
       .filter((item): item is WorkItem => !!item)
-      .map(item => ({
-        ...item,
-        visible: kvConfig?.[item.slug]?.visible ?? true,
-      }))
+      .map(item => ({ ...item, visible: kvConfig?.[item.slug]?.visible ?? true }))
   } catch {
-    // KV unavailable — return all items visible in config order
     return workItems.map(item => ({ ...item, visible: true }))
   }
 }
 
-/**
- * Server-side: returns the featured work slugs from KV.
- * Falls back to ['people-first', 'ai-agent'] if KV has no data.
- * Only call this from server components or API routes.
- */
 export async function getFeaturedSlugs(): Promise<string[]> {
   try {
     const { Redis } = await import('@upstash/redis')
@@ -115,8 +84,8 @@ export async function getFeaturedSlugs(): Promise<string[]> {
     })
     const featured = await kv.get<string[]>('admin:work:featured')
     if (Array.isArray(featured) && featured.length > 0) return featured
-    return ['people-first', 'ai-agent']
+    return ['ai-agent', 'people-first']
   } catch {
-    return ['people-first', 'ai-agent']
+    return ['ai-agent', 'people-first']
   }
 }

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import Tag from './Tag'
 
 interface FeaturedProjectCardProps {
@@ -7,9 +8,10 @@ interface FeaturedProjectCardProps {
   company: string
   description: string
   href: string
+  image?: string
 }
 
-export default function FeaturedProjectCard({ type, title, company, description, href }: FeaturedProjectCardProps) {
+export default function FeaturedProjectCard({ type, title, company, description, href, image }: FeaturedProjectCardProps) {
   const ctaLabel = type === 'Case Study' ? 'Read case study' : 'View project'
   return (
     <Link href={href} className="work-card" style={{
@@ -21,8 +23,20 @@ export default function FeaturedProjectCard({ type, title, company, description,
       color: 'inherit',
       display: 'block',
     }}>
-      <div style={{ width: '100%', height: 200, background: 'var(--color-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const }}>
-        {type === 'Case Study' ? 'Case Study Preview' : 'Project Preview'}
+      <div style={{ position: 'relative', width: '100%', height: 200, background: 'var(--color-border)', overflow: 'hidden' }}>
+        {image ? (
+          <Image
+            src={image}
+            alt={`${title} preview`}
+            fill
+            style={{ objectFit: 'cover', objectPosition: 'center center' }}
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        ) : (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const }}>
+            {type === 'Case Study' ? 'Case Study Preview' : 'Project Preview'}
+          </div>
+        )}
       </div>
       <div style={{ padding: 'var(--space-6)' }}>
         <div style={{ marginBottom: '0.75rem' }}>

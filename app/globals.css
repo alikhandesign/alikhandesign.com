@@ -244,6 +244,7 @@ a { color: inherit; }
   .grid-2-wide { grid-template-columns: 1fr; gap: 2.5rem; }
   .grid-3 { grid-template-columns: 1fr; }
   .cs-card-grid { grid-template-columns: 1fr; }
+  .cs-card-grid > div:first-child { width: 100% !important; }
   .grid-proj { grid-template-columns: 1fr; }
   .pillar-grid { grid-template-columns: 1fr; gap: 0.75rem; }
   .detail-grid-2 { grid-template-columns: 1fr; }

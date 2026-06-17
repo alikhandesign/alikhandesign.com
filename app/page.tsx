@@ -101,7 +101,7 @@ export default async function Home() {
         <Heading level={2} className="section-title" lineHeight={1.15}>Research in action.</Heading>
         <div className="grid-2">
           {featured.map(f => (
-            <FeaturedProjectCard key={f.href} type={f.type} title={f.title} company={f.company} description={f.desc} href={f.href} />
+            <FeaturedProjectCard key={f.href} type={f.type} title={f.title} company={f.company} description={f.desc} href={f.href} image={`/images/work/work-${f.href.split('/').pop()}-card.png`} />
           ))}
         </div>
       </section>
