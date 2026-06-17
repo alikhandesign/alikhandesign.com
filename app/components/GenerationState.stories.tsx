@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import GenerationState from './GenerationState'
 
 const meta: Meta<typeof GenerationState> = {
-  title: 'Chat UI/GenerationState',
+  title: 'AI Patterns/Chat/GenerationState',
   component: GenerationState,
   tags: ['autodocs'],
   parameters: {
@@ -29,3 +29,4 @@ export const Generating: Story = { args: { phase: 'generating' } }
 export const Complete: Story = { args: { phase: 'complete' } }
 export const Stalled: Story = { args: { phase: 'stalled' } }
 export const Error: Story = { args: { phase: 'error' } }
+

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import ChatInput from './ChatInput'
 
 const meta: Meta<typeof ChatInput> = {
-  title: 'Chat UI/ChatInput',
+  title: 'AI Patterns/Chat/ChatInput',
   component: ChatInput,
   tags: ['autodocs'],
   parameters: {
@@ -59,3 +59,4 @@ export const Disabled: Story = {
     placeholder: 'Rate limit reached.',
   },
 }
+

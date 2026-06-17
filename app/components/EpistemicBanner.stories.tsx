@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import EpistemicBanner from './EpistemicBanner'
 
 const meta: Meta<typeof EpistemicBanner> = {
-  title: 'AI Patterns/EpistemicBanner',
+  title: 'AI Patterns/Uncertainty/EpistemicBanner',
   component: EpistemicBanner,
   tags: ['autodocs'],
   parameters: {
@@ -25,3 +25,4 @@ export const PrincipledLimit: Story = {
 export const Probabilistic: Story = {
   args: { type: 'probabilistic', message: 'This response contains claims that may vary — verify before acting.' }
 }
+

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import TabNavigation from './TabNavigation'
 
 const meta: Meta<typeof TabNavigation> = {
-  title: 'Core Components/Navigation/Tab',
+  title: 'AI Patterns/Navigation/TabNavigation',
   component: TabNavigation,
   tags: ['autodocs'],
   parameters: {
@@ -48,3 +48,4 @@ export const Side: Story = {
     )
   },
 }
+

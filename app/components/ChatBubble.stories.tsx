@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import ChatBubble from './ChatBubble'
 
 const meta: Meta<typeof ChatBubble> = {
-  title: 'Chat UI/ChatBubble',
+  title: 'AI Patterns/Chat/ChatBubble',
   component: ChatBubble,
   tags: ['autodocs'],
   parameters: {
@@ -48,3 +48,4 @@ export const MultiLine: Story = {
     content: 'There were three main challenges:\n\n1. Making AI confidence legible to non-technical users\n2. Designing for partial or stalled responses\n3. Keeping the interface fast when context windows were large',
   },
 }
+

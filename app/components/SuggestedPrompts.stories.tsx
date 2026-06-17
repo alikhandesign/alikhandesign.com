@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import SuggestedPrompts from './SuggestedPrompts'
 
 const meta: Meta<typeof SuggestedPrompts> = {
-  title: 'Chat UI/SuggestedPrompts',
+  title: 'AI Patterns/Chat/SuggestedPrompts',
   component: SuggestedPrompts,
   tags: ['autodocs'],
   parameters: {
@@ -40,3 +40,4 @@ export const Short: Story = {
     prompts: ['Tell me about Ali', 'View recent work'],
   },
 }
+

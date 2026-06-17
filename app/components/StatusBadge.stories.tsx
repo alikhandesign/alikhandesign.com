@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import StatusBadge from './StatusBadge'
 
 const meta: Meta<typeof StatusBadge> = {
-  title: 'AI Patterns/StatusBadge',
+  title: 'AI Patterns/Generation/StatusBadge',
   component: StatusBadge,
   tags: ['autodocs'],
   parameters: {
@@ -22,3 +22,4 @@ export const Complete: Story = { args: { state: 'complete', label: 'Complete' } 
 export const Hung: Story = { args: { state: 'hung', label: 'Response stalled', pulse: false } }
 export const Error: Story = { args: { state: 'error', label: 'Error' } }
 export const Warning: Story = { args: { state: 'warning', label: 'Warning' } }
+

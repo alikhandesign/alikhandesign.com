@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import PatternAnnotation from './PatternAnnotation'
 
 const meta: Meta<typeof PatternAnnotation> = {
-  title: 'AI Patterns/PatternAnnotation',
+  title: 'Core Components/Documentation/PatternAnnotation',
   component: PatternAnnotation,
   tags: ['autodocs'],
   parameters: {
@@ -21,3 +21,4 @@ export const Default: Story = {
     finding: 'Observed in Claude, ChatGPT, Gemini, and Perplexity. In every case, the streaming indicator continued running with no visual distinction between active generation and a frozen state. No product escalated to an error state — users had no signal to wait or intervene.',
   },
 }
+

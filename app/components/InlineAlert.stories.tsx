@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import InlineAlert from './InlineAlert'
 
 const meta: Meta<typeof InlineAlert> = {
-  title: 'AI Patterns/InlineAlert',
+  title: 'AI Patterns/Uncertainty/InlineAlert',
   component: InlineAlert,
   tags: ['autodocs'],
   parameters: {
@@ -31,3 +31,4 @@ export const Success: Story = {
 export const Neutral: Story = {
   args: { variant: 'neutral', title: 'Capability limit', children: 'I cannot book flights directly, but I can draft your itinerary.' }
 }
+
