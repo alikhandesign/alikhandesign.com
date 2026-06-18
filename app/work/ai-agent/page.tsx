@@ -7,7 +7,7 @@ import CalloutCard from '@/app/components/CalloutCard'
 import StatCard from '@/app/components/StatCard'
 import ProjectImage from '@/app/components/ProjectImage'
 import PullQuote from '@/app/components/PullQuote'
-import DataTable from '@/app/components/DataTable'
+import InteractiveTaxonomy from '@/app/components/InteractiveTaxonomy'
 import PasswordGate from '@/app/components/PasswordGate'
 
 const SECTIONS = [
@@ -113,21 +113,64 @@ function FullCaseStudy() {
           The architecture had four layers, each solving a specific part of the problem.
         </Body>
 
-        <DataTable
-          columns={['Domain', 'Subcategory', 'What it captures']}
-          columnWidths={['22%', '28%', '50%']}
-          rows={[
-            ['Shopping & Enrollment', 'Medicare Advantage', 'Plan comparison, MA shopping, coverage selection — excludes non-Medicare plans'],
-            ['Shopping & Enrollment', 'Decision Support', 'Recommendation tools, coverage checkup, trust in plan suggestions'],
-            ['Shopping & Enrollment', 'Apply & Eligibility', 'Application submission, eligibility confusion, next steps after applying'],
-            ['Account Management', 'Multi-Factor Authentication', 'MFA setup failures, code delivery issues, verification errors'],
-            ['Account Management', 'Sign-In & Sign-Up', 'Login failures, duplicate accounts, session issues'],
-            ['Profile', 'Health Information', 'Medications, preferred doctors, pharmacy selections — plan matching inputs'],
-            ['Post Enrollment', 'Keep My Current Plan', 'Auto-renewal confusion, "do I need to re-enroll" — intent to retain without acting'],
-            ['Post Enrollment', 'Make Changes to My Plan', 'Plan switches, coverage edits, cancellations — intent to modify'],
-            ['Funding', 'Reimbursements', 'Denied claims, delayed payments, submission failures'],
-            ['Funding', 'Account Balances', 'Balance confusion, fund not updating, zero balance when funds expected'],
+        <InteractiveTaxonomy
+          domains={[
+            {
+              id: 'shopping',
+              label: 'Shopping & Enrollment',
+              desc: 'The largest domain — covers the full plan selection journey from browsing through applying, across all plan types.',
+              children: [
+                { label: 'Medicare Advantage', description: 'Plan comparison, MA shopping, coverage selection. Excludes non-Medicare plans and standalone DVH.' },
+                { label: 'Medigap / PDP', description: 'Medicare Supplement and Prescription Drug Plan shopping. Focused on Medigap and PDP products only — not MA or MAPD.' },
+                { label: 'Dental, Vision & Hearing', description: 'Selecting or comparing DVH coverage as standalone or add-on plans.' },
+                { label: 'Decision Support', description: 'Plan recommendation tools, coverage checkup features, trust in AI-generated suggestions.' },
+                { label: 'Apply & Eligibility', description: 'Application submission experience, eligibility confusion, next steps after applying, enrollment reasons.' },
+              ],
+            },
+            {
+              id: 'account',
+              label: 'Account Management',
+              desc: 'Authentication and access — the most technically complex feedback category due to MFA variability across devices.',
+              children: [
+                { label: 'Multi-Factor Authentication', description: 'MFA setup, verification steps, code delivery failures (text, call, email), authentication errors, and confusion around security prompts.' },
+                { label: 'Sign-In & Sign-Up', description: 'Login failures, session issues, duplicate account problems, new account creation.' },
+                { label: 'Username & Password', description: 'Credential management, password resets, username confusion.' },
+              ],
+            },
+            {
+              id: 'profile',
+              label: 'Profile',
+              desc: 'Personal and health information management — feeds directly into plan matching and eligibility.',
+              children: [
+                { label: 'Address & Contact Info', description: 'Mailing and home address updates, email and phone management, validation errors.' },
+                { label: 'SSN & Medicare ID', description: 'Entering, editing, or validating Social Security Numbers and Medicare Beneficiary Identifiers.' },
+                { label: 'Health Information', description: 'Medications, preferred doctors, pharmacy selections — the inputs that drive plan recommendation accuracy.' },
+                { label: 'Document Uploader', description: 'Submitting documentation for QLE-based enrollment — birth, death, marriage, divorce, adoption paperwork.' },
+              ],
+            },
+            {
+              id: 'postenrollment',
+              label: 'Post Enrollment',
+              desc: 'Feedback from users who have already enrolled — often the most actionable for product owners.',
+              children: [
+                { label: 'Keep My Current Plan', description: 'Auto-renewal confusion, questions about whether action is required to retain existing coverage.' },
+                { label: 'Make Changes to My Plan', description: 'Plan switches, coverage edits, cancellations, adding or removing family members.' },
+                { label: 'Plan Troubleshooting', description: 'Viewing current plan documents, ID cards, coverage details — post-application support needs.' },
+              ],
+            },
+            {
+              id: 'funding',
+              label: 'Funding',
+              desc: 'Health reimbursement account feedback — high stakes because errors directly affect participants\' finances.',
+              children: [
+                { label: 'Qualifying for Funding', description: 'Confusion about eligibility criteria, denied funding, barriers to access.' },
+                { label: 'Reimbursements', description: 'Denied claims, delayed payments, failed submissions, approval confusion.' },
+                { label: 'Account Balances', description: 'Balance display confusion, fund not updating, zero balance when funds are expected.' },
+                { label: 'Account Activity', description: 'Missing transactions, pending reimbursements not posting, payment history issues.' },
+              ],
+            },
           ]}
+          footer="5 domains · 40+ subcategories · each mapped to a Qualtrics Text IQ query formula grounded in product owner interviews"
         />
 
         {[
