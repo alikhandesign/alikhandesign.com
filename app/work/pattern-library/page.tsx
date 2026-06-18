@@ -5,6 +5,7 @@ import SectionIntro from '@/app/components/SectionIntro'
 import Body from '@/app/components/Body'
 import CalloutCard from '@/app/components/CalloutCard'
 import StatCard from '@/app/components/StatCard'
+import DataTable from '@/app/components/DataTable'
 import PullQuote from '@/app/components/PullQuote'
 import ButtonLink from '@/app/components/ButtonLink'
 
@@ -73,33 +74,16 @@ function FullCaseStudy() {
         <Body>
           These four properties defined the six pattern categories. The mapping isn't one-to-one — some patterns address multiple properties, which reflects the actual complexity of the problem space.
         </Body>
-        <div style={{ overflowX: 'auto', marginBottom: '1rem' }}>
-          <table style={{
-            width: '100%',
-            borderCollapse: 'collapse',
-            fontSize: 'var(--font-size-sm)',
-          }}>
-            <thead>
-              <tr>
-                <th style={{ textAlign: 'left', padding: '0.6rem 1rem 0.6rem 0', borderBottom: '1px solid var(--color-border)', color: 'var(--color-text-muted)', fontWeight: 500, width: '40%' }}>Property</th>
-                <th style={{ textAlign: 'left', padding: '0.6rem 0', borderBottom: '1px solid var(--color-border)', color: 'var(--color-text-muted)', fontWeight: 500 }}>Patterns it drove</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                ['Inherent uncertainty', 'Uncertainty Communication, Source & Attribution'],
-                ['Generative output', 'Generation States, Source & Attribution'],
-                ['Silent failure risk', 'Generation States, Error States'],
-                ['Correction as a first-class mode', 'Correction & Refinement, Limitation Handling'],
-              ].map(([property, patterns], i, arr) => (
-                <tr key={property}>
-                  <td style={{ padding: '0.6rem 1rem 0.6rem 0', borderBottom: i < arr.length - 1 ? '1px solid var(--color-border-subtle, var(--color-border))' : 'none', color: 'var(--color-text)', verticalAlign: 'top', opacity: 0.9 }}>{property}</td>
-                  <td style={{ padding: '0.6rem 0', borderBottom: i < arr.length - 1 ? '1px solid var(--color-border-subtle, var(--color-border))' : 'none', color: 'var(--color-text-muted)', verticalAlign: 'top' }}>{patterns}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <DataTable
+          columns={['Property', 'Patterns it drove']}
+          columnWidths={['40%', '60%']}
+          rows={[
+            ['Inherent uncertainty', 'Uncertainty Communication, Source & Attribution'],
+            ['Generative output', 'Generation States, Source & Attribution'],
+            ['Silent failure risk', 'Generation States, Error States'],
+            ['Correction as a first-class mode', 'Correction & Refinement, Limitation Handling'],
+          ]}
+        />
       </section>
 
       <section id="the-audit" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
@@ -415,5 +399,6 @@ export default function PatternLibraryPage() {
     </CaseStudyPage>
   )
 }
+
 
 

@@ -27,7 +27,7 @@ export default function CaseStudyCard({ title, company, tags, description, outco
       textDecoration: 'none',
       color: 'inherit',
     }}>
-      <div style={{
+      <div className="cs-card-image" style={{
         position: 'relative',
         width: 320,
         height: '100%',
@@ -76,3 +76,4 @@ export default function CaseStudyCard({ title, company, tags, description, outco
     </Link>
   )
 }
+

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&display=swap');
 
 /* ─── Design Tokens ─────────────────────────────────────── */
 :root {
@@ -244,7 +245,7 @@ a { color: inherit; }
   .grid-2-wide { grid-template-columns: 1fr; gap: 2.5rem; }
   .grid-3 { grid-template-columns: 1fr; }
   .cs-card-grid { grid-template-columns: 1fr; }
-  .cs-card-grid > div:first-child { width: 100% !important; }
+  .cs-card-image { width: 100% !important; height: auto !important; min-height: unset !important; aspect-ratio: 3/2; }
   .grid-proj { grid-template-columns: 1fr; }
   .pillar-grid { grid-template-columns: 1fr; gap: 0.75rem; }
   .detail-grid-2 { grid-template-columns: 1fr; }

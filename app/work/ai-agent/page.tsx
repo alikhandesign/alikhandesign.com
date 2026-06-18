@@ -1,170 +1,266 @@
 'use client'
 import { getNextWork } from '@/app/work.config'
-import Link from 'next/link'
+import CaseStudyPage from '@/app/components/CaseStudyPage'
+import SectionIntro from '@/app/components/SectionIntro'
+import Body from '@/app/components/Body'
+import CalloutCard from '@/app/components/CalloutCard'
+import StatCard from '@/app/components/StatCard'
+import ProjectImage from '@/app/components/ProjectImage'
+import PullQuote from '@/app/components/PullQuote'
+import DataTable from '@/app/components/DataTable'
 import PasswordGate from '@/app/components/PasswordGate'
-import SideNav from '@/app/components/SideNav'
-import { ProjectImage } from '@/app/components/Lightbox'
-import { useState } from 'react'
-import CTAStrip from '@/app/components/CTAStrip'
-import ContactModal from '@/app/components/ContactModal'
 
-
+const SECTIONS = [
+  'the-context',
+  'the-problem',
+  'the-reframe',
+  'the-constraint',
+  'the-build',
+  'the-validation',
+  'the-outcomes',
+  'the-reflection',
+]
 
 const INSIDE = [
   'Compliance-first design approach and legal workshops',
   'Hybrid categorization architecture (structured + AI)',
-  'The double-blind validation methodology',
-  '78% to 95% accuracy iteration story',
-  'Stakeholder adoption and skeptic-to-advocate arc',
-  'Full system architecture and flow diagrams',
+  'The double-blind validation methodology with PMs',
+  'Iteration from 78% to 95% accuracy',
+  'Stakeholder adoption data — 128 sessions, 4.5/5 satisfaction',
+  'Full system architecture and intent mapping',
 ]
 
 function FullCaseStudy() {
   return (
-    <div style={{ maxWidth: 680 }}>
+    <div>
+
       <section id="the-context" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
-        <p className="section-label">The Context</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>A billion-dollar book of business generating feedback nobody could keep up with</h2>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>Willis Towers Watson managed an annual book of business exceeding $1B in the Medicare and individual benefits space. That scale generated a constant stream of user feedback — website surveys, mobile app surveys, post-call feedback, NPS and CSAT scores — flowing in from hundreds of thousands of users.</p>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>During Medicare Open Enrollment, that volume spiked by 1000%. The research team responsible for synthesizing that feedback had no good way to handle it. I was the Senior UX Designer embedded on the Individual Marketplace team. What I noticed, through observation rather than any formal assignment, was that the people whose job it was to understand users were spending most of their time doing data entry.</p>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', margin: '2rem 0', padding: '1.5rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)' }}>
-          {[['My Role', 'Senior UX Designer (self-initiated)'], ['Stack', 'Copilot Studio, Qualtrics API, Dataverse, Power Automate'], ['Timeline', '2025–2026'], ['Outcome', 'Deployed to production, 95% accuracy']].map(([label, val]) => (
-            <div key={label}>
-              <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>{label}</p>
-              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 500, lineHeight: 1.5 }}>{val}</p>
-            </div>
-          ))}
-        </div>
+        <SectionIntro
+          label="The Context"
+          heading="A billion-dollar book of business generating feedback nobody could keep up with"
+        />
+        <Body>
+          Willis Towers Watson managed an annual book of business exceeding $1B in the Medicare and individual benefits space. That scale generated a constant stream of user feedback — website surveys, mobile app surveys, post-call feedback, NPS and CSAT scores — flowing in from hundreds of thousands of participants on the Via Benefits platform.
+        </Body>
+        <Body mb={false}>
+          During Medicare Open Enrollment, that volume spiked by 1000%. I was the Senior UX Designer embedded on the Individual Marketplace team. What I noticed, through observation rather than any formal assignment, was that the people whose job it was to understand users were spending most of their time doing data entry.
+        </Body>
       </section>
 
       <section id="the-problem" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
-        <p className="section-label">The Problem</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>The Synthesis Tax</h2>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The research team operated within a fragmented, labor-intensive feedback loop. Researchers manually downloaded data from multiple sources, aggregated it, cleaned it, redacted sensitive information, tagged and categorized every comment by hand, and packaged it into a static spreadsheet posted to a Teams channel once a week.</p>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>Three compounding failure points: a full day per researcher lost to categorization each week (20% of weekly capacity), "translation errors" from researchers who weren't subject-matter experts on every product feature, and a 5-day insight lag that meant bugs appearing Monday weren't addressed until the following week.</p>
-        <div style={{ borderLeft: '3px solid var(--color-accent)', padding: '1.25rem 1.5rem', margin: '2rem 0', background: 'var(--color-surface)', borderRadius: '0 4px 4px 0' }}>
-          <p className="font-serif" style={{ fontSize: 'var(--font-size-xl)', color: 'var(--color-text)', lineHeight: 1.5, fontStyle: 'italic' }}>This wasn't just a process inefficiency. It was a compliance and retention risk. The voice of the user was arriving too late to matter.</p>
-        </div>
+        <SectionIntro
+          label="The Problem"
+          heading="Three compounding failures, one critical risk"
+        />
+        <Body>
+          The research team operated within a fragmented, labor-intensive feedback loop. Researchers manually downloaded data from multiple sources, aggregated it, cleaned it, redacted sensitive information, tagged and categorized every comment by hand, and packaged it into a static spreadsheet posted to a Teams channel once a week. Three distinct failure modes compounded each other.
+        </Body>
+
+        {[
+          ['The synthesis tax', 'A single researcher spent an entire day each week on categorization and tagging alone — 20% of weekly capacity consumed by work that required domain expertise they didn\'t have, producing outputs that arrived too late to act on.'],
+          ['The expert gap', 'The researchers doing the categorization weren\'t subject-matter experts on every product feature they were reviewing. Technical nuance got lost in translation. A Medicare plan comparison bug looked identical to a general navigation complaint unless you knew the product well enough to distinguish them.'],
+          ['The distribution lag', 'Even when synthesized correctly, insights sat in static spreadsheets that didn\'t reach the relevant Product Owners until days later. A systemic bug appearing on a Monday wouldn\'t surface until Friday\'s report — at the earliest.'],
+        ].map(([title, body]) => (
+          <div key={title} style={{ marginBottom: '1.5rem', paddingLeft: '1.25rem', borderLeft: '2px solid var(--color-border)' }}>
+            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 600, marginBottom: '0.35rem' }}>{title}</p>
+            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>{body}</p>
+          </div>
+        ))}
+
+        <PullQuote>
+          This wasn't just a process inefficiency. It was a compliance and retention risk. The voice of the user was arriving too late to matter.
+        </PullQuote>
       </section>
 
       <section id="the-reframe" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
-        <p className="section-label">The Reframe</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>The real question wasn't speed</h2>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The obvious framing was: "Can AI do this faster?" But that wasn't the right question. The real problem was the Expert Gap — the mismatch between the people doing the categorization and the product knowledge required to do it accurately. A faster version of the same process would just produce wrong answers more quickly.</p>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>The right question was: "Can AI close the Expert Gap while handling sensitive healthcare data responsibly?" That reframe changed everything about how I designed the system.</p>
+        <SectionIntro
+          label="The Reframe"
+          heading="The question wasn't speed — it was trust"
+        />
+        <Body>
+          The obvious framing was: can AI do this faster? But that wasn't the right question. A faster version of the same flawed process would just produce wrong answers more quickly. The real problem was the expert gap — the mismatch between the people doing the categorization and the domain knowledge required to do it accurately.
+        </Body>
+        <Body mb={false}>
+          The right question was: can AI close the expert gap while handling sensitive healthcare data responsibly? That reframe changed everything about how I designed the system — and in what order.
+        </Body>
       </section>
 
-      <section id="the-compliance-challenge" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
-        <p className="section-label">The Compliance Challenge</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>Before AI could touch the data, the data had to be safe</h2>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The first design challenge wasn't building anything. It was earning the right to build. I ran workshops with Legal and Compliance to define exactly what constituted PII and PHI in our context and where the line was that the system could not cross.</p>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>From those workshops, I engineered a layered redaction approach. Qualtrics queries handled structured patterns. An LLM-based redaction layer caught names and edge cases. Legal signed off before production deployment. That sign-off wasn't just a checkbox — it was what made the whole project possible.</p>
+      <section id="the-constraint" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
+        <SectionIntro
+          label="The Constraint"
+          heading="Before AI could touch the data, the data had to be safe"
+        />
+        <Body>
+          The first design challenge wasn't building anything. It was earning the right to build. I ran workshops with Legal and Compliance to define exactly what constituted PII and PHI in our context — names, Social Security numbers, Medicare IDs, claim details — and where the line was that the system could not cross.
+        </Body>
+        <Body>
+          From those workshops, I engineered a layered redaction approach in Qualtrics. Structured pattern queries handled known identifiers. An additional redaction pass caught names and edge cases. Legal signed off before any data touched the model. That sign-off wasn't a checkbox — it was what made the rest of the project possible.
+        </Body>
+
+        <ProjectImage
+          src="/images/work/ai-agent/redaction-policy.jpg"
+          alt="Qualtrics PII redaction policy configuration showing SSN detection"
+          caption="The redaction policy defined the boundary between what the AI could process and what had to stay behind. Legal sign-off on this was the prerequisite for everything else."
+        />
       </section>
 
       <section id="the-build" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
-        <p className="section-label">The Build</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>A hybrid system designed around the Expert Gap</h2>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>I started with Dataverse as the single source of truth — a structured taxonomy table grounded in WTW's specific product documentation and internal knowledge base. On top of that, two categorization approaches worked in parallel: Qualtrics Text IQ for known patterns, and Microsoft CoPilot Studio (GPT) for ambiguous cases requiring intent interpretation.</p>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>Power Automate connected the pipeline in real time. I also built a conversational interface in Teams so stakeholders could ask direct questions — "What were the top three complaints from Medicare users this week?" — and get instant synthesized answers.</p>
+        <SectionIntro
+          label="The Build"
+          heading="A hybrid system designed around the expert gap"
+        />
+        <Body>
+          The architecture had four layers, each solving a specific part of the problem.
+        </Body>
+
+        <DataTable
+          columns={['Domain', 'Subcategory', 'What it captures']}
+          columnWidths={['22%', '28%', '50%']}
+          rows={[
+            ['Shopping & Enrollment', 'Medicare Advantage', 'Plan comparison, MA shopping, coverage selection — excludes non-Medicare plans'],
+            ['Shopping & Enrollment', 'Decision Support', 'Recommendation tools, coverage checkup, trust in plan suggestions'],
+            ['Shopping & Enrollment', 'Apply & Eligibility', 'Application submission, eligibility confusion, next steps after applying'],
+            ['Account Management', 'Multi-Factor Authentication', 'MFA setup failures, code delivery issues, verification errors'],
+            ['Account Management', 'Sign-In & Sign-Up', 'Login failures, duplicate accounts, session issues'],
+            ['Profile', 'Health Information', 'Medications, preferred doctors, pharmacy selections — plan matching inputs'],
+            ['Post Enrollment', 'Keep My Current Plan', 'Auto-renewal confusion, "do I need to re-enroll" — intent to retain without acting'],
+            ['Post Enrollment', 'Make Changes to My Plan', 'Plan switches, coverage edits, cancellations — intent to modify'],
+            ['Funding', 'Reimbursements', 'Denied claims, delayed payments, submission failures'],
+            ['Funding', 'Account Balances', 'Balance confusion, fund not updating, zero balance when funds expected'],
+          ]}
+        />
+
+        {[
+          ['Taxonomy and intent mapping', 'I started by interviewing product owners to understand how they thought about user feedback — not just what categories existed, but what signals within feedback indicated each category. That interviews produced a structured taxonomy stored in Dataverse as the single source of truth.'],
+          ['Qualtrics Text IQ queries', 'I built topic queries in Qualtrics Text IQ to anchor known patterns to the correct product buckets. These were the guardrails — precise keyword and phrase logic that ensured business-critical signals were never miscategorized, regardless of how the AI performed on edge cases.'],
+          ['Copilot Studio as the brain', 'I connected the Dataverse taxonomy to a Copilot Studio agent and grounded it in WTW\'s internal product documentation and knowledge base articles. This gave the AI the product context it needed to interpret ambiguous feedback the way a subject-matter expert would.'],
+          ['Power Automate and Teams integration', 'The pipeline ran automatically: new feedback in → redaction → categorization → stakeholder delivery. I also built a conversational interface in Teams so PMs could ask direct questions — "What were the top three complaints from Medicare users this week?" — and get real-time synthesized answers without waiting for a weekly report.'],
+        ].map(([title, body]) => (
+          <div key={title} style={{ marginBottom: '1.5rem', paddingLeft: '1.25rem', borderLeft: '2px solid var(--color-border)' }}>
+            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 600, marginBottom: '0.35rem' }}>{title}</p>
+            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>{body}</p>
+          </div>
+        ))}
+
+        <ProjectImage
+          src="/images/work/ai-agent/topics-queries.jpg"
+          alt="Qualtrics topic query taxonomy showing product buckets and query formulas"
+          caption="The topic query structure translated product owner mental models into machine-readable logic. Each bucket had a name, description, and explicit query formula."
+        />
+
+        <ProjectImage
+          src="/images/work/ai-agent/agent-instructions.jpg"
+          alt="Copilot Studio agent instructions configuration"
+          caption="The agent instructions defined scope, tone, and behavior — including fallback logic for feedback that couldn't be confidently categorized."
+        />
       </section>
 
       <section id="the-validation" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
-        <p className="section-label">The Validation</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>78% to 95% — earning trust through evidence</h2>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>I didn't ask stakeholders to trust the AI. I built a methodology to prove it deserved trust. A double-blind accuracy audit: I manually categorized a full week of raw feedback. The AI categorized the same feedback independently. Both sets were stripped of origin labels and reviewed blind by Product Owners.</p>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The first audit came back at 78% accuracy. Not good enough. I refined the system instructions, improved grounding queries, added fallback logic. After several iterations, accuracy reached 95% — the point at which stakeholders could no longer reliably distinguish AI categorization from expert human categorization.</p>
-        <div style={{ borderLeft: '3px solid var(--color-accent)', padding: '1.25rem 1.5rem', margin: '2rem 0', background: 'var(--color-surface)', borderRadius: '0 4px 4px 0' }}>
-          <p className="font-serif" style={{ fontSize: 'var(--font-size-xl)', color: 'var(--color-text)', lineHeight: 1.5, fontStyle: 'italic' }}>The lead UX researcher who had told me "this will never be as good as human analysis" became one of the system's most vocal advocates.</p>
-        </div>
+        <SectionIntro
+          label="The Validation"
+          heading="78% to 95% — earning trust through evidence"
+        />
+        <Body>
+          I didn't ask stakeholders to trust the AI. I built a methodology to prove it deserved trust. The validation process ran as a double-blind accuracy audit with Product Managers: I manually categorized a full week of raw feedback. The agent categorized the same feedback independently. Both outputs were stripped of origin labels and reviewed blind by PMs who judged which categorizations were accurate.
+        </Body>
+        <Body>
+          The first audit came back at 78%. Not good enough for production. I refined the agent instructions, improved the grounding queries, and added fallback logic that flagged uncategorized feedback for human review rather than forcing a low-confidence guess. The process repeated weekly until the gap closed.
+        </Body>
+
+        <CalloutCard
+          variant="light"
+          title="95% accuracy after iterative tuning"
+          body="After several validation cycles, the agent reached 95% accuracy against expert human categorization — the point at which PMs could no longer reliably distinguish AI output from a trained researcher's work."
+        />
+
+        <PullQuote>
+          The lead UX researcher who had told me "this will never be as good as human analysis" became one of the system's most vocal advocates.
+        </PullQuote>
       </section>
 
       <section id="the-outcomes" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
-        <p className="section-label">The Outcomes</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>From Synthesis Tax to strategic asset</h2>
+        <SectionIntro
+          label="The Outcomes"
+          heading="From synthesis tax to strategic asset"
+        />
+
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', margin: '2rem 0' }}>
-          {[['8+ hrs → min', 'Weekly synthesis time'], ['5 days → same day', 'Insight delivery lag'], ['95%', 'Categorization accuracy'], ['20%', 'Research capacity returned']].map(([val, label]) => (
-            <div key={label} style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', padding: '1.25rem', position: 'relative', overflow: 'hidden' }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--color-accent)' }} />
-              <div className="font-serif" style={{ fontSize: '1.5rem', color: 'var(--color-accent)', lineHeight: 1, marginBottom: '0.35rem' }}>{val}</div>
-              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', lineHeight: 1.4 }}>{label}</div>
-            </div>
-          ))}
+          <StatCard value="8+ hrs → min" label="Weekly synthesis time" />
+          <StatCard value="95%" label="Categorization accuracy" />
+          <StatCard value="5 days → same day" label="Insight delivery lag" />
+          <StatCard value="20%" label="Research capacity returned" />
+          <StatCard value="128" label="Conversation sessions" />
+          <StatCard value="4.5 / 5" label="Stakeholder satisfaction" />
         </div>
+
+        <Body>
+          The system was deployed and adopted by stakeholders on the Individual Marketplace team. Copilot Studio telemetry showed 128 conversation sessions with a 76% engagement rate and 4.5/5 satisfaction score — signal that PMs were not just using the tool but finding value in it. The most meaningful shift was behavioral: Product Owners who had previously waited for weekly reports started querying the agent proactively during high-stakes launch windows.
+        </Body>
+
+        <ProjectImage
+          src="/images/work/ai-agent/agent-conversation.jpg"
+          alt="Example conversation with the Participant Listening Agent in Microsoft Teams"
+          caption="PMs queried the agent directly in Teams. A question that would have taken a researcher a day to answer now took seconds."
+        />
+
+        <ProjectImage
+          src="/images/work/ai-agent/analysis-report.jpg"
+          alt="Example analysis report output showing categorized feedback with user quotes"
+          caption="Agent output delivered to stakeholders: categorized feedback with representative user quotes, surfaced same-day rather than end of week."
+        />
       </section>
 
-      <section>
-        <p className="section-label">The Reflection</p>
-        <h2 className="font-serif" style={{ fontSize: 'var(--font-size-base)', fontWeight: 400, lineHeight: 1.2, marginBottom: '1.25rem' }}>What the real design challenge was</h2>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85, marginBottom: '1.25rem' }}>The interface wasn't the hard part. The hard part was making AI trustworthy enough that people were willing to delegate important work to it. That required compliance-first thinking before the first line of code, a validation methodology rigorous enough to change a skeptic's mind, and fallback logic so humans stayed in the loop where they needed to be.</p>
-        <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>If I were starting over, I'd build validation into day one rather than week three. The big takeaway: with agentic AI, the design challenge isn't the interface. It's building trust through validation, transparency, and continuous improvement.</p>
+      <section id="the-reflection" style={{ scrollMarginTop: '5rem' }}>
+        <SectionIntro
+          label="The Reflection"
+          heading="The interface wasn't the hard part"
+        />
+        <Body>
+          What made this project difficult wasn't the technology — Copilot Studio, Qualtrics, Power Automate are accessible tools. The hard part was making AI trustworthy enough that people were willing to delegate important decisions to it. That required compliance-first thinking before the first line of logic, a validation methodology rigorous enough to change a skeptic's mind, and fallback logic that kept humans in the loop where they needed to be.
+        </Body>
+        <Body mb={false}>
+          If I were starting over, I'd build validation into day one rather than week three. The skeptic-to-advocate arc — from "this will never be as good as human analysis" to active advocacy — didn't happen because the AI was impressive. It happened because the evidence was undeniable. In agentic AI work, the design challenge isn't the interface. It's earning trust through transparency, iteration, and proof.
+        </Body>
       </section>
+
     </div>
   )
 }
 
 export default function AIAgentPage() {
-  const [unlocked, setUnlocked] = useState(false)
-  const [modalOpen, setModalOpen] = useState(false)
   return (
-    <main>
-      {/* Visually hidden h1 for screen readers — visual title is inside PasswordGate children */}
-      <h1 style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', borderWidth: 0 }}>
-        AI Feedback &amp; Insights Agent
-      </h1>
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-        <nav style={{ padding: '1.25rem 3rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Link href="/work" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', textDecoration: 'none' }}>My Work</Link>
-          <span style={{ fontSize: 'var(--font-size-sm)', color: '#C4BDB7' }}>›</span>
-          <span style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 500 }}>AI Feedback & Insights Agent</span>
-        </nav>
-        <header style={{ padding: '2.5rem 3rem 3rem' }}>
-          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem', flexWrap: 'wrap' as const }}>
-            <span className="tag-cs">Case Study</span>
-            <span className="tag">Agentic Workflow Design</span>
-            <span className="tag">AI Design</span>
-          </div>
-          <h1 className="font-serif" style={{ fontSize: 'var(--font-size-4xl)', fontWeight: 400, lineHeight: 1.1, marginBottom: '0.5rem' }}>AI Feedback & Insights Agent</h1>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', letterSpacing: '0.04em', marginBottom: '1.5rem' }}>Willis Towers Watson · 2025–2026</p>
-          <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text)', lineHeight: 1.7, maxWidth: 680 }}>Nobody asked me to build this. I noticed that the research team was spending entire days doing work a well-designed system could do in minutes, and I couldn't stop thinking about what they could be doing instead.</p>
-        </header>
-      </div>
-
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem' }}>
-        <div style={{ width: '100%', height: 400, background: 'var(--color-border)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', letterSpacing: '0.05em', textTransform: 'uppercase' as const }}>Hero Project Image</div>
-      </div>
-
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem', display: 'flex', gap: '3rem', flexWrap: 'wrap' as const, borderBottom: '1px solid var(--color-border)' }}>
-        {[['95%', 'Categorization accuracy'], ['8 hrs → 8 min', 'Synthesis time'], ['5 days → same day', 'Insight delivery'], ['20%', 'Capacity returned']].map(([val, label]) => (
-          <div key={label}>
-            <div className="font-serif" style={{ fontSize: '2.25rem', color: 'var(--color-accent)', lineHeight: 1 }}>{val}</div>
-            <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginTop: 4, lineHeight: 1.4 }}>{label}</div>
-          </div>
-        ))}
-      </div>
-
-      <div className="article-layout" style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '4rem 3rem' }}>
-        <SideNav unlocked={unlocked} sections={["the-context", "the-problem", "the-reframe", "the-compliance-challenge", "the-build", "the-validation", "the-outcomes", "the-reflection"]} />
-        <div>
-          <PasswordGate password="4likh4n" onUnlock={() => setUnlocked(true)} title="Ready to see how it came together?" description="The full case study covers the compliance-first design approach, the hybrid categorization architecture, and the validation methodology that took accuracy from 78% to 95%." inside={INSIDE}>
-            <FullCaseStudy />
-          </PasswordGate>
-        </div>
-      </div>
-
-      <CTAStrip
-        title="Interested in how this came together?"
-        onContact={() => setModalOpen(true)}
-      />
-
-      <div className="divider" />
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '2.5rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '1rem' }}>
-        <div>
-          <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: '0.12em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.35rem' }}>Next Case Study</p>
-          <p className="font-serif" style={{ fontSize: 'var(--font-size-xl)', fontWeight: 400 }}>People-First Enrollment Redesign</p>
-        </div>
-        <Link href="/work/people-first" style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-accent)', fontWeight: 500, textDecoration: 'none' }}>View project →</Link>
-      </div>
-      <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
-    </main>
+    <CaseStudyPage
+      title="AI Feedback & Insights Agent"
+      company="Willis Towers Watson · Individual Marketplace · 2025–2026"
+      tags={['Agentic Workflow Design', 'AI Design', 'UX Research']}
+      hook="Nobody asked me to build this. I noticed that the research team was spending entire days doing work a well-designed system could do in minutes, and I couldn't stop thinking about what they could be doing instead."
+      heroImage="/images/work/ai-agent/hero.jpg"
+      heroImageAlt="Participant Listening Agent interface showing categorized feedback and trend analysis"
+      metrics={[
+        { value: '95%', label: 'Categorization accuracy' },
+        { value: '8+ hrs → min', label: 'Synthesis time' },
+        { value: '5 days → same day', label: 'Insight delivery' },
+        { value: '4.5 / 5', label: 'Stakeholder satisfaction' },
+      ]}
+      details={[
+        { label: 'My Role', value: 'Senior UX Designer (self-initiated)' },
+        { label: 'Stack', value: 'Copilot Studio, Qualtrics API, Dataverse, Power Automate' },
+        { label: 'Timeline', value: '2025–2026' },
+        { label: 'Type', value: 'Agentic AI workflow, internal tooling' },
+      ]}
+      sections={SECTIONS}
+      cta={{ title: 'Want to talk through the methodology or the build?' }}
+      next={getNextWork('ai-agent')!}
+    >
+      <PasswordGate
+        password="4likh4n"
+        onUnlock={() => {}}
+        title="Ready to see how it came together?"
+        description="The full case study covers the compliance-first design approach, the hybrid categorization architecture, and the validation methodology that took accuracy from 78% to 95%."
+        inside={INSIDE}
+      >
+        <FullCaseStudy />
+      </PasswordGate>
+    </CaseStudyPage>
   )
 }
