@@ -7,7 +7,7 @@ import CalloutCard from '@/app/components/CalloutCard'
 import StatCard from '@/app/components/StatCard'
 import ProjectImage from '@/app/components/ProjectImage'
 import PullQuote from '@/app/components/PullQuote'
-import InteractiveTaxonomy from '@/app/components/InteractiveTaxonomy'
+import TabbedAccordion from '@/app/components/TabbedAccordion'
 import PasswordGate from '@/app/components/PasswordGate'
 
 const SECTIONS = [
@@ -113,64 +113,104 @@ function FullCaseStudy() {
           The architecture had four layers, each solving a specific part of the problem.
         </Body>
 
-        <InteractiveTaxonomy
+        <TabbedAccordion
           domains={[
             {
               id: 'shopping',
               label: 'Shopping & Enrollment',
-              desc: 'The largest domain — covers the full plan selection journey from browsing through applying, across all plan types.',
+              desc: 'The largest domain — covers every stage of the plan selection journey, from browsing through applying, across all plan types offered on the Via Benefits platform.',
               children: [
-                { label: 'Medicare Advantage', description: 'Plan comparison, MA shopping, coverage selection. Excludes non-Medicare plans and standalone DVH.' },
-                { label: 'Medigap / PDP', description: 'Medicare Supplement and Prescription Drug Plan shopping. Focused on Medigap and PDP products only — not MA or MAPD.' },
-                { label: 'Dental, Vision & Hearing', description: 'Selecting or comparing DVH coverage as standalone or add-on plans.' },
-                { label: 'Decision Support', description: 'Plan recommendation tools, coverage checkup features, trust in AI-generated suggestions.' },
-                { label: 'Apply & Eligibility', description: 'Application submission experience, eligibility confusion, next steps after applying, enrollment reasons.' },
+                { label: 'Shopping', description: 'General plan browsing and exploration across all product types. Includes error states specific to the shopping experience — pages not loading, filters not working, results not displaying.' },
+                { label: 'Plan Comparison', description: 'Via Benefits\' feature allowing users to compare up to three plans side by side. Captures usability feedback, comparison accuracy, and errors within the comparison tool.' },
+                { label: 'Current Plan Comparison', description: 'Feature that surfaces a user\'s currently enrolled plan alongside new plan options, enabling direct coverage comparison. Distinct from Plan Comparison — this is post-enrollment context brought into the shopping flow.' },
+                { label: 'Plan Details', description: 'Individual plan detail pages — coverage breakdowns, benefit summaries, provider networks, formulary information. Distinct from comparison; this is single-plan deep-dive.' },
+                { label: 'Shopping Cart', description: 'The cart experience — selecting, reviewing, and managing plans before applying. Includes cart errors: eligibility conflicts, plan availability issues, bundling problems.' },
+                { label: 'Medicare Advantage Shopping', description: 'Feedback specific to browsing and comparing Medicare Advantage plans. Includes MA-specific errors and Group MA — a product variant offered to select employer clients with negotiated MA coverage.' },
+                { label: 'Medigap Shopping', description: 'Medicare Supplement plan shopping. Focused on Medigap products only — not MA, MAPD, or PDP. Includes Medigap plan details and Medigap-specific errors.' },
+                { label: 'PDP Shopping', description: 'Prescription Drug Plan shopping. Focused on standalone PDP products. Includes PDP plan details and PDP-specific errors.' },
+                { label: 'Dental, Vision & Hearing Shopping', description: 'DVH coverage selection — standalone and add-on plans. Includes DVH plan details and DVH-specific errors.' },
+                { label: 'Ancillary Shopping', description: 'Supplemental coverage — hospital indemnity, accident, critical illness. Includes ancillary plan details and ancillary-specific errors.' },
+                { label: 'Individual & Family Plans', description: 'ACA and pre-65 individual/family coverage. Includes IFP plan details and IFP-specific errors.' },
+                { label: 'ICHRA Shopping', description: 'Individual Coverage HRA shopping — added mid-project when Via Benefits launched an ICHRA offering with a pilot client. Tracking ICHRA-specific feedback was a direct business request.' },
+                { label: 'Decision Support', description: 'Plan recommendation tools and the Coverage Checkup feature. Captures feedback about tool usability, accuracy of suggestions, and the overall experience of being guided toward a plan.' },
+                { label: 'Recommendation Trust', description: 'Whether users trust, rely on, or doubt the plan suggestions generated by Decision Support tools. Surfaces skepticism, mismatched recommendations, and over-reliance.' },
+                { label: 'Apply', description: 'The application submission experience — form usability, submission flow, confirmation handling, and follow-up instructions.' },
+                { label: 'Submission Issues', description: 'Technical failures during application submission — submit button not working, application not going through, error messages on submission.' },
+                { label: 'Next Steps Unclear', description: 'Confusion about what happens after applying — missing confirmation emails, unclear instructions, uncertainty about plan activation.' },
+                { label: 'Help Needed After Applying', description: 'Post-application support needs — uploading documents, verifying enrollment, following up on application status.' },
+                { label: 'Eligibility', description: 'Feedback about whether users can enroll — eligibility confusion, rejection messages, "why am I ineligible" frustration.' },
+                { label: 'Enrollment Reasons', description: 'Qualifying life events, Special Enrollment Periods, Annual Enrollment — confusion about which reason applies, or frustration that no listed reason matches the user\'s situation.' },
               ],
             },
             {
               id: 'account',
               label: 'Account Management',
-              desc: 'Authentication and access — the most technically complex feedback category due to MFA variability across devices.',
+              desc: 'Authentication and access — the most technically complex feedback category due to MFA variability across devices and carriers.',
               children: [
-                { label: 'Multi-Factor Authentication', description: 'MFA setup, verification steps, code delivery failures (text, call, email), authentication errors, and confusion around security prompts.' },
-                { label: 'Sign-In & Sign-Up', description: 'Login failures, session issues, duplicate account problems, new account creation.' },
-                { label: 'Username & Password', description: 'Credential management, password resets, username confusion.' },
+                { label: 'Multi-Factor Authentication', description: 'MFA setup, verification steps, code delivery failures (text, call, email), authentication errors, and confusion around security prompts. Includes MFA-specific error states.' },
+                { label: 'Sign-In', description: 'Login experience — session handling, access issues, "get into the site" feedback. Includes sign-in error states.' },
+                { label: 'Sign-Up', description: 'New account creation — registration flow, initial setup, first-time access. Includes sign-up error states.' },
+                { label: 'Username & Password', description: 'Credential management — password resets, username confusion, login email issues. Includes credential-specific error states.' },
               ],
             },
             {
               id: 'profile',
               label: 'Profile',
-              desc: 'Personal and health information management — feeds directly into plan matching and eligibility.',
+              desc: 'Personal and health information management — the inputs that feed directly into plan matching, eligibility, and recommendation accuracy.',
               children: [
-                { label: 'Address & Contact Info', description: 'Mailing and home address updates, email and phone management, validation errors.' },
-                { label: 'SSN & Medicare ID', description: 'Entering, editing, or validating Social Security Numbers and Medicare Beneficiary Identifiers.' },
-                { label: 'Health Information', description: 'Medications, preferred doctors, pharmacy selections — the inputs that drive plan recommendation accuracy.' },
-                { label: 'Document Uploader', description: 'Submitting documentation for QLE-based enrollment — birth, death, marriage, divorce, adoption paperwork.' },
+                { label: 'Address', description: 'Mailing and home address — additions, updates, validation errors, ZIP code issues.' },
+                { label: 'Social Security Number', description: 'SSN entry, editing, validation. High sensitivity — required for identity verification but frequently causes friction.' },
+                { label: 'Medicare Information', description: 'Medicare Beneficiary Identifier (MBI) entry and verification. Confusion about where to enter it, MBI not recognized, Medicare section not working.' },
+                { label: 'Contact Information', description: 'Phone number, email address, preferred contact method — updates, visibility, and error handling.' },
+                { label: 'Health Information', description: 'Medications, preferred doctors, pharmacy selections — the core inputs that drive plan recommendation accuracy.' },
+                { label: 'Health Questionnaire', description: 'Pre-enrollment health assessment questions — why they\'re being asked, what they affect, and confusion about how answers influence plan suggestions.' },
+                { label: 'Document Uploader', description: 'QLE documentation submission — birth, death, marriage, divorce, adoption paperwork. File upload failures, format issues, deadline confusion.' },
               ],
             },
             {
               id: 'postenrollment',
               label: 'Post Enrollment',
-              desc: 'Feedback from users who have already enrolled — often the most actionable for product owners.',
+              desc: 'Feedback from users who have already enrolled — often the most actionable for product owners because it reflects real coverage decisions already made.',
               children: [
-                { label: 'Keep My Current Plan', description: 'Auto-renewal confusion, questions about whether action is required to retain existing coverage.' },
-                { label: 'Make Changes to My Plan', description: 'Plan switches, coverage edits, cancellations, adding or removing family members.' },
-                { label: 'Plan Troubleshooting', description: 'Viewing current plan documents, ID cards, coverage details — post-application support needs.' },
+                { label: 'Post Enrollment', description: 'General post-enrollment feedback — viewing current plan, accessing plan documents, understanding enrolled coverage.' },
+                { label: 'Keep My Current Plan', description: 'Auto-renewal confusion, "do I need to re-enroll" questions, intent to retain existing coverage without making changes.' },
+                { label: 'Make Changes to My Plan', description: 'Plan switches, coverage edits, cancellations, adding or removing family members, updating income.' },
               ],
             },
             {
               id: 'funding',
               label: 'Funding',
-              desc: 'Health reimbursement account feedback — high stakes because errors directly affect participants\' finances.',
+              desc: 'Health reimbursement account feedback — high stakes because errors directly affect participants\' finances and create compliance exposure.',
               children: [
-                { label: 'Qualifying for Funding', description: 'Confusion about eligibility criteria, denied funding, barriers to access.' },
+                { label: 'Funding', description: 'General HRA/funding feedback — locating, understanding, and managing health expense accounts.' },
+                { label: 'Qualifying for Funding', description: 'Eligibility confusion, denied funding, barriers to access, unclear qualification criteria.' },
                 { label: 'Reimbursements', description: 'Denied claims, delayed payments, failed submissions, approval confusion.' },
                 { label: 'Account Balances', description: 'Balance display confusion, fund not updating, zero balance when funds are expected.' },
                 { label: 'Account Activity', description: 'Missing transactions, pending reimbursements not posting, payment history issues.' },
               ],
             },
+            {
+              id: 'helpsupport',
+              label: 'Help & Support',
+              desc: 'Feedback about how users seek assistance — surfaces gaps in self-service resources and escalation paths.',
+              children: [
+                { label: 'Help & Support', description: 'General help-seeking feedback — users expressing they need assistance but not specifying where or how.' },
+                { label: 'Help & Support Center', description: 'The onsite help center and support documentation — locating it, finding it useful or not, gaps in available articles.' },
+                { label: 'Chat Support Experience', description: 'Live chat, virtual assistant, and messaging-based support interactions — responsiveness, resolution rate, confusion.' },
+                { label: 'External Education', description: 'Educational resources outside the platform — Medicare.gov, insurance carrier materials, third-party guides.' },
+                { label: 'Contact Us', description: 'Direct contact requests — phone support, email inquiries, requests to speak to a person.' },
+              ],
+            },
+            {
+              id: 'technical',
+              label: 'Technical',
+              desc: 'Platform-level issues that cut across all product areas — not specific to any one feature.',
+              children: [
+                { label: 'Browser Issues', description: 'Browser compatibility, functionality failures, settings requirements — Chrome, Safari, Firefox, Edge. Includes cache/cookie issues, pop-up blockers, extension conflicts.' },
+              ],
+            },
           ]}
-          footer="5 domains · 40+ subcategories · each mapped to a Qualtrics Text IQ query formula grounded in product owner interviews"
+          footer="7 domains · 60+ subcategories · each mapped to a Qualtrics Text IQ query formula grounded in product owner interviews and product documentation"
         />
 
         {[

@@ -9,7 +9,7 @@ interface DetailsCardProps {
 
 export default function DetailsCard({ items }: DetailsCardProps) {
   return (
-    <div style={{
+    <div className="details-card-grid" style={{
       background: 'var(--color-surface)',
       border: '1px solid var(--color-border)',
       borderRadius: 'var(--radius-sm)',
@@ -44,3 +44,4 @@ export default function DetailsCard({ items }: DetailsCardProps) {
     </div>
   )
 }
+
