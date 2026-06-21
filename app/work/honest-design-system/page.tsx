@@ -5,6 +5,8 @@ import SectionIntro from '@/app/components/SectionIntro'
 import Body from '@/app/components/Body'
 import PullQuote from '@/app/components/PullQuote'
 import { ProjectImage } from '@/app/components/Lightbox'
+import CalloutCard from '@/app/components/CalloutCard'
+import StatCard from '@/app/components/StatCard'
 
 const SECTIONS = [
   'the-context',
@@ -77,22 +79,23 @@ function FullCaseStudy() {
         <Body>The system started with a core set of layout and content components and grew as the site's needs grew. When the AI Interface Pattern Library needed demos, pattern-specific components were added. When the portfolio chatbot was built, Chat UI components followed. Each addition came with a live consumer — the rule held throughout.</Body>
         <Body>Two components are worth calling out because the decisions behind them reflect the system's philosophy:</Body>
 
-        <ProjectImage
-          src="/images/honest-ds-cards.png"
-          alt="MetricCard, FeaturedProjectCard, and CaseStudyCard components in Figma — default and hover states"
-          caption="Card components in both light and dark states. Each variant is documented in Figma and has a corresponding Storybook story."
+        <CalloutCard
+          variant="light"
+          title="ContactModal"
+          body="The contact flow uses a modal with form fields rather than a mailto link. Mailto opens a local email client — a reasonable assumption in 2012, not in 2026, when a growing percentage of people have no default mail client configured. A modal keeps the interaction in-context, works on every device, and gives me control over the experience. The tradeoff is complexity; the reason to accept that tradeoff is user reliability."
         />
 
-        <div style={{ margin: '2rem 0' }}>
-          <div style={{ marginBottom: '1.5rem', padding: '1.5rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)' }}>
-            <p style={{ fontSize: 'var(--font-size-sm)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.5rem' }}>ContactModal</p>
-            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.7 }}>The contact flow uses a modal with form fields rather than a mailto link. Mailto opens a local email client — a reasonable assumption in 2012, not in 2026, when a growing percentage of people have no default mail client configured. A modal keeps the interaction in-context, works on every device, and gives me control over the experience. The tradeoff is complexity; the reason to accept that tradeoff is user reliability.</p>
-          </div>
-          <div style={{ padding: '1.5rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)' }}>
-            <p style={{ fontSize: 'var(--font-size-sm)', letterSpacing: '0.08em', textTransform: 'uppercase' as const, color: 'var(--color-text-muted)', fontWeight: 500, marginBottom: '0.5rem' }}>PasswordGate</p>
-            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.7 }}>Several case studies contain work done under NDA or for clients whose data is sensitive. Rather than omit this work entirely or publish it without protection, PasswordGate provides controlled access. The pattern is intentionally low-friction for people with the password and appropriately blocked for those without one. It's a designed decision about information architecture, not just a lock on a door.</p>
-          </div>
-        </div>
+        <ProjectImage
+          src="/images/honest-ds-contact-modal.png"
+          alt="ContactModal component in its open state, showing the get in touch form with email copy and social links"
+          caption="ContactModal in its open state. Form fields and direct contact options replace a mailto link so the interaction stays in-context on every device."
+        />
+
+        <CalloutCard
+          variant="light"
+          title="PasswordGate"
+          body="Several case studies contain work done under NDA or for clients whose data is sensitive. Rather than omit this work entirely or publish it without protection, PasswordGate provides controlled access. The pattern is intentionally low-friction for people with the password and appropriately blocked for those without one. It's a designed decision about information architecture, not just a lock on a door."
+        />
 
         <ProjectImage
           src="/images/honest-ds-password-gate.png"
@@ -106,18 +109,10 @@ function FullCaseStudy() {
         <Body>Accessibility was a first-class requirement, not a post-build audit. All 35 WCAG 2.1 Level AA criteria pass. Lighthouse scores 100 on both desktop and mobile across all pages. Zero axe-reported errors. A full VoiceOver and keyboard audit was completed and documented.</Body>
         <Body>One known gap: SideNavigation does not currently implement an <code style={{ fontFamily: 'monospace', fontSize: 'var(--font-size-sm)', background: 'var(--color-surface-subtle)', padding: '2px 5px', borderRadius: 2 }}>aria-live</code> region for active section announcements to screen reader users. This is documented, de-prioritized (the component is decorative navigation, not primary wayfinding), and on the backlog.</Body>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', margin: '2rem 0' }}>
-          {[
-            ['WCAG 2.1 AA', '35/35 criteria pass'],
-            ['Lighthouse', '100 desktop and mobile'],
-            ['axe', 'Zero reported errors'],
-            ['Manual audit', 'VoiceOver + keyboard complete'],
-          ].map(([metric, detail]) => (
-            <div key={metric} style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', padding: '1.25rem', position: 'relative', overflow: 'hidden' }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--color-accent)' }} />
-              <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.25rem' }}>{metric}</p>
-              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>{detail}</p>
-            </div>
-          ))}
+          <StatCard value="WCAG 2.1 AA" label="35/35 criteria pass" />
+          <StatCard value="100" label="Lighthouse, desktop and mobile" />
+          <StatCard value="Zero" label="axe-reported errors" />
+          <StatCard value="Complete" label="VoiceOver + keyboard audit" />
         </div>
         <ProjectImage
           src="/images/honest-ds-lighthouse.png"
