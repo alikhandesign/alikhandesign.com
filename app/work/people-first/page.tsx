@@ -83,6 +83,12 @@ function FullCaseStudy() {
         <Body mb={false}>
           To measure task completion, I built a FullStory funnel in strict order from Prepare to Shop to Shopping Results. The Escape Hatch &mdash; the &quot;I don&apos;t know, show me all plan types&quot; option &mdash; still routed through Prepare to Shop, so a single funnel captured both the identity-first path and the show-everything path without redefining who counted as having completed the flow.
         </Body>
+
+        <ProjectImage
+          src="/images/work/people-first/research-themes.png"
+          alt="Affinity map of recurring interview themes: identity versus product type, expected guidance versus a wall, and identity-first responses given spontaneously"
+          caption="A sample of recurring themes from the interview synthesis, not the complete set of participant responses."
+        />
       </section>
 
       <section id="the-insight" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
@@ -138,6 +144,12 @@ function FullCaseStudy() {
         <Body>
           These results compare the Annual Enrollment Period year over year &mdash; FullStory data from AEP 2022 against AEP 2023, the first enrollment cycle after launch, using the same Oct 15&ndash;Dec 7 window both years.
         </Body>
+
+        <ProjectImage
+          src="/images/work/people-first/fullstory-analytics.png"
+          alt="FullStory funnel comparison showing AEP 2022 versus AEP 2023, Prepare to Shop to Shopping Results conversion"
+          caption="The FullStory funnel comparing AEP 2022 to AEP 2023 &mdash; the source of the conversion and time-to-convert figures referenced throughout this case study."
+        />
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', margin: '2rem 0' }}>
           <StatCard value="45%" label="Faster time-to-convert (2m 55s to 1m 36s)" />
           <StatCard value="15%" label="Lift in total enrollments" />
