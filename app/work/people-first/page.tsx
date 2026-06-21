@@ -57,6 +57,7 @@ function FullCaseStudy() {
         </Body>
 
         <ProjectImage
+          src="/images/work/people-first/prepare-to-shop-before.jpg"
           alt="The original Prepare to Shop page, showing the product-type selector users had to clear before shopping"
           caption="Before: users had to choose a plan category before they could see anything, with no way to know which category applied to them."
         />
@@ -111,6 +112,18 @@ function FullCaseStudy() {
         </Body>
 
         <ProjectImage
+          src="/images/work/people-first/sketch-02.jpg"
+          alt="An earlier wireframe exploring a multi-person batch selector, letting users select every household member to shop for at once"
+          caption="An earlier direction: selecting every household member to shop for at once, with eligibility resolved per person. Via Benefits' systems weren't built to support a multi-person batch workflow at the time, so this approach wasn't viable within project scope — informing the identity-first, one-person-at-a-time flow that shipped instead."
+        />
+
+        <ProjectImage
+          src="/images/work/people-first/sketch-01.jpg"
+          alt="A refined wireframe showing the identity-first selector with per-person eligibility and an explanation for unavailable products"
+          caption="The concept that followed: one person at a time, with eligible coverage surfaced directly and a reason available for anything that wasn't shoppable, rather than hidden silently."
+        />
+
+        <ProjectImage
           src="/images/work/people-first/hero.jpg"
           alt="The redesigned Prepare to Shop page, showing the identity-first household and coverage selector"
           caption="After: the redesigned selector leads with who the coverage is for, then surfaces eligible benefit types directly, no category guess required."
@@ -138,8 +151,11 @@ function FullCaseStudy() {
         <Body>
           The hardest part of this project wasn&apos;t the design. It was dismantling a belief that had calcified into institutional fact. Multiple PMs had told me the product-first gate was a hard requirement. When I shared the research with the Head of Product, he told me he&apos;d never believed it had to be product-first &mdash; the mandate everyone cited had never actually been decided by the person whose decision it would have been. That&apos;s a lesson I carry into every project now: question the constraints before you design within them.
         </Body>
-        <Body mb={false}>
+        <Body>
           If I were doing this project again, I&apos;d move to stakeholder alignment earlier. And I&apos;d push harder for qualitative follow-up research after launch &mdash; the metrics told us what changed, but not how users felt about the new experience.
+        </Body>
+        <Body mb={false}>
+          Looking ahead, the natural next step is solving for households, not individuals. Via Benefits&apos; systems couldn&apos;t support a multi-person batch workflow within this project&apos;s scope, but the shape of that solution is clear: select everyone you&apos;re shopping for upfront, then walk through each person&apos;s coverage one at a time &mdash; closer to how TurboTax handles a multi-person return. That&apos;s the direction I&apos;d take this experience next.
         </Body>
       </section>
 
