@@ -268,7 +268,7 @@ export function ProjectImage({ src, alt, caption, allImages, imageIndex = 0 }: P
         {caption && (
           <p style={{
             fontSize: 12, color: 'var(--color-text-muted)',
-            marginTop: '0.6rem', fontStyle: 'italic',
+            marginTop: '0.75rem', fontStyle: 'italic',
             textAlign: 'center', lineHeight: 1.5,
           }}>{caption}</p>
         )}
@@ -341,7 +341,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
               )}
             </div>
             {img.caption && (
-              <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: '0.4rem', fontStyle: 'italic' }}>
+              <p style={{ fontSize: 12, color: 'var(--color-text-muted)', marginTop: '0.75rem', fontStyle: 'italic' }}>
                 {img.caption}
               </p>
             )}

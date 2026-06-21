@@ -15,7 +15,7 @@ export default function ProjectImage({ src, alt = '', caption }: ProjectImagePro
         </div>
       )}
       {caption && (
-        <figcaption style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', fontStyle: 'italic', textAlign: 'center', marginTop: '0.5rem' }}>
+        <figcaption style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', fontStyle: 'italic', textAlign: 'center', marginTop: '0.75rem' }}>
           {caption}
         </figcaption>
       )}

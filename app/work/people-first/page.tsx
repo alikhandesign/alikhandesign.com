@@ -81,7 +81,7 @@ function FullCaseStudy() {
         </PullQuote>
 
         <Body mb={false}>
-          To measure task completion, I built a FullStory funnel in strict order from Prepare to Shop to Shopping Results. The Escape Hatch option still routed through Prepare to Shop, so a single funnel captured both the identity-first path and the plan-type path without redefining who counted as having completed the flow.
+          To measure task completion, I built a FullStory funnel in strict order from Prepare to Shop to Shopping Results. The Escape Hatch &mdash; the &quot;I don&apos;t know, show me all plan types&quot; option &mdash; still routed through Prepare to Shop, so a single funnel captured both the identity-first path and the show-everything path without redefining who counted as having completed the flow.
         </Body>
       </section>
 
@@ -108,7 +108,7 @@ function FullCaseStudy() {
           heading="An identity-first entry point that removed the technical gate"
         />
         <Body>
-          The redesigned selector led with a simple question: who are you shopping for? From there, users provided age and zip code, and the system handled eligibility filtering entirely in the background. I also designed an &quot;Escape Hatch&quot; for users who already knew their plan type, satisfying sophisticated users without making that the default path for everyone.
+          The redesigned selector led with a simple question: who are you shopping for? From there, users provided age and zip code, and the system handled eligibility filtering entirely in the background. For users who still didn&apos;t know which category applied to them, I added an &quot;Escape Hatch&quot; &mdash; an &quot;I don&apos;t know, show me all plan types&quot; option that surfaced every plan type at once rather than forcing a guess, without making that the default path for everyone.
         </Body>
 
         <ProjectImage
@@ -135,6 +135,9 @@ function FullCaseStudy() {
           label="The Outcomes"
           heading="Every key metric moved in the right direction"
         />
+        <Body>
+          These results compare the Annual Enrollment Period year over year &mdash; FullStory data from AEP 2022 against AEP 2023, the first enrollment cycle after launch, using the same Oct 15&ndash;Dec 7 window both years.
+        </Body>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', margin: '2rem 0' }}>
           <StatCard value="45%" label="Faster time-to-convert (2m 55s to 1m 36s)" />
           <StatCard value="15%" label="Lift in total enrollments" />
@@ -148,6 +151,9 @@ function FullCaseStudy() {
           label="The Reflection"
           heading="What I'd do differently, and what I learned"
         />
+        <Body>
+          Going in, my working theory was that this was a content problem &mdash; that clearer explanations of Medicare Advantage versus Individual and Family Plans would resolve the confusion. The research proved that assumption wrong. Participants weren&apos;t confused by the categories themselves; they often didn&apos;t know which category applied to them, and what they actually wanted was to see everything at once rather than guess their way into the right bucket first. No amount of clarifying copy would have fixed a page that asked people to self-sort before they had the information to self-sort correctly. That&apos;s what shifted the fix from explaining the choice better to removing the choice from the front door entirely.
+        </Body>
         <Body>
           The hardest part of this project wasn&apos;t the design. It was dismantling a belief that had calcified into institutional fact. Multiple PMs had told me the product-first gate was a hard requirement. When I shared the research with the Head of Product, he told me he&apos;d never believed it had to be product-first &mdash; the mandate everyone cited had never actually been decided by the person whose decision it would have been. That&apos;s a lesson I carry into every project now: question the constraints before you design within them.
         </Body>
