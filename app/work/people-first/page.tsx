@@ -76,6 +76,12 @@ function FullCaseStudy() {
           I ran a dual-track research initiative. FullStory sessions revealed a dense cluster of rage clicks at exactly the plan type selector. To understand why, I ran moderated interviews where participants were shown the actual current Prepare to Shop page and asked to react to it directly, rather than describing the problem in the abstract.
         </Body>
 
+        <ProjectImage
+          src="/images/work/people-first/research-themes.png"
+          alt="Affinity map of recurring interview themes: identity versus product type, expected guidance versus a wall, and identity-first responses given spontaneously"
+          caption="A sample of recurring themes from the interview synthesis, not the complete set of participant responses."
+        />
+
         <PullQuote>
           Why do I have to pick a product first? I don&apos;t know what product I need.
         </PullQuote>
@@ -83,12 +89,6 @@ function FullCaseStudy() {
         <Body mb={false}>
           To measure task completion, I built a FullStory funnel in strict order from Prepare to Shop to Shopping Results. The Escape Hatch &mdash; the &quot;I don&apos;t know, show me all plan types&quot; option &mdash; still routed through Prepare to Shop, so a single funnel captured both the identity-first path and the show-everything path without redefining who counted as having completed the flow.
         </Body>
-
-        <ProjectImage
-          src="/images/work/people-first/research-themes.png"
-          alt="Affinity map of recurring interview themes: identity versus product type, expected guidance versus a wall, and identity-first responses given spontaneously"
-          caption="A sample of recurring themes from the interview synthesis, not the complete set of participant responses."
-        />
       </section>
 
       <section id="the-insight" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
