@@ -1,4 +1,5 @@
 'use client'
+import { useState, useRef, useId } from 'react'
 import { getNextWork } from '@/app/work.config'
 import CaseStudyPage from '@/app/components/CaseStudyPage'
 import SectionIntro from '@/app/components/SectionIntro'
@@ -8,6 +9,241 @@ import StatCard from '@/app/components/StatCard'
 import ProjectImage from '@/app/components/ProjectImage'
 import PullQuote from '@/app/components/PullQuote'
 import PasswordGate from '@/app/components/PasswordGate'
+
+// ─── StakeholderNeeds (local component) ──────────────────────────────────────
+
+interface StakeholderData {
+  label: string
+  primaryNeed: string
+  secondaryNeed: string
+  successCriteria: string
+  toleranceForAmbiguity: string
+  relationshipToSystem: string
+}
+
+const STAKEHOLDERS: StakeholderData[] = [
+  {
+    label: 'End Users',
+    primaryNeed: 'To be heard accurately — feedback categorized to what they actually meant, not what their words literally matched.',
+    secondaryNeed: 'Not applicable — they don\'t query the system. They are the source of its data.',
+    successCriteria: 'Their feedback routes to the correct taxonomy node regardless of how they phrased it.',
+    toleranceForAmbiguity: 'Not applicable — but the system\'s tolerance on their behalf must be very low. Miscategorization means their signal is lost.',
+    relationshipToSystem: 'Source population, not users. Their language is the hardest to interpret — emotionally loaded, domain-naive, and varied across six product lines.',
+  },
+  {
+    label: 'UX Researchers & Designers',
+    primaryNeed: 'Pattern recognition — what are members actually experiencing, in their own words.',
+    secondaryNeed: 'Sentiment correlation, longitudinal trends, taxonomy edge cases, proactive anomaly detection.',
+    successCriteria: 'Enough fidelity to form or validate a hypothesis.',
+    toleranceForAmbiguity: 'High — comfortable with uncertainty and expect to interpret the data themselves.',
+    relationshipToSystem: 'Primary operator. The system was built to serve their synthesis workflow first.',
+  },
+  {
+    label: 'Product Managers',
+    primaryNeed: 'Prioritization signal — what\'s broken, how bad, what to fix first.',
+    secondaryNeed: 'Feature-specific feedback, population-specific feedback (ICHRA, Medicare vs. IFP), pre-release risk assessment.',
+    successCriteria: 'A clear answer they can bring into sprint planning or a roadmap conversation.',
+    toleranceForAmbiguity: 'Low — needs something actionable, not a pile of raw signal.',
+    relationshipToSystem: 'Consumer of synthesized output. Needs answers, not data.',
+  },
+  {
+    label: 'Leadership',
+    primaryNeed: 'Confirmatory signal — is what we think is happening actually happening.',
+    secondaryNeed: 'Throughput and system performance, year-over-year trends, resourcing justification.',
+    successCriteria: 'A synthesized, defensible answer — not raw data.',
+    toleranceForAmbiguity: 'Very low — needs yes/no with evidence, not "it depends".',
+    relationshipToSystem: 'Consumer of high-level output. Least tolerant of ambiguity, most dependent on confidence signaling.',
+  },
+  {
+    label: 'Engineering',
+    primaryNeed: 'Isolate technical failure signals from experiential feedback — bugs, errors, compatibility issues, broken flows.',
+    secondaryNeed: 'Volume and frequency of specific technical issues, platform or browser-specific patterns, correlation between technical issues and other categories.',
+    successCriteria: 'Enough specificity to open a ticket — ideally with enough member-reported detail to reproduce the issue.',
+    toleranceForAmbiguity: 'Low — "members are frustrated with enrollment" is useless. "Plan comparison crashes on Safari with more than two plans in comparison" is actionable.',
+    relationshipToSystem: 'Consumer of a specific taxonomy slice — Browser Issues, Technical, and categories where member language suggests system failure rather than UX confusion.',
+  },
+  {
+    label: 'Account Managers',
+    primaryNeed: 'Client retention signal — are members of a specific employer account having a disproportionately bad experience.',
+    secondaryNeed: 'Client-specific volume trends, comparison against broader population benchmarks, escalation evidence for account reviews.',
+    successCriteria: 'A clear yes/no on whether a specific client needs attention, with enough supporting evidence to bring into an account review conversation.',
+    toleranceForAmbiguity: 'Low — needs something specific enough to act on before a client relationship is at risk.',
+    relationshipToSystem: 'Consumer of a specific filtered slice — same taxonomy, same agent, always scoped to a client identifier.',
+  },
+  {
+    label: 'Legal & Compliance',
+    primaryNeed: 'Assurance that the agent never receives HIPAA or PHI data.',
+    secondaryNeed: 'Auditability — demonstrating that redaction happened before data reached Copilot Studio.',
+    successCriteria: 'A clear, documented redaction policy that can be reviewed and approved.',
+    toleranceForAmbiguity: 'Zero — binary. Either PHI reaches the agent or it doesn\'t.',
+    relationshipToSystem: 'Constraint, not user. Their requirements shaped the architecture — they don\'t query the output.',
+  },
+]
+
+const FIELDS: { key: keyof StakeholderData; label: string }[] = [
+  { key: 'primaryNeed',           label: 'Primary Need' },
+  { key: 'secondaryNeed',         label: 'Secondary Need' },
+  { key: 'successCriteria',       label: 'Success Criteria' },
+  { key: 'toleranceForAmbiguity', label: 'Tolerance for Ambiguity' },
+  { key: 'relationshipToSystem',  label: 'Relationship to System' },
+]
+
+function StakeholderNeeds() {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const tabListRef = useRef<HTMLDivElement>(null)
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const baseId = useId()
+
+  const active = STAKEHOLDERS[activeIndex]
+
+  function scrollTabIntoView(index: number) {
+    const tab = tabRefs.current[index]
+    const list = tabListRef.current
+    if (!tab || !list) return
+    const tabLeft = tab.offsetLeft
+    const tabRight = tabLeft + tab.offsetWidth
+    const listLeft = list.scrollLeft
+    const listRight = listLeft + list.offsetWidth
+    if (tabLeft < listLeft) {
+      list.scrollTo({ left: tabLeft - 16, behavior: 'smooth' })
+    } else if (tabRight > listRight) {
+      list.scrollTo({ left: tabRight - list.offsetWidth + 16, behavior: 'smooth' })
+    }
+  }
+
+  function selectTab(index: number) {
+    setActiveIndex(index)
+    scrollTabIntoView(index)
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent, index: number) {
+    if (e.key === 'ArrowRight') {
+      e.preventDefault()
+      const next = (index + 1) % STAKEHOLDERS.length
+      selectTab(next)
+      tabRefs.current[next]?.focus()
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault()
+      const prev = (index - 1 + STAKEHOLDERS.length) % STAKEHOLDERS.length
+      selectTab(prev)
+      tabRefs.current[prev]?.focus()
+    } else if (e.key === 'Home') {
+      e.preventDefault()
+      selectTab(0)
+      tabRefs.current[0]?.focus()
+    } else if (e.key === 'End') {
+      e.preventDefault()
+      const last = STAKEHOLDERS.length - 1
+      selectTab(last)
+      tabRefs.current[last]?.focus()
+    }
+  }
+
+  return (
+    <div style={{ margin: '2rem 0 2.5rem' }}>
+      {/* Tab bar */}
+      <div style={{ position: 'relative' }}>
+        <div
+          ref={tabListRef}
+          role="tablist"
+          aria-label="Stakeholder groups"
+          style={{
+            display: 'flex',
+            overflowX: 'auto',
+            borderBottom: '1px solid var(--color-border)',
+          }}
+        >
+          {STAKEHOLDERS.map((s, i) => {
+            const isActive = i === activeIndex
+            return (
+              <button
+                key={s.label}
+                id={`${baseId}-tab-${i}`}
+                ref={el => { tabRefs.current[i] = el }}
+                role="tab"
+                aria-selected={isActive}
+                aria-controls={`${baseId}-panel`}
+                tabIndex={isActive ? 0 : -1}
+                onClick={() => selectTab(i)}
+                onKeyDown={e => handleKeyDown(e, i)}
+                style={{
+                  flexShrink: 0,
+                  padding: '0.75rem 1.25rem',
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: isActive
+                    ? '2px solid var(--color-accent)'
+                    : '2px solid transparent',
+                  marginBottom: -1,
+                  cursor: 'pointer',
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: 'var(--font-size-sm)',
+                  fontWeight: isActive ? 600 : 400,
+                  color: isActive ? 'var(--color-accent)' : 'var(--color-text-muted)',
+                  whiteSpace: 'nowrap',
+                  transition: 'color 0.15s, border-color 0.15s',
+                }}
+              >
+                {s.label}
+              </button>
+            )
+          })}
+        </div>
+        {/* Right fade indicator */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: 64,
+            height: 'calc(100% - 1px)',
+            background: 'linear-gradient(to right, transparent, var(--color-bg))',
+            pointerEvents: 'none',
+          }}
+        />
+      </div>
+
+      {/* Panel */}
+      <div
+        id={`${baseId}-panel`}
+        role="tabpanel"
+        aria-labelledby={`${baseId}-tab-${activeIndex}`}
+        tabIndex={0}
+        style={{
+          padding: '1.25rem 0',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1.25rem',
+        }}
+      >
+        {FIELDS.map(({ key, label }) => (
+          <div key={key}>
+            <p style={{
+              fontSize: 'var(--font-size-xs)',
+              fontWeight: 600,
+              color: 'var(--color-text)',
+              letterSpacing: 'var(--letter-spacing-md)',
+              textTransform: 'uppercase' as const,
+              marginBottom: '0.35rem',
+            }}>
+              {label}
+            </p>
+            <p style={{
+              fontSize: 'var(--font-size-base)',
+              color: 'var(--color-text-mid)',
+              lineHeight: 'var(--line-height-normal)',
+            }}>
+              {active[key] as string}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 const SECTIONS = [
   'the-context',
@@ -138,6 +374,12 @@ function FullCaseStudy() {
           body="The pipeline ran automatically: new feedback in → redaction → categorization → stakeholder delivery. I also built a conversational interface in Teams so PMs could ask direct questions — 'What were the top three complaints from Medicare users this week?' — and get real-time synthesized answers without waiting for a weekly report."
         />
 
+        <Body>
+          Before writing a single topic description, I mapped each stakeholder's primary need, secondary need, success criteria, and tolerance for ambiguity. That last field wasn't just a description of how stakeholders prefer to receive information — it was a design constraint. A researcher can work with uncertain data and find the signal themselves. A VP of Operations cannot. Those are different epistemic requirements, and they should drive the agent's response format, not just its retrieval logic.
+        </Body>
+
+        <StakeholderNeeds />
+
         <ProjectImage
           src="/images/work/ai-agent/knowledge-sources.jpg"
           alt="Copilot Studio knowledge sources showing Dataverse feedback table and Via Benefits public websites"
@@ -158,7 +400,7 @@ function FullCaseStudy() {
         />
 
         <Body>
-          Intent mapping was the intellectual work behind this translation. For each stakeholder type — Product Managers, UX Researchers, Leadership, Engineering, Account Management — I mapped the raw language they'd use to query the system, the intent beneath that language, and the taxonomy nodes it resolved to. Each stakeholder had a different tolerance for ambiguity: a researcher could work with 47 potentially relevant comments; a VP of Operations needed a yes/no answer with evidence. That distinction shaped not just what the agent retrieved, but how it responded.
+          Intent mapping was the intellectual work behind this translation. For each stakeholder type, I mapped the raw language they'd use to query the system, the intent beneath that language, and the taxonomy nodes it resolved to. Each stakeholder's tolerance for ambiguity — defined above — shaped not just what the agent retrieved, but how it responded.
         </Body>
 
         <ProjectImage
@@ -250,10 +492,10 @@ function FullCaseStudy() {
           What made this project difficult wasn't the technology — Copilot Studio, Qualtrics, Power Automate are accessible tools. The hard part was making AI trustworthy enough that people were willing to delegate important decisions to it. That required compliance-first thinking before the first line of logic, a validation methodology rigorous enough to change a skeptic's mind, and fallback logic that kept humans in the loop where they needed to be.
         </Body>
         <Body>
-          One thing I'd design differently from the start: tolerance for ambiguity as an explicit design constraint, not an afterthought. During the intent mapping process, I mapped each stakeholder's primary need, secondary needs, and their tolerance for ambiguity — how much uncertainty they could work with before an answer became useless to them. A researcher could work with a noisy dataset and find the signal themselves. A VP of Operations could not. That difference should have driven the agent's response format from day one, not just its retrieval logic.
+          The stakeholder needs mapping — specifically the tolerance for ambiguity column — is the piece I'd design more explicitly from the start next time. Each stakeholder's tolerance defines what an acceptable answer looks like. Which means it also defines what an uncertain answer looks like, and whether that uncertainty should be surfaced or absorbed. That's the design work this system left unfinished.
         </Body>
         <Body>
-          That constraint points directly to what I'd build next: explicit epistemic signaling. Not a raw probability score — token prediction confidence is not the same as epistemic reliability, and a model can be highly confident in the wrong answer. What stakeholders actually need is a signal grounded in validation history: categories where the agent has a strong track record versus categories where it historically struggles. Combined with FullStory session replay as behavioral corroboration, that would give the system a genuinely robust reliability signal — one that earns trust through evidence rather than asserts it through confidence scores.
+          The natural next step is explicit confidence signaling — not token prediction probability, which is not the same as epistemic reliability. A model can be highly confident in the wrong answer. What stakeholders actually need is a signal grounded in validation history: categories where the agent has a strong track record versus categories where it historically struggles. A researcher with high ambiguity tolerance might see a raw distribution. A VP with very low tolerance would see a single qualified verdict. The same underlying reliability signal, calibrated to the audience.
         </Body>
         <Body mb={false}>
           The skeptic-to-advocate arc — from "this will never be as good as human analysis" to active advocacy — didn't happen because the AI was impressive. It happened because the evidence was undeniable. In agentic AI work, the design challenge isn't the interface. It's earning trust through transparency, iteration, and proof.
