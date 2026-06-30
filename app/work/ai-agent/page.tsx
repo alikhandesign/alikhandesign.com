@@ -93,7 +93,6 @@ function StakeholderNeeds() {
   const tabListRef = useRef<HTMLDivElement>(null)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
   const baseId = useId()
-
   const active = STAKEHOLDERS[activeIndex]
 
   function scrollTabIntoView(index: number) {
@@ -141,7 +140,6 @@ function StakeholderNeeds() {
 
   return (
     <div style={{ margin: '2rem 0 2.5rem' }}>
-      {/* Tab bar */}
       <div style={{ position: 'relative' }}>
         <div
           ref={tabListRef}
@@ -189,7 +187,6 @@ function StakeholderNeeds() {
             )
           })}
         </div>
-        {/* Right fade indicator */}
         <div
           aria-hidden="true"
           style={{
@@ -203,8 +200,6 @@ function StakeholderNeeds() {
           }}
         />
       </div>
-
-      {/* Panel */}
       <div
         id={`${baseId}-panel`}
         role="tabpanel"
@@ -249,7 +244,6 @@ const SECTIONS = [
   'the-context',
   'the-problem',
   'the-reframe',
-  'the-constraint',
   'the-build',
   'the-validation',
   'the-outcomes',
@@ -257,12 +251,12 @@ const SECTIONS = [
 ]
 
 const INSIDE = [
-  'Compliance-first design approach and legal workshops',
-  'Hybrid categorization architecture (structured + AI)',
-  'The double-blind validation methodology with PMs',
-  'Iteration from 78% to 95% accuracy',
-  'Stakeholder adoption data — 128 sessions, 4.5/5 satisfaction',
-  'Full system architecture and intent mapping',
+  'The before state — what the research workflow actually looked like',
+  'Four design decisions that shaped the system',
+  'Stakeholder needs and tolerance for ambiguity',
+  'Intent mapping and the expert gap',
+  'The double-blind validation methodology',
+  'From 78% to 95% accuracy',
 ]
 
 function FullCaseStudy() {
@@ -275,36 +269,36 @@ function FullCaseStudy() {
           heading="A billion-dollar book of business generating feedback nobody could keep up with"
         />
         <Body>
-          Willis Towers Watson managed an annual book of business exceeding $1B in the Medicare and individual benefits space. That scale generated a constant stream of user feedback — website surveys, mobile app surveys, post-call feedback, NPS and CSAT scores — flowing in from hundreds of thousands of participants on the Via Benefits platform.
+          Willis Towers Watson managed an annual book of business exceeding $1B across Medicare, IFP, DVH, and ancillary benefits. At that scale, participant feedback was constant — website surveys, mobile app feedback, post-call NPS, CSAT — flowing in from hundreds of thousands of members on the Via Benefits platform. During Medicare Open Enrollment, that volume spiked by 1000%.
         </Body>
         <Body mb={false}>
-          During Medicare Open Enrollment, that volume spiked by 1000%. I was the Senior UX Designer embedded on the Individual Marketplace team. What I noticed, through observation rather than any formal assignment, was that the people whose job it was to understand users were spending most of their time doing data entry.
+          Every week, a researcher downloaded the raw feedback from Qualtrics, manually categorized each comment in a spreadsheet, and posted it to a Teams channel. That was the entire system. No real-time access, no query capability, no way to ask a follow-up question. Anything more immediate than the weekly summary required a PM or designer to dig through raw data themselves. Quarterly was the cadence for anything resembling actual analysis — and even then, the categorization was only as accurate as the researcher doing it.
         </Body>
       </section>
 
       <section id="the-problem" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro
           label="The Problem"
-          heading="Three compounding failures, one critical risk"
+          heading="Three problems that reinforced each other"
         />
         <Body>
-          The research team operated within a fragmented, labor-intensive feedback loop. Researchers manually downloaded data from multiple sources, aggregated it, cleaned it, redacted sensitive information, tagged and categorized every comment by hand, and packaged it into a static spreadsheet posted to a Teams channel once a week. Three distinct failure modes compounded each other.
+          The research workflow had three structural failures. Each one was bad on its own. Together, they made the voice of the user functionally invisible.
         </Body>
 
         <CalloutCard
           variant="light"
           title="The synthesis tax"
-          body="A single researcher spent an entire day each week on categorization and tagging alone — 20% of weekly capacity consumed by work that required domain expertise they didn't have, producing outputs that arrived too late to act on."
+          body="A researcher spent an entire day each week on categorization and tagging — 20% of weekly capacity consumed by work that required domain expertise they didn't have, producing outputs that arrived too late to act on."
         />
         <CalloutCard
           variant="light"
           title="The expert gap"
-          body="The researchers doing the categorization weren't subject-matter experts on every product feature they were reviewing. Technical nuance got lost in translation. A Medicare plan comparison bug looked identical to a general navigation complaint unless you knew the product well enough to distinguish them."
+          body="The researchers doing the categorization weren't subject-matter experts on every product feature. A Medicare plan comparison bug and a general navigation complaint looked identical unless you knew the product. Miscategorization wasn't an edge case — it was the default for anything domain-specific."
         />
         <CalloutCard
           variant="light"
           title="The distribution lag"
-          body="Even when synthesized correctly, insights sat in static spreadsheets that didn't reach the relevant Product Owners until days later. A systemic bug appearing on a Monday wouldn't surface until Friday's report — at the earliest."
+          body="Even when categorized correctly, insights sat in a static spreadsheet until the weekly post. A critical bug surfacing on Monday wouldn't reach the right PM until Friday — at the earliest. During AEP, when feedback volume spiked and speed mattered most, the lag was longest."
         />
 
         <PullQuote>
@@ -315,67 +309,48 @@ function FullCaseStudy() {
       <section id="the-reframe" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro
           label="The Reframe"
-          heading="The question wasn't speed — it was trust"
+          heading="Speed wasn't the problem. The expert gap was."
         />
         <Body>
-          The obvious framing was: can AI do this faster? But that wasn't the right question. A faster version of the same flawed process would just produce wrong answers more quickly. The real problem was the expert gap — the mismatch between the people doing the categorization and the domain knowledge required to do it accurately.
+          The obvious framing was: can AI do this faster? But a faster version of the same flawed process would just produce wrong answers more quickly. The synthesis tax was real, but it was a symptom. The root problem was the expert gap — the mismatch between the people doing the categorization and the domain knowledge required to do it accurately.
         </Body>
         <Body mb={false}>
-          The right question was: can AI close the expert gap while handling sensitive healthcare data responsibly? That reframe changed everything about how I designed the system — and in what order.
+          The right question was: can AI close the expert gap while handling sensitive healthcare data responsibly? That reframe changed the order of everything that came next. Compliance had to come before capability. Trust had to be earned before adoption. The system had to be right before it could be fast.
         </Body>
-      </section>
-
-      <section id="the-constraint" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
-        <SectionIntro
-          label="The Constraint"
-          heading="Before AI could touch the data, the data had to be safe"
-        />
-        <Body>
-          The first design challenge wasn't building anything. It was earning the right to build. I ran workshops with Legal and Compliance to define exactly what constituted PII and PHI in our context — names, Social Security numbers, Medicare IDs, claim details — and where the line was that the system could not cross.
-        </Body>
-        <Body>
-          From those workshops, I engineered a layered redaction approach in Qualtrics. Structured pattern queries handled known identifiers. An additional redaction pass caught names and edge cases. Legal signed off before any data touched the model. That sign-off wasn't a checkbox — it was what made the rest of the project possible.
-        </Body>
-
-        <ProjectImage
-          src="/images/work/ai-agent/redaction-policy.jpg"
-          alt="Qualtrics PII redaction policy configuration showing SSN detection pattern"
-          caption="The Qualtrics redaction policy showing SSN pattern detection. This ran before any feedback reached the agent — Legal sign-off on this configuration was the prerequisite for everything else."
-        />
       </section>
 
       <section id="the-build" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro
           label="The Build"
-          heading="A hybrid system designed around the expert gap"
+          heading="Four design decisions, not four features"
         />
         <Body>
-          The architecture had four layers, each solving a specific part of the problem.
+          The technology choices were secondary. What shaped the system were four specific design decisions — each one made before writing a line of logic.
         </Body>
 
         <CalloutCard
           variant="light"
-          title="Taxonomy and intent mapping"
-          body="I started by interviewing product owners to understand how they thought about user feedback — not just what categories existed, but what signals within feedback indicated each category. Those interviews produced a structured taxonomy stored in Dataverse as the single source of truth."
+          title="1. Redaction at the source"
+          body="PHI redaction could have happened anywhere in the pipeline. I chose to enforce it at the Qualtrics layer — before data ever left the feedback system — rather than relying on the agent to handle it downstream. If the agent never sees PHI, the risk surface disappears rather than being managed. Legal sign-off happened before the first line of agent logic was written. That sign-off wasn't a checkbox — it was the prerequisite for everything else."
         />
         <CalloutCard
           variant="light"
-          title="Qualtrics Text IQ queries"
-          body="I built topic queries in Qualtrics Text IQ to anchor known patterns to the correct product buckets. These were the guardrails — precise keyword and phrase logic that ensured business-critical signals were never miscategorized, regardless of how the AI performed on edge cases."
+          title="2. Meeting users where they were"
+          body="The agent could have lived anywhere. I chose to surface it in Microsoft Teams because that's where PMs and researchers already spent their day. An insight that requires context-switching to a new tool is an insight that gets ignored. Embedding the agent in Teams meant the barrier to asking a question was the same as the barrier to sending a message."
         />
         <CalloutCard
           variant="light"
-          title="Copilot Studio as the brain"
-          body="I connected the Dataverse taxonomy to a Copilot Studio agent and grounded it in WTW's internal product documentation and the Via Benefits public websites. This gave the AI the product context it needed to interpret ambiguous feedback the way a subject-matter expert would."
+          title="3. Structured output by design"
+          body="Different stakeholders needed different things from the same data. Executives needed a defensible summary they could bring into a meeting — I designed a structured PowerPoint report template with placeholder logic that the agent populated automatically, delivered via email and posted to a dedicated Teams channel. PMs needed to ask follow-up questions in real time — I built a conversational interface for ad hoc queries. The output format was a design decision, not a technical default."
         />
         <CalloutCard
           variant="light"
-          title="Power Automate and Teams integration"
-          body="The pipeline ran automatically: new feedback in → redaction → categorization → stakeholder delivery. I also built a conversational interface in Teams so PMs could ask direct questions — 'What were the top three complaints from Medicare users this week?' — and get real-time synthesized answers without waiting for a weekly report."
+          title="4. Intent mapping over keyword matching"
+          body="The existing Qualtrics queries were keyword-based — accurate for literal matches, wrong for everything else. I replaced the routing logic with natural language intent mapping: the agent infers what a member meant, not what they literally said. A researcher without Medicare domain knowledge routes 'my plan disappeared' to navigation. The agent routes it to Post Enrollment because it understands the intent. That's what closed the expert gap."
         />
 
         <Body>
-          Before writing a single topic description, I mapped each stakeholder's primary need, secondary need, success criteria, and tolerance for ambiguity. That last field wasn't just a description of how stakeholders prefer to receive information — it was a design constraint. A researcher can work with uncertain data and find the signal themselves. A VP of Operations cannot. Those are different epistemic requirements, and they should drive the agent's response format, not just its retrieval logic.
+          Before writing a single topic description, I mapped each stakeholder's primary need, secondary need, success criteria, and tolerance for ambiguity. That last field — tolerance for ambiguity — wasn't a description of preferences. It was a design constraint. A researcher can work with uncertain data and find the signal themselves. A VP of Operations cannot. Those are different epistemic requirements, and they drive how the agent responds, not just what it retrieves.
         </Body>
 
         <StakeholderNeeds />
@@ -387,10 +362,10 @@ function FullCaseStudy() {
         />
 
         <Body>
-          The taxonomy wasn't built from scratch. It mirrors how WTW already organized its products internally — seven domains that stakeholders already used to think and talk about the platform. Shopping & Enrollment, Account Management, Profile, Post Enrollment, Funding, Help & Support, and a cross-cutting Technical domain for bugs and errors.
+          The taxonomy wasn't invented. It mirrors how WTW already organized its products internally — seven domains that stakeholders already used to think and talk about the platform. The agent's job was to bridge the gap between that structure and how members actually talked.
         </Body>
         <Body>
-          The agent's job was to bridge the gap between that structure and how members actually talked. A member saying "my plan disappeared" doesn't use the words "Post Enrollment." A member saying "why does it keep asking me for a code" doesn't say "Multi-Factor Authentication." The taxonomy was fixed. The language wasn't. Inferring the correct domain from unstructured natural language — without keyword matching — is what the agent had to solve.
+          A member saying "my plan disappeared" doesn't use the words "Post Enrollment." A member saying "why does it keep asking me for a code" doesn't say "Multi-Factor Authentication." The taxonomy was fixed. The language wasn't. Inferring the correct domain from unstructured natural language — without keyword matching — is what the system had to solve.
         </Body>
 
         <ProjectImage
@@ -400,44 +375,44 @@ function FullCaseStudy() {
         />
 
         <Body>
-          Intent mapping was the intellectual work behind this translation. For each stakeholder type, I mapped the raw language they'd use to query the system, the intent beneath that language, and the taxonomy nodes it resolved to. Each stakeholder's tolerance for ambiguity — defined above — shaped not just what the agent retrieved, but how it responded.
+          Intent mapping was the intellectual work behind this translation. For each stakeholder type, I mapped the raw language they'd use to query the system, the intent beneath that language, and the taxonomy nodes it resolved to. Each stakeholder's tolerance for ambiguity shaped not just what the agent retrieved, but how it responded.
         </Body>
 
         <ProjectImage
           src="/images/work/ai-agent/intent-mapping.jpg"
           alt="Copilot Studio topic trigger showing natural language description and Account Management entity with smart matching enabled"
-          caption="Left: the topic trigger uses a natural language description rather than keyword rules — the agent routes to this topic based on semantic intent matching. Right: the Account Management entity with synonyms and smart matching enabled, allowing the agent to understand 'Via account,' 'my credentials,' and 'account settings' as the same intent."
+          caption="Left: the topic trigger uses a natural language description rather than keyword rules — the agent routes based on semantic intent matching. Right: the Account Management entity with synonyms and smart matching enabled, so 'Via account,' 'my credentials,' and 'account settings' all resolve to the same intent."
         />
 
         <ProjectImage
           src="/images/work/ai-agent/topics-queries.jpg"
           alt="Qualtrics topic query taxonomy showing product buckets and query formulas"
-          caption="The Qualtrics topic query structure — each bucket had a name, description, and explicit keyword formula. These were the guardrails that ensured known signals were never miscategorized regardless of how the AI handled edge cases."
+          caption="The Qualtrics query structure served as guardrails — precise keyword logic that ensured known signals were never miscategorized regardless of how the AI handled edge cases. Structured and AI-based categorization worked together, not in sequence."
         />
 
         <ProjectImage
           src="/images/work/ai-agent/agent-instructions.jpg"
           alt="Copilot Studio agent instructions configuration"
-          caption="The agent instructions defined scope, tone, and behavior — including fallback logic for feedback that couldn't be confidently categorized."
+          caption="The agent instructions defined scope, tone, and fallback behavior — including logic that flagged low-confidence categorizations for human review rather than forcing a guess."
         />
       </section>
 
       <section id="the-validation" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro
           label="The Validation"
-          heading="78% to 95% — earning trust through evidence"
+          heading="78% to 95% — trust has to be earned"
         />
         <Body>
-          I didn't ask stakeholders to trust the AI. I built a methodology to prove it deserved trust. The validation process ran as a double-blind accuracy audit with Product Managers: I manually categorized a full week of raw feedback. The agent categorized the same feedback independently. Both outputs were stripped of origin labels and reviewed blind by PMs who judged which categorizations were accurate.
+          I didn't ask stakeholders to trust the AI. I built a methodology to prove it deserved trust. The validation process ran as a double-blind accuracy audit: I manually categorized a full week of raw feedback. The agent categorized the same set independently. Both outputs were stripped of origin labels and reviewed blind by PMs who judged which categorizations were accurate.
         </Body>
         <Body>
-          The first audit came back at 78%. Not good enough for production. I refined the agent instructions, improved the grounding queries, and added fallback logic that flagged uncategorized feedback for human review rather than forcing a low-confidence guess. The process repeated weekly until the gap closed.
+          The first audit came back at 78%. Not good enough. I refined the agent instructions, sharpened the grounding queries, and added fallback logic that flagged uncertain categorizations for human review rather than forcing a low-confidence guess. The cycle repeated weekly until the gap closed.
         </Body>
 
         <ProjectImage
           src="/images/work/ai-agent/evaluation.jpg"
           alt="Copilot Studio evaluation panel showing ten test cases for the Participant Listening Agent"
-          caption="The evaluation test set built directly in Copilot Studio — ten representative stakeholder queries used to assess response quality. This made the validation methodology systematic rather than ad hoc."
+          caption="The evaluation test set built directly in Copilot Studio — ten representative stakeholder queries used to assess response quality systematically rather than by feel."
         />
 
         <CalloutCard
@@ -467,38 +442,38 @@ function FullCaseStudy() {
         </div>
 
         <Body>
-          The system was deployed and adopted by stakeholders on the Individual Marketplace team. Copilot Studio telemetry showed 128 conversation sessions with a 76% engagement rate and 4.5/5 satisfaction score — signal that PMs were not just using the tool but finding value in it. The most meaningful shift was behavioral: Product Owners who had previously waited for weekly reports started querying the agent proactively during high-stakes launch windows.
+          The system was deployed and adopted by the Individual Marketplace team. Copilot Studio telemetry showed 128 conversation sessions with a 76% engagement rate and 4.5/5 satisfaction score. The most meaningful shift was behavioral: Product Owners who had previously waited for weekly reports started querying the agent proactively during high-stakes launch windows. The weekly spreadsheet still existed. Nobody used it.
         </Body>
 
         <ProjectImage
           src="/images/work/ai-agent/agent-conversation.jpg"
           alt="Example conversation with the Participant Listening Agent in Microsoft Teams showing Plan Comparison as top trending issue"
-          caption="A PM asking what the top trending issue was last week. The agent surfaced Plan Comparison Logic at 38% of 256 comments, with representative member quotes — same-day, without a researcher in the loop."
+          caption="A PM asking what the top trending issue was last week. The agent surfaced Plan Comparison Logic at 38% of 256 comments with representative member quotes — same-day, without a researcher in the loop."
         />
 
         <ProjectImage
           src="/images/work/ai-agent/analysis-report.jpg"
           alt="Example analysis report output showing categorized feedback with user quotes"
-          caption="Agent output delivered to stakeholders: categorized feedback with representative user quotes, surfaced same-day rather than end of week."
+          caption="The structured report template — populated by the agent and delivered to executives and PMs automatically. Designed for people who need a defensible summary, not a data dump."
         />
       </section>
 
       <section id="the-reflection" style={{ scrollMarginTop: '5rem' }}>
         <SectionIntro
           label="The Reflection"
-          heading="The interface wasn't the hard part"
+          heading="An AI project that isn't really about AI"
         />
         <Body>
-          What made this project difficult wasn't the technology — Copilot Studio, Qualtrics, Power Automate are accessible tools. The hard part was making AI trustworthy enough that people were willing to delegate important decisions to it. That required compliance-first thinking before the first line of logic, a validation methodology rigorous enough to change a skeptic's mind, and fallback logic that kept humans in the loop where they needed to be.
+          The technology in this project — Copilot Studio, Qualtrics, Power Automate — is accessible to most product teams today. None of it was the hard part. The hard part was making AI trustworthy enough that people were willing to delegate important decisions to it. That required earning legal sign-off before writing the first line of logic, building a validation methodology rigorous enough to change a skeptic's mind, and designing fallback behavior that kept humans in the loop where they needed to be.
         </Body>
         <Body>
-          The stakeholder needs mapping — specifically the tolerance for ambiguity column — is the piece I'd design more explicitly from the start next time. Each stakeholder's tolerance defines what an acceptable answer looks like. Which means it also defines what an uncertain answer looks like, and whether that uncertainty should be surfaced or absorbed. That's the design work this system left unfinished.
+          The stakeholder needs mapping — specifically the tolerance for ambiguity column — is the piece I'd design more explicitly from the start next time. Each stakeholder's tolerance defines what an acceptable answer looks like. Which means it also defines what an uncertain answer looks like, and whether that uncertainty should be surfaced or absorbed. That's the design work this system left unfinished: explicit confidence signaling calibrated to the audience, grounded in validation history rather than token prediction probability.
         </Body>
         <Body>
-          The natural next step is explicit confidence signaling — not token prediction probability, which is not the same as epistemic reliability. A model can be highly confident in the wrong answer. What stakeholders actually need is a signal grounded in validation history: categories where the agent has a strong track record versus categories where it historically struggles. A researcher with high ambiguity tolerance might see a raw distribution. A VP with very low tolerance would see a single qualified verdict. The same underlying reliability signal, calibrated to the audience.
+          This project didn't improve a product. It improved the conditions under which good product decisions could be made. The research team didn't get a faster version of the old process — they got a fundamentally different one. That's not acceleration. That's leverage.
         </Body>
         <Body mb={false}>
-          The skeptic-to-advocate arc — from "this will never be as good as human analysis" to active advocacy — didn't happen because the AI was impressive. It happened because the evidence was undeniable. In agentic AI work, the design challenge isn't the interface. It's earning trust through transparency, iteration, and proof.
+          The skeptic-to-advocate arc — from "this will never be as good as human analysis" to active advocacy — didn't happen because the AI was impressive. It happened because the evidence was undeniable. The AI wasn't the point. The system was.
         </Body>
       </section>
 
@@ -512,7 +487,7 @@ export default function AIAgentPage() {
       title="AI Feedback & Insights Agent"
       company="Willis Towers Watson · Individual Marketplace · 2025–2026"
       tags={['Agentic Workflow Design', 'AI Design', 'UX Research']}
-      hook="Nobody asked me to build this. I noticed that the research team was spending entire days doing work a well-designed system could do in minutes, and I couldn't stop thinking about what they could be doing instead."
+      hook="During Medicare Open Enrollment, researchers were spending entire days manually categorizing participant feedback. I realized the bottleneck wasn't the volume — it was the workflow. So I built a system that automated the process, closed the expert gap, and reduced synthesis from hours to minutes."
       heroImage="/images/work/ai-agent/hero.jpg"
       heroImageAlt="Participant Listening Agent overview showing agent description, analytics with 128 sessions, 76% engagement, 4.3/5 satisfaction, and the live test panel"
       metrics={[
@@ -535,7 +510,7 @@ export default function AIAgentPage() {
         password="4likh4n"
         onUnlock={() => {}}
         title="Ready to see how it came together?"
-        description="The full case study covers the compliance-first design approach, the hybrid categorization architecture, and the validation methodology that took accuracy from 78% to 95%."
+        description="The full case study covers the four design decisions that shaped the system, the stakeholder needs mapping, and the validation methodology that took accuracy from 78% to 95%."
         inside={INSIDE}
       >
         <FullCaseStudy />
