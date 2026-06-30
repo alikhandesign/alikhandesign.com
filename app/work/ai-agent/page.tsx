@@ -56,16 +56,21 @@ function FullCaseStudy() {
           The research team operated within a fragmented, labor-intensive feedback loop. Researchers manually downloaded data from multiple sources, aggregated it, cleaned it, redacted sensitive information, tagged and categorized every comment by hand, and packaged it into a static spreadsheet posted to a Teams channel once a week. Three distinct failure modes compounded each other.
         </Body>
 
-        {[
-          ['The synthesis tax', 'A single researcher spent an entire day each week on categorization and tagging alone — 20% of weekly capacity consumed by work that required domain expertise they didn\'t have, producing outputs that arrived too late to act on.'],
-          ['The expert gap', 'The researchers doing the categorization weren\'t subject-matter experts on every product feature they were reviewing. Technical nuance got lost in translation. A Medicare plan comparison bug looked identical to a general navigation complaint unless you knew the product well enough to distinguish them.'],
-          ['The distribution lag', 'Even when synthesized correctly, insights sat in static spreadsheets that didn\'t reach the relevant Product Owners until days later. A systemic bug appearing on a Monday wouldn\'t surface until Friday\'s report — at the earliest.'],
-        ].map(([title, body]) => (
-          <div key={title} style={{ marginBottom: '1.5rem', paddingLeft: '1.25rem', borderLeft: '2px solid var(--color-border)' }}>
-            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 600, marginBottom: '0.35rem' }}>{title}</p>
-            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>{body}</p>
-          </div>
-        ))}
+        <CalloutCard
+          variant="light"
+          title="The synthesis tax"
+          body="A single researcher spent an entire day each week on categorization and tagging alone — 20% of weekly capacity consumed by work that required domain expertise they didn't have, producing outputs that arrived too late to act on."
+        />
+        <CalloutCard
+          variant="light"
+          title="The expert gap"
+          body="The researchers doing the categorization weren't subject-matter experts on every product feature they were reviewing. Technical nuance got lost in translation. A Medicare plan comparison bug looked identical to a general navigation complaint unless you knew the product well enough to distinguish them."
+        />
+        <CalloutCard
+          variant="light"
+          title="The distribution lag"
+          body="Even when synthesized correctly, insights sat in static spreadsheets that didn't reach the relevant Product Owners until days later. A systemic bug appearing on a Monday wouldn't surface until Friday's report — at the earliest."
+        />
 
         <PullQuote>
           This wasn't just a process inefficiency. It was a compliance and retention risk. The voice of the user was arriving too late to matter.
@@ -111,6 +116,44 @@ function FullCaseStudy() {
         />
         <Body>
           The architecture had four layers, each solving a specific part of the problem.
+        </Body>
+
+        <CalloutCard
+          variant="light"
+          title="Taxonomy and intent mapping"
+          body="I started by interviewing product owners to understand how they thought about user feedback — not just what categories existed, but what signals within feedback indicated each category. Those interviews produced a structured taxonomy stored in Dataverse as the single source of truth."
+        />
+        <CalloutCard
+          variant="light"
+          title="Qualtrics Text IQ queries"
+          body="I built topic queries in Qualtrics Text IQ to anchor known patterns to the correct product buckets. These were the guardrails — precise keyword and phrase logic that ensured business-critical signals were never miscategorized, regardless of how the AI performed on edge cases."
+        />
+        <CalloutCard
+          variant="light"
+          title="Copilot Studio as the brain"
+          body="I connected the Dataverse taxonomy to a Copilot Studio agent and grounded it in WTW's internal product documentation and knowledge base articles. This gave the AI the product context it needed to interpret ambiguous feedback the way a subject-matter expert would."
+        />
+        <CalloutCard
+          variant="light"
+          title="Power Automate and Teams integration"
+          body="The pipeline ran automatically: new feedback in → redaction → categorization → stakeholder delivery. I also built a conversational interface in Teams so PMs could ask direct questions — 'What were the top three complaints from Medicare users this week?' — and get real-time synthesized answers without waiting for a weekly report."
+        />
+
+        <Body>
+          The taxonomy wasn't built from scratch. It mirrors how WTW already organized its products internally — seven domains that stakeholders already used to think and talk about the platform. Shopping & Enrollment, Account Management, Profile, Post Enrollment, Funding, Help & Support, and a cross-cutting Technical domain for bugs and errors.
+        </Body>
+        <Body>
+          The agent's job was to bridge the gap between that structure and how members actually talked. A member saying "my plan disappeared" doesn't use the words "Post Enrollment." A member saying "why does it keep asking me for a code" doesn't say "Multi-Factor Authentication." The taxonomy was fixed. The language wasn't. Inferring the correct domain from unstructured natural language — without keyword matching — is what the agent had to solve.
+        </Body>
+
+        <ProjectImage
+          src="/images/work/ai-agent/taxonomy-diagram.jpg"
+          alt="Radial diagram showing the seven feedback taxonomy domains radiating from a central Participant Feedback node"
+          caption="Seven domains reflecting WTW's existing product structure. The agent had to route member language into a framework designed for internal stakeholders, not for the people leaving feedback."
+        />
+
+        <Body>
+          The full taxonomy spans 60+ subcategories across those seven domains. Each subcategory maps to a Qualtrics Text IQ query formula grounded in product owner interviews and product documentation.
         </Body>
 
         <TabbedAccordion
@@ -212,18 +255,6 @@ function FullCaseStudy() {
           ]}
           footer="7 domains · 60+ subcategories · each mapped to a Qualtrics Text IQ query formula grounded in product owner interviews and product documentation"
         />
-
-        {[
-          ['Taxonomy and intent mapping', 'I started by interviewing product owners to understand how they thought about user feedback — not just what categories existed, but what signals within feedback indicated each category. That interviews produced a structured taxonomy stored in Dataverse as the single source of truth.'],
-          ['Qualtrics Text IQ queries', 'I built topic queries in Qualtrics Text IQ to anchor known patterns to the correct product buckets. These were the guardrails — precise keyword and phrase logic that ensured business-critical signals were never miscategorized, regardless of how the AI performed on edge cases.'],
-          ['Copilot Studio as the brain', 'I connected the Dataverse taxonomy to a Copilot Studio agent and grounded it in WTW\'s internal product documentation and knowledge base articles. This gave the AI the product context it needed to interpret ambiguous feedback the way a subject-matter expert would.'],
-          ['Power Automate and Teams integration', 'The pipeline ran automatically: new feedback in → redaction → categorization → stakeholder delivery. I also built a conversational interface in Teams so PMs could ask direct questions — "What were the top three complaints from Medicare users this week?" — and get real-time synthesized answers without waiting for a weekly report.'],
-        ].map(([title, body]) => (
-          <div key={title} style={{ marginBottom: '1.5rem', paddingLeft: '1.25rem', borderLeft: '2px solid var(--color-border)' }}>
-            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', fontWeight: 600, marginBottom: '0.35rem' }}>{title}</p>
-            <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-mid)', lineHeight: 1.85 }}>{body}</p>
-          </div>
-        ))}
 
         <ProjectImage
           src="/images/work/ai-agent/topics-queries.jpg"
