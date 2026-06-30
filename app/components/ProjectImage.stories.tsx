@@ -12,6 +12,13 @@ import ProjectImage from './ProjectImage'
  * the palette consistent during content development and clearly signals that an
  * image slot exists without looking broken.
  *
+ * ## Spacing
+ * The component applies `margin: 2rem 0 2.5rem` on its outer `<figure>` element.
+ * This ensures consistent breathing room above and below every image across all
+ * case study pages — 2rem top (separates from preceding text or component),
+ * 2.5rem bottom (separates caption from following text or component). Do not
+ * add additional margin wrappers around `<ProjectImage>` in page files.
+ *
  * ## Accessibility
  * Always provide descriptive `alt` text for images that communicate research
  * findings, flows, or process artifacts. The default is an empty string (`''`),
@@ -20,20 +27,19 @@ import ProjectImage from './ProjectImage'
  * and describe what it shows.
  *
  * ## Tokens used
+ * - Outer margin: `2rem 0 2.5rem`
  * - Placeholder fill: `--color-border` (warm/100, #EDE9E4)
  * - Placeholder height: 320px fixed
  * - Placeholder text: `--font-size-xs`, `--color-text-muted`, `--letter-spacing-md`, uppercase
  * - Border radius: `--radius-sm` (4px)
  * - Caption: `--font-size-xs`, `--color-text-muted`, italic, centered
- * - Caption margin top: 0.5rem
- *
- * ## Image area note
- * This component does not yet have real case study images — the `src` prop accepts
- * any valid image URL. Placeholder stories use the warm fill until assets are available.
+ * - Caption margin top: 0.75rem
  *
  * ## Usage
  * Used inside case study pages to display research artifacts, wireframes, and
  * process documentation. Typically appears inside a `.article-layout` content column.
+ * The built-in margin means sequential images and surrounding Body text are
+ * automatically spaced — no wrapper divs needed.
  */
 const meta: Meta<typeof ProjectImage> = {
   title: 'Core Components/Content/ProjectImage',
@@ -75,4 +81,27 @@ export const NoCaption: Story = {
     src: '/images/ali.jpg',
     alt: 'Research artifact',
   },
+}
+
+export const SequentialImages: Story = {
+  name: 'Sequential Images (spacing)',
+  parameters: { docs: { source: { type: 'code' } } },
+  render: () => (
+    <div>
+      <p style={{ fontSize: '1rem', marginBottom: 0 }}>
+        Body text before the first image. The 2rem top margin on ProjectImage
+        separates it from this paragraph.
+      </p>
+      <ProjectImage
+        caption="First image — the 2.5rem bottom margin below the caption separates it from the next image."
+      />
+      <ProjectImage
+        caption="Second image — same spacing applied automatically. No wrapper divs needed."
+      />
+      <p style={{ fontSize: '1rem' }}>
+        Body text after the second image. The 2rem top margin on the figure
+        above creates this gap automatically.
+      </p>
+    </div>
+  ),
 }

@@ -6,7 +6,7 @@ interface ProjectImageProps {
 
 export default function ProjectImage({ src, alt = '', caption }: ProjectImageProps) {
   return (
-    <figure style={{ margin: 0 }}>
+    <figure style={{ margin: '2rem 0 2.5rem' }}>
       {src ? (
         <img src={src} alt={alt} style={{ width: '100%', borderRadius: 'var(--radius-sm)', display: 'block' }} />
       ) : (
