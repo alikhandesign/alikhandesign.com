@@ -301,6 +301,10 @@ function FullCaseStudy() {
           body="Even when categorized correctly, insights sat in a static spreadsheet until the weekly post. A critical bug surfacing on Monday wouldn't reach the right PM until Friday — at the earliest. During AEP, when feedback volume spiked and speed mattered most, the lag was longest."
         />
 
+        <Body>
+          I experienced the expert gap myself. I worked directly on the Shopping and Quoting team, which made me closer to the product than most researchers. But that proximity had limits. If a piece of feedback touched a known technical limitation in another team's domain, I might flag it as a bug when it wasn't one. The member's language didn't tell me which team owned the problem — only product context I didn't have would. The person doing the categorization couldn't know what they didn't know. That's not a failure of effort. It's a structural problem.
+        </Body>
+
         <PullQuote>
           This wasn't just a process inefficiency. It was a compliance and retention risk. The voice of the user was arriving too late to matter.
         </PullQuote>
@@ -331,7 +335,24 @@ function FullCaseStudy() {
         <CalloutCard
           variant="light"
           title="1. Redaction at the source"
-          body="PHI redaction could have happened anywhere in the pipeline. I chose to enforce it at the Qualtrics layer — before data ever left the feedback system — rather than relying on the agent to handle it downstream. If the agent never sees PHI, the risk surface disappears rather than being managed. Legal sign-off happened before the first line of agent logic was written. That sign-off wasn't a checkbox — it was the prerequisite for everything else."
+          body="PHI redaction could have happened anywhere in the pipeline. I chose to enforce it at the Qualtrics layer — before data ever left the feedback system — rather than relying on the agent to handle it downstream. If the agent never sees PHI, the risk surface disappears rather than being managed."
+        />
+        <Body>
+          My first proposal was straightforward: feed the raw feedback directly into the agent. Legal said no. The data contained names, Social Security numbers, Medicare IDs — PHI that couldn't touch a third-party model under any circumstances.
+        </Body>
+        <Body>
+          I didn't push back on the constraint. I designed around it. I researched what Qualtrics could do natively and discovered their redaction logic — structured pattern queries that could strip known identifiers before data ever left the feedback system. I built the policy, tested it, and brought it back to Legal not as a negotiation but as a solution.
+        </Body>
+        <Body>
+          They had one additional requirement: auditability. They needed to demonstrate that redaction had happened, not just trust that it did. I built that into the agent instructions at two levels — reactive PHI audits that could be triggered on demand, and proactive flagging logic that used natural language to surface anything potentially sensitive before it became a problem.
+        </Body>
+        <Body>
+          That sign-off unlocked everything else. Without it, there was no project.
+        </Body>
+        <ProjectImage
+          src="/images/work/ai-agent/redaction-policy.jpg"
+          alt="Qualtrics PII redaction policy configuration showing SSN detection pattern"
+          caption="The redaction policy built in Qualtrics — SSN pattern detection, structured queries for known identifiers. This ran before any feedback reached the agent. Legal reviewed and approved this configuration before the first line of agent logic was written."
         />
         <CalloutCard
           variant="light"
@@ -473,7 +494,7 @@ function FullCaseStudy() {
           This project didn't improve a product. It improved the conditions under which good product decisions could be made. The research team didn't get a faster version of the old process — they got a fundamentally different one. That's not acceleration. That's leverage.
         </Body>
         <Body mb={false}>
-          The skeptic-to-advocate arc — from "this will never be as good as human analysis" to active advocacy — didn't happen because the AI was impressive. It happened because the evidence was undeniable. The AI wasn't the point. The system was.
+          Design isn't always about creating better interfaces. Sometimes the highest-leverage opportunity is redesigning how work gets done — understanding the people inside the organization, not just the customers. The skeptic-to-advocate arc didn't happen because the AI was impressive. It happened because the evidence was undeniable. The AI wasn't the point. The system was.
         </Body>
       </section>
 
