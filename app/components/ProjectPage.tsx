@@ -41,8 +41,8 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem' }}>
         {hero ? (
-          <div style={{ position: 'relative', width: '100%', height: 500, borderRadius: 'var(--radius-sm)', overflow: 'hidden', background: 'var(--color-surface)' }}>
-            <Image src={hero} alt={title} fill style={{ objectFit: 'contain' }} sizes="100vw" />
+          <div style={{ position: 'relative', width: '100%', aspectRatio: '16/10', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+            <Image src={hero} alt={title} fill style={{ objectFit: 'cover', objectPosition: 'center center' }} sizes="100vw" />
           </div>
         ) : (
           <div style={{ width: '100%', height: 400, background: 'var(--color-border)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const }}>Hero Project Image</div>
@@ -92,4 +92,5 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
     </main>
   )
 }
+
 
