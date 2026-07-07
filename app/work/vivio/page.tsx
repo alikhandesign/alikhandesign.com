@@ -53,6 +53,8 @@ export default function Page() {
       { src: '/images/work/vivio/vivio-design-system.png', alt: 'Design system overview showing color palette, type scale, and button states', caption: 'Custom iOS design system — color, typography, and component states built from scratch' },
     ]}
     cta={{ title: 'Want to see how I designed a zero-to-one clinical iOS app for heart failure diagnosis?' }}
+    hero='/images/work/vivio/vivio-results.png'
     next={getNextWork('vivio')!}
   />
 }
+

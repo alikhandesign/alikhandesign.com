@@ -7,6 +7,7 @@ import CTAStrip from './CTAStrip'
 import DetailsCard from './DetailsCard'
 import Heading from './Heading'
 import ButtonLink from './ButtonLink'
+import Image from 'next/image'
 
 interface Section { label: string; title: string; body: string[] }
 interface ProjectPageProps {
@@ -15,10 +16,11 @@ interface ProjectPageProps {
   sections: Section[];
   gallery: { src: string; alt: string; caption?: string }[];
   cta: { title: string };
+  hero?: string;
   next: { title: string; href: string; type: 'case-study' | 'project' };
 }
 
-export default function ProjectPage({ title, company, tags, hook, details, sections, gallery, cta, next }: ProjectPageProps) {
+export default function ProjectPage({ title, company, tags, hook, details, sections, gallery, cta, next, hero }: ProjectPageProps) {
   const [modalOpen, setModalOpen] = useState(false)
 
   return (
@@ -38,7 +40,13 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem' }}>
-        <div style={{ width: '100%', height: 400, background: 'var(--color-border)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const }}>Hero Project Image</div>
+        {hero ? (
+          <div style={{ position: 'relative', width: '100%', height: 400, borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+            <Image src={hero} alt={title} fill style={{ objectFit: 'cover', objectPosition: 'center center' }} sizes="100vw" />
+          </div>
+        ) : (
+          <div style={{ width: '100%', height: 400, background: 'var(--color-border)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const }}>Hero Project Image</div>
+        )}
       </div>
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>

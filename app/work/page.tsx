@@ -125,7 +125,7 @@ export default function WorkPage() {
             <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em' }}>— {visibleProjects.length} selected works</span>
           </div>
           <div className="grid-proj">
-            {visibleProjects.map(p => <FeaturedProjectCard key={p.title} type="Project" title={p.title} company={p.company} description={p.desc} href={p.href} />)}
+            {visibleProjects.map(p => <FeaturedProjectCard key={p.title} type="Project" title={p.title} company={p.company} description={p.desc} href={p.href} image={p.image} />)}
           </div>
         </section>
       )}
