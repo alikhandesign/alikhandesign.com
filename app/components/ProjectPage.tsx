@@ -18,9 +18,10 @@ interface ProjectPageProps {
   cta: { title: string };
   hero?: string;
   next: { title: string; href: string; type: 'case-study' | 'project' };
+  children?: React.ReactNode;
 }
 
-export default function ProjectPage({ title, company, tags, hook, details, sections, gallery, cta, next, hero }: ProjectPageProps) {
+export default function ProjectPage({ title, company, tags, hook, details, sections, gallery, cta, next, hero, children }: ProjectPageProps) {
   const [modalOpen, setModalOpen] = useState(false)
 
   return (
@@ -63,6 +64,8 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
             ))}
           </section>
         ))}
+
+        {children}
       </div>
 
       {gallery.length > 0 && (
@@ -92,5 +95,3 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
     </main>
   )
 }
-
-
