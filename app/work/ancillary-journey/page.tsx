@@ -38,6 +38,7 @@ export default function Page() {
     tags={['Usability Research', 'Mixed-Methods Research']}
     hook="Medicare enrollees shopping for dental, vision, and hearing coverage face a product category most people have never had to think about before. My research set out to understand where the confusion lived — and what it would take to remove it."
     hero="/images/work/ancillary-journey/ancillary-journey-session.jpg"
+    heroFit="natural"
     details={[{ label: 'Company', value: 'Willis Towers Watson' }, { label: 'Role', value: 'UX Researcher' }, { label: 'Methods', value: 'Moderated Usability Sessions, Qualitative Interviews' }, { label: 'Disciplines', value: 'Usability Research, Mixed-Methods Research' }]}
     sections={[
       { label: 'The Brief', title: 'A deep dive into ancillary insurance navigation', body: ['Via Benefits offered ancillary insurance products — dental, vision, and hearing coverage — as part of its broader Medicare shopping experience. The team needed a qualitative deep dive into how enrollees actually navigated this category, where comprehension broke down, and what could be done to streamline the decision-making process.'] },

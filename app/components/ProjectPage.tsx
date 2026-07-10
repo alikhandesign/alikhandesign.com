@@ -17,11 +17,12 @@ interface ProjectPageProps {
   gallery: { src: string; alt: string; caption?: string }[];
   cta: { title: string };
   hero?: string;
+  heroFit?: 'cover' | 'natural';
   next: { title: string; href: string; type: 'case-study' | 'project' };
   children?: React.ReactNode;
 }
 
-export default function ProjectPage({ title, company, tags, hook, details, sections, gallery, cta, next, hero, children }: ProjectPageProps) {
+export default function ProjectPage({ title, company, tags, hook, details, sections, gallery, cta, next, hero, heroFit = 'cover', children }: ProjectPageProps) {
   const [modalOpen, setModalOpen] = useState(false)
 
   return (
@@ -42,9 +43,16 @@ export default function ProjectPage({ title, company, tags, hook, details, secti
 
       <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 3rem 3rem' }}>
         {hero ? (
-          <div style={{ position: 'relative', width: '100%', aspectRatio: '16/10', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
-            <Image src={hero} alt={title} fill style={{ objectFit: 'cover', objectPosition: 'center center' }} sizes="100vw" />
-          </div>
+          heroFit === 'natural' ? (
+            <div style={{ width: '100%', borderRadius: 'var(--radius-sm)', overflow: 'hidden', lineHeight: 0 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={hero} alt={title} style={{ width: '100%', height: 'auto', display: 'block' }} />
+            </div>
+          ) : (
+            <div style={{ position: 'relative', width: '100%', aspectRatio: '16/10', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+              <Image src={hero} alt={title} fill style={{ objectFit: 'cover', objectPosition: 'center center' }} sizes="100vw" />
+            </div>
+          )
         ) : (
           <div style={{ width: '100%', height: 400, background: 'var(--color-border)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', letterSpacing: 'var(--letter-spacing-md)', textTransform: 'uppercase' as const }}>Hero Project Image</div>
         )}
