@@ -14,7 +14,7 @@ interface ProjectPageProps {
   title: string; company: string; tags: string[]; hook: string;
   details: { label: string; value: string }[];
   sections: Section[];
-  gallery: { src: string; alt: string; caption?: string }[];
+  gallery: { src: string; alt: string; caption?: string; focus?: string }[];
   cta: { title: string };
   hero?: string;
   heroFit?: 'cover' | 'natural';
