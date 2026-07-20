@@ -18,7 +18,7 @@ export default function Page() {
     ]}
     gallery={[
         { src: '/images/work/signify-rebrand/signify-rebrand-homepage-alternate-mockup.jpg', alt: 'Alternate homepage direction, desktop and mobile', caption: 'An alternate homepage direction, shown across desktop and mobile' },
-        { src: '/images/work/signify-rebrand/signify-rebrand-solutions-page.jpg', alt: 'Solutions by Audience page', caption: 'The Solutions page, restructured around audience type to simplify navigation' }]}
+        { src: '/images/work/signify-rebrand/signify-rebrand-solutions-page.jpg', alt: 'Solutions by Audience page', caption: 'The Solutions page, restructured around audience type to simplify navigation', focus: 'top' }]}
     cta={{ title: 'Curious how research-informed brand strategy drives real business outcomes?' }}
     next={getNextWork('signify-rebrand')!}
   />

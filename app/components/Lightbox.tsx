@@ -6,6 +6,7 @@ interface LightboxImage {
   src: string
   alt: string
   caption?: string
+  focus?: string
 }
 
 interface LightboxProps {
@@ -326,6 +327,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
                   style={{
                     width: '100%', height: '100%',
                     objectFit: 'cover',
+                    objectPosition: img.focus || 'center',
                     transition: 'filter 0.3s, brightness 0.3s',
                     display: 'block',
                   }}
