@@ -493,6 +493,12 @@ function FullCaseStudy() {
         <Body>
           This project didn't improve a product. It improved the conditions under which good product decisions could be made. The research team didn't get a faster version of the old process — they got a fundamentally different one. That's not acceleration. That's leverage.
         </Body>
+        <Body>
+          The next input source I'd add is session-level, not survey-level. FullStory session IDs are already captured in Qualtrics and stored in Dataverse, which means survey responses and session recordings are already linked at the data layer — I just haven't used that link yet. Correlating what someone said in a survey with what FullStory recorded them doing in that same session would surface a different kind of signal: whether the friction someone reported actually shows up in their behavior, or whether stated and observed experience diverge. Feeding FullStory's AI-generated session summaries into the same Copilot Studio pipeline would be the mechanism — not a new system, just a second input source sitting alongside the survey data it's already tied to, with the same PHI-safe redaction handled on both ends.
+        </Body>
+        <Body>
+          Call center notes would be a third channel worth adding, and arguably the most different in kind. FullStory and Qualtrics data are both close to the source — a recorded session, a survey response typed by the member themselves. Call center notes are a step removed: an agent's summary of what a member said, already filtered through their interpretation before it ever reaches the system. That's not a reason to exclude it — support interactions surface friction and edge cases that never make it into a survey — but it would mean designing the taxonomy to weight or flag agent-mediated input differently from raw customer language, rather than treating all three sources as interchangeable.
+        </Body>
         <Body mb={false}>
           Design isn't always about creating better interfaces. Sometimes the highest-leverage opportunity is redesigning how work gets done — understanding the people inside the organization, not just the customers. The skeptic-to-advocate arc didn't happen because the AI was impressive. It happened because the evidence was undeniable. The AI wasn't the point. The system was.
         </Body>
