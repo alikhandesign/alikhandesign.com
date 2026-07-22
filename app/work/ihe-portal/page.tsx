@@ -141,7 +141,7 @@ export default function IHEPortalPage() {
       <div className="article-layout" style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '4rem 3rem' }}>
         <SideNav unlocked={unlocked} sections={["the-context", "the-research", "the-findings", "the-reframe", "the-design", "the-outcomes", "the-reflection"]} />
         <div>
-          <PasswordGate password="4likh4n" onUnlock={() => setUnlocked(true)} title="Ready to see what the research uncovered?" description="The full case study walks through the research methodology, all six barrier categories, and the design principles that shaped the portal redesign." inside={INSIDE}>
+          <PasswordGate onUnlock={() => setUnlocked(true)} title="Ready to see what the research uncovered?" description="The full case study walks through the research methodology, all six barrier categories, and the design principles that shaped the portal redesign." inside={INSIDE}>
             <FullCaseStudy />
           </PasswordGate>
         </div>

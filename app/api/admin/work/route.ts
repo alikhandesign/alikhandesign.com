@@ -1,43 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getKV, getWorkKVConfig } from '@/lib/kv'
+import { isRequestAuthorized } from '@/lib/auth'
 
-const ADMIN_PASSWORD = 'dadisgay123'
-
-async function getKV() {
-  const { Redis } = await import('@upstash/redis')
-  return new Redis({
-    url: process.env.KV_REST_API_URL!,
-    token: process.env.KV_REST_API_TOKEN!,
-  })
+// Reading the work order/visibility/featured config is intentionally public —
+// it only ever controls what's already visible on the public /work page, so
+// there's nothing to protect here. This also means the page that renders it
+// can fetch it server-side with zero secrets involved.
+export async function GET() {
+  const data = await getWorkKVConfig()
+  return NextResponse.json(data)
 }
 
-export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url)
-  const password = searchParams.get('password')
-  if (password !== ADMIN_PASSWORD) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-  try {
-    const kv = await getKV()
-    const [order, config, featured] = await Promise.all([
-      kv.get<string[]>('admin:work:order'),
-      kv.get<Record<string, { visible: boolean }>>('admin:work:config'),
-      kv.get<string[]>('admin:work:featured'),
-    ])
-    return NextResponse.json({
-      order: order ?? null,
-      config: config ?? null,
-      featured: featured ?? null,
-    })
-  } catch (err) {
-    console.error('Admin work GET error:', err)
-    return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 })
-  }
-}
-
+// Writing to it is the sensitive operation — requires a valid admin session
+// cookie, set only after /api/verify-access confirms the real password.
 export async function POST(req: NextRequest) {
-  const { searchParams } = new URL(req.url)
-  const password = searchParams.get('password')
-  if (password !== ADMIN_PASSWORD) {
+  const authorized = await isRequestAuthorized(req, 'admin')
+  if (!authorized) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
   try {
@@ -48,7 +26,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Maximum 2 featured items allowed' }, { status: 400 })
     }
 
-    const kv = await getKV()
+    const kv = getKV()
     await Promise.all([
       kv.set('admin:work:order', JSON.stringify(order)),
       kv.set('admin:work:config', JSON.stringify(config)),

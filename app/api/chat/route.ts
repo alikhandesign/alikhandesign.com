@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { isRequestAuthorized } from '@/lib/auth'
 
 const RATE_LIMIT_WINDOW = 60 * 60 // 1 hour in seconds
 const RATE_LIMIT_MAX = 15 // messages per window
@@ -117,10 +118,16 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  const { messages, unlocked, sessionId, messageIndex } = await req.json()
+  const { messages, sessionId, messageIndex } = await req.json()
   if (!messages || !Array.isArray(messages)) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
   }
+
+  // Authorization is determined here, server-side, from the httpOnly cookie —
+  // never from anything the client sends in the request body. A client-supplied
+  // "unlocked" flag would let anyone unlock the protected prompt without a
+  // password at all, so it's intentionally ignored even if present.
+  const unlocked = await isRequestAuthorized(req, 'case-study')
 
   const resolvedSessionId = typeof sessionId === 'string' && sessionId.length > 0
     ? sessionId

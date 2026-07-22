@@ -1,9 +1,8 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import SectionLabel from './SectionLabel'
 
 interface PasswordGateProps {
-  password: string
   children: React.ReactNode
   title: string
   description: string
@@ -11,22 +10,60 @@ interface PasswordGateProps {
   onUnlock?: () => void
 }
 
-export default function PasswordGate({ password, children, title, description, inside, onUnlock }: PasswordGateProps) {
+export default function PasswordGate({ children, title, description, inside, onUnlock }: PasswordGateProps) {
   const [input, setInput] = useState('')
   const [unlocked, setUnlocked] = useState(false)
+  const [checking, setChecking] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(false)
 
-  const handleSubmit = () => {
-    if (input === password) {
-      setUnlocked(true)
-      setError(false)
-      onUnlock?.()
-    } else {
+  // On mount, check whether this visitor already has a valid, unexpired
+  // access cookie (e.g. from unlocking the chatbot or another case study
+  // page) — so they aren't asked for the password again within the 7-day
+  // window.
+  useEffect(() => {
+    let cancelled = false
+    fetch('/api/verify-access?type=case-study')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (cancelled) return
+        if (data?.unlocked) {
+          setUnlocked(true)
+          onUnlock?.()
+        }
+      })
+      .catch(() => {})
+      .finally(() => { if (!cancelled) setChecking(false) })
+    return () => { cancelled = true }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const handleSubmit = async () => {
+    if (!input || submitting) return
+    setSubmitting(true)
+    try {
+      const res = await fetch('/api/verify-access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: input, type: 'case-study' }),
+      })
+      if (res.ok) {
+        setUnlocked(true)
+        setError(false)
+        onUnlock?.()
+      } else {
+        setError(true)
+        setTimeout(() => setError(false), 2000)
+      }
+    } catch {
       setError(true)
       setTimeout(() => setError(false), 2000)
+    } finally {
+      setSubmitting(false)
     }
   }
 
+  if (checking) return null
   if (unlocked) return <>{children}</>
 
   return (
@@ -74,6 +111,7 @@ export default function PasswordGate({ password, children, title, description, i
         <button
           onClick={handleSubmit}
           className="btn-primary"
+          disabled={submitting}
           style={{ width: '100%', justifyContent: 'center' }}
         >
           View full case study <span aria-hidden="true">→</span>

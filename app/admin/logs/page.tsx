@@ -110,7 +110,19 @@ export default function AdminLogsPage() {
     setLoading(true)
     setError('')
     try {
-      const res = await fetch(`/api/admin/logs?password=${encodeURIComponent(pw)}`)
+      const verifyRes = await fetch('/api/verify-access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pw, type: 'admin' }),
+      })
+      if (verifyRes.status === 401) {
+        setError('Incorrect password.')
+        setAuthed(false)
+        return
+      }
+      if (!verifyRes.ok) throw new Error('Failed to verify')
+
+      const res = await fetch('/api/admin/logs')
       if (res.status === 401) {
         setError('Incorrect password.')
         setAuthed(false)

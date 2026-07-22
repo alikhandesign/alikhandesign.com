@@ -11,7 +11,6 @@ import SourceInspector from '../components/SourceInspector'
 import Heading from '../components/Heading'
 import type { SiteSource } from '@/lib/sources'
 
-const CHAT_PASSWORD = '4likh4n'
 const RATE_LIMIT_WARN = 7
 const RATE_LIMIT_MAX = 10
 
@@ -43,6 +42,7 @@ export default function ChatPage() {
   const [showUnlock, setShowUnlock] = useState(false)
   const [passwordInput, setPasswordInput] = useState('')
   const [passwordError, setPasswordError] = useState(false)
+  const [unlockSubmitting, setUnlockSubmitting] = useState(false)
   const [rateLimitError, setRateLimitError] = useState('')
   const [responseCount, setResponseCount] = useState(0)
   const [contactModalOpen, setContactModalOpen] = useState(false)
@@ -65,6 +65,15 @@ export default function ChatPage() {
     return () => window.removeEventListener('resize', check)
   }, [])
 
+  // Auto-unlock if this visitor already has a valid access cookie (e.g. from
+  // unlocking a case study page earlier in the same 7-day window).
+  useEffect(() => {
+    fetch('/api/verify-access?type=case-study')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data?.unlocked) setUnlocked(true) })
+      .catch(() => {})
+  }, [])
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, loading])
@@ -84,15 +93,29 @@ export default function ChatPage() {
     return () => document.removeEventListener('mousedown', handleClick)
   }, [showUnlock])
 
-  const handleUnlock = () => {
-    if (passwordInput === CHAT_PASSWORD) {
-      setUnlocked(true)
-      setShowUnlock(false)
-      setPasswordInput('')
-      setPasswordError(false)
-    } else {
+  const handleUnlock = async () => {
+    if (unlockSubmitting) return
+    setUnlockSubmitting(true)
+    try {
+      const res = await fetch('/api/verify-access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: passwordInput, type: 'case-study' }),
+      })
+      if (res.ok) {
+        setUnlocked(true)
+        setShowUnlock(false)
+        setPasswordInput('')
+        setPasswordError(false)
+      } else {
+        setPasswordError(true)
+        setTimeout(() => setPasswordError(false), 2000)
+      }
+    } catch {
       setPasswordError(true)
       setTimeout(() => setPasswordError(false), 2000)
+    } finally {
+      setUnlockSubmitting(false)
     }
   }
 
@@ -141,7 +164,6 @@ export default function ChatPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           messages: newMessages.map(({ role, content }) => ({ role, content })),
-          unlocked,
           sessionId: sessionIdRef.current,
           messageIndex: currentMessageIndex,
         }),
@@ -312,7 +334,7 @@ export default function ChatPage() {
                     aria-label="Access code"
                     autoFocus
                   />
-                  <button onClick={handleUnlock} className="btn-primary" style={{ whiteSpace: 'nowrap' }}>
+                  <button onClick={handleUnlock} disabled={unlockSubmitting} className="btn-primary" style={{ whiteSpace: 'nowrap' }}>
                     Unlock
                   </button>
                 </div>

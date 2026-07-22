@@ -6,7 +6,6 @@ import PasswordGate from '@/app/components/PasswordGate'
 export default function Page() {
   return (
     <PasswordGate
-      password="4likh4n"
       title="Design Handoff Checklist"
       description="A developer-first handoff protocol built across 15 teams and 150+ developers — the Ready-for-Dev checklist, the discovery research behind it, and the annotated mockups it was built to fix."
       inside={['The Ready-for-Dev checklist as a mandatory Jira gate', 'Discovery research: status-quo and mobile-handling audit boards', 'Annotated handoff mockups with redline notes', 'Before/after adoption feedback from designers, devs, and QA']}

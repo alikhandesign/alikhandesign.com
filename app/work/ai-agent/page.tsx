@@ -534,7 +534,6 @@ export default function AIAgentPage() {
       next={getNextWork('ai-agent')!}
     >
       <PasswordGate
-        password="4likh4n"
         onUnlock={() => {}}
         title="Ready to see how it came together?"
         description="The full case study covers the four design decisions that shaped the system, the stakeholder needs mapping, and the validation methodology that took accuracy from 78% to 95%."

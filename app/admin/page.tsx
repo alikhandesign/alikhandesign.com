@@ -31,8 +31,15 @@ export default function AdminPage() {
     setLoading(true)
     setError('')
     try {
-      const res = await fetch(`/api/admin/work?password=${encodeURIComponent(pw)}`)
-      if (res.status === 401) { setError('Incorrect password.'); return }
+      const verifyRes = await fetch('/api/verify-access', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pw, type: 'admin' }),
+      })
+      if (verifyRes.status === 401) { setError('Incorrect password.'); return }
+      if (!verifyRes.ok) throw new Error()
+
+      const res = await fetch('/api/admin/work')
       if (!res.ok) throw new Error()
       const data = await res.json()
 
@@ -75,7 +82,7 @@ export default function AdminPage() {
       const config: Record<string, { visible: boolean }> = {}
       rows.forEach(r => { config[r.slug] = { visible: r.visible } })
 
-      const res = await fetch(`/api/admin/work?password=${encodeURIComponent(password)}`, {
+      const res = await fetch('/api/admin/work', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ order, config, featured }),

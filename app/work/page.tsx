@@ -1,12 +1,6 @@
-'use client'
-
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import SectionLabel from '../components/SectionLabel'
-import Heading from '../components/Heading'
 import { workItems } from '../work.config'
-import CaseStudyCard from '../components/CaseStudyCard'
-import FeaturedProjectCard from '../components/FeaturedProjectCard'
+import { getWorkKVConfig } from '@/lib/kv'
+import WorkFilterClient from '../components/WorkFilterClient'
 
 const caseStudies = [
   { title: 'AI Interface Pattern Library', company: 'Self-initiated', tags: ['AI Design', 'UX Research', 'Design Systems'], desc: 'Audited six conversational AI products against a standardized 23-prompt methodology, documented failure modes across six pattern categories, and built an interactive pattern library with formal definitions and React demos.', outcomes: [{ val: '6', label: 'Products audited' }, { val: 'Public', label: 'Empirically grounded pattern library' }], href: '/work/pattern-library', image: '/images/work/work-pattern-library-card.png' },
@@ -26,109 +20,34 @@ const projects = [
   { title: 'Design Handoff Checklist', company: 'Willis Towers Watson', tags: ['Process Design', 'Workflow Optimization'], desc: 'Built a developer-first handoff protocol across 15 teams and 150+ developers, replacing a black-box handoff process with a mandatory Ready-for-Dev checklist and centralized Knowledge Base.', href: '/work/design-handoff', image: '/images/work/work-design-handoff-card.jpg' },
 ]
 
-type Filter = 'all' | 'case-studies' | 'projects'
-
 interface KVConfig {
   order: string[] | null
   config: Record<string, { visible: boolean }> | null
 }
 
-const filterStyles: React.CSSProperties = {
-  display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
-  paddingTop: '0.4rem', paddingBottom: '0.4rem', paddingLeft: '0.875rem', paddingRight: '0.875rem',
-  fontSize: 'var(--font-size-xs)', fontWeight: 500, letterSpacing: '0.04em',
-  color: 'var(--color-text)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)',
-  cursor: 'pointer', background: 'transparent', fontFamily: 'var(--font-sans)', transition: 'background 0.15s, color 0.15s',
-}
-
-export default function WorkPage() {
-  const [filter, setFilter] = useState<Filter>('all')
-  const [kvConfig, setKvConfig] = useState<KVConfig | null>(null)
-
-  useEffect(() => {
-    fetch('/api/admin/work?password=dadisgay123')
-      .then(r => r.ok ? r.json() : null)
-      .then(data => data && setKvConfig(data))
-      .catch(() => {})
-  }, [])
-
-  const applyKV = <T extends { href: string }>(items: T[], type: 'case-study' | 'project'): T[] => {
-    if (!kvConfig?.order && !kvConfig?.config) return items
-    return items.filter(item => {
+function applyKV<T extends { href: string }>(items: T[], kvConfig: KVConfig): T[] {
+  if (!kvConfig.order && !kvConfig.config) return items
+  return items
+    .filter(item => {
       const match = workItems.find(w => item.href === '/work/' + w.slug)
       if (!match) return true
-      return kvConfig?.config?.[match.slug]?.visible ?? true
-    }).sort((a, b) => {
-      if (!kvConfig?.order) return 0
+      return kvConfig.config?.[match.slug]?.visible ?? true
+    })
+    .sort((a, b) => {
+      if (!kvConfig.order) return 0
       const aSlug = workItems.find(w => a.href === '/work/' + w.slug)?.slug ?? ''
       const bSlug = workItems.find(w => b.href === '/work/' + w.slug)?.slug ?? ''
-      return (kvConfig.order!.indexOf(aSlug) ?? 999) - (kvConfig.order!.indexOf(bSlug) ?? 999)
+      return kvConfig.order!.indexOf(aSlug) - kvConfig.order!.indexOf(bSlug)
     })
-  }
+}
 
-  const visibleCaseStudies = applyKV(caseStudies, 'case-study')
-  const visibleProjects = applyKV(projects, 'project')
-  const showCaseStudies = filter === 'all' || filter === 'case-studies'
-  const showProjects = filter === 'all' || filter === 'projects'
-  const total = visibleCaseStudies.length + visibleProjects.length
+// Server Component — resolves the KV order/visibility config before the page
+// is ever sent to the browser, so there's no client-side re-fetch-and-reorder
+// after first paint (that was the cause of the visible "stutter").
+export default async function WorkPage() {
+  const kvConfig = await getWorkKVConfig()
+  const visibleCaseStudies = applyKV(caseStudies, kvConfig)
+  const visibleProjects = applyKV(projects, kvConfig)
 
-  const activeStyle: React.CSSProperties = { ...filterStyles, background: 'var(--color-text)', border: '1px solid var(--color-text)', color: 'var(--color-bg)' }
-
-  const badgeStyle = (active: boolean): React.CSSProperties => ({
-    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-    minWidth: '1.1rem', height: '1.1rem', fontSize: '0.6875rem', fontWeight: 600,
-    borderRadius: '999px', padding: '0 0.25rem',
-    background: active ? 'rgba(250,248,245,0.25)' : 'var(--color-border)',
-    color: active ? 'var(--color-bg)' : 'var(--color-text-muted)',
-  })
-
-  return (
-    <main>
-      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
-        <header className="page-header">
-          <SectionLabel label="Portfolio" />
-          <Heading level={1} className="page-title-lg" lineHeight={1.1}>My Work</Heading>
-          <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-muted)', lineHeight: 1.6, maxWidth: 580, marginBottom: '0.75rem' }}>10+ years of product design and UX research — from AI-native research pipelines to zero-to-one product ecosystems.</p>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', lineHeight: 1.6, marginBottom: '1.5rem' }}>
-            Have questions about the work?{' '}
-            <Link href="/chat" style={{ color: 'var(--color-text)', textDecoration: 'underline', textUnderlineOffset: 3, fontWeight: 500 }}>
-              Start a conversation with the portfolio assistant.
-            </Link>
-            {' →'}
-          </p>
-          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            <button onClick={() => setFilter('all')} style={filter === 'all' ? activeStyle : filterStyles} aria-pressed={filter === 'all'}>All <span style={badgeStyle(filter === 'all')} aria-hidden="true">{total}</span></button>
-            <button onClick={() => setFilter('case-studies')} style={filter === 'case-studies' ? activeStyle : filterStyles} aria-pressed={filter === 'case-studies'}>Case Studies <span style={badgeStyle(filter === 'case-studies')} aria-hidden="true">{visibleCaseStudies.length}</span></button>
-            <button onClick={() => setFilter('projects')} style={filter === 'projects' ? activeStyle : filterStyles} aria-pressed={filter === 'projects'}>Projects <span style={badgeStyle(filter === 'projects')} aria-hidden="true">{visibleProjects.length}</span></button>
-          </div>
-        </header>
-      </div>
-
-      {showCaseStudies && (
-        <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--color-border)' }}>
-            <Heading level={2}>Case Studies</Heading>
-            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em' }}>— {visibleCaseStudies.length} deep dives</span>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
-            {visibleCaseStudies.map(cs => <CaseStudyCard key={cs.title} {...cs} description={cs.desc} />)}
-          </div>
-        </section>
-      )}
-
-      {showCaseStudies && showProjects && <div className="divider" />}
-
-      {showProjects && (
-        <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.75rem', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--color-border)' }}>
-            <Heading level={2}>Projects</Heading>
-            <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em' }}>— {visibleProjects.length} selected works</span>
-          </div>
-          <div className="grid-proj">
-            {visibleProjects.map(p => <FeaturedProjectCard key={p.title} type="Project" title={p.title} company={p.company} description={p.desc} href={p.href} image={p.image} />)}
-          </div>
-        </section>
-      )}
-    </main>
-  )
+  return <WorkFilterClient caseStudies={visibleCaseStudies} projects={visibleProjects} />
 }

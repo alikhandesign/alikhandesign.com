@@ -207,7 +207,6 @@ export default function PeopleFirstPage() {
       next={getNextWork('people-first')!}
     >
       <PasswordGate
-        password="4likh4n"
         onUnlock={() => {}}
         title="Ready to see how it came together?"
         description="The full case study walks through the research diagnosis, the stakeholder pivot, the design decisions, and the outcomes in detail."

@@ -56,15 +56,8 @@ export function getNextWork(slug: string): NextWork | null {
 
 export async function getWorkItems(): Promise<(WorkItem & { visible: boolean })[]> {
   try {
-    const { Redis } = await import('@upstash/redis')
-    const kv = new Redis({
-      url: process.env.KV_REST_API_URL!,
-      token: process.env.KV_REST_API_TOKEN!,
-    })
-    const [kvOrder, kvConfig] = await Promise.all([
-      kv.get<string[]>('admin:work:order'),
-      kv.get<Record<string, { visible: boolean }>>('admin:work:config'),
-    ])
+    const { getWorkKVConfig } = await import('@/lib/kv')
+    const { order: kvOrder, config: kvConfig } = await getWorkKVConfig()
     const orderedSlugs: string[] = kvOrder ? kvOrder : workItems.map(i => i.slug)
     return orderedSlugs
       .map(slug => workItems.find(i => i.slug === slug))
@@ -77,12 +70,8 @@ export async function getWorkItems(): Promise<(WorkItem & { visible: boolean })[
 
 export async function getFeaturedSlugs(): Promise<string[]> {
   try {
-    const { Redis } = await import('@upstash/redis')
-    const kv = new Redis({
-      url: process.env.KV_REST_API_URL!,
-      token: process.env.KV_REST_API_TOKEN!,
-    })
-    const featured = await kv.get<string[]>('admin:work:featured')
+    const { getWorkKVConfig } = await import('@/lib/kv')
+    const { featured } = await getWorkKVConfig()
     if (Array.isArray(featured) && featured.length > 0) return featured
     return ['ai-agent', 'people-first']
   } catch {

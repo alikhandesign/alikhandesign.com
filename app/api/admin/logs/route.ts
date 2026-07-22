@@ -1,25 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getKV } from '@/lib/kv'
+import { isRequestAuthorized } from '@/lib/auth'
 
-const ADMIN_PASSWORD = 'dadisgay123'
-
-async function getKV() {
-  const { Redis } = await import('@upstash/redis')
-  return new Redis({
-    url: process.env.KV_REST_API_URL!,
-    token: process.env.KV_REST_API_TOKEN!,
-  })
-}
-
+// Serves logged chatbot conversations — genuinely sensitive, so this requires
+// a valid admin session cookie (set only via /api/verify-access after the
+// real password is checked server-side). No password is ever accepted here
+// directly, and nothing is trusted from the query string anymore.
 export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url)
-  const password = searchParams.get('password')
-
-  if (password !== ADMIN_PASSWORD) {
+  const authorized = await isRequestAuthorized(req, 'admin')
+  if (!authorized) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
-    const kv = await getKV()
+    const kv = getKV()
     const keys = await kv.lrange<string>('log:index', 0, 99)
     if (!keys || keys.length === 0) {
       return NextResponse.json({ logs: [] })

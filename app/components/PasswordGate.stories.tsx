@@ -55,7 +55,6 @@ const meta: Meta<typeof PasswordGate> = {
     title: { control: 'text', description: 'Case study title displayed at the top of the gate.' },
     description: { control: 'text', description: 'Short description of the case study shown below the title. Sets context before the visitor enters a password.' },
     inside: { control: 'object', description: 'Array of strings previewing what the full case study contains.' },
-    password: { control: 'text', description: 'The password required to unlock the content. Validated client-side. Do not use the production password in stories.' },
     onUnlock: { description: 'Optional callback fired after successful password entry. Use for post-unlock side effects such as enabling the SideNavigation observer or triggering analytics.' },
     children: { description: 'The protected content rendered in place of the gate after a correct password is entered. Typically the full case study page content.' },
   },
@@ -66,7 +65,6 @@ type Story = StoryObj<typeof PasswordGate>
 
 export const Default: Story = {
   args: {
-    password: 'preview',
     title: 'Participant Listening Agent — Full Case Study',
     description: 'This case study contains proprietary workflow details and internal research findings.',
     inside: [
