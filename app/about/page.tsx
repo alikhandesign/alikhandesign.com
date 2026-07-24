@@ -13,6 +13,8 @@ const pillars = [
   { num: '03', title: "Design solves, it doesn't complicate", text: "The best solutions I've built didn't add a new step to someone's workflow. They removed one. Good design should reduce the burden on the people using it, whether that's a Medicare enrollee trying to find the right health plan, a UX researcher drowning in qualitative data, or a clinician reading test results under time pressure. If my design makes someone's day harder, even slightly, I haven't finished the job yet." },
 ]
 
+const linkStyle = { color: 'var(--color-accent)', textDecoration: 'underline' } as const
+
 const aiPrinciples = [
   { title: 'Trust over smart', text: "An AI that feels trustworthy is more valuable than one that feels impressive. Reliability and honesty come first." },
   { title: 'Transparency by design', text: "Users should always know what the AI is doing, why, and what to do when it's wrong. Uncertainty is a UI problem." },
@@ -36,13 +38,12 @@ export default function AboutPage() {
       <section style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }} className="section-pad-md">
         <div className="grid-2-wide" style={{ alignItems: 'start' }}>
           <div>
-            {["I didn't start my career knowing I wanted to be a designer. I started it asking questions. Why do people make the decisions they make? What gets in their way? What would need to be true for things to feel effortless?", "Turns out, that's exactly what design is. Ten years in, I'm still asking the same questions, just with better tools, sharper instincts, and a lot more scar tissue from navigating legacy systems and stakeholder politics.", "I'm a Senior Product Designer and Researcher who specializes in the space between research and strategy, turning what users tell me into decisions that actually move products forward."].map((p, i) => (
+            {["I like asking people questions and actually listening to their answers. Somewhere along the way I realized that's most of what good design is.", "Ten years in, that hasn't changed. I still think it's one of the luckiest parts of this job, getting to sit with someone, hear how they actually experience a problem, and build something that makes their life a little easier.", "I'm a Senior Product Designer and Researcher who specializes in the space between research and strategy, turning what users tell me into decisions that actually move products forward."].map((p, i) => (
               <p key={i} style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', lineHeight: 1.8, marginBottom: i < 2 ? '1.25rem' : 0 }}>{p}</p>
             ))}
           </div>
           <div className="hero-img-wrap">
-            <Image src="/images/ali-loverboy.jpg" alt="Ali Khan with his dog Loverboy" width={480} height={420} style={{ width: '100%', height: 420, objectFit: 'cover', objectPosition: 'center top', borderRadius: 'var(--radius-sm)' }} />
-            <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginTop: '0.75rem', textAlign: 'center', letterSpacing: '0.02em' }}>Me and Loverboy</p>
+            <Image src="/images/ali-loverboy.jpg" alt="Ali Khan" width={480} height={420} style={{ width: '100%', height: 420, objectFit: 'cover', objectPosition: 'center top', borderRadius: 'var(--radius-sm)' }} />
           </div>
         </div>
       </section>
@@ -60,7 +61,11 @@ export default function AboutPage() {
                 <p style={{ fontSize: 'var(--font-size-xs)', letterSpacing: 'var(--letter-spacing-lg)', textTransform: 'uppercase' as const, color: 'var(--color-accent)', fontWeight: 500, marginBottom: 'var(--space-2)' }}>{p.num}</p>
                 <Heading level={3} size="xl" lineHeight={1.2}>{p.title}</Heading>
               </div>
-              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', lineHeight: 1.8 }}>{p.text}</p>
+              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', lineHeight: 1.8 }}>
+                {p.num === '03' ? (
+                  <>The best solutions I've built didn't add a new step to someone's workflow. They removed one. Good design should reduce the burden on the people using it, whether that's a <Link href="/work/people-first" style={linkStyle}>Medicare enrollee trying to find the right health plan</Link>, a UX researcher drowning in qualitative data, or a <Link href="/work/vivio" style={linkStyle}>clinician reading test results under time pressure</Link>. If my design makes someone's day harder, even slightly, I haven't finished the job yet.</>
+                ) : p.text}
+              </p>
             </div>
           ))}
         </div>
@@ -73,11 +78,11 @@ export default function AboutPage() {
         <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto' }}>
           <div className="grid-2-wide" style={{ alignItems: 'start' }}>
             <div>
-              <SectionLabel label="AI-Native Mindset" variant="dark" />
-              <Heading level={2} color="var(--color-bg)" lineHeight={1.15}>AI that earns its place on the team.</Heading>
-              {["AI doesn't intimidate me, it excites me. But not uncritically.", "I've built agentic research pipelines from scratch. I've seen what happens when AI gets deployed without a validation framework, without transparency, without a human in the loop.", "The thing that frustrates me most about AI products is false confidence. When a system gives me a wrong answer like it's completely certain, that's a design failure. Not just a technical one.", "My goal is always the same: AI that scales what humans do well, that knows its limits, and signals them clearly. AI that earns the trust of the people using it."].map((p, i, arr) => (
-                <p key={i} style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-bg)', lineHeight: 1.8, marginBottom: i < arr.length - 1 ? '1.25rem' : 0 }}>{p}</p>
-              ))}
+              <SectionLabel label="AI Design" variant="dark" />
+              <Heading level={2} color="var(--color-bg)" lineHeight={1.15}>Uncertainty is a design problem.</Heading>
+              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-bg)', lineHeight: 1.8, marginBottom: '1.25rem' }}>The thing that frustrates me most about AI products is false confidence. When a system gives me a wrong answer like it's completely certain, that's a design failure. Not just a technical one.</p>
+              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-bg)', lineHeight: 1.8, marginBottom: '1.25rem' }}>I felt the opposite of that building the <Link href="/work/ai-agent" style={{ color: 'var(--color-bg)', textDecoration: 'underline' }}>Participant Listening Agent</Link>. The researchers using it didn't trust it because I told them to, they trusted it once double-blind testing showed it was categorizing data at 95% accuracy and climbing. That's the bar I hold AI to: it has to earn trust the way a person does, by being right, admitting when it isn't, and showing its work.</p>
+              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-bg)', lineHeight: 1.8 }}>My goal is always the same: AI that scales what humans do well, that knows its limits, and signals them clearly.</p>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)', paddingTop: 'var(--space-2)' }}>
               {aiPrinciples.map(ap => (
@@ -93,7 +98,7 @@ export default function AboutPage() {
           <div>
             <SectionLabel label="Beyond the Work" />
             <Heading level={2} className="section-title" lineHeight={1.15}>When I'm not designing.</Heading>
-            {["When I'm not designing, I'm usually outside. Camping, hiking, overlanding. I've spent the last few years working remotely and using that freedom to explore. Chappie, my dog, has strong opinions about all of it.", "I care a lot about animals. I volunteer with Austin Pets Alive, Animal Haven, and the ASPCA. I also do pro bono design work through the Taproot Foundation, because good design shouldn't only be available to organizations that can afford it.", "I'm also into horror fiction, cooking, films, art, and video games, roughly in that order depending on the week."].map((p, i, arr) => (
+            {["I spent two years living out of a truck, and I still spend most of my free time on the road, splitting time between cities across the country, with my copilot, my dog.", "I also care about giving back where I can. I volunteer with Austin Pets Alive, Animal Haven, and the ASPCA, and I do pro bono design work through the Taproot Foundation, because good design shouldn't only be available to organizations that can afford it.", "When I'm home, I'm drawn to anything dark — horror movies, character design, books that don't end well. I'm a goth kid at heart."].map((p, i, arr) => (
               <p key={i} style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', lineHeight: 1.8, marginBottom: i < arr.length - 1 ? '1.25rem' : 0 }}>{p}</p>
             ))}
           </div>
