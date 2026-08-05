@@ -1,14 +1,19 @@
+'use client'
+import { useState } from 'react'
 import { getNextWork } from '@/app/work.config'
 import ProjectPage from '@/app/components/ProjectPage'
 import PasswordGate from '@/app/components/PasswordGate'
 
 
 export default function Page() {
-  return (
+  const [unlocked, setUnlocked] = useState(false)
+
+  const gated = (
     <PasswordGate
       title="Design Handoff Checklist"
       description="A developer-first handoff protocol built across 15 teams and 150+ developers — the Ready-for-Dev checklist, the discovery research behind it, and the annotated mockups it was built to fix."
       inside={['The Ready-for-Dev checklist as a mandatory Jira gate', 'Discovery research: status-quo and mobile-handling audit boards', 'Annotated handoff mockups with redline notes', 'Before/after adoption feedback from designers, devs, and QA']}
+      onUnlock={() => setUnlocked(true)}
     >
       <ProjectPage
         title="Design Handoff Checklist"
@@ -26,15 +31,25 @@ export default function Page() {
         ]}
         gallery={[
           { src: '/images/work/design-handoff/research-current-handoff-quotes.jpg', alt: 'Status quo audit board: what does your current design handoff look like?', caption: 'Status-quo audit: designers, developers, and QA describing handoff as it actually worked, in their own words' },
-          { src: '/images/work/design-handoff/research-mobile-handling-quotes.jpg', alt: 'Discovery audit board: how do you handle mobile designs?', caption: 'The mobile-handling audit that surfaced the \u201cDesktop-Only\u201d myth and its real cost to accessibility' },
-          { src: '/images/work/design-handoff/annotated-mockup-review.jpg', alt: 'Ad hoc redline notes on a shopping-plans mockup', caption: 'Handoff before the protocol: ad hoc callouts patched on after the fact \u2014 exactly what the checklist was built to make unnecessary' },
+          { src: '/images/work/design-handoff/research-mobile-handling-quotes.jpg', alt: 'Discovery audit board: how do you handle mobile designs?', caption: 'The mobile-handling audit that surfaced the “Desktop-Only” myth and its real cost to accessibility' },
+          { src: '/images/work/design-handoff/annotated-mockup-review.jpg', alt: 'Ad hoc redline notes on a shopping-plans mockup', caption: 'Handoff before the protocol: ad hoc callouts patched on after the fact — exactly what the checklist was built to make unnecessary' },
           { src: '/images/work/design-handoff/responsive-breakpoints-overview.jpg', alt: 'Desktop, tablet, and mobile breakpoints documented in Figma', caption: 'The Responsive Mandate in practice: mobile and tablet breakpoints documented upfront, not guessed at during QA' },
-          { src: '/images/work/design-handoff/adoption-feedback-quotes.jpg', alt: 'Post-implementation feedback from designers, developers, and QA', caption: 'After the protocol: designers, developers, and QA on what changed once \u201cready for development\u201d had a real definition' },
-          { src: '/images/work/design-handoff/dev-mode-mcp-handoff.jpg', alt: 'Figma Dev Mode MCP panel showing an automated handoff prompt', caption: 'Where this goes next: automating the Ready-for-Dev gate itself through Figma\u2019s Dev Mode tooling' },
+          { src: '/images/work/design-handoff/adoption-feedback-quotes.jpg', alt: 'Post-implementation feedback from designers, developers, and QA', caption: 'After the protocol: designers, developers, and QA on what changed once “ready for development” had a real definition' },
+          { src: '/images/work/design-handoff/dev-mode-mcp-handoff.jpg', alt: 'Figma Dev Mode MCP panel showing an automated handoff prompt', caption: 'Where this goes next: automating the Ready-for-Dev gate itself through Figma’s Dev Mode tooling' },
         ]}
         cta={{ title: 'Want to see how a structured handoff process eliminates design-to-dev friction?' }}
         next={getNextWork('design-handoff')!}
       />
     </PasswordGate>
+  )
+
+  if (unlocked) return gated
+
+  return (
+    <main>
+      <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '2.5rem 3rem' }}>
+        {gated}
+      </div>
+    </main>
   )
 }
