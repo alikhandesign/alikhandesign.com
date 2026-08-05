@@ -8,9 +8,10 @@ interface PasswordGateProps {
   description: string
   inside: string[]
   onUnlock?: () => void
+  type?: 'case-study' | 'project'
 }
 
-export default function PasswordGate({ children, title, description, inside, onUnlock }: PasswordGateProps) {
+export default function PasswordGate({ children, title, description, inside, onUnlock, type = 'case-study' }: PasswordGateProps) {
   const [input, setInput] = useState('')
   const [unlocked, setUnlocked] = useState(false)
   const [checking, setChecking] = useState(true)
@@ -78,7 +79,7 @@ export default function PasswordGate({ children, title, description, inside, onU
     }}>
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--color-accent)' }} />
 
-      <SectionLabel label="Full Case Study" />
+      <SectionLabel label={type === 'project' ? 'Full Project' : 'Full Case Study'} />
       <h2 className="font-serif" style={{ fontSize: 'var(--font-size-xl)', fontWeight: 400, lineHeight: 1.25, marginBottom: 'var(--space-2)' }}>{title}</h2>
       <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', lineHeight: 1.7, marginBottom: 'var(--space-6)' }}>{description}</p>
 
@@ -114,7 +115,7 @@ export default function PasswordGate({ children, title, description, inside, onU
           disabled={submitting}
           style={{ width: '100%', justifyContent: 'center' }}
         >
-          View full case study <span aria-hidden="true">→</span>
+          {type === 'project' ? 'View full project' : 'View full case study'} <span aria-hidden="true">→</span>
         </button>
         {error && (
           <p id="password-error" role="alert" style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-accent-dark)' }}>Incorrect password. Try again or request access below.</p>

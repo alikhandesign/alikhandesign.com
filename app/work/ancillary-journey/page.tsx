@@ -51,6 +51,7 @@ export default function Page() {
     next={getNextWork('ancillary-journey')!}
   >
     <PasswordGate
+      type="project"
       title="Want to see the full research deck?"
       description="The complete presentation covers research objectives, session-by-session findings across dental, vision, and hearing, and the full set of usability issues with severity ratings and recommendations."
       inside={['Research objectives & methodology', 'Session findings across dental, vision, and hearing', 'Usability issues with severity ratings', 'Prioritized recommendations']}

@@ -40,6 +40,7 @@ export default function Page() {
     next={getNextWork('llm-prompts')!}
   >
     <PasswordGate
+      type="project"
       title="Want to see the full prompt library and audit walkthrough?"
       description="The complete gallery — the Confluence prompt library, the discipline-specific prompt spec with weighted scoring, and a live audit run in the Microsoft Edge Copilot sidebar, from prompt to scorecard to recommendations."
       inside={['Prompt Library structure across all four disciplines', 'Full UX/UI audit prompt spec with weighted scoring', 'Live audit walkthrough: prompt, scorecard, and recommendations']}
