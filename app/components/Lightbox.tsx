@@ -304,7 +304,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
         {images.map((img, i) => (
           <div
             key={i}
-            className={i === 0 ? 'gallery-grid-item-wide' : ''}
+            className={images.length === 1 ? 'gallery-grid-item-full' : i === 0 ? 'gallery-grid-item-wide' : ''}
             onClick={() => open(i)}
             role="button"
             tabIndex={0}
