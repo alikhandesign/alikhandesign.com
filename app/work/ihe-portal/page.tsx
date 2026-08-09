@@ -6,6 +6,7 @@ import SectionIntro from '@/app/components/SectionIntro'
 import Body from '@/app/components/Body'
 import PullQuote from '@/app/components/PullQuote'
 import StatCard from '@/app/components/StatCard'
+import { GalleryGrid } from '@/app/components/Lightbox'
 
 const SECTIONS = [
   'the-context',
@@ -70,13 +71,35 @@ function FullCaseStudy() {
 
       <section id="the-reframe" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro label="The Reframe" heading={'From "will you let us in?" to "here\'s what\'s in it for you"'} />
-        <Body mb={false}>The original portal was organized around what Signify Health needed from members. It assumed members already understood the value and just needed a way to book. The research said otherwise. Members needed the value case made first. Only then would they be willing to give anything back. That reframe drove every design decision in the redesign.</Body>
+        <Body>The original portal was organized around what Signify Health needed from members. It assumed members already understood the value and just needed a way to book. The research said otherwise. Members needed the value case made first. Only then would they be willing to give anything back. That reframe drove every design decision in the redesign.</Body>
+        <GalleryGrid images={[
+          {
+            src: "/images/work/ihe-portal/ihe-portal-before.jpg",
+            alt: "The original scheduling page, asking for personal information up front in exchange for a callback within 24 hours",
+            caption: "Before — the original flow led with a form. Members had to submit personal information first and wait for a callback, with no indication of what the visit would actually offer them.",
+            focus: "top",
+          },
+        ]} />
       </section>
 
       <section id="the-design" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro label="The Design" heading="Trust-first, member-controlled" />
         <Body>Four principles from the research shaped every design decision: lead with value not process; give members real-time scheduling control instead of a callback request; establish legitimacy early with clear trust signals; and pair every request for information with a clear explanation of what the member would receive in return.</Body>
         <Body mb={false}>The shift from a callback-request model to real-time self-scheduling was the most impactful single change — removing a friction point that, combined with scam skepticism, was causing significant drop-off.</Body>
+        <GalleryGrid images={[
+          {
+            src: "/images/work/ihe-portal/ihe-portal-after-in-person.jpg",
+            alt: "Redesigned page preparing members for an in-person visit, with clear step-by-step guidance",
+            caption: "After — in-person visit preparation now leads with clear, concrete guidance instead of asking members to trust an unexplained process.",
+            focus: "top",
+          },
+          {
+            src: "/images/work/ihe-portal/ihe-portal-after-video-visit.jpg",
+            alt: "Redesigned page preparing members for a video visit, with device and connectivity guidance",
+            caption: "After — the same trust-first structure applied to video visits, removing tech uncertainty as a separate barrier.",
+            focus: "top",
+          },
+        ]} />
       </section>
 
       <section id="the-outcomes" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
@@ -118,6 +141,8 @@ export default function IHEPortalPage() {
         { label: 'Output', value: 'Research findings + Portal redesign' },
       ]}
       sections={SECTIONS}
+      heroImage="/images/work/ihe-portal/ihe-portal-hero.jpg"
+      heroImageAlt="The redesigned Signify Health homepage, leading with the visit's value and a testimonial video before asking members to schedule"
       cta={{ title: 'Interested in how this came together?' }}
       next={getNextWork('ihe-portal')!}
     >
