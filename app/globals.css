@@ -325,7 +325,7 @@ button:focus-visible {
 }
 
 /* ─── Gallery Grid ───────────────────────────────────────── */
-.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
 .gallery-grid-item-wide { grid-column: span 2; }
 .gallery-grid-item-full { grid-column: span 3; }
 @media (max-width: 768px) {
