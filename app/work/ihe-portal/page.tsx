@@ -6,7 +6,7 @@ import SectionIntro from '@/app/components/SectionIntro'
 import Body from '@/app/components/Body'
 import PullQuote from '@/app/components/PullQuote'
 import StatCard from '@/app/components/StatCard'
-import { GalleryGrid } from '@/app/components/Lightbox'
+import { GalleryGrid, ProjectImage } from '@/app/components/Lightbox'
 
 const SECTIONS = [
   'the-context',
@@ -72,28 +72,22 @@ function FullCaseStudy() {
       <section id="the-reframe" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro label="The Reframe" heading={'From "will you let us in?" to "here\'s what\'s in it for you"'} />
         <Body>The original portal was organized around what Signify Health needed from members. It assumed members already understood the value and just needed a way to book. The research said otherwise. Members needed the value case made first. Only then would they be willing to give anything back. That reframe drove every design decision in the redesign.</Body>
-        <GalleryGrid images={[
-          {
-            src: "/images/work/ihe-portal/ihe-portal-before.jpg",
-            alt: "The original scheduling page, asking for personal information up front in exchange for a callback within 24 hours",
-            caption: "Before — the original flow led with a form. Members had to submit personal information first and wait for a callback, with no indication of what the visit would actually offer them.",
-            focus: "top",
-          },
-        ]} />
+        <ProjectImage
+          src="/images/work/ihe-portal/ihe-portal-before.jpg"
+          alt="The original scheduling page, asking for personal information up front in exchange for a callback within 24 hours"
+          caption="Before — the original flow led with a form. Members had to submit personal information first and wait for a callback, with no indication of what the visit would actually offer them."
+        />
       </section>
 
       <section id="the-design" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro label="The Design" heading="Trust-first, member-controlled" />
         <Body>Four principles from the research shaped every design decision: lead with value not process; give members real-time scheduling control instead of a callback request; establish legitimacy early with clear trust signals; and pair every request for information with a clear explanation of what the member would receive in return.</Body>
         <Body>"Lead with value not process" was a structural change, not just a copy change. The portal needed its own entry point, separate from the request form. Rather than routing members straight into a form asking for personal information, the redesign introduced a value-first landing experience — the benefit of the visit stated plainly, a testimonial video, real member ratings — that a member could see and absorb before being asked for anything at all.</Body>
-        <GalleryGrid images={[
-          {
-            src: "/images/work/ihe-portal/ihe-portal-after-home.jpg",
-            alt: "The redesigned entry point, leading with the visit's value, a testimonial video, and member ratings before any request for personal information",
-            caption: "After — a value-first entry point. Members see what the visit offers and hear from other members before the portal asks for anything in return.",
-            focus: "top",
-          },
-        ]} />
+        <ProjectImage
+          src="/images/work/ihe-portal/ihe-portal-after-home.jpg"
+          alt="The redesigned entry point, leading with the visit's value, a testimonial video, and member ratings before any request for personal information"
+          caption="After — a value-first entry point. Members see what the visit offers and hear from other members before the portal asks for anything in return."
+        />
         <Body mb={false}>The shift from a callback-request model to real-time self-scheduling was the most impactful single change — removing a friction point that, combined with scam skepticism, was causing significant drop-off.</Body>
         <GalleryGrid images={[
           {

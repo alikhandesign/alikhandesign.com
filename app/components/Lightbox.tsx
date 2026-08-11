@@ -18,18 +18,52 @@ interface LightboxProps {
 function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
   const [current, setCurrent] = useState(initialIndex)
   const [loaded, setLoaded] = useState(false)
+  const [zoom, setZoom] = useState(1)
+  const [origin, setOrigin] = useState({ x: 50, y: 50 })
   const touchStartX = useRef<number>(0)
   const touchEndX = useRef<number>(0)
 
+  const resetZoom = () => { setZoom(1); setOrigin({ x: 50, y: 50 }) }
+
   const prev = useCallback(() => {
     setLoaded(false)
+    resetZoom()
     setCurrent(i => (i - 1 + images.length) % images.length)
   }, [images.length])
 
   const next = useCallback(() => {
     setLoaded(false)
+    resetZoom()
     setCurrent(i => (i + 1) % images.length)
   }, [images.length])
+
+  const originFromEvent = (e: { clientX: number; clientY: number; currentTarget: HTMLElement }) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    return {
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
+    }
+  }
+
+  const handleImageClick = (e: React.MouseEvent<HTMLImageElement>) => {
+    e.stopPropagation()
+    if (zoom > 1) {
+      resetZoom()
+    } else {
+      setOrigin(originFromEvent(e))
+      setZoom(2.5)
+    }
+  }
+
+  const handleWheel = (e: React.WheelEvent<HTMLImageElement>) => {
+    e.stopPropagation()
+    e.preventDefault()
+    setOrigin(originFromEvent(e))
+    setZoom(z => {
+      const next = z - e.deltaY * 0.0015
+      return Math.min(4, Math.max(1, next))
+    })
+  }
 
   useEffect(() => {
     const handle = (e: KeyboardEvent) => {
@@ -50,6 +84,7 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
   }
 
   const handleTouchEnd = (e: React.TouchEvent) => {
+    if (zoom > 1) return
     touchEndX.current = e.changedTouches[0].clientX
     const diff = touchStartX.current - touchEndX.current
     if (Math.abs(diff) > 50) {
@@ -146,13 +181,18 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
             src={img.src}
             alt={img.alt}
             onLoad={() => setLoaded(true)}
+            onClick={handleImageClick}
+            onWheel={handleWheel}
             style={{
               maxWidth: '90vw', maxHeight: '68vh',
               objectFit: 'contain',
               borderRadius: 4,
               display: 'block',
               opacity: loaded ? 1 : 0,
-              transition: 'opacity 0.3s',
+              transform: `scale(${zoom})`,
+              transformOrigin: `${origin.x}% ${origin.y}%`,
+              transition: zoom === 1 ? 'opacity 0.3s, transform 0.2s ease' : 'opacity 0.3s',
+              cursor: zoom > 1 ? 'zoom-out' : 'zoom-in',
             }}
           />
         </div>
@@ -196,7 +236,7 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
           {images.map((_, i) => (
             <button
               key={i}
-              onClick={e => { e.stopPropagation(); setLoaded(false); setCurrent(i) }}
+              onClick={e => { e.stopPropagation(); setLoaded(false); resetZoom(); setCurrent(i) }}
               aria-label={`Go to image ${i + 1}`}
               style={{
                 /* Invisible tap target — minimum 44px tall for touch */
