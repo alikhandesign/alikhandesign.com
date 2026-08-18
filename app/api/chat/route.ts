@@ -189,10 +189,15 @@ export async function POST(req: NextRequest) {
     return idToDisplayNum[id] !== undefined ? `[${idToDisplayNum[id]}]` : match
   })
 
-  // Return sources in appearance order, matched to their new display numbers
+  // Return sources in appearance order, matched to their new display numbers —
+  // the id field is overwritten to the display number so it matches the
+  // renumbered [n] markers in the text ChatBubble actually renders.
   const citedSources = seenIds
-    .map(id => SITE_SOURCES.find(s => s.id === id))
-    .filter(Boolean)
+    .map((id, index) => {
+      const source = SITE_SOURCES.find(s => s.id === id)
+      return source ? { ...source, id: index + 1 } : null
+    })
+    .filter((s): s is NonNullable<typeof s> => s !== null)
 
   // Detect which patterns fired in this response
   const lowerMessage = renumberedMessage.toLowerCase()
