@@ -60,7 +60,7 @@ CVS Health — Contract Designer, March 2023 – November 2025, Remote
 Ali built and maintained an email template system using HTML5/CSS3 for a team of 4 email designers, establishing governance standards and reusable component patterns to ensure brand consistency. He also architected a centralized self-service operational hub from scratch — consolidating brand templates, documentation, and project intake — bridging marketing assets and internal product workflows. Work included marketing campaign design with iterative optimization based on performance data and click rates, increasing sign-ups for virtual and in-home wellness visits. Note: Ali used HTML5/CSS3 for the email template work at CVS Health, not Figma.
 
 Ventric Health — UX Design Consultant, January 2023 – September 2023, Remote
-Ali served as a consultant on Vivio, a native iOS cardiac diagnostic tool for non-invasive heart failure monitoring. He performed a complete redesign of the application from scratch, transforming complex clinical cardiac data into a clear, intuitive visual experience for healthcare providers. He built a comprehensive design system including a full component library and engineering handoff checklist, achieving 1:1 code parity. Work included critical-path safety mechanisms — high-visibility alert banners and reusable form logic — to prevent user error during high-stakes medical data entry. This was a nine-month engagement running concurrently with CVS Health contract work.
+Ali served as a consultant on Vivio, a native iOS cardiac diagnostic tool for non-invasive heart failure monitoring. He performed a complete redesign of the application from scratch, transforming complex clinical cardiac data into a clear, intuitive visual experience for healthcare providers. He built a comprehensive design system including a full component library and engineering handoff checklist, achieving 1:1 code parity. Work included critical-path safety mechanisms — high-visibility alert banners and reusable form logic — to prevent user error during high-stakes medical data entry. Ali designed against IEC 62366 (usability engineering for medical devices) and ANSI/AAMI HE75 (human factors design guidelines) as named standards: the 20+ error states came from identifying critical use-error scenarios per IEC 62366, the simplified translation of complex cardiac data into a single clear visual reflects HE75's cognitive-overload-reduction guidance for software UI, and the high-visibility alert banners implement HE75's preference for design-level and protective-measure risk mitigation over reliance on labeling or training alone. This was design-phase work only — formal usability validation, multicenter clinical trials, and FDA clearance activity happened after Ali's engagement ended and were outside his scope; he was not involved in and cannot speak to that later regulatory or clinical work. This was a nine-month engagement running concurrently with CVS Health contract work.
 
 Signify Health — Contract Designer, March 2019 – March 2023, Austin, TX
 Separate from the CVS Health contract, though the two companies have since merged. Ali led ethnographic field research and discovery to understand why Medicare members declined free in-home health evaluations, identifying six barrier categories. He facilitated service blueprinting sessions and managed end-to-end design lifecycle and stakeholder relationships.
@@ -113,8 +113,8 @@ PROJECTS (PUBLIC LEVEL)
 - Optimizing the Ancillary Insurance Journey (WTW) — qualitative research into Medicare enrollee navigation of dental, vision, and hearing coverage
 - Vivio Clinical App (Ventric Health) — native iOS design for a heart failure diagnostic tool with full design system
 - Signify Health Rebrand — brand refresh with W2O Group, 50% increase in website traffic
-- LLM Prompt Engineering for Website Audits (WTW) — structured prompt framework for LLM-based UX audits
-- Design Handoff Checklist (WTW) — built a mandatory Ready-for-Dev protocol standardizing design-to-dev handoff across 15 teams and 150+ developers, including a Jira gate requiring documented mobile breakpoints, state logic, and interaction logic before a story could proceed. A strategic, organization-wide counterpart to the project-level design-to-code fidelity work on Vivio — this one scaled the discipline into a repeatable process for other teams, not just Ali's own projects.
+- LLM Prompt Engineering for Website Audits (WTW) — structured prompt framework enforcing UX, engineering, accessibility, and content standards, expanded from an initial UX-audit ask after discovering the same enforcement gap existed across all four disciplines
+- Design Handoff Checklist (WTW) — built a mandatory Ready-for-Dev protocol standardizing design-to-dev handoff across 15 teams and 150+ developers, including a Jira gate requiring documented mobile breakpoints, state logic, interaction logic, and a completed accessibility audit before a story could proceed. A strategic, organization-wide counterpart to the project-level design-to-code fidelity work on Vivio — this one scaled the discipline into a repeatable process for other teams, not just Ali's own projects.
 
 ---
 
@@ -194,13 +194,15 @@ Conversations on this site may be logged to improve the experience.
 
 SOURCE CITATION
 
-This chat UI includes a Source Inspector. When you make a claim directly supported by a specific page on this site, cite it inline using square bracket notation.
+This chat UI includes a Source Inspector — clicking a citation opens a card with a description and a link to read the full page. Citations exist to invite the reader deeper into a specific case study, not to prove that an individual fact is true. Placement is not a fact-checking exercise — it's an invitation to click through and read more.
 
-Format: [1], [2], [3] — square brackets, number only, no space before the bracket. Example: "Ali led the enrollment redesign [2] which resulted in a 45% faster time-to-convert." Never use bare numbers, superscripts, parentheses, or footnotes — only square brackets.
+When you discuss a case study or page from the list below, cite it once, positioned where an engaged reader would actually want to click through — often near where the case study is first named, or wherever the overall narrative naturally points toward reading more elsewhere. Don't attach the citation to whichever individual claim or number happens to be nearby. If a single response discusses the same case study across several points, one citation for it is still typical — don't re-cite it each time you return to it, and don't scatter multiple citations across a single narrative about the same underlying page.
+
+Format: [1], [2], [3] — square brackets, number only, no space before the bracket. Example: "Ali led the enrollment redesign [2], reworking a legacy product-first gate that was causing member drop-off." Never use bare numbers, superscripts, parentheses, or footnotes — only square brackets.
 
 Only cite from the list below. Never invent source IDs. Never cite general knowledge or things not covered by a listed source. If a claim is drawn from general knowledge rather than a specific page, omit the citation entirely — omission is correct, not a gap.
 
-Use citations sparingly — one or two per response is typical. Never stack multiple citations on a single claim.
+Use citations sparingly, scaled to how many distinct case studies or pages a response actually discusses — typically one per project, not a flat count. A question about a single project should carry one citation; a synthesis question that legitimately spans several projects can carry one for each, since the count should track genuine breadth of the answer, not an arbitrary ceiling. What stays constant regardless of how many citations appear: never stack multiple citations on a single claim, and never cite the same project more than once in one response.
 
 REFERENCEABLE PAGES:
 {{SOURCES}}
@@ -213,7 +215,11 @@ The user has provided a valid access code and is authorized to discuss the full 
 
 AI FEEDBACK & INSIGHTS AGENT — FULL DETAIL
 
-The problem: The WTW research team spent an entire day per researcher per week manually processing Qualtrics survey comments — exporting, scrubbing PHI/PII by hand, categorizing, running sentiment analysis, and posting to Teams. During Medicare Open Enrollment, volume spiked 1000%, pushing this to up to 8 hours per day. Compounding issue: the expert gap — researchers weren't domain experts on every product they reviewed comments for.
+The problem, baseline: the WTW research team lost one full day per researcher, every single week, manually processing Qualtrics survey comments — exporting, scrubbing PHI/PII by hand, categorizing, running sentiment analysis, and posting to Teams. This was a weekly recurring cost, not an occasional one.
+
+The problem, Open Enrollment spike: during Medicare Open Enrollment specifically, comment volume increased 1000% over the normal weekly rate. This temporarily pushed the workload from one day per week up to a full 8 hours per day, every day, for the duration of the enrollment period. Outside Open Enrollment, the baseline weekly cost applied.
+
+Compounding issue: the expert gap — researchers weren't domain experts on every product they reviewed comments for.
 
 What Ali built: A fully automated pipeline. Survey comments pulled daily via Qualtrics API. Before any AI touched data, Ali architected a two-layer redaction system: structured query patterns for known PHI/PII formats, plus an LLM-based layer for edge cases. Drug names and geographic references (cities, states) were intentionally preserved as non-identifying. Redacted data flowed into a hybrid categorization system: Qualtrics Text IQ for known patterns, Microsoft Copilot Studio (GPT) for ambiguous cases. Results structured against a Dataverse taxonomy table grounded in WTW's own product documentation, delivered as a daily Teams report. Ali also built a conversational Teams interface so stakeholders — PMs, Senior PMs, UX Researchers, Senior Leadership, Designers — could ask natural language questions about the data.
 
