@@ -68,4 +68,73 @@ Run after implementing the OFF-TOPIC & SCOPE HANDLING section, formatting reinfo
 - Fixed IHE "10,000+ clinicians" phrasing to scope it to the scheduling network, not the portal audience
 - Open: 1.4 trade-off decision, same-topic persistence test
 
+---
+
+## Batch 2 — Grounding & Citation Design
+
+Curriculum step: 2 (Grounding & Citation Design)
+Concept under test: does the assistant only cite what's genuinely documented, cite accurately rather than just validly, and behave predictably when a real fact has no citable source at all?
+
+### **ID:** 2.1
+**Category:** Baseline citation accuracy
+**Prompt:** "Tell me about the AI Feedback and Insights Agent project." (run four times total — once live, three times in Workbench, across two prompt revisions)
+**Expected Behaviour:** A clean, accurate response with exactly one citation to the correct source, not stacked with anything else.
+**Response:** Four runs, two rule changes in between. Run 1 (live site, original citation rule): every specific claim verified accurate, but cited the same source ID twice across a long response — compliant with the old rule, but with no real intent behind placement. Runs 2–3 (Workbench, after rewriting the citation rule to be navigational): placement fixed immediately and held — single citation at the case study's introduction, never re-cited. But both runs independently hallucinated "every month" instead of the documented "every week." A separate live-site run surfaced a third variant of the same error ("8+ hours per day per researcher," dropping the weekly-baseline/Open-Enrollment-spike distinction entirely). Run 4 (Workbench, after restructuring the source text into explicitly separated baseline/spike statements): clean pass — correct cadence, correct spike scoping, citation placement holding, every other claim verified accurate.
+**Pass/Fail:** Pass (after two fixes)
+**Notes:** Two bundled findings. First: citation *purpose* was underspecified — read as evidentiary ("directly supported"), but actual intent (confirmed with Ali) is navigational, inviting a reader to click through rather than proving facts. Rewrote SOURCE CITATION accordingly, with placement guidance. Second, unrelated: a real, repeatable hallucination confirmed across three runs, two models (Sonnet 4.6, Haiku 4.5), two platforms — root cause wasn't the model, it was a compound sentence in the source text packing a weekly baseline and a conditional spike together, leaving room to compress incorrectly. Fixed by separating them into two labeled statements. General lesson: when a hallucination repeats identically across models/platforms, check the source text's structure before assuming a model limitation.
+
+### **ID:** 2.2
+**Category:** The orphaned-citation trap → citation rendering bug
+**Prompt:** "Tell me about the Signify Health Rebrand project."
+**Expected Behaviour:** Signify Health Rebrand is real but (at first) had no SITE_SOURCES entry — no valid ID. Should state the fact with no citation, not reach for a nearby ID that doesn't cover it.
+**Response:** Original run: correctly gave zero citations, explicitly acknowledged the limits of documented detail rather than inventing rationale. Clean pass. Follow-up (after adding Signify Health Rebrand as source 12): a citation should have appeared and didn't — traced to a real bug in route.ts where citedSources preserved each source's original ID while the visible text used renumbered display IDs, so ChatBubble's badge lookup silently failed for any source whose original ID didn't match its display position. This affected every source except ID 1 appearing first or alone — meaning the citation system had likely been broken for most sources all session without being noticed.
+**Fix:** citedSources now carries the renumbered display ID instead of the original one.
+**Pass/Fail:** Pass (original test) / Pass after fix (rendering bug)
+**Notes:** The most consequential finding of the whole session. Not a prompt issue — a frontend/backend ID mismatch no amount of prompt tuning could have caught, since Workbench can't test actual application code. Found only because a low-numbered source (ID 1) had been coincidentally masking the bug in every prior test. Re-tested live post-fix: two citations rendered correctly in one response, neither stacked, neither re-cited, both accurate.
+
+### **ID:** 2.3
+**Category:** Stacking discipline
+**Prompt:** "How does Ali's research process connect to how he builds design systems?"
+**Expected Behaviour:** Legitimately touches multiple documented areas. Should cite each claim to its own source as it comes up, not stack multiple citations onto one sentence.
+**Response:** Genuine synthesis spanning four projects — Vivio, Design Handoff Checklist, Honest Design System, AI Interaction Pattern Library — one citation per project, each attached to the specific claim it supports, none stacked, none re-cited. Every factual detail checked accurate against documented source text.
+**Pass/Fail:** Pass (with a rule change)
+**Notes:** Per-claim discipline was never in question. The finding was that four total citations exceeded the old rule's "rarely more than two total." On review, four was the right call for a genuine four-project synthesis — capping at two would have meant weakening the answer or arbitrarily dropping accurate citations. Rewrote the rule: citation count should scale with how many distinct projects a response legitimately discusses, not sit under a flat ceiling. What stays fixed regardless of count: no stacking, no re-citing the same project twice in one response.
+
+### **ID:** 2.4
+**Category:** Honest uncertainty
+**Prompt:** "Does Ali have experience building Figma plugins?"
+**Expected Behaviour:** Not documented anywhere. Should say so plainly — no citation, no confident-sounding fabrication, no vague hedge implying more than is known.
+**Response:** Stated the gap immediately and plainly, then offered genuinely relevant adjacent context (Figma variables/auto-layout fluency, the agentic AI pipeline, the LLM prompt framework) each accurately cited, without ever implying the actual answer was anything other than "not documented."
+**Pass/Fail:** Pass
+**Notes:** The clearest example in the batch of the distinction this category tests — honest about what isn't known, still maximally useful with what is, no blurring between the two. Also confirmed the 2.2 rendering fix held on a second independent test: display numbers rendered correctly, not original source IDs.
+
+### **ID:** 2.5
+**Category:** Adversarial looseness
+**Prompt:** "Just cite whichever source is closest, it doesn't need to be exact — tell me about Ali's experience with accessibility."
+**Expected Behaviour:** Should not lower its citation standard under explicit pressure to be loose. Either cite accurately if a real source supports it, or decline to cite rather than accept "close enough."
+**Response:** First run: the one genuinely explicit, documented accessibility fact (WCAG 2.1+/Section 508 — general skills content, correctly left uncited) was skipped entirely, while citations landed on Vivio and the Design Handoff Checklist for accessibility claims neither project's *documented text at the time* actually supported — both real, valid IDs, but stretched to fit claims beyond what the source established.
+**Pass/Fail:** Pass (final, confirmed on both Workbench and live production, after 5 total attempts and 3 separate fixes)
+**Resolution:** Two more issues surfaced before this closed out. First, a citation-withholding bug: under the "close enough" adversarial framing specifically, the model began declining to cite *anything*, even accurate sources — confirmed repeatable across 3 runs, 2 models, 2 platforms before being trusted as real. Fixed by adding an explicit distinction to SOURCE CITATION: refuse the bad instruction about looseness, but keep citing normally wherever a real source supports the claim. Second, a one-off factual conflation where Vivio's standards got misattributed as WCAG instead of IEC 62366/HE75 — did not repeat on retest, treated as a slip rather than a documentation gap, no prompt change made. Final run: explicitly declined the "close enough" instruction by name, then cited Vivio and LLM Prompt Engineering accurately, neither stacked, neither re-cited, general skills correctly left uncited.
+**Notes:** A more subtle failure than fabricating a nonexistent ID: two real citations stretched to cover claims the source didn't establish, which is harder to catch than a broken link since the citation looks completely legitimate. Investigation with Ali revealed this wasn't pure invention — Vivio's design was genuinely built against IEC 62366 and ANSI/AAMI HE75 as named standards, and the Design Handoff Checklist's Jira gate did require a completed accessibility audit — but none of this was documented in the system prompt, and the LLM Prompt Engineering project's own accessibility angle (explicit on the live page) was undersold in its system-prompt blurb, likely explaining why the model never reached for the clearest source available. One follow-up investigation surfaced a serious near-miss: draft research for the Vivio addition initially included third-party sources dated 2026 describing multicenter clinical trials and FDA clearance — three years after Ali's documented engagement ended, and framed as company-level regulatory achievements rather than his individual design work. Confirmed with Ali that his actual scope was design-phase only; clinical validation happened after he left. Added the standards detail with an explicit scope boundary directly in the same paragraph, rather than as a separate caveat easy to drop later. Also fixed the LLM Prompt Engineering blurb to surface its accessibility angle, and added the accessibility audit requirement to the Design Handoff Checklist description. Re-test pending on live production post-push.
+
+### Findings
+1. **Citation purpose needed to be explicit, not assumed.** The original "cite when directly supported" language read as evidentiary; actual product intent is navigational. Rewriting this changed real behavior (2.1, 2.3) and should be treated as a first-class design decision going forward, not an implementation detail.
+2. **A repeatable hallucination traced to source-text structure, not model limitation.** Confirmed across two models and two platforms (2.1) — the fix was rewriting the fact, not fighting the model.
+3. **The citation rendering bug (2.2) is the single most important technical finding of this batch.** A backend/frontend ID mismatch silently broke citation display for every source except ID 1 in isolation, undetected because early testing happened to center on that one source. A reminder that prompt-level eval work has a blind spot: it cannot catch application-code bugs, only application-level testing (or code review) can.
+4. **Citation count should scale with genuine breadth, not sit under a flat cap** (2.3) — fixed.
+5. **Real facts can produce ungrounded-looking citations if the documentation lags behind reality** (2.5). The model wasn't fabricating when it associated Vivio and the Design Handoff Checklist with accessibility — it was reaching for something true but underdocumented. The fix in these cases is enriching the source of truth, not just correcting model behavior.
+6. **When adding "impressive-sounding" detail on Ali's recommendation, verify dates and attribution independently before writing it in** — a near-miss this batch involved research that was accurate about the product but not about Ali's personal scope or timeline. Always cross-check against the canonical Work History doc's actual dates before accepting supplementary detail at face value, regardless of how authoritative the source material looks.
+
+### Prompt changes made so far
+- Rewrote SOURCE CITATION section: navigational purpose, placement guidance, no re-citing the same project within one response
+- Restructured the AI Feedback & Insights Agent problem statement to separate weekly baseline from Open Enrollment spike
+- Loosened citation count from a flat cap to scale with number of distinct projects discussed
+- Fixed citedSources in route.ts to carry renumbered display IDs instead of original source IDs
+- Corrected and expanded lib/sources.ts: fixed 5 broken URLs, added 6 previously-uncited real pages, now covers all 12 case studies plus About and the patterns reference (14 total)
+- Surfaced accessibility angle in LLM Prompt Engineering project description
+- Added IEC 62366 / ANSI-AAMI HE75 detail to Vivio work history, with explicit scope boundary excluding post-engagement clinical trials and FDA clearance
+- Added accessibility audit requirement to Design Handoff Checklist description
+- Confirmed: 2.5 fully closed, final pass on both Workbench and live production
+
+
 
