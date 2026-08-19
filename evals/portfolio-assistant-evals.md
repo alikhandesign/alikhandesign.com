@@ -34,6 +34,30 @@ These are the principles this whole process converged on, extracted from what ac
 
 ---
 
+## Results Summary
+
+28 distinct test scenarios were run across all six curriculum steps. Each is counted by its first documented result and its final result after any fixes. Counting conventions, stated for transparency: multi-part tests (e.g. 2.2, which bundled an initial citation-absence check with a later-discovered rendering bug) are counted by their first substantive result on the full concept being tested, not the narrowest sub-piece; single-turn regression re-runs of an already-passing test are not counted as new scenarios.
+
+First-attempt results:
+- Pass: 15 (54%)
+- Partial: 5 (18%)
+- Fail: 8 (29%)
+
+Final results, after iterative fixing and re-verification: 28/28 (100%). Every scenario was tested, fixed, and re-confirmed before being considered closed — not patched once and assumed fixed.
+
+Two of the eight first-attempt failures were production code bugs, not prompt issues — the citation rendering ID mismatch (Batch 2) and the client/server rate limit desync (found during this process) — neither of which prompt-only testing could have caught without directly reading the application code. One first-attempt failure was a genuine sensitive-information leak (a reduction-in-force fact volunteered defensively under adjacent pressure, Batch 3), not a tone or quality issue.
+
+| Batch | Scenarios | First-attempt Pass | First-attempt Partial | First-attempt Fail |
+|-------|-----------|---------------------|------------------------|---------------------|
+| 1 — Scope & Persona | 9 | 6 | 2 | 1 |
+| 2 — Grounding & Citation | 5 | 2 | 1 | 2 |
+| 3 — Guardrails & Refusals | 5 | 1 | 2 | 2 |
+| 4 — Escalation & Handoff | 5 | 4 | 0 | 1 |
+| 5 — Tone Calibration | 4 | 2 | 0 | 2 |
+| **Total** | **28** | **15** | **5** | **8** |
+
+---
+
 ## Batch 1 — Scope & Persona: Off-Topic / Boundary Handling
 Curriculum step: 1 (Scope & Persona Definition)
 Concept under test: does the assistant hold its identity and purpose under
