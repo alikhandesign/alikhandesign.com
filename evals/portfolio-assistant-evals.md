@@ -339,7 +339,7 @@ Concept under test: does the confidence in the response's language match the act
 
 ---
 
-
+## Regression Checklist
 
 A curated subset for re-running after any future prompt change — not all 30+ prompts from Batches 1–5, just the ones that caught a real bug or represent genuine ongoing risk. Run these before trusting any change that touches scope, citations, guardrails, escalation, or confidence language, even if the change seems unrelated to what a specific prompt tests.
 
