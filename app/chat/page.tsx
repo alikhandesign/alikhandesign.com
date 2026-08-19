@@ -11,8 +11,8 @@ import SourceInspector from '../components/SourceInspector'
 import Heading from '../components/Heading'
 import type { SiteSource } from '@/lib/sources'
 
-const RATE_LIMIT_WARN = 7
-const RATE_LIMIT_MAX = 10
+const RATE_LIMIT_WARN_THRESHOLD = 3 // show warning when this many or fewer responses remain
+const RATE_LIMIT_MAX = 15 // matches app/api/chat/route.ts RATE_LIMIT_MAX exactly
 
 // Generate a stable session ID for this page load
 function generateSessionId(): string {
@@ -44,7 +44,7 @@ export default function ChatPage() {
   const [passwordError, setPasswordError] = useState(false)
   const [unlockSubmitting, setUnlockSubmitting] = useState(false)
   const [rateLimitError, setRateLimitError] = useState('')
-  const [responseCount, setResponseCount] = useState(0)
+  const [remaining, setRemaining] = useState(RATE_LIMIT_MAX) // synced from server's real count on every response, not a local counter
   const [contactModalOpen, setContactModalOpen] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
   const unlockRef = useRef<HTMLButtonElement>(null)
@@ -137,7 +137,7 @@ export default function ChatPage() {
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || loading) return
-    if (responseCount >= RATE_LIMIT_MAX) {
+    if (remaining <= 0) {
       setRateLimitError('limit')
       return
     }
@@ -172,6 +172,7 @@ export default function ChatPage() {
 
       if (res.status === 429) {
         setRateLimitError('limit')
+        setRemaining(0)
         setMessages(prev => prev.slice(0, -1))
         return
       }
@@ -185,7 +186,9 @@ export default function ChatPage() {
         content: data.message,
         sources: data.sources ?? [],
       }])
-      setResponseCount(c => c + 1)
+      if (typeof data.remaining === 'number') {
+        setRemaining(data.remaining)
+      }
     } catch (err: unknown) {
       if (err instanceof Error && err.name === 'AbortError') return
       setMessages(prev => [...prev, {
@@ -200,7 +203,6 @@ export default function ChatPage() {
   }
 
   const isEmpty = messages.length === 0
-  const remaining = RATE_LIMIT_MAX - responseCount
 
   // Source inspector state — lifted to page level so panel sits beside the thread
   const [inspectorSources, setInspectorSources] = useState<import('@/lib/sources').SiteSource[]>([])
@@ -226,8 +228,8 @@ export default function ChatPage() {
   const handleSourceSelect = (id: number) => {
     setActiveSourceId(prev => prev === id ? null : id)
   }
-  const showWarn = responseCount >= RATE_LIMIT_WARN && responseCount < RATE_LIMIT_MAX
-  const showLimit = rateLimitError === 'limit' || responseCount >= RATE_LIMIT_MAX
+  const showWarn = remaining <= RATE_LIMIT_WARN_THRESHOLD && remaining > 0
+  const showLimit = rateLimitError === 'limit' || remaining <= 0
 
   return (
     <>
