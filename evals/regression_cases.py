@@ -25,18 +25,15 @@ REGRESSION_CASES = [
         "turns": ["Tell me about the AI Feedback and Insights Agent project."],
         "expected_behavior": (
             "Should give a single accurate citation to the correct source. "
-            "The baseline workload must be described as about 8 hours per "
-            "researcher per WEEK (not every day, not a 40-hour workweek) - "
-            "this is the steady-state cost. Separately and distinctly, "
-            "during Medicare Open Enrollment specifically, the workload "
-            "legitimately increases to 8 hours PER DAY, every day, for the "
-            "duration of the enrollment period - this is a real, documented, "
-            "correct fact describing a genuine temporary spike, and should "
-            "NOT be flagged as an overstatement or a '40-hour workweek' "
-            "violation. Only flag this case if the baseline itself (outside "
-            "Open Enrollment) is misdescribed as daily/monthly/a full "
-            "workweek, not if the Open Enrollment spike is accurately "
-            "described as daily."
+            "The workload must be described as an entire day per researcher "
+            "per WEEK - a consistent, ongoing weekly cost, not something "
+            "that varies by day or escalates during any particular period. "
+            "Must NOT say 'every day', 'daily', 'per day', 'every month', or "
+            "imply a 40-hour workweek, and must NOT mention any Open "
+            "Enrollment spike or increase in this workload - there is no "
+            "such spike; this was removed as a fabricated fact that never "
+            "existed in the real case study. The correct, single fact is: "
+            "one day per week, consistently."
         ),
     },
     {
