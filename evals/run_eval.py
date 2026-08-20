@@ -94,13 +94,18 @@ ACTUAL TRANSCRIPT:
 
 Grade this transcript against the expected behavior. Respond with ONLY a JSON
 object, no other text, no markdown code fences:
-{{"verdict": "Pass" | "Partial" | "Fail", "reasoning": "one or two sentences explaining the verdict, citing specific text from the transcript"}}
+{{"verdict": "Pass" | "Partial" | "Fail", "reasoning": "one or two sentences explaining the verdict"}}
+
+Important: if you quote exact text from the transcript in your reasoning,
+use single quotes ('like this') rather than double quotes, since double
+quotes inside a JSON string value will break the JSON parser. Keep
+reasoning concise enough to fit comfortably - two sentences is plenty.
 """
     raw = call_claude(
         api_key, JUDGE_MODEL,
-        system="You are a precise, skeptical QA grader. Be specific and cite exact text.",
+        system="You are a precise, skeptical QA grader. Be specific and cite exact text using single quotes only.",
         messages=[{"role": "user", "content": judge_prompt}],
-        max_tokens=300,
+        max_tokens=600,
     )
     cleaned = raw.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
     try:
