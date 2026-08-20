@@ -16,12 +16,13 @@ import os
 import re
 import urllib.request
 import json
+from typing import Optional
 
 REPO = "alikhandesign/alikhandesign.com"
 GITHUB_API = "https://api.github.com"
 
 
-def _fetch_file(path: str, token: str | None = None) -> str:
+def _fetch_file(path: str, token: Optional[str] = None) -> str:
     """Fetch a file's raw text content from the main branch via GitHub's API."""
     url = f"{GITHUB_API}/repos/{REPO}/contents/{path}?ref=main"
     headers = {"Accept": "application/vnd.github.v3+json"}
@@ -48,7 +49,7 @@ def _parse_sources(sources_ts: str) -> str:
     return "\n".join(lines)
 
 
-def build_system_prompt(token: str | None = None, unlocked: bool = True) -> str:
+def build_system_prompt(token: Optional[str] = None, unlocked: bool = True) -> str:
     """
     Returns the full, current system prompt as production would send it.
 
