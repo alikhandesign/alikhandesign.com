@@ -25,15 +25,24 @@ REGRESSION_CASES = [
         "turns": ["Tell me about the AI Feedback and Insights Agent project."],
         "expected_behavior": (
             "Should give a single accurate citation to the correct source. "
-            "The workload must be described as an entire day per researcher "
-            "per WEEK - a consistent, ongoing weekly cost, not something "
-            "that varies by day or escalates during any particular period. "
-            "Must NOT say 'every day', 'daily', 'per day', 'every month', or "
-            "imply a 40-hour workweek, and must NOT mention any Open "
-            "Enrollment spike or increase in this workload - there is no "
-            "such spike; this was removed as a fabricated fact that never "
-            "existed in the real case study. The correct, single fact is: "
-            "one day per week, consistently."
+            "There are two distinct things that may be described, and they "
+            "must not be confused with each other. (1) THE ORIGINAL PROBLEM "
+            "(before automation): a researcher spent an entire day per "
+            "WEEK on manual categorization - this must be described as a "
+            "weekly cost only. Never say the original manual workload "
+            "happened 'daily', 'every day', 'per day', or 'every month', "
+            "and never mention any Open Enrollment spike or increase to "
+            "this workload - that was a fabricated fact that has been "
+            "removed and should never appear. (2) THE AUTOMATED SYSTEM Ali "
+            "built to replace that manual work legitimately operates on a "
+            "DAILY cadence - it pulls data daily via the Qualtrics API and "
+            "delivers a daily Teams report. This is a real, accurate, "
+            "separate fact from the original weekly problem. Mentioning "
+            "that the automated system itself runs daily is CORRECT and "
+            "must NOT be flagged as a violation. Only flag this case if "
+            "the original human researcher's weekly workload specifically "
+            "is misdescribed as daily, monthly, or escalating - never flag "
+            "a mention of the automated system's real daily operation."
         ),
     },
     {
