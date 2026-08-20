@@ -5,7 +5,10 @@ import { useState, useEffect, useMemo } from 'react'
 interface PatternTags {
   cited_sources: boolean
   source_count: number
-  limitation_handling: boolean
+  honest_uncertainty: boolean
+  guardrail_triggered: 'password' | 'interview_confirm_deny' | 'rif_disclosure' | 'hostility_step_1' | 'hostility_final_disengage' | null
+  override_attempted: boolean
+  rif_possible_leak: boolean
   error_state: boolean
   rate_limited: boolean
 }
@@ -30,7 +33,10 @@ interface Session {
   entries: LogEntry[]
   flags: {
     cited_sources: boolean
-    limitation_handling: boolean
+    honest_uncertainty: boolean
+    guardrails_triggered: string[]
+    override_attempted: boolean
+    rif_possible_leak: boolean
     error_state: boolean
     rate_limited: boolean
     unlocked: boolean
@@ -62,7 +68,14 @@ function groupBySessions(logs: LogEntry[]): Session[] {
       entries: sorted,
       flags: {
         cited_sources: sorted.some(e => e.patterns?.cited_sources),
-        limitation_handling: sorted.some(e => e.patterns?.limitation_handling),
+        honest_uncertainty: sorted.some(e => e.patterns?.honest_uncertainty),
+        guardrails_triggered: Array.from(new Set(
+          sorted
+            .map(e => e.patterns?.guardrail_triggered)
+            .filter(g => typeof g === 'string')
+        )) as string[],
+        override_attempted: sorted.some(e => e.patterns?.override_attempted),
+        rif_possible_leak: sorted.some(e => e.patterns?.rif_possible_leak),
         error_state: sorted.some(e => e.patterns?.error_state),
         rate_limited: sorted.some(e => e.patterns?.rate_limited),
         unlocked: sorted.some(e => e.unlocked),
@@ -110,10 +123,25 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
     const totalEntries = allEntries.length
 
     const citedCount = allEntries.filter(e => e.patterns?.cited_sources).length
-    const limitationCount = allEntries.filter(e => e.patterns?.limitation_handling).length
+    const uncertaintyCount = allEntries.filter(e => e.patterns?.honest_uncertainty).length
     const errorCount = allEntries.filter(e => e.patterns?.error_state).length
     const rateLimitedSessions = sessions.filter(s => s.flags.rate_limited).length
     const unlockedSessions = sessions.filter(s => s.flags.unlocked).length
+    const overrideAttemptSessions = sessions.filter(s => s.flags.override_attempted).length
+    const rifLeakSessions = sessions.filter(s => s.flags.rif_possible_leak).length
+
+    const guardrailCounts = new Map<string, number>()
+    for (const e of allEntries) {
+      const g = e.patterns?.guardrail_triggered
+      if (g) guardrailCounts.set(g, (guardrailCounts.get(g) ?? 0) + 1)
+    }
+    const guardrailLabels: Record<string, string> = {
+      password: 'Password guardrail',
+      interview_confirm_deny: 'Interview confirm/deny',
+      rif_disclosure: 'RIF disclosure (legitimate)',
+      hostility_step_1: 'Hostility ladder, step 1',
+      hostility_final_disengage: 'Hostility ladder, disengaged',
+    }
 
     const pct = (n: number, d: number) => d === 0 ? '—' : `${Math.round((n / d) * 100)}%`
 
@@ -129,8 +157,9 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
     const maxDayCount = Math.max(1, ...days.map(([, c]) => c))
 
     return {
-      totalSessions, totalEntries, citedCount, limitationCount, errorCount,
-      rateLimitedSessions, unlockedSessions, pct, days, maxDayCount,
+      totalSessions, totalEntries, citedCount, uncertaintyCount, errorCount,
+      rateLimitedSessions, unlockedSessions, overrideAttemptSessions, rifLeakSessions,
+      guardrailCounts, guardrailLabels, pct, days, maxDayCount,
     }
   }, [sessions])
 
@@ -140,14 +169,49 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
         Computed from the most recent {rawCount} logged messages ({stats.totalSessions} sessions). The underlying log only retains the last 100 entries, so this reflects recent activity, not full history.
       </p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 'var(--space-3)', marginBottom: 'var(--space-8)' }}>
+      {stats.rifLeakSessions > 0 && (
+        <div style={{
+          padding: '1rem 1.25rem', marginBottom: 'var(--space-6)',
+          background: '#B91C1C12', border: '1px solid #B91C1C',
+          borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', gap: 'var(--space-3)',
+        }}>
+          <span style={{ fontSize: 20 }}>⚠</span>
+          <div>
+            <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, color: '#B91C1C' }}>
+              {stats.rifLeakSessions} session{stats.rifLeakSessions !== 1 ? 's' : ''} with a possible RIF disclosure leak
+            </p>
+            <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginTop: 2 }}>
+              The reduction-in-force fact was mentioned without the user asking about departure directly — check the Logs tab for these sessions.
+            </p>
+          </div>
+        </div>
+      )}
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 'var(--space-3)', marginBottom: 'var(--space-6)' }}>
         <StatCard label="Sessions" value={String(stats.totalSessions)} />
         <StatCard label="Messages" value={String(stats.totalEntries)} />
         <StatCard label="Citation rate" value={stats.pct(stats.citedCount, stats.totalEntries)} sublabel={`${stats.citedCount} of ${stats.totalEntries} messages`} color="#2563EB" />
-        <StatCard label="Limitation hit" value={stats.pct(stats.limitationCount, stats.totalEntries)} sublabel={`${stats.limitationCount} of ${stats.totalEntries} messages`} color="#92600A" />
+        <StatCard label="Honest uncertainty" value={stats.pct(stats.uncertaintyCount, stats.totalEntries)} sublabel={`${stats.uncertaintyCount} of ${stats.totalEntries} messages`} color="#92600A" />
         <StatCard label="Error state" value={stats.pct(stats.errorCount, stats.totalEntries)} sublabel={`${stats.errorCount} of ${stats.totalEntries} messages`} color="#B91C1C" />
+        <StatCard label="Override attempts" value={String(stats.overrideAttemptSessions)} sublabel="sessions" color="#6B21A8" />
         <StatCard label="Rate limited" value={String(stats.rateLimitedSessions)} sublabel="sessions" color="#6B21A8" />
         <StatCard label="Unlocked" value={String(stats.unlockedSessions)} sublabel="sessions" color="#4A6130" />
+      </div>
+
+      <div style={{ padding: '1.25rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', marginBottom: 'var(--space-6)' }}>
+        <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-4)' }}>Guardrails triggered</p>
+        {stats.guardrailCounts.size === 0 ? (
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-faint)' }}>None in this window.</p>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+            {Array.from(stats.guardrailCounts.entries()).sort((a, b) => b[1] - a[1]).map(([key, count]) => (
+              <div key={key} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--font-size-sm)' }}>
+                <span style={{ color: 'var(--color-text)' }}>{stats.guardrailLabels[key] ?? key}</span>
+                <span style={{ color: 'var(--color-text-muted)' }}>{count}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div style={{ padding: '1.25rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)' }}>
@@ -172,7 +236,7 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
 
       <div style={{ marginTop: 'var(--space-6)', padding: '1rem 1.25rem', background: 'var(--color-bg)', border: '1px dashed var(--color-border)', borderRadius: 'var(--radius-sm)' }}>
         <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-faint)', lineHeight: 1.6 }}>
-          These metrics use the same coarse pattern tags the chat API already logs — they can't yet show which specific guardrail fired (password, interview confirm/deny, hostility ladder, etc.), only generic buckets like "error state." Richer, guardrail-specific tracking is a planned follow-up.
+          These metrics now track specific guardrails by name (password, interview confirm/deny, RIF disclosure, hostility ladder), detected by matching the exact mandated response templates. This is reliable for guardrails with a fixed template, but can't catch confidence-calibration failures like fabricated quotes or single-example generalization — those aren't detectable by keyword matching at all, and are covered by the eval framework instead, not live monitoring.
         </p>
       </div>
     </div>
@@ -184,12 +248,13 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
 function LogsTab({ sessions, rawCount, onRefresh, loading }: { sessions: Session[]; rawCount: number; onRefresh: () => void; loading: boolean }) {
   const [expandedSession, setExpandedSession] = useState<string | null>(null)
   const [expandedEntry, setExpandedEntry] = useState<string | null>(null)
-  const [filter, setFilter] = useState<'all' | 'cited' | 'limitation' | 'error' | 'rate_limited' | 'unlocked'>('all')
+  const [filter, setFilter] = useState<'all' | 'cited' | 'guardrail' | 'rif_leak' | 'error' | 'rate_limited' | 'unlocked'>('all')
 
   const filteredSessions = sessions.filter(s => {
     if (filter === 'all') return true
     if (filter === 'cited') return s.flags.cited_sources
-    if (filter === 'limitation') return s.flags.limitation_handling
+    if (filter === 'guardrail') return s.flags.guardrails_triggered.length > 0
+    if (filter === 'rif_leak') return s.flags.rif_possible_leak
     if (filter === 'error') return s.flags.error_state
     if (filter === 'rate_limited') return s.flags.rate_limited
     if (filter === 'unlocked') return s.flags.unlocked
@@ -199,7 +264,8 @@ function LogsTab({ sessions, rawCount, onRefresh, loading }: { sessions: Session
   const FILTERS: { key: typeof filter; label: string; color?: string }[] = [
     { key: 'all', label: 'All sessions' },
     { key: 'cited', label: 'Citations used', color: '#2563EB' },
-    { key: 'limitation', label: 'Limitation hit', color: '#92600A' },
+    { key: 'guardrail', label: 'Guardrail triggered', color: '#92600A' },
+    { key: 'rif_leak', label: 'Possible RIF leak', color: '#B91C1C' },
     { key: 'error', label: 'Error state', color: '#B91C1C' },
     { key: 'rate_limited', label: 'Rate limited', color: '#6B21A8' },
     { key: 'unlocked', label: 'Unlocked', color: '#4A6130' },
@@ -294,7 +360,11 @@ function LogsTab({ sessions, rawCount, onRefresh, loading }: { sessions: Session
 
                 <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', alignItems: 'center' }}>
                   <Tag label="Citations" active={session.flags.cited_sources} color="#2563EB" />
-                  <Tag label="Limitation" active={session.flags.limitation_handling} color="#92600A" />
+                  {session.flags.guardrails_triggered.map(g => (
+                    <Tag key={g} label={g.replace(/_/g, ' ')} active color="#92600A" />
+                  ))}
+                  <Tag label="Possible RIF leak" active={session.flags.rif_possible_leak} color="#B91C1C" />
+                  <Tag label="Override attempted" active={session.flags.override_attempted} color="#6B21A8" />
                   <Tag label="Error" active={session.flags.error_state} color="#B91C1C" />
                   <Tag label="Rate limited" active={session.flags.rate_limited} color="#6B21A8" />
                   <Tag label="Unlocked" active={session.flags.unlocked} color="#4A6130" />
@@ -347,7 +417,10 @@ function LogsTab({ sessions, rawCount, onRefresh, loading }: { sessions: Session
                             {entry.patterns?.cited_sources && (
                               <Tag label={`${entry.patterns.source_count} src`} active color="#2563EB" />
                             )}
-                            <Tag label="Limitation" active={entry.patterns?.limitation_handling ?? false} color="#92600A" />
+                            {entry.patterns?.guardrail_triggered && (
+                              <Tag label={entry.patterns.guardrail_triggered.replace(/_/g, ' ')} active color="#92600A" />
+                            )}
+                            <Tag label="Possible RIF leak" active={entry.patterns?.rif_possible_leak ?? false} color="#B91C1C" />
                             <Tag label="Error" active={entry.patterns?.error_state ?? false} color="#B91C1C" />
                           </div>
                           <span style={{ fontSize: 11, color: 'var(--color-text-faint)', flexShrink: 0 }}>
