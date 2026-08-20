@@ -70,8 +70,10 @@ function groupBySessions(logs: LogEntry[]): Session[] {
         cited_sources: sorted.some(e => e.patterns?.cited_sources),
         honest_uncertainty: sorted.some(e => e.patterns?.honest_uncertainty),
         guardrails_triggered: Array.from(new Set(
-          sorted.map(e => e.patterns?.guardrail_triggered).filter((g): g is string => !!g)
-        )),
+          sorted
+            .map(e => e.patterns?.guardrail_triggered)
+            .filter(g => typeof g === 'string')
+        )) as string[],
         override_attempted: sorted.some(e => e.patterns?.override_attempted),
         rif_possible_leak: sorted.some(e => e.patterns?.rif_possible_leak),
         error_state: sorted.some(e => e.patterns?.error_state),
