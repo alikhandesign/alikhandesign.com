@@ -104,7 +104,7 @@ export default function ChatInput({
         )}
       </div>
       <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-faint)', marginTop: '0.5rem', lineHeight: 1.5 }}>
-        Conversations may be logged to improve this experience. Press Enter to send, Shift+Enter for a new line.
+        Responses are AI-generated and may contain mistakes — verify anything important directly with Ali. Conversations may be logged to improve this experience. Press Enter to send, Shift+Enter for a new line.
       </p>
     </div>
   )
