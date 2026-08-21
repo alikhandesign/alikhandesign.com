@@ -14,29 +14,50 @@ export async function GET(req: NextRequest) {
 
   try {
     const kv = getKV()
-    const keys = await kv.lrange<string>('log:index', 0, 99)
-    if (!keys || keys.length === 0) {
-      return NextResponse.json({ logs: [] })
-    }
+    const [logKeys, feedbackKeys] = await Promise.all([
+      kv.lrange<string>('log:index', 0, 99),
+      kv.lrange<string>('feedback:index', 0, 999),
+    ])
 
-    const logs = await Promise.all(
-      keys.map(async (key: string) => {
-        try {
-          const entry = await kv.get<string>(key)
-          return entry ? (typeof entry === 'string' ? JSON.parse(entry) : entry) : null
-        } catch {
-          return null
-        }
-      })
-    )
+    const logs = logKeys && logKeys.length > 0
+      ? await Promise.all(
+          logKeys.map(async (key: string) => {
+            try {
+              const entry = await kv.get<string>(key)
+              return entry ? (typeof entry === 'string' ? JSON.parse(entry) : entry) : null
+            } catch {
+              return null
+            }
+          })
+        )
+      : []
+
+    // Feedback is stored separately from logs (see app/api/chat/feedback/route.ts)
+    // and correlated here by sessionId + messageIndex - not merged into a log
+    // entry, since feedback can be submitted or changed after the original
+    // conversation turn was already logged.
+    const feedback = feedbackKeys && feedbackKeys.length > 0
+      ? await Promise.all(
+          feedbackKeys.map(async (key: string) => {
+            try {
+              const entry = await kv.get<string>(key)
+              return entry ? (typeof entry === 'string' ? JSON.parse(entry) : entry) : null
+            } catch {
+              return null
+            }
+          })
+        )
+      : []
 
     const validLogs = logs.filter(Boolean).sort((a: any, b: any) =>
       new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
     )
+    const validFeedback = feedback.filter(Boolean)
 
-    return NextResponse.json({ logs: validLogs })
+    return NextResponse.json({ logs: validLogs, feedback: validFeedback })
   } catch (err) {
     console.error('Admin logs error:', err)
     return NextResponse.json({ error: 'Failed to fetch logs' }, { status: 500 })
   }
 }
+

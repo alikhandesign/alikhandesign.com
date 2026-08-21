@@ -22,6 +22,14 @@ interface LogEntry {
   unlocked: boolean
   timestamp: string
   patterns?: PatternTags
+  feedback?: 'up' | 'down' // attached at correlation time from the separate feedback records, not logged directly
+}
+
+interface FeedbackRecord {
+  sessionId: string
+  messageIndex: number
+  rating: 'up' | 'down'
+  timestamp: string
 }
 
 interface Session {
@@ -40,10 +48,19 @@ interface Session {
     error_state: boolean
     rate_limited: boolean
     unlocked: boolean
+    thumbs_up: boolean
+    thumbs_down: boolean
   }
 }
 
-function groupBySessions(logs: LogEntry[]): Session[] {
+function groupBySessions(logs: LogEntry[], feedback: FeedbackRecord[] = []): Session[] {
+  // Feedback is stored separately from logs and correlated here by matching
+  // sessionId + messageIndex - see app/api/chat/feedback/route.ts for why.
+  const feedbackMap = new Map<string, 'up' | 'down'>()
+  for (const f of feedback) {
+    feedbackMap.set(`${f.sessionId}:${f.messageIndex}`, f.rating)
+  }
+
   const sessionMap = new Map<string, LogEntry[]>()
 
   for (const entry of logs) {
@@ -51,7 +68,12 @@ function groupBySessions(logs: LogEntry[]): Session[] {
       ? entry.sessionId
       : `anon-${entry.timestamp}`
     if (!sessionMap.has(key)) sessionMap.set(key, [])
-    sessionMap.get(key)!.push(entry)
+    const withFeedback: LogEntry = { ...entry }
+    if (entry.sessionId && typeof entry.messageIndex === 'number') {
+      const rating = feedbackMap.get(`${entry.sessionId}:${entry.messageIndex}`)
+      if (rating) withFeedback.feedback = rating
+    }
+    sessionMap.get(key)!.push(withFeedback)
   }
 
   const sessions: Session[] = []
@@ -76,6 +98,8 @@ function groupBySessions(logs: LogEntry[]): Session[] {
         )) as string[],
         override_attempted: sorted.some(e => e.patterns?.override_attempted),
         rif_possible_leak: sorted.some(e => e.patterns?.rif_possible_leak),
+        thumbs_up: sorted.some(e => e.feedback === 'up'),
+        thumbs_down: sorted.some(e => e.feedback === 'down'),
         error_state: sorted.some(e => e.patterns?.error_state),
         rate_limited: sorted.some(e => e.patterns?.rate_limited),
         unlocked: sorted.some(e => e.unlocked),
@@ -129,6 +153,9 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
     const unlockedSessions = sessions.filter(s => s.flags.unlocked).length
     const overrideAttemptSessions = sessions.filter(s => s.flags.override_attempted).length
     const rifLeakSessions = sessions.filter(s => s.flags.rif_possible_leak).length
+    const thumbsUpCount = allEntries.filter(e => e.feedback === 'up').length
+    const thumbsDownCount = allEntries.filter(e => e.feedback === 'down').length
+    const totalFeedback = thumbsUpCount + thumbsDownCount
 
     const guardrailCounts = new Map<string, number>()
     for (const e of allEntries) {
@@ -159,6 +186,7 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
     return {
       totalSessions, totalEntries, citedCount, uncertaintyCount, errorCount,
       rateLimitedSessions, unlockedSessions, overrideAttemptSessions, rifLeakSessions,
+      thumbsUpCount, thumbsDownCount, totalFeedback,
       guardrailCounts, guardrailLabels, pct, days, maxDayCount,
     }
   }, [sessions])
@@ -196,6 +224,12 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
         <StatCard label="Override attempts" value={String(stats.overrideAttemptSessions)} sublabel="sessions" color="#6B21A8" />
         <StatCard label="Rate limited" value={String(stats.rateLimitedSessions)} sublabel="sessions" color="#6B21A8" />
         <StatCard label="Unlocked" value={String(stats.unlockedSessions)} sublabel="sessions" color="#4A6130" />
+        <StatCard
+          label="Feedback"
+          value={stats.totalFeedback === 0 ? '—' : `${stats.thumbsUpCount}↑ / ${stats.thumbsDownCount}↓`}
+          sublabel={stats.totalFeedback === 0 ? 'no votes yet' : `${stats.pct(stats.thumbsDownCount, stats.totalFeedback)} thumbs down`}
+          color={stats.thumbsDownCount > 0 ? '#B91C1C' : '#4A6130'}
+        />
       </div>
 
       <div style={{ padding: '1.25rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', marginBottom: 'var(--space-6)' }}>
@@ -248,7 +282,7 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
 function LogsTab({ sessions, rawCount, onRefresh, loading }: { sessions: Session[]; rawCount: number; onRefresh: () => void; loading: boolean }) {
   const [expandedSession, setExpandedSession] = useState<string | null>(null)
   const [expandedEntry, setExpandedEntry] = useState<string | null>(null)
-  const [filter, setFilter] = useState<'all' | 'cited' | 'guardrail' | 'rif_leak' | 'error' | 'rate_limited' | 'unlocked'>('all')
+  const [filter, setFilter] = useState<'all' | 'cited' | 'guardrail' | 'rif_leak' | 'error' | 'rate_limited' | 'unlocked' | 'thumbs_down'>('all')
 
   const filteredSessions = sessions.filter(s => {
     if (filter === 'all') return true
@@ -258,6 +292,7 @@ function LogsTab({ sessions, rawCount, onRefresh, loading }: { sessions: Session
     if (filter === 'error') return s.flags.error_state
     if (filter === 'rate_limited') return s.flags.rate_limited
     if (filter === 'unlocked') return s.flags.unlocked
+    if (filter === 'thumbs_down') return s.flags.thumbs_down
     return true
   })
 
@@ -269,6 +304,7 @@ function LogsTab({ sessions, rawCount, onRefresh, loading }: { sessions: Session
     { key: 'error', label: 'Error state', color: '#B91C1C' },
     { key: 'rate_limited', label: 'Rate limited', color: '#6B21A8' },
     { key: 'unlocked', label: 'Unlocked', color: '#4A6130' },
+    { key: 'thumbs_down', label: 'Thumbs down', color: '#B91C1C' },
   ]
 
   return (
@@ -364,6 +400,8 @@ function LogsTab({ sessions, rawCount, onRefresh, loading }: { sessions: Session
                     <Tag key={g} label={g.replace(/_/g, ' ')} active color="#92600A" />
                   ))}
                   <Tag label="Possible RIF leak" active={session.flags.rif_possible_leak} color="#B91C1C" />
+                  <Tag label="👎 Thumbs down" active={session.flags.thumbs_down} color="#B91C1C" />
+                  <Tag label="👍 Thumbs up" active={session.flags.thumbs_up} color="#4A6130" />
                   <Tag label="Override attempted" active={session.flags.override_attempted} color="#6B21A8" />
                   <Tag label="Error" active={session.flags.error_state} color="#B91C1C" />
                   <Tag label="Rate limited" active={session.flags.rate_limited} color="#6B21A8" />
@@ -421,6 +459,8 @@ function LogsTab({ sessions, rawCount, onRefresh, loading }: { sessions: Session
                               <Tag label={entry.patterns.guardrail_triggered.replace(/_/g, ' ')} active color="#92600A" />
                             )}
                             <Tag label="Possible RIF leak" active={entry.patterns?.rif_possible_leak ?? false} color="#B91C1C" />
+                            {entry.feedback === 'down' && <Tag label="👎" active color="#B91C1C" />}
+                            {entry.feedback === 'up' && <Tag label="👍" active color="#4A6130" />}
                             <Tag label="Error" active={entry.patterns?.error_state ?? false} color="#B91C1C" />
                           </div>
                           <span style={{ fontSize: 11, color: 'var(--color-text-faint)', flexShrink: 0 }}>
@@ -474,8 +514,9 @@ export default function PortfolioAssistantManagerPage() {
       if (!res.ok) throw new Error()
       const data = await res.json()
       const logs: LogEntry[] = data.logs || []
+      const feedback: FeedbackRecord[] = data.feedback || []
       setRawCount(logs.length)
-      setSessions(groupBySessions(logs))
+      setSessions(groupBySessions(logs, feedback))
     } catch {
       setError('Failed to load logs. Try again.')
     } finally {
