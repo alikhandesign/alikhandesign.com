@@ -24,6 +24,7 @@ interface Message {
   content: string
   sources?: SiteSource[]
   retryContent?: string // set on a failed assistant message - the user content to resend on retry
+  turnIndex?: number // the messageIndex sent to the backend for this turn - used to correlate feedback
 }
 
 const SUGGESTED_QUESTIONS = [
@@ -48,6 +49,7 @@ export default function ChatPage() {
   const [remaining, setRemaining] = useState(RATE_LIMIT_MAX) // synced from server's real count on every response, not a local counter
   const [contactModalOpen, setContactModalOpen] = useState(false)
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
+  const [feedbackByTurn, setFeedbackByTurn] = useState<Record<number, 'up' | 'down'>>({})
   const bottomRef = useRef<HTMLDivElement>(null)
   const unlockRef = useRef<HTMLButtonElement>(null)
   const unlockPanelRef = useRef<HTMLDivElement>(null)
@@ -206,6 +208,7 @@ export default function ChatPage() {
         role: 'assistant',
         content: data.message,
         sources: data.sources ?? [],
+        turnIndex: currentMessageIndex,
       }])
       if (typeof data.remaining === 'number') {
         setRemaining(data.remaining)
@@ -316,6 +319,33 @@ export default function ChatPage() {
     } catch {
       // Clipboard access denied or unavailable - fail silently, no harm done
     }
+  }
+
+  const handleFeedback = (turnIndex: number, rating: 'up' | 'down') => {
+    const current = feedbackByTurn[turnIndex]
+    const newRating = current === rating ? null : rating // clicking the same one again removes the vote
+
+    setFeedbackByTurn(prev => {
+      const next = { ...prev }
+      if (newRating === null) {
+        delete next[turnIndex]
+      } else {
+        next[turnIndex] = newRating
+      }
+      return next
+    })
+
+    // Fire and forget - a failed feedback submission shouldn't interrupt
+    // anything the visitor is doing, and the UI already updated optimistically
+    fetch('/api/chat/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId: sessionIdRef.current,
+        messageIndex: turnIndex,
+        rating: newRating,
+      }),
+    }).catch(() => {})
   }
 
   // Move focus into the panel when it opens, so keyboard users land somewhere
@@ -498,7 +528,7 @@ export default function ChatPage() {
                   onBadgeClick={(id) => handleBadgeClick(msg.sources ?? [], id)}
                 />
                 {msg.role === 'assistant' && !msg.retryContent && (
-                  <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: 4 }}>
+                  <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: 2, marginTop: 4 }}>
                     <button
                       onClick={() => handleCopy(msg.content, i)}
                       aria-label="Copy response"
@@ -521,6 +551,42 @@ export default function ChatPage() {
                         </>
                       )}
                     </button>
+                    {typeof msg.turnIndex === 'number' && (
+                      <>
+                        <button
+                          onClick={() => handleFeedback(msg.turnIndex!, 'up')}
+                          aria-label="Good response"
+                          aria-pressed={feedbackByTurn[msg.turnIndex] === 'up'}
+                          style={{
+                            background: 'none', border: 'none', cursor: 'pointer',
+                            padding: '2px 6px', display: 'flex', alignItems: 'center',
+                            color: feedbackByTurn[msg.turnIndex] === 'up' ? 'var(--color-accent)' : 'var(--color-text-faint)',
+                          }}
+                        >
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/>
+                            <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
+                          </svg>
+                        </button>
+                        <button
+                          onClick={() => handleFeedback(msg.turnIndex!, 'down')}
+                          aria-label="Bad response"
+                          aria-pressed={feedbackByTurn[msg.turnIndex] === 'down'}
+                          style={{
+                            background: 'none', border: 'none', cursor: 'pointer',
+                            padding: '2px 6px', display: 'flex', alignItems: 'center',
+                            color: feedbackByTurn[msg.turnIndex] === 'down' ? 'var(--color-accent)' : 'var(--color-text-faint)',
+                          }}
+                        >
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <g transform="scale(1,-1) translate(0,-24)">
+                              <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/>
+                              <path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
+                            </g>
+                          </svg>
+                        </button>
+                      </>
+                    )}
                   </div>
                 )}
                 {msg.retryContent && i === messages.length - 1 && (
