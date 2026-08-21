@@ -164,11 +164,14 @@ export async function POST(req: NextRequest) {
   // Build system prompt
   const { PUBLIC_SYSTEM_PROMPT, PROTECTED_SYSTEM_PROMPT } = await import('@/lib/systemPrompt')
   const { SITE_SOURCES, formatSourcesForPrompt } = await import('@/lib/sources')
+  const { formatReflectionsForPrompt } = await import('@/lib/reflections')
 
   const basePrompt = (unlocked
     ? PUBLIC_SYSTEM_PROMPT + '\n\n' + PROTECTED_SYSTEM_PROMPT
     : PUBLIC_SYSTEM_PROMPT
-  ).replace('{{SOURCES}}', formatSourcesForPrompt())
+  )
+    .replace('{{SOURCES}}', formatSourcesForPrompt())
+    .replace('{{REFLECTIONS}}', formatReflectionsForPrompt())
 
   // Call Anthropic
   const response = await fetch('https://api.anthropic.com/v1/messages', {
