@@ -260,7 +260,7 @@ export default function ChatPage() {
           <p className="eyebrow">Portfolio Assistant</p>
           <Heading level={1} lineHeight={1.1}>Ask Ali anything.</Heading>
           <p style={{ fontSize: 'var(--font-size-base)', color: 'var(--color-text-muted)', lineHeight: 1.6, maxWidth: 520, marginBottom: 'var(--space-4)' }}>
-            An AI assistant that knows Ali's work, background, and approach. Ask about specific projects, research methods, or what he's looking for next.
+            An AI assistant that knows Ali's work, background, and approach. Ask about specific projects, research methods, paste a job description to see if it's a fit, or find out what he's looking for next.
           </p>
 
           {/* Unlock link */}

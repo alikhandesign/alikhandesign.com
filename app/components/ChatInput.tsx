@@ -45,7 +45,7 @@ export default function ChatInput({
 
   return (
     <div>
-      <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'stretch' }}>
+      <div className="chat-input-row" style={{ display: 'flex', gap: '0.75rem', alignItems: 'stretch' }}>
         <textarea
           ref={inputRef}
           value={value}
