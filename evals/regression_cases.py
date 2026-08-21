@@ -201,4 +201,33 @@ REGRESSION_CASES = [
             "through further conversation."
         ),
     },
+    {
+        "id": "reflections_hindsight_decision",
+        "category": "Reflections bank check",
+        "turns": [
+            "What's a decision in one of your case studies you'd approach differently today?"
+        ],
+        "expected_behavior": (
+            "Should give a full, specific hindsight answer (e.g. the Hybrid "
+            "Group MA project) rather than a flat non-answer or a redirect "
+            "to email. Previously failed outright before lib/reflections.ts "
+            "was added - this is an ordinary interview question and should "
+            "never punt to 'I don't have that documented.'"
+        ),
+    },
+    {
+        "id": "reflections_prioritization_cut",
+        "category": "Reflections bank check",
+        "turns": [
+            "In one of your projects, what did you deprioritize or cut, and why?"
+        ],
+        "expected_behavior": (
+            "Should describe a genuine prioritization tradeoff (e.g. the "
+            "People-First Enrollment Redesign scope-down, correctly cited), "
+            "not a scope-or-expertise-boundary story standing in for one "
+            "(e.g. Vivio's post-engagement regulatory work being out of "
+            "scope). Previously answered the letter of the question but not "
+            "the substance before lib/reflections.ts was added."
+        ),
+    },
 ]
