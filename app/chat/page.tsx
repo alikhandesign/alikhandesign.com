@@ -23,6 +23,7 @@ interface Message {
   role: 'user' | 'assistant'
   content: string
   sources?: SiteSource[]
+  retryContent?: string // set on a failed assistant message - the user content to resend on retry
 }
 
 const SUGGESTED_QUESTIONS = [
@@ -50,6 +51,7 @@ export default function ChatPage() {
   const unlockRef = useRef<HTMLButtonElement>(null)
   const unlockPanelRef = useRef<HTMLDivElement>(null)
   const abortRef = useRef<AbortController | null>(null)
+  const watchdogRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const contactTriggerRef = useRef<HTMLButtonElement>(null)
 
   // Stable session ID for this page load — used to group log entries into sessions
@@ -124,6 +126,10 @@ export default function ChatPage() {
       abortRef.current.abort()
       abortRef.current = null
     }
+    if (watchdogRef.current) {
+      clearTimeout(watchdogRef.current)
+      watchdogRef.current = null
+    }
     // Remove the last user message and restore it to the input
     setMessages(prev => {
       const lastUser = [...prev].reverse().find(m => m.role === 'user')
@@ -134,6 +140,102 @@ export default function ChatPage() {
     setStreaming(false)
     setTimeout(() => {}, 50)
   }, [])
+
+  const performRequest = async (allMessages: Message[], userContent: string) => {
+    setLoading(true)
+    setStreaming(true)
+    setGenerationPhase('thinking')
+
+    const controller = new AbortController()
+    abortRef.current = controller
+
+    // Watchdog: if the request takes longer than this without resolving, surface
+    // a distinct "stalled" state rather than leaving the thinking pulse running
+    // forever with no signal that something might be wrong.
+    if (watchdogRef.current) clearTimeout(watchdogRef.current)
+    const thisWatchdog = setTimeout(() => {
+      setGenerationPhase('stalled')
+    }, 8000)
+    watchdogRef.current = thisWatchdog
+
+    // If a retry aborts this request and starts a new one, this request's own
+    // catch/finally blocks still run afterward (JS always runs finally, even
+    // after an early return in catch). Without this guard, a stale request's
+    // cleanup would clobber the newer request's abortRef/watchdog/loading
+    // state right after it started. Only reset shared state if nothing newer
+    // has taken over since this request began.
+    const clearOwnWatchdog = () => {
+      if (watchdogRef.current === thisWatchdog) {
+        clearTimeout(thisWatchdog)
+        watchdogRef.current = null
+      }
+    }
+
+    const currentMessageIndex = messageIndexRef.current
+    messageIndexRef.current += 1
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: allMessages.map(({ role, content }) => ({ role, content })),
+          sessionId: sessionIdRef.current,
+          messageIndex: currentMessageIndex,
+        }),
+        signal: controller.signal,
+      })
+
+      clearOwnWatchdog()
+
+      if (res.status === 429) {
+        setRateLimitError('limit')
+        setRemaining(0)
+        setMessages(prev => prev.slice(0, -1))
+        return
+      }
+
+      if (!res.ok) throw new Error('api_error')
+
+      setGenerationPhase('generating')
+      const data = await res.json()
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: data.message,
+        sources: data.sources ?? [],
+      }])
+      if (typeof data.remaining === 'number') {
+        setRemaining(data.remaining)
+      }
+    } catch (err: unknown) {
+      clearOwnWatchdog()
+      if (err instanceof Error && err.name === 'AbortError') return
+
+      setGenerationPhase('error')
+
+      // Distinguish a genuine network failure (fetch itself never reached the
+      // server - TypeError in browsers) from a completed request that came
+      // back with an error status (our own thrown 'api_error'). Two real,
+      // different situations - not the full four-type taxonomy, but a
+      // meaningful improvement over one generic message for every cause.
+      const isNetworkFailure = err instanceof TypeError
+      const errorContent = isNetworkFailure
+        ? "I couldn't reach the server — check your connection and try again, or reach out to Ali directly at ali@alikhandesign.com."
+        : 'Something went wrong on my end. Please try again, or reach out to Ali directly at ali@alikhandesign.com.'
+
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: errorContent,
+        retryContent: userContent,
+      }])
+    } finally {
+      if (abortRef.current === controller) {
+        setLoading(false)
+        setStreaming(false)
+        abortRef.current = null
+      }
+    }
+  }
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || loading) return
@@ -147,58 +249,30 @@ export default function ChatPage() {
     const newMessages = [...messages, userMessage]
     setMessages(newMessages)
     setInput('')
-    setLoading(true)
-    setStreaming(true)
-    setGenerationPhase('thinking')
 
-    const controller = new AbortController()
-    abortRef.current = controller
+    await performRequest(newMessages, text.trim())
+  }
 
-    // Capture and increment message index for this turn
-    const currentMessageIndex = messageIndexRef.current
-    messageIndexRef.current += 1
-
-    try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: newMessages.map(({ role, content }) => ({ role, content })),
-          sessionId: sessionIdRef.current,
-          messageIndex: currentMessageIndex,
-        }),
-        signal: controller.signal,
-      })
-
-      if (res.status === 429) {
-        setRateLimitError('limit')
-        setRemaining(0)
-        setMessages(prev => prev.slice(0, -1))
-        return
-      }
-
-      if (!res.ok) throw new Error('API error')
-
-      setGenerationPhase('generating')
-      const data = await res.json()
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: data.message,
-        sources: data.sources ?? [],
-      }])
-      if (typeof data.remaining === 'number') {
-        setRemaining(data.remaining)
-      }
-    } catch (err: unknown) {
-      if (err instanceof Error && err.name === 'AbortError') return
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: 'Something went wrong on my end. Please try again, or reach out to Ali directly at ali@alikhandesign.com.'
-      }])
-    } finally {
-      setLoading(false)
-      setStreaming(false)
+  const retryLastMessage = () => {
+    if (abortRef.current) {
+      abortRef.current.abort()
       abortRef.current = null
+    }
+    if (watchdogRef.current) {
+      clearTimeout(watchdogRef.current)
+      watchdogRef.current = null
+    }
+
+    const last = messages[messages.length - 1]
+    if (last?.role === 'assistant' && last.retryContent) {
+      // A completed error message - drop it and resend the same user content
+      const withoutFailed = messages.slice(0, -1)
+      setMessages(withoutFailed)
+      performRequest(withoutFailed, last.retryContent)
+    } else if (last?.role === 'user') {
+      // Stalled, not yet failed - the user message is still there, just retry
+      // the request itself
+      performRequest(messages, last.content)
     }
   }
 
@@ -382,14 +456,31 @@ export default function ChatPage() {
             scrollbarColor: 'var(--color-border) transparent',
           }}>
             {messages.map((msg, i) => (
-              <ChatBubble
-                key={i}
-                role={msg.role}
-                content={msg.content}
-                sources={msg.sources}
-                activeSourceId={msg.sources === inspectorSources ? activeSourceId : null}
-                onBadgeClick={(id) => handleBadgeClick(msg.sources ?? [], id)}
-              />
+              <div key={i}>
+                <ChatBubble
+                  role={msg.role}
+                  content={msg.content}
+                  sources={msg.sources}
+                  activeSourceId={msg.sources === inspectorSources ? activeSourceId : null}
+                  onBadgeClick={(id) => handleBadgeClick(msg.sources ?? [], id)}
+                />
+                {msg.retryContent && i === messages.length - 1 && (
+                  <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: 'var(--space-2)' }}>
+                    <button
+                      onClick={retryLastMessage}
+                      style={{
+                        fontSize: 'var(--font-size-xs)', fontWeight: 500,
+                        padding: '0.4rem 0.9rem',
+                        background: 'var(--color-surface)', color: 'var(--color-text)',
+                        border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)',
+                        cursor: 'pointer', fontFamily: 'var(--font-sans)',
+                      }}
+                    >
+                      Retry
+                    </button>
+                  </div>
+                )}
+              </div>
             ))}
             {loading && (
               <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
@@ -398,6 +489,28 @@ export default function ChatPage() {
                   borderRadius: '12px 12px 12px 2px',
                 }}>
                   <GenerationState phase={generationPhase} />
+                  {generationPhase === 'stalled' && (
+                    <div style={{
+                      padding: '0 1rem 0.75rem',
+                      display: 'flex', alignItems: 'center', gap: 'var(--space-3)',
+                    }}>
+                      <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
+                        This is taking longer than usual.
+                      </span>
+                      <button
+                        onClick={retryLastMessage}
+                        style={{
+                          fontSize: 'var(--font-size-xs)', fontWeight: 500,
+                          padding: '0.3rem 0.75rem',
+                          background: 'var(--color-surface)', color: 'var(--color-text)',
+                          border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)',
+                          cursor: 'pointer', fontFamily: 'var(--font-sans)', flexShrink: 0,
+                        }}
+                      >
+                        Retry
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
