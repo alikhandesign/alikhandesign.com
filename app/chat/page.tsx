@@ -11,7 +11,7 @@ import SourceInspector from '../components/SourceInspector'
 import Heading from '../components/Heading'
 import type { SiteSource } from '@/lib/sources'
 
-const RATE_LIMIT_WARN_THRESHOLD = 3 // show warning when this many or fewer responses remain
+const RATE_LIMIT_WARN_THRESHOLD = 4 // show warning when this many or fewer responses remain - matches the documented 25% threshold (25% of 15 = 3.75, rounded to 4)
 const RATE_LIMIT_MAX = 15 // matches app/api/chat/route.ts RATE_LIMIT_MAX exactly
 
 // Generate a stable session ID for this page load
@@ -645,23 +645,24 @@ export default function ChatPage() {
           {/* Rate limit warning */}
           {showWarn && (
             <div style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               padding: '8px 12px', background: '#fdf6ec',
               borderLeft: '3px solid #92600A',
               fontSize: 'var(--font-size-xs)', color: '#92600A',
               marginBottom: 'var(--space-4)',
+              lineHeight: 1.5,
             }}>
-              <span>{remaining} response{remaining === 1 ? '' : 's'} remaining.</span>
+              {remaining} response{remaining === 1 ? '' : 's'} remaining — limited to keep this a quick, focused conversation — for anything deeper,{' '}
               <button
                 onClick={() => setContactModalOpen(true)}
                 style={{
                   background: 'none', border: 'none', cursor: 'pointer',
                   color: '#92600A', fontWeight: 500, fontFamily: 'var(--font-sans)',
                   fontSize: 'var(--font-size-xs)', textDecoration: 'underline', padding: 0,
+                  display: 'inline',
                 }}
               >
-                Contact Ali
-              </button>
+                reach out to Ali directly
+              </button>.
             </div>
           )}
 
