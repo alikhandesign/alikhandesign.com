@@ -17,6 +17,7 @@ export const workItems: WorkItem[] = [
   { slug: 'squarespace-redesign',title: 'From Checkboxes to Conversations',    type: 'case-study' },
   { slug: 'the-portfolio',       title: 'The Portfolio Is the Product',        type: 'case-study' },
   { slug: 'honest-design-system',title: 'Honest Design System',                type: 'case-study' },
+  { slug: 'portfolio-assistant', title: 'Portfolio Assistant',                 type: 'case-study' },
   // ── Projects ─────────────────────────────────────────────────────────
   { slug: 'vivio',               title: 'Vivio Clinical App',                  type: 'project'    },
   { slug: 'ancillary-journey',   title: 'Optimizing the Ancillary Insurance Journey', type: 'project' },
