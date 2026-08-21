@@ -262,6 +262,8 @@ a { color: inherit; }
   .site-nav { padding: 1rem var(--space-5); }
   .nav-links { gap: var(--space-6); }
   .nav-links a { font-size: var(--font-size-sm); }
+  .chat-input-row { flex-direction: column; }
+  .chat-input-row button { justify-content: center; }
 }
 
 /* ─── Small mobile (max 480px) ───────────────────────────── */
