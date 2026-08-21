@@ -143,6 +143,7 @@ function StatCard({ label, value, sublabel, color }: { label: string; value: str
 function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: number }) {
   const stats = useMemo(() => {
     const totalSessions = sessions.length
+    const uniqueIps = new Set(sessions.map(s => s.ip)).size
     const allEntries = sessions.flatMap(s => s.entries).filter(e => e.userMessage)
     const totalEntries = allEntries.length
 
@@ -184,7 +185,7 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
     const maxDayCount = Math.max(1, ...days.map(([, c]) => c))
 
     return {
-      totalSessions, totalEntries, citedCount, uncertaintyCount, errorCount,
+      totalSessions, uniqueIps, totalEntries, citedCount, uncertaintyCount, errorCount,
       rateLimitedSessions, unlockedSessions, overrideAttemptSessions, rifLeakSessions,
       thumbsUpCount, thumbsDownCount, totalFeedback,
       guardrailCounts, guardrailLabels, pct, days, maxDayCount,
@@ -217,6 +218,7 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 'var(--space-3)', marginBottom: 'var(--space-6)' }}>
         <StatCard label="Sessions" value={String(stats.totalSessions)} />
+        <StatCard label="Unique IPs" value={String(stats.uniqueIps)} sublabel="distinct visitors" />
         <StatCard label="Messages" value={String(stats.totalEntries)} />
         <StatCard label="Citation rate" value={stats.pct(stats.citedCount, stats.totalEntries)} sublabel={`${stats.citedCount} of ${stats.totalEntries} messages`} color="#2563EB" />
         <StatCard label="Honest uncertainty" value={stats.pct(stats.uncertaintyCount, stats.totalEntries)} sublabel={`${stats.uncertaintyCount} of ${stats.totalEntries} messages`} color="#92600A" />
@@ -283,16 +285,43 @@ function LogsTab({ sessions, rawCount, onRefresh, loading }: { sessions: Session
   const [expandedSession, setExpandedSession] = useState<string | null>(null)
   const [expandedEntry, setExpandedEntry] = useState<string | null>(null)
   const [filter, setFilter] = useState<'all' | 'cited' | 'guardrail' | 'rif_leak' | 'error' | 'rate_limited' | 'unlocked' | 'thumbs_down'>('all')
+  const [search, setSearch] = useState('')
+  const [dateFrom, setDateFrom] = useState('')
+  const [dateTo, setDateTo] = useState('')
+  const [ipFilter, setIpFilter] = useState('')
+
+  const uniqueIps = useMemo(() => new Set(sessions.map(s => s.ip)), [sessions])
 
   const filteredSessions = sessions.filter(s => {
-    if (filter === 'all') return true
-    if (filter === 'cited') return s.flags.cited_sources
-    if (filter === 'guardrail') return s.flags.guardrails_triggered.length > 0
-    if (filter === 'rif_leak') return s.flags.rif_possible_leak
-    if (filter === 'error') return s.flags.error_state
-    if (filter === 'rate_limited') return s.flags.rate_limited
-    if (filter === 'unlocked') return s.flags.unlocked
-    if (filter === 'thumbs_down') return s.flags.thumbs_down
+    if (filter === 'all') {}
+    else if (filter === 'cited' && !s.flags.cited_sources) return false
+    else if (filter === 'guardrail' && s.flags.guardrails_triggered.length === 0) return false
+    else if (filter === 'rif_leak' && !s.flags.rif_possible_leak) return false
+    else if (filter === 'error' && !s.flags.error_state) return false
+    else if (filter === 'rate_limited' && !s.flags.rate_limited) return false
+    else if (filter === 'unlocked' && !s.flags.unlocked) return false
+    else if (filter === 'thumbs_down' && !s.flags.thumbs_down) return false
+
+    if (search.trim()) {
+      const q = search.toLowerCase()
+      const match = s.entries.some(e =>
+        e.userMessage?.toLowerCase().includes(q) ||
+        e.assistantMessage?.toLowerCase().includes(q)
+      )
+      if (!match) return false
+    }
+
+    if (ipFilter.trim() && !s.ip.includes(ipFilter.trim())) return false
+
+    if (dateFrom) {
+      if (new Date(s.startTime) < new Date(dateFrom)) return false
+    }
+    if (dateTo) {
+      const to = new Date(dateTo)
+      to.setHours(23, 59, 59, 999)
+      if (new Date(s.startTime) > to) return false
+    }
+
     return true
   })
 
@@ -311,7 +340,7 @@ function LogsTab({ sessions, rawCount, onRefresh, loading }: { sessions: Session
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-4)', flexWrap: 'wrap', gap: '0.75rem' }}>
         <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
-          {filteredSessions.length} session{filteredSessions.length !== 1 ? 's' : ''} · {rawCount} messages
+          {filteredSessions.length} session{filteredSessions.length !== 1 ? 's' : ''} · {rawCount} messages · {uniqueIps.size} unique IPs
         </span>
         <button
           onClick={onRefresh}
@@ -325,6 +354,71 @@ function LogsTab({ sessions, rawCount, onRefresh, loading }: { sessions: Session
         >
           {loading ? 'Refreshing…' : 'Refresh'}
         </button>
+      </div>
+
+      {/* Search + filters */}
+      <div style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap', marginBottom: 'var(--space-4)' }}>
+        <input
+          type="text"
+          placeholder="Search messages…"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          style={{
+            flex: '2 1 180px', padding: '0.4rem 0.75rem',
+            fontSize: 'var(--font-size-xs)', fontFamily: 'var(--font-sans)',
+            border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)',
+            background: 'var(--color-surface)', color: 'var(--color-text)', outline: 'none',
+          }}
+        />
+        <input
+          type="text"
+          placeholder="Filter by IP…"
+          value={ipFilter}
+          onChange={e => setIpFilter(e.target.value)}
+          style={{
+            flex: '1 1 120px', padding: '0.4rem 0.75rem',
+            fontSize: 'var(--font-size-xs)', fontFamily: 'var(--font-sans)',
+            border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)',
+            background: 'var(--color-surface)', color: 'var(--color-text)', outline: 'none',
+          }}
+        />
+        <input
+          type="date"
+          value={dateFrom}
+          onChange={e => setDateFrom(e.target.value)}
+          title="From date"
+          style={{
+            flex: '1 1 130px', padding: '0.4rem 0.75rem',
+            fontSize: 'var(--font-size-xs)', fontFamily: 'var(--font-sans)',
+            border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)',
+            background: 'var(--color-surface)', color: 'var(--color-text)', outline: 'none',
+          }}
+        />
+        <input
+          type="date"
+          value={dateTo}
+          onChange={e => setDateTo(e.target.value)}
+          title="To date"
+          style={{
+            flex: '1 1 130px', padding: '0.4rem 0.75rem',
+            fontSize: 'var(--font-size-xs)', fontFamily: 'var(--font-sans)',
+            border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)',
+            background: 'var(--color-surface)', color: 'var(--color-text)', outline: 'none',
+          }}
+        />
+        {(search || ipFilter || dateFrom || dateTo) && (
+          <button
+            onClick={() => { setSearch(''); setIpFilter(''); setDateFrom(''); setDateTo('') }}
+            style={{
+              padding: '0.4rem 0.75rem', fontSize: 'var(--font-size-xs)',
+              border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)',
+              background: 'transparent', cursor: 'pointer', fontFamily: 'var(--font-sans)',
+              color: 'var(--color-text-muted)',
+            }}
+          >
+            Clear
+          </button>
+        )}
       </div>
 
       <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap', marginBottom: 'var(--space-6)' }}>
