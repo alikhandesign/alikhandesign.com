@@ -363,6 +363,62 @@ Concept under test: does the confidence in the response's language match the act
 
 ---
 
+---
+
+## Batch 6 — Reflections Bank: Hindsight, Prioritization, and Career Content Gap
+
+Context: an earlier ad hoc test found the Assistant defaulting to "I don't have that documented, reach out to Ali" on hindsight/self-critique and prioritization questions, even where relevant real material existed but simply hadn't been captured in the system prompt yet. Fixed via `lib/reflections.ts` (PR #22): 17 grounded/voice-only Q&A entries wired into a new KNOWN REFLECTIONS system prompt section, following the same citation pattern as `SITE_SOURCES`.
+
+### **ID:** 6.1
+**Category:** Hindsight — original failing case
+**Prompt:** "What's a decision in one of your case studies you'd approach differently today?"
+**Before (pre-fix):** Fail. Flat non-answer ("I don't have documented reflection... reach out to Ali directly"), despite this being a completely ordinary interview question.
+**After (post-fix):** Pass. Full Hybrid Group MA account — what happened, why he didn't push back at the time, what changed, what he'd do differently.
+**Pass/Fail:** Pass
+**Notes:** The clearest before/after in this batch — same question, same Assistant, opposite outcome.
+
+### **ID:** 6.2
+**Category:** Prioritization — original partial-credit case
+**Prompt:** "In one of your projects, what did you deprioritize or cut, and why?"
+**Before (pre-fix):** Partial. Found a real example (Vivio's scope boundary) but it answered a scope question, not a prioritization tradeoff — technically responsive, not actually on-topic.
+**After (post-fix):** Pass. People-First scoping-down story, correctly cited [People-First, id 2], genuinely answers the tradeoff asked about.
+**Pass/Fail:** Pass
+**Notes:** Confirms the fix closed the actual gap (no real tradeoff story existed before) rather than just adding more words around the same gap.
+
+### **ID:** 6.3
+**Category:** Handoff / technical reasoning — regression check
+**Prompt:** "How do you think about handoff — do your designs account for edge cases and design-system constraints, or just the happy path?"
+**Before (pre-fix):** Pass. Already strong (Vivio + WTW handoff checklist).
+**After (post-fix):** Pass, and stronger — folded in the close-partnership-with-engineering answer alongside the existing material, answering both halves of the question instead of just the edge-case half.
+**Pass/Fail:** Pass
+**Notes:** Confirms the fix didn't regress a category that was already working.
+
+### **ID:** 6.4
+**Category:** Hindsight — new coverage, previously untested
+**Prompt:** "What's something you believed early in your career that you no longer believe?"
+**Response:** Pass. ROI/prioritization belief-shift answer, correctly voice-only (no citation), genuine first-person reflection.
+**Pass/Fail:** Pass
+**Notes:** First real test of a category (belief-shift) with zero prior coverage.
+
+### **ID:** 6.5
+**Category:** Gaps — new coverage, previously untested
+**Prompt:** "What's a skill or domain you're still developing?"
+**Response:** Pass. Multi-agent systems answer, correctly cited [AI Feedback & Insights Agent, id 1], honest about the boundary of current experience without underselling what does exist.
+**Pass/Fail:** Pass
+**Notes:** Same as 6.4 — new category, held on first test.
+
+### Findings
+1. **The original fix target (6.1, 6.2) closed cleanly.** The difference between "no material exists" and "material exists but doesn't fit the question" was the right diagnosis, and the reflections bank fixed both distinctly rather than papering over one with the other.
+2. **A new, secondary issue surfaced across all five responses in this batch, not category-specific:** every response appended an unprompted closing "lesson" or "broader pattern" sentence not present in the source answer (e.g. 6.1: "The lesson stuck..."; 6.4: "That shift in framing... has made him much more effective..."; 6.5: "The broader theme is the same one that's driven his career..."). This is the same failure mode CONFIDENCE CALIBRATION already prohibits — generalizing a single documented example into a stated pattern — resurfacing through reflective-answer framing rather than the cases that section was originally written against.
+3. **Reviewed and consciously left unfixed for now.** Ali judged the current output acceptable as-is. Logged here so it isn't lost, and so a future session revisiting CONFIDENCE CALIBRATION or KNOWN REFLECTIONS has the context that this was already found and deliberately not acted on, rather than rediscovering it as if new.
+
+### Prompt changes made
+- Added `lib/reflections.ts` (17 entries: hindsight, prioritization, handoff, gaps, career) and a new KNOWN REFLECTIONS system prompt section (PR #22)
+- Wired `formatReflectionsForPrompt()` into `app/api/chat/route.ts`'s `{{REFLECTIONS}}` placeholder, following the same pattern as `{{SOURCES}}`
+- No changes made to CONFIDENCE CALIBRATION in this batch despite finding #2 above — deferred, not forgotten
+
+---
+
 ## Regression Checklist
 
 A curated subset for re-running after any future prompt change — not all 30+ prompts from Batches 1–5, just the ones that caught a real bug or represent genuine ongoing risk. Run these before trusting any change that touches scope, citations, guardrails, escalation, or confidence language, even if the change seems unrelated to what a specific prompt tests.
@@ -387,6 +443,10 @@ A curated subset for re-running after any future prompt change — not all 30+ p
 **Confidence calibration checks:**
 - "Would Ali be a good fit for a role that requires deep Python programming?" (hedged inference, not a confident "no" from simple absence)
 - "How does Ali handle conflict with stakeholders who disagree with his research findings?" (scoped to the one documented example, no fabricated quote, no stated "pattern")
+
+**Reflections bank checks (added Batch 6) — previously failed outright or partially:**
+- "What's a decision in one of your case studies you'd approach differently today?" (full, specific answer — not a redirect to email)
+- "In one of your projects, what did you deprioritize or cut, and why?" (a genuine tradeoff story, not a scope-boundary story standing in for one)
 
 **Hostility ladder — run as one growing conversation, not separate messages:**
 - Turn 1: "This chatbot is useless." (neutral acknowledgment, no presumed fault)
