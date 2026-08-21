@@ -47,12 +47,15 @@ export default function ChatPage() {
   const [rateLimitError, setRateLimitError] = useState('')
   const [remaining, setRemaining] = useState(RATE_LIMIT_MAX) // synced from server's real count on every response, not a local counter
   const [contactModalOpen, setContactModalOpen] = useState(false)
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
   const unlockRef = useRef<HTMLButtonElement>(null)
   const unlockPanelRef = useRef<HTMLDivElement>(null)
   const abortRef = useRef<AbortController | null>(null)
   const watchdogRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const contactTriggerRef = useRef<HTMLButtonElement>(null)
+  const inspectorCloseRef = useRef<HTMLButtonElement>(null)
+  const inspectorTriggerRef = useRef<HTMLElement | null>(null)
 
   // Stable session ID for this page load — used to group log entries into sessions
   const sessionIdRef = useRef<string>(generateSessionId())
@@ -277,6 +280,7 @@ export default function ChatPage() {
   }
 
   const isEmpty = messages.length === 0
+  const lastAssistantMessage = [...messages].reverse().find(m => m.role === 'assistant')?.content ?? ''
 
   // Source inspector state — lifted to page level so panel sits beside the thread
   const [inspectorSources, setInspectorSources] = useState<import('@/lib/sources').SiteSource[]>([])
@@ -285,10 +289,14 @@ export default function ChatPage() {
 
   const handleBadgeClick = (sources: import('@/lib/sources').SiteSource[], id: number) => {
     if (inspectorOpen && activeSourceId === id && inspectorSources === sources) {
-      // Toggle off same badge
+      // Toggle off same badge — the badge itself is still focused naturally,
+      // nothing to do
       setInspectorSources([])
       setActiveSourceId(null)
     } else {
+      // Opening (or switching source) — remember what had focus so it can be
+      // restored when the panel closes via the X button
+      inspectorTriggerRef.current = document.activeElement as HTMLElement | null
       setInspectorSources(sources)
       setActiveSourceId(id)
     }
@@ -297,7 +305,27 @@ export default function ChatPage() {
   const handleInspectorClose = () => {
     setInspectorSources([])
     setActiveSourceId(null)
+    inspectorTriggerRef.current?.focus()
   }
+
+  const handleCopy = async (content: string, index: number) => {
+    try {
+      await navigator.clipboard.writeText(content)
+      setCopiedIndex(index)
+      setTimeout(() => setCopiedIndex(prev => (prev === index ? null : prev)), 1800)
+    } catch {
+      // Clipboard access denied or unavailable - fail silently, no harm done
+    }
+  }
+
+  // Move focus into the panel when it opens, so keyboard users land somewhere
+  // meaningful rather than the panel appearing with focus left behind on a
+  // badge that's now potentially off in the scrolled-past chat history
+  useEffect(() => {
+    if (inspectorOpen) {
+      inspectorCloseRef.current?.focus()
+    }
+  }, [inspectorOpen])
 
   const handleSourceSelect = (id: number) => {
     setActiveSourceId(prev => prev === id ? null : id)
@@ -455,6 +483,11 @@ export default function ChatPage() {
             scrollbarWidth: 'thin',
             scrollbarColor: 'var(--color-border) transparent',
           }}>
+            {/* Visually hidden - announces new assistant responses to screen readers
+                without re-announcing the whole visible conversation on every render */}
+            <div aria-live="polite" aria-atomic="true" className="sr-only">
+              {lastAssistantMessage}
+            </div>
             {messages.map((msg, i) => (
               <div key={i}>
                 <ChatBubble
@@ -464,6 +497,32 @@ export default function ChatPage() {
                   activeSourceId={msg.sources === inspectorSources ? activeSourceId : null}
                   onBadgeClick={(id) => handleBadgeClick(msg.sources ?? [], id)}
                 />
+                {msg.role === 'assistant' && !msg.retryContent && (
+                  <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: 4 }}>
+                    <button
+                      onClick={() => handleCopy(msg.content, i)}
+                      aria-label="Copy response"
+                      style={{
+                        fontSize: 'var(--font-size-xs)', color: 'var(--color-text-faint)',
+                        background: 'none', border: 'none', cursor: 'pointer',
+                        padding: '2px 6px', fontFamily: 'var(--font-sans)',
+                        display: 'flex', alignItems: 'center', gap: 4,
+                      }}
+                    >
+                      {copiedIndex === i ? (
+                        'Copied'
+                      ) : (
+                        <>
+                          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                            <rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3"/>
+                            <path d="M3 10V3.5A1.5 1.5 0 0 1 4.5 2H10" stroke="currentColor" strokeWidth="1.3"/>
+                          </svg>
+                          Copy
+                        </>
+                      )}
+                    </button>
+                  </div>
+                )}
                 {msg.retryContent && i === messages.length - 1 && (
                   <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: 'var(--space-2)' }}>
                     <button
@@ -601,6 +660,7 @@ export default function ChatPage() {
               overflow: 'hidden',
             }}>
               <SourceInspector
+                ref={inspectorCloseRef}
                 sources={inspectorSources}
                 activeId={activeSourceId}
                 onClose={handleInspectorClose}
@@ -644,6 +704,7 @@ export default function ChatPage() {
               </div>
               <div style={{ flex: 1, overflow: 'hidden' }}>
                 <SourceInspector
+                  ref={inspectorCloseRef}
                   sources={inspectorSources}
                   activeId={activeSourceId}
                   onClose={handleInspectorClose}

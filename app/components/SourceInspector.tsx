@@ -1,5 +1,6 @@
 'use client'
 
+import { forwardRef } from 'react'
 import Link from 'next/link'
 import type { SiteSource } from '@/lib/sources'
 
@@ -10,49 +11,55 @@ interface SourceInspectorProps {
   onSelect: (id: number) => void
 }
 
-export default function SourceInspector({ sources, activeId, onClose, onSelect }: SourceInspectorProps) {
-  if (sources.length === 0) return null
+const SourceInspector = forwardRef<HTMLButtonElement, SourceInspectorProps>(
+  function SourceInspector({ sources, activeId, onClose, onSelect }, closeButtonRef) {
+    if (sources.length === 0) return null
 
-  const activeSource = sources.find(s => s.id === activeId) ?? null
+    const activeSource = sources.find(s => s.id === activeId) ?? null
 
-  return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100%',
-      background: 'var(--color-surface)',
-      borderLeft: '1px solid var(--color-border)',
-    }}>
-      {/* Header */}
-      <div style={{
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        padding: 'var(--space-3) var(--space-4)',
-        borderBottom: '1px solid var(--color-border)',
-        flexShrink: 0,
-      }}>
-        <p style={{
-          fontSize: 'var(--font-size-xs)', fontWeight: 500,
-          letterSpacing: '0.08em', textTransform: 'uppercase',
-          color: 'var(--color-text-muted)', margin: 0,
+    return (
+      <div
+        role="region"
+        aria-label="Sources"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          background: 'var(--color-surface)',
+          borderLeft: '1px solid var(--color-border)',
+        }}
+      >
+        {/* Header */}
+        <div style={{
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          padding: 'var(--space-3) var(--space-4)',
+          borderBottom: '1px solid var(--color-border)',
+          flexShrink: 0,
         }}>
-          Sources
-        </p>
-        <button
-          onClick={onClose}
-          aria-label="Close source inspector"
-          style={{
-            background: 'none', border: 'none', cursor: 'pointer',
-            color: 'var(--color-text-muted)', padding: 4,
-            display: 'flex', alignItems: 'center', borderRadius: 2,
-          }}
-        >
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-          </svg>
-        </button>
-      </div>
+          <p style={{
+            fontSize: 'var(--font-size-xs)', fontWeight: 500,
+            letterSpacing: '0.08em', textTransform: 'uppercase',
+            color: 'var(--color-text-muted)', margin: 0,
+          }}>
+            Sources
+          </p>
+          <button
+            ref={closeButtonRef}
+            onClick={onClose}
+            aria-label="Close source inspector"
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              color: 'var(--color-text-muted)', padding: 4,
+              display: 'flex', alignItems: 'center', borderRadius: 2,
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+          </button>
+        </div>
 
-      {/* Source list — scrollable */}
+        {/* Source list — scrollable */}
       <div style={{
         flex: 1, overflowY: 'auto',
         padding: 'var(--space-3)',
@@ -131,5 +138,8 @@ export default function SourceInspector({ sources, activeId, onClose, onSelect }
         })}
       </div>
     </div>
-  )
-}
+    )
+  }
+)
+
+export default SourceInspector
