@@ -15,7 +15,7 @@
 export const AUDIENCE_TOOL = {
   name: 'report_audience',
   description:
-    "Report a working estimate of who the visitor is likely evaluating this from the perspective of, based on the conversation so far. This is never shown to the visitor and is not a confirmed fact - it's a private, evolving inference used to calibrate tone and to decide whether this is a natural point to suggest contacting Ali directly. Call this on every turn, even when the estimate hasn't changed from the previous one.",
+    "Report a working estimate of who the visitor is likely evaluating this from the perspective of, based on the conversation so far. This is never shown to the visitor and is not a confirmed fact - it's a private, evolving inference used to calibrate tone and to decide whether this is a natural point to suggest contacting Ali directly. Call this on every turn, in addition to giving a full, substantive text reply to the visitor - this tool call never replaces or substitutes for that reply.",
   input_schema: {
     type: 'object',
     properties: {

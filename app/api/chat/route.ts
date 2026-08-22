@@ -224,6 +224,19 @@ export async function POST(req: NextRequest) {
   const textBlock = contentBlocks.find(b => b.type === 'text')
   const assistantMessage = textBlock?.text ?? ''
 
+  // Defense in depth: the model could in principle call the audience tool
+  // without also producing a text reply, despite the system prompt now
+  // explicitly requiring both - this happened at least once during testing,
+  // rendering as a silent blank chat bubble with no error anywhere. Catch it
+  // here regardless of whether the prompt wording alone reliably prevents it.
+  if (assistantMessage.trim().length === 0) {
+    console.error('Anthropic response had no text content — likely a tool-only response. Full content:', JSON.stringify(contentBlocks))
+    return NextResponse.json(
+      { error: 'AI service error. Please try again.' },
+      { status: 500 }
+    )
+  }
+
   const audienceToolCall = contentBlocks.find(
     b => b.type === 'tool_use' && b.name === 'report_audience'
   )
