@@ -271,7 +271,18 @@ export async function POST(req: NextRequest) {
   // strictly more expensive than a turn that never needs a lookup.
   const MAX_ITERATIONS = 4
   const currentMessages: unknown[] = [...messages]
-  let finalTextBlock: AnthropicContentBlock | undefined
+  // The most recent non-empty text seen across ANY iteration - not just the
+  // final one. Confirmed by testing: the model can write its full, real
+  // answer on the same iteration as a trailing tool_use call (typically
+  // report_audience, which is always pending a tool_result on every turn),
+  // so stop_reason='tool_use' does NOT mean no real answer exists yet - it
+  // only means the API is still waiting on a tool result before this
+  // exchange is fully closed out. A 1621-character and a 1491-character
+  // real answer were both observed appearing on iterations whose
+  // stop_reason was still 'tool_use', and were being silently discarded
+  // before this fix, in favor of a later iteration that had nothing further
+  // to say because the real answer had already been given.
+  let latestText: string | null = null
   let latestAudienceEstimate: AudienceEstimate | null = incomingAudience
   let iterationError: string | null = null
   // Tracks slugs that already came back with no record this request - a
@@ -303,15 +314,19 @@ export async function POST(req: NextRequest) {
       `toolCalls=[${toolUseBlocks.map(b => b.name).join(', ')}]`
     )
 
+    if (textBlock?.text && textBlock.text.trim().length > 0) {
+      latestText = textBlock.text
+    }
+
     const audienceCall = toolUseBlocks.find(b => b.name === 'report_audience')
     if (audienceCall) {
       latestAudienceEstimate = audienceCall.input as AudienceEstimate
     }
 
     if (result.data.stop_reason !== 'tool_use') {
-      // Model is done - this should be the real, final answer
+      // Model is done - latestText already holds the real answer, whether
+      // it appeared on this exact iteration or an earlier one
       console.log(`Loop finished after ${iteration + 1} iteration(s), stop_reason: ${result.data.stop_reason}`)
-      finalTextBlock = textBlock
       break
     }
 
@@ -359,7 +374,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: iterationError }, { status: 500 })
   }
 
-  const assistantMessage = finalTextBlock?.text ?? ''
+  const assistantMessage = latestText ?? ''
 
   // Same defense in depth as before lookup_case_study existed: a turn that
   // ends without real text - whether from hitting MAX_ITERATIONS, or the
