@@ -248,12 +248,12 @@ function FullCaseStudy() {
         <ProjectImage
           src="/images/work/portfolio-assistant/footer-placement.jpg"
           alt="The Assistant's footer link, understated placement across every page"
-          caption="[TBD]"
+          caption="The Assistant's only entry point on most pages: a plain text link in the footer, alongside contact info."
         />
         <ProjectImage
           src="/images/work/portfolio-assistant/my-work-page-link.jpg"
           alt="The Assistant linked (not CTA'd) at the top of the My Work page"
-          caption="[TBD]"
+          caption="The link on the My Work page: a sentence, not a button, sitting under the page's title and lede."
         />
       </section>
 
@@ -282,14 +282,9 @@ function FullCaseStudy() {
         <Body>The graduated hostility ladder is original design work, refined the same way: three escalating steps, plus a severity override for genuinely abusive language, replacing a flat rule nobody was actually following in practice.</Body>
         <Body>Confidence calibration guidance got its own standalone section rather than staying buried as a sub-clause in a general guardrails list. The structural move mattered as much as the content: it's what made the fix generalize to topics it wasn't originally built for.</Body>
         <ProjectImage
-          src="/images/work/portfolio-assistant/citation-in-context.jpg"
-          alt="A citation marker in context within a chat response"
-          caption="[TBD]"
-        />
-        <ProjectImage
           src="/images/work/portfolio-assistant/hostility-ladder-escalation.jpg"
           alt="The graduated hostility ladder responding to repeated hostile messages"
-          caption="[TBD]"
+          caption="The three-step ladder in a single conversation: neutral acknowledgment, then a genuine attempt to redirect, then disengagement."
         />
       </section>
 
@@ -308,17 +303,17 @@ function FullCaseStudy() {
         <ProjectImage
           src="/images/work/portfolio-assistant/eval-terminal-output.jpg"
           alt="Terminal output from the eval framework showing the pass-rate progression"
-          caption="[TBD]"
+          caption="A later regression run: 14 of 17 passing, two partials, one fail, logged and triaged rather than hidden."
         />
         <ProjectImage
           src="/images/work/portfolio-assistant/anthropic-workbench-playground.jpg"
           alt="Testing a prompt change in Anthropic's Workbench before deploying"
-          caption="[TBD]"
+          caption="The same hostility-ladder scenario under test in Anthropic's Workbench before the fix shipped."
         />
         <ProjectImage
           src="/images/work/portfolio-assistant/password-guardrail-response.jpg"
           alt="A gated-content guardrail's exact scripted response, live in the chat UI"
-          caption="[TBD]"
+          caption="The mandated template, used verbatim, with no paraphrasing or reasoning added around it."
         />
       </section>
 
@@ -329,14 +324,14 @@ function FullCaseStudy() {
         <Body>"You might also ask" follow-up chips were rejected too, reasoned from the product's own purpose. This tool is for a quick fit assessment, not extended exploration. A feature built to extend engagement doesn't serve a product built for speed. Version history, a tone dropdown, and inline text-selection refinement were ruled out of scope entirely for the same reason: this isn't a general-purpose assistant UI, it's narrowly about one person's specific experience.</Body>
         <Body>Even the rate-limit banner's copy was grounded in the Assistant's actual goal rather than an operational explanation. It defines the limit in terms of what the tool is for, a fast, focused signal that earns an interview, not an extended conversation that resolves everything, rather than a cost-avoidance justification that risks reading as an apology.</Body>
         <ProjectImage
-          src="/images/work/portfolio-assistant/source-inspector-open.jpg"
+          src="/images/work/portfolio-assistant/citation-in-context.jpg"
           alt="The Source Inspector panel open, showing a cited case study"
-          caption="[TBD]"
+          caption="A response citing two projects, with the Source Inspector open to the first one."
         />
         <ProjectImage
           src="/images/work/portfolio-assistant/rate-limit-banner.jpg"
           alt="The rate-limit banner, copy grounded in the tool's actual purpose"
-          caption="[TBD]"
+          caption="The rate-limit banner as it read before this copy pass, kept here as the honest before-state rather than replaced quietly."
         />
       </section>
 
@@ -348,7 +343,12 @@ function FullCaseStudy() {
         <ProjectImage
           src="/images/work/portfolio-assistant/admin-dashboard-tab.jpg"
           alt="The admin Dashboard tab, showing real aggregated metrics"
-          caption="[TBD]"
+          caption="Real session counts, citation rate, and guardrail triggers, computed from the live log."
+        />
+        <ProjectImage
+          src="/images/work/portfolio-assistant/admin-logs-tab.jpg"
+          alt="The admin Logs tab, filterable by guardrail category"
+          caption="The same guardrail categories from the eval framework, filterable in production: a shared vocabulary between testing and monitoring."
         />
       </section>
 
