@@ -12,6 +12,10 @@
 // never presented to the model or the visitor as a confirmed fact about who
 // they are.
 
+import { CASE_STUDY_INDEX } from './knowledge/index'
+
+const CASE_STUDY_SLUGS = CASE_STUDY_INDEX.map((entry) => entry.slug)
+
 export const AUDIENCE_TOOL = {
   name: 'report_audience',
   description:
@@ -74,7 +78,8 @@ export const CASE_STUDY_LOOKUP_TOOL = {
     properties: {
       slug: {
         type: 'string',
-        description: 'Exact project slug from the case study index - do not guess or invent one.',
+        enum: CASE_STUDY_SLUGS,
+        description: 'Exact project slug from the case study index.',
       },
       lens: {
         type: 'string',
