@@ -39,9 +39,9 @@ const PERSONAS: PersonaData[] = [
   },
   {
     label: 'Product Managers',
-    primaryNeed: 'See business trade-off thinking, not just design description.',
+    primaryNeed: 'Can Ali explain what he chose not to build, and why, not just what he shipped.',
     secondaryNeed: 'Confirm Ali can tie a design decision back to a business constraint he didn\'t originally state.',
-    successCriteria: 'A "what got cut and why" answer, tied to an actual constraint.',
+    successCriteria: 'A real "what got cut and why," tied to an actual constraint, not a rehearsed talking point.',
     toleranceForAmbiguity: 'Low — a vague non-answer reads as a dodge, not honesty.',
   },
   {
@@ -53,10 +53,10 @@ const PERSONAS: PersonaData[] = [
   },
   {
     label: 'Recruiters',
-    primaryNeed: 'Confirm role alignment and baseline professionalism, fast.',
-    secondaryNeed: 'Rarely applicable — recruiters mostly don\'t open the chat at all.',
-    successCriteria: 'Nothing from the chat is required; the thirty-second scan of the site itself is what matters.',
-    toleranceForAmbiguity: 'Near zero — no time for nuance during a scan this short.',
+    primaryNeed: 'Paste a job description in and get a fast, honest read on fit, not a conversation.',
+    secondaryNeed: 'Confirm role alignment without reading through full case studies first.',
+    successCriteria: 'A direct answer to "is this a fit," in about the same time they\'d spend scanning the site.',
+    toleranceForAmbiguity: 'Near zero, same as their scan behavior elsewhere — a vague answer to a direct fit question reads as evasive.',
   },
 ]
 
@@ -238,7 +238,7 @@ function FullCaseStudy() {
       <section id="the-context" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro label="The Context" heading="Most portfolio chatbots are the easiest kind of AI feature to fake" />
         <Body>A portfolio chatbot is an easy thing to build badly and still ship. Point it at an API, give it a short system prompt describing a resume, and it will answer questions well enough to look like a feature. Most of what passes for AI on a portfolio site is exactly that: a thin conversational wrapper with nothing behind it.</Body>
-        <Body>I wanted to build one anyway, but only if the substance behind it, what it says, what it won't say, how it fails, could hold up to the same scrutiny as every other project on this site. That meant treating the prompt design, the guardrails, and the validation as the actual deliverable, not the demo wrapper around them.</Body>
+        <Body>I wanted to build one anyway, but only if the substance behind it, what it says, what it won't say, how it fails, could hold up to the same scrutiny as every other project on this site. That meant treating what the Assistant says, the guardrails, and the testing as the actual deliverable, not the demo wrapper around them.</Body>
       </section>
 
       <section id="the-users" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
@@ -266,21 +266,21 @@ function FullCaseStudy() {
 
       <section id="the-needs" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro label="The Needs" heading="What each person is actually trying to resolve" />
-        <Body>Four distinct needs, mapped against how much ambiguity each person will actually tolerate before it reads as a red flag rather than honesty.</Body>
+        <Body>Four real needs here, and Recruiters use the Assistant differently than the other three do. Hiring Managers, Product Managers, and Engineers are pressure-testing something they've already read. Recruiters are doing something narrower and faster: pasting in a job description to get a direct read on fit, the same thirty-second instinct that drives how they scan the rest of the site. That's also why there's no file upload anywhere in this tool. Paste-only was a deliberate choice, building an upload flow for a feature this narrow would have been solving a problem nobody actually had.</Body>
         <PersonaNeeds />
       </section>
 
       <section id="source-and-guidance-for-the-ai" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro label="Source and Guidance for the AI" heading="What the Assistant says, and how it decided to say it" />
-        <Body>The real design work here wasn't visual. It was deciding what the Assistant should say, and how, one behavioral decision at a time.</Body>
-        <Body>The first reframe changed everything downstream: citations aren't there to prove a claim, they're there to invite the reader one level deeper into a specific project. Once that was settled, citation density and placement stopped being a fact-checking exercise and became a wayfinding one. A flat rule capping citations at two seemed reasonable until a response legitimately synthesized four projects at once. The rule was wrong, not the response, so citation count now scales with the actual breadth of what's being discussed.</Body>
+        <Body>The real design work here wasn't visual. It was deciding what the Assistant should say, and how, one decision at a time.</Body>
+        <Body>The first decision: citations aren't there to prove a claim, they're there to invite the reader deeper into a specific project. That changed how citation count worked too. A flat rule capping citations at two seemed reasonable, until a response legitimately covered four projects at once and the cap made the answer worse than no cap at all. Citation count now scales with how much the response actually covers.</Body>
         <CalloutCard
           variant="light"
-          title="Concrete templates over abstract instructions"
-          body="Every guardrail that started as an abstract 'avoid X' instruction failed in testing, independently, across unrelated categories: gated content, compensation, hostility, confirming or denying an active interview. Concrete example phrases fixed all of them. What started as a fix for one guardrail became a standing methodological principle for every guardrail after it."
+          title="Concrete examples over abstract rules"
+          body="Every guardrail I wrote as an abstract 'avoid X' instruction failed in testing: gated content, compensation, hostility, confirming or denying an active interview. Giving the Assistant an exact phrase to use instead, rather than a rule to interpret, fixed every one of them."
         />
-        <Body>The graduated hostility ladder is original design work, refined the same way: three escalating steps, plus a severity override for genuinely abusive language, replacing a flat rule nobody was actually following in practice.</Body>
-        <Body>Confidence calibration guidance got its own standalone section rather than staying buried as a sub-clause in a general guardrails list. The structural move mattered as much as the content: it's what made the fix generalize to topics it wasn't originally built for.</Body>
+        <Body>The graduated hostility ladder works the same way: three escalating steps, with a severity override for genuinely abusive language, replacing a flat rule nobody was actually following.</Body>
+        <Body>Confidence calibration got its own section rather than a buried sub-clause in a general guardrails list, the one purely structural choice here worth calling out: it's the reason the fix ended up covering questions it wasn't originally written for.</Body>
         <ProjectImage
           src="/images/work/portfolio-assistant/hostility-ladder-escalation.jpg"
           alt="The graduated hostility ladder responding to repeated hostile messages"
@@ -291,19 +291,23 @@ function FullCaseStudy() {
       <section id="the-evaluation" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro label="The Evaluation" heading="Proving a probabilistic system works, and that its hard lines hold" />
         <Body>Here's the actual methodological problem this project had to solve: how do you know a system's behavior design works, when you can't just read the code and confirm it? This isn't generic QA. It's specific to designing systems where the same input doesn't guarantee the same output.</Body>
-        <Body>A stronger model grades the weaker one. Sonnet evaluates Haiku's output, a deliberate choice to reduce self-grading bias. One failure is never treated as a confirmed regression. Repeatability across two or three runs became the standing bar, held even under pressure to fix something immediately.</Body>
-        <Body>The harder skill was learning to tell a real regression apart from a broken test. One test case failed four times in a row, each time with a different specific complaint. That pattern was the signal that the test's own wording was ambiguous, not the system. Recognizing that, instead of reflexively rewriting the prompt again, was the actual work.</Body>
+        <Body>I wasn't evaluating whether the Assistant gave good answers in some general sense. I was evaluating whether it actually followed the rules I'd designed it around: did it cite the right project for a claim, did it hold the line on gated content, did it de-escalate a hostile conversation the way I intended, did it admit real uncertainty instead of guessing, did it stay scoped to a single documented example instead of inventing a pattern that wasn't there. Twenty-eight scenarios, each one aimed at a specific behavior I'd actually designed, not a general sense of quality.</Body>
+        <Body>A separate model reviews every response the Assistant gives, on purpose. Using the same model to generate and grade its own answers would introduce an obvious self-evaluation bias, so Sonnet checks Haiku's answers instead. And one bad answer is never treated as proof something's actually broken. The standing rule: run it again two or three times before touching anything, even when the instinct is to fix it right away.</Body>
+        <Body>The harder skill was telling a real problem apart from a bad question. One test kept failing, four times in a row, but with a different complaint every time. That pattern was the actual signal: the question I'd written was unclear, not the Assistant's answer. Noticing that, instead of rewriting the Assistant's instructions again, was the real work.</Body>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', margin: '2rem 0' }}>
           <StatCard value="54% → 100%" label="Eval pass rate, first attempt vs. final" />
           <StatCard value="28" label="Distinct test scenarios run" />
         </div>
-        <Body>That progression is proof the process converges, not just that it exists.</Body>
-        <Body>A hard line isn't real until it's survived someone trying to get around it, more than once, in more than one way. A guardrail that holds under one phrasing and folds under a slightly different one isn't a guardrail. It's a suggestion. The clearest example: a guardrail protecting how the Assistant handles a piece of gated content kept leaking, three separate times, through three different phrasings of the same request. Each time, the fix was another banned phrase. Each time, a new phrasing got through anyway.</Body>
-        <Body>The actual fix changed shape, not content. Instead of banning another phrase, the instruction now mandates an exact response template, verbatim, every time, with no paraphrasing and no reasoning added around it. That's what finally held.</Body>
+        <Body>That progression showed the process was producing measurable improvement, not just adding ceremony.</Body>
+        <Body>A guardrail protects one specific piece of gated content on the site. Getting it right looked simple at first: ban the phrase someone would use to ask for it directly.</Body>
+        <Body>It wasn't simple. The first version leaked the exact thing it was supposed to protect, someone had just asked in slightly different words than the one phrase I'd banned. I patched it: banned that phrasing too. It leaked again, a third phrasing, same leak, same content out in the open.</Body>
+        <Body>Three patches on the same failure was the real signal, more than the failure itself. I wasn't fixing a guardrail. I was playing whack-a-mole with an approach that could never work, one that assumed I could anticipate every way someone might ask.</Body>
+        <PullQuote>A hard line isn't real until it's survived someone actually trying to get around it, more than once, in more than one way.</PullQuote>
+        <Body>The fix that actually held wasn't a fourth banned phrase. It was a different kind of instruction: instead of trying to block every possible question, I gave the Assistant one exact answer to give, word for word, no matter how the question was asked. Nothing left to reinterpret, nothing left to slip through. That version has held across every test run since.</Body>
         <ProjectImage
           src="/images/work/portfolio-assistant/eval-terminal-output.jpg"
           alt="Terminal output from the eval framework showing the pass-rate progression"
-          caption="A later regression run: 14 of 17 passing, two partials, one fail, logged and triaged rather than hidden."
+          caption="A later round of testing: 14 of 17 passing, two partials, one fail, logged and triaged rather than hidden."
         />
         <ProjectImage
           src="/images/work/portfolio-assistant/anthropic-workbench-playground.jpg"
@@ -319,7 +323,7 @@ function FullCaseStudy() {
 
       <section id="the-ui" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro label="The UI" heading="Where 'not just a wrapper' becomes visible" />
-        <Body>Citation resolution to a full case study page, rather than a specific excerpt, was deliberately not "fixed." A documented pattern in the site's own AI Interaction Pattern Library assumes evidentiary citations. This system's citations are wayfinding, so resolving to the full page is correct for its actual purpose, not a shortfall. That became a caveat written back into the pattern library itself.</Body>
+        <Body>Every UI decision had to serve the Assistant's narrow job: help someone evaluate fit quickly, without pretending to be a general-purpose AI assistant. That affected citations first. Citation resolution to a full case study page, rather than a specific excerpt, was deliberately not "fixed." A documented pattern in the site's own AI Interaction Pattern Library assumes evidentiary citations. This system's citations are wayfinding, so resolving to the full page is correct for its actual purpose, not a shortfall. That became a caveat written back into the pattern library itself.</Body>
         <Body>An uncertainty-communication banner system was rejected. Detecting hedged-versus-confident claims reliably enough to decide when to show a banner produced false positives and negatives on far simpler detection tasks during testing. A banner that flags a correct, confident answer as shaky does more damage than no banner at all. A blanket, always-present disclaimer replaced it: lower-risk, and more honest about what the system can actually self-report.</Body>
         <Body>"You might also ask" follow-up chips were rejected too, reasoned from the product's own purpose. This tool is for a quick fit assessment, not extended exploration. A feature built to extend engagement doesn't serve a product built for speed. Version history, a tone dropdown, and inline text-selection refinement were ruled out of scope entirely for the same reason: this isn't a general-purpose assistant UI, it's narrowly about one person's specific experience.</Body>
         <Body>Even the rate-limit banner's copy was grounded in the Assistant's actual goal rather than an operational explanation. It defines the limit in terms of what the tool is for, a fast, focused signal that earns an interview, not an extended conversation that resolves everything, rather than a cost-avoidance justification that risks reading as an apology.</Body>
@@ -339,7 +343,8 @@ function FullCaseStudy() {
         <SectionIntro label="The Outcomes" heading="What's real right now, and what isn't yet" />
         <Body>Every other case study on this site closes this section with a stat grid: conversion lift, satisfaction score, NPS. This one won't, on purpose. There are no live-usage metrics yet: no real user satisfaction data, no meaningful guardrail-trigger rate from real traffic, no accessibility outcome from an actual screen-reader user in the wild. Claiming otherwise would undercut the entire epistemic-honesty ethos this project was built around.</Body>
         <Body>What's real instead: the rigor metrics from the evaluation above, independent of live traffic, plus a production observability layer built specifically to capture the next chapter once real usage exists. A categorized guardrail-triggered field replaced generic booleans, deliberately reusing the eval framework's own category vocabulary, so testing and production monitoring speak one language. Confidence-calibration failures were explicitly excluded from automated detection: fabricated quotes and over-generalization aren't reliably keyword-detectable, and admitting that limit honestly beat building a detector that would fake confidence.</Body>
-        <PullQuote>This is a living case study: proof of what rigorous, self-directed testing surfaced before a single real visitor arrived.</PullQuote>
+        <PullQuote>This is a living case study: proof of what rigorous, self-directed testing surfaced before real usage could tell us anything.</PullQuote>
+        <Body>Looking back across this whole project, one thing shows up more than any single decision: knowing when not to. Don't make the Assistant the primary way to read this portfolio. Don't try to answer every question in full. Don't cite a project just to prove a point already made. Don't ban another phrase when the rule itself is wrong. Don't rewrite a guardrail before confirming the test isn't the broken part. Don't add a confidence banner the system can't actually power. Don't build a detector for a failure mode that isn't reliably detectable. Don't build a file upload for a feature that only ever needed paste. Don't claim outcomes that don't exist yet. Restraint, applied consistently and on purpose, turned out to be most of the actual design work.</Body>
         <ProjectImage
           src="/images/work/portfolio-assistant/admin-dashboard-tab.jpg"
           alt="The admin Dashboard tab, showing real aggregated metrics"
@@ -355,7 +360,6 @@ function FullCaseStudy() {
       <section id="what-i-would-build-next" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro label="What I'd Build Next" heading="The methodology doesn't stop at launch" />
         <Body>Real usage will feed back into the same eval framework that validated pre-launch behavior, closing the loop the observability layer was built for. That's not hypothetical: a follow-up batch already ran after shipping a content fix, closing a gap where hindsight and prioritization questions had no real material to draw from, confirmed the fix worked, and logged a known issue deliberately left unaddressed rather than silently dropped.</Body>
-        <Body>Beyond that, a few concrete next steps: continued work on the guardrails-versus-refusals distinction, escalation and handoff design, tone calibration, and the evaluation methodology itself, applied to what real usage actually surfaces rather than what testing predicted. One specific extension: integrating FullStory's AI Session Summary API with the Assistant, so a conversation could pull a structured narrative from an actual user session rather than relying on manual review.</Body>
       </section>
 
     </div>
@@ -368,7 +372,7 @@ export default function PortfolioAssistantPage() {
     <CaseStudyPage
       title="Portfolio Assistant"
       company="Self-initiated · 2026"
-      tags={['AI Product Design', 'Prompt Engineering', 'Evaluation & Testing']}
+      tags={['AI Product Design', 'Behavior Design', 'Evaluation & Testing']}
       hook="Most portfolio chatbots are a thin wrapper around an API call. I wanted the substance behind mine, what it says, what it won't say, how it fails, to hold up to the same scrutiny as any other project on this site."
       heroImage="/images/work/portfolio-assistant/hero-chat-in-action.jpg"
       heroImageAlt="The Portfolio Assistant mid-conversation"
