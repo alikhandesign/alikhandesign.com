@@ -31,8 +31,9 @@ export default function SideNav({ sections, unlocked = true }: SideNavProps) {
     }
   }, [sections, unlocked])
 
+  const ACRONYMS = new Set(['ai', 'ui', 'ux'])
   const formatLabel = (id: string) =>
-    id.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+    id.split('-').map(w => ACRONYMS.has(w) ? w.toUpperCase() : w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
 
   const getLinkStyle = (id: string): React.CSSProperties => {
     const isActive = active === id
