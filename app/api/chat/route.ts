@@ -293,6 +293,16 @@ export async function POST(req: NextRequest) {
     const textBlock = contentBlocks.find(b => b.type === 'text')
     const toolUseBlocks = contentBlocks.filter(b => b.type === 'tool_use')
 
+    // Full visibility into every iteration, not just the final one - a real
+    // gap when a prior "no text on the final iteration" failure happened
+    // with only a lookup's own success/failure logged, nothing about what
+    // happened on the iterations in between.
+    console.log(
+      `Iteration ${iteration + 1}: stop_reason=${result.data.stop_reason}, ` +
+      `hasText=${!!textBlock?.text}, textLength=${textBlock?.text?.length ?? 0}, ` +
+      `toolCalls=[${toolUseBlocks.map(b => b.name).join(', ')}]`
+    )
+
     const audienceCall = toolUseBlocks.find(b => b.name === 'report_audience')
     if (audienceCall) {
       latestAudienceEstimate = audienceCall.input as AudienceEstimate
