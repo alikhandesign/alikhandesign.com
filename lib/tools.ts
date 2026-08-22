@@ -52,3 +52,42 @@ export interface AudienceEstimate {
   depth: 'surface' | 'technical' | 'business'
   suggest_contact: boolean
 }
+
+// lookup_case_study - retrieves deeper detail on one specific project, only
+// for questions that actually need it. The always-loaded index
+// (lib/knowledge/index.ts) covers routing and light matching; this tool is
+// how the model pulls in a project's full four-lens detail on demand,
+// keeping the default system prompt lean as the case-study corpus grows.
+//
+// Unlike report_audience, this tool's result has to flow back into the
+// model's own context before it can write a real answer - this needs a
+// genuine multi-step tool-use loop server-side (see route.ts), not a single
+// call. The same lesson from report_audience's blank-response bug applies
+// here even more directly: a turn that calls this tool must still end in a
+// real text reply to the visitor, never just the retrieval itself.
+export const CASE_STUDY_LOOKUP_TOOL = {
+  name: 'lookup_case_study',
+  description:
+    "Retrieve detail on a specific project beyond what's in the always-loaded case study index. Use only when a question needs depth the index's one-line summary doesn't cover - a real business constraint, a technical constraint, or outcome detail for one specific project. Match the slug exactly against the index already in your system prompt. After receiving the result, you must still give a full, substantive text reply to the visitor using that content - calling this tool is never itself the response, and a turn that ends without a real text reply is wrong even if this tool was called correctly.",
+  input_schema: {
+    type: 'object',
+    properties: {
+      slug: {
+        type: 'string',
+        description: 'Exact project slug from the case study index - do not guess or invent one.',
+      },
+      lens: {
+        type: 'string',
+        enum: ['outcome', 'business_constraint', 'technical_constraint', 'do_not_fabricate', 'all'],
+        description:
+          'Which section to retrieve. Use "all" if unsure which lens applies, or if the question spans more than one.',
+      },
+    },
+    required: ['slug', 'lens'],
+  },
+} as const
+
+export interface CaseStudyLookupInput {
+  slug: string
+  lens: 'outcome' | 'business_constraint' | 'technical_constraint' | 'do_not_fabricate' | 'all'
+}
