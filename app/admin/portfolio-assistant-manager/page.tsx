@@ -13,6 +13,13 @@ interface PatternTags {
   rate_limited: boolean
 }
 
+interface AudienceEstimate {
+  audience: 'recruiter' | 'hiring_manager' | 'product_manager' | 'engineer' | 'unknown'
+  confidence: number
+  depth: 'surface' | 'technical' | 'business'
+  suggest_contact: boolean
+}
+
 interface LogEntry {
   ip: string
   sessionId?: string
@@ -22,6 +29,7 @@ interface LogEntry {
   unlocked: boolean
   timestamp: string
   patterns?: PatternTags
+  audienceEstimate?: AudienceEstimate | null
   feedback?: 'up' | 'down' // attached at correlation time from the separate feedback records, not logged directly
 }
 
@@ -39,6 +47,7 @@ interface Session {
   endTime: string
   messageCount: number
   entries: LogEntry[]
+  finalAudience: AudienceEstimate | null // the most recent entry's estimate - the estimate evolves turn to turn, so this is the session's latest, most up-to-date read
   flags: {
     cited_sources: boolean
     honest_uncertainty: boolean
@@ -88,6 +97,7 @@ function groupBySessions(logs: LogEntry[], feedback: FeedbackRecord[] = []): Ses
       endTime: sorted[sorted.length - 1].timestamp,
       messageCount: sorted.filter(e => e.userMessage).length,
       entries: sorted,
+      finalAudience: [...sorted].reverse().find(e => e.audienceEstimate)?.audienceEstimate ?? null,
       flags: {
         cited_sources: sorted.some(e => e.patterns?.cited_sources),
         honest_uncertainty: sorted.some(e => e.patterns?.honest_uncertainty),
@@ -171,6 +181,24 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
       hostility_final_disengage: 'Hostility ladder, disengaged',
     }
 
+    // Audience distribution counted at the session level, using each
+    // session's final (most recent) estimate - the estimate evolves turn to
+    // turn, so a per-message count would over-weight longer conversations.
+    const audienceCounts = new Map<string, number>()
+    for (const s of sessions) {
+      const a = s.finalAudience?.audience ?? 'no estimate'
+      audienceCounts.set(a, (audienceCounts.get(a) ?? 0) + 1)
+    }
+    const audienceLabels: Record<string, string> = {
+      recruiter: 'Recruiter',
+      hiring_manager: 'Hiring manager',
+      product_manager: 'Product manager',
+      engineer: 'Engineer',
+      unknown: 'Unknown',
+      'no estimate': 'No estimate recorded',
+    }
+    const suggestContactCount = sessions.filter(s => s.finalAudience?.suggest_contact).length
+
     const pct = (n: number, d: number) => d === 0 ? '—' : `${Math.round((n / d) * 100)}%`
 
     // Sessions per day, most recent 14 days present in the data
@@ -188,7 +216,8 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
       totalSessions, uniqueIps, totalEntries, citedCount, uncertaintyCount, errorCount,
       rateLimitedSessions, unlockedSessions, overrideAttemptSessions, rifLeakSessions,
       thumbsUpCount, thumbsDownCount, totalFeedback,
-      guardrailCounts, guardrailLabels, pct, days, maxDayCount,
+      guardrailCounts, guardrailLabels, audienceCounts, audienceLabels, suggestContactCount,
+      pct, days, maxDayCount,
     }
   }, [sessions])
 
@@ -243,6 +272,24 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
             {Array.from(stats.guardrailCounts.entries()).sort((a, b) => b[1] - a[1]).map(([key, count]) => (
               <div key={key} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--font-size-sm)' }}>
                 <span style={{ color: 'var(--color-text)' }}>{stats.guardrailLabels[key] ?? key}</span>
+                <span style={{ color: 'var(--color-text-muted)' }}>{count}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div style={{ padding: '1.25rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', marginBottom: 'var(--space-6)' }}>
+        <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-4)' }}>
+          Audience estimate (by session, most recent estimate) — {stats.suggestContactCount} session{stats.suggestContactCount !== 1 ? 's' : ''} flagged a contact-suggestion moment
+        </p>
+        {stats.audienceCounts.size === 0 ? (
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-faint)' }}>No sessions in this window.</p>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+            {Array.from(stats.audienceCounts.entries()).sort((a, b) => b[1] - a[1]).map(([key, count]) => (
+              <div key={key} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--font-size-sm)' }}>
+                <span style={{ color: 'var(--color-text)' }}>{stats.audienceLabels[key] ?? key}</span>
                 <span style={{ color: 'var(--color-text-muted)' }}>{count}</span>
               </div>
             ))}
@@ -551,6 +598,16 @@ function LogsTab({ sessions, rawCount, onRefresh, loading }: { sessions: Session
                             )}
                             {entry.patterns?.guardrail_triggered && (
                               <Tag label={entry.patterns.guardrail_triggered.replace(/_/g, ' ')} active color="#92600A" />
+                            )}
+                            {entry.audienceEstimate && entry.audienceEstimate.audience !== 'unknown' && (
+                              <Tag
+                                label={`${entry.audienceEstimate.audience.replace(/_/g, ' ')} (${Math.round(entry.audienceEstimate.confidence * 100)}%)`}
+                                active
+                                color="#2563EB"
+                              />
+                            )}
+                            {entry.audienceEstimate?.suggest_contact && (
+                              <Tag label="Contact suggested" active color="#4A6130" />
                             )}
                             <Tag label="Possible RIF leak" active={entry.patterns?.rif_possible_leak ?? false} color="#B91C1C" />
                             {entry.feedback === 'down' && <Tag label="👎" active color="#B91C1C" />}
