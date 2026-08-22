@@ -232,20 +232,26 @@ export async function POST(req: NextRequest) {
     return { ok: true as const, data: await res.json() }
   }
 
-  function performLookup(input: { slug?: string; lens?: string }): string {
+  function performLookup(input: { slug?: string; lens?: string }): { content: string; found: boolean } {
     const slug = typeof input.slug === 'string' ? input.slug : ''
     const lens = typeof input.lens === 'string' ? input.lens : 'all'
     const detail = getCaseStudyDetail(slug)
     if (!detail) {
-      return `No detailed record exists yet for project "${slug}". Only use what's already in the index summary, and be honest that deeper detail isn't available for this project yet - never fabricate detail to fill the gap.`
+      return {
+        found: false,
+        content: `No detailed record exists yet for project "${slug}". Only use what's already in the index summary, and be honest that deeper detail isn't available for this project yet - never fabricate detail to fill the gap.`,
+      }
     }
     if (lens === 'all') {
-      return JSON.stringify({
-        outcome: detail.outcome,
-        businessConstraint: detail.businessConstraint,
-        technicalConstraint: detail.technicalConstraint,
-        doNotFabricate: detail.doNotFabricate,
-      })
+      return {
+        found: true,
+        content: JSON.stringify({
+          outcome: detail.outcome,
+          businessConstraint: detail.businessConstraint,
+          technicalConstraint: detail.technicalConstraint,
+          doNotFabricate: detail.doNotFabricate,
+        }),
+      }
     }
     const lensMap: Record<string, string> = {
       outcome: detail.outcome,
@@ -253,7 +259,7 @@ export async function POST(req: NextRequest) {
       technical_constraint: detail.technicalConstraint,
       do_not_fabricate: detail.doNotFabricate.join('\n'),
     }
-    return lensMap[lens] ?? `Unrecognized lens "${lens}" requested.`
+    return { found: true, content: lensMap[lens] ?? `Unrecognized lens "${lens}" requested.` }
   }
 
   // The multi-step loop. A turn that only calls report_audience ends after
@@ -268,6 +274,11 @@ export async function POST(req: NextRequest) {
   let finalTextBlock: AnthropicContentBlock | undefined
   let latestAudienceEstimate: AudienceEstimate | null = incomingAudience
   let iterationError: string | null = null
+  // Tracks slugs that already came back with no record this request - a
+  // programmatic backstop, not just a prompt instruction, since a repeated
+  // lookup for the same known-missing project produced an actual observed
+  // failure (looping to the iteration cap) in testing.
+  const notFoundSlugs = new Set<string>()
 
   for (let iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
     const result = await callAnthropic(currentMessages)
@@ -289,6 +300,7 @@ export async function POST(req: NextRequest) {
 
     if (result.data.stop_reason !== 'tool_use') {
       // Model is done - this should be the real, final answer
+      console.log(`Loop finished after ${iteration + 1} iteration(s), stop_reason: ${result.data.stop_reason}`)
       finalTextBlock = textBlock
       break
     }
@@ -300,10 +312,28 @@ export async function POST(req: NextRequest) {
 
     const toolResults = toolUseBlocks.map(block => {
       if (block.name === 'lookup_case_study') {
+        const input = (block.input ?? {}) as { slug?: string; lens?: string }
+        const slug = typeof input.slug === 'string' ? input.slug : ''
+        console.log('lookup_case_study called:', JSON.stringify(input))
+
+        if (notFoundSlugs.has(slug)) {
+          console.log('Repeated lookup for already-not-found slug, escalating:', slug)
+          return {
+            type: 'tool_result',
+            tool_use_id: block.id,
+            content: `You already checked "${slug}" and were told no detailed record exists. Stop calling this tool for this project - answer now using only the index summary.`,
+          }
+        }
+
+        const lookupResult = performLookup(input)
+        console.log('Lookup result for', slug, ':', lookupResult.found ? 'found' : 'not found')
+        if (!lookupResult.found) {
+          notFoundSlugs.add(slug)
+        }
         return {
           type: 'tool_result',
           tool_use_id: block.id,
-          content: performLookup((block.input ?? {}) as { slug?: string; lens?: string }),
+          content: lookupResult.content,
         }
       }
       if (block.name === 'report_audience') {
@@ -326,7 +356,11 @@ export async function POST(req: NextRequest) {
   // model finishing with only a tool call and no text - must never silently
   // render as a blank chat bubble.
   if (assistantMessage.trim().length === 0) {
-    console.error('Loop ended with no text content after', MAX_ITERATIONS, 'max iterations.')
+    console.error(
+      'Loop ended with no text content. notFoundSlugs seen this request:',
+      Array.from(notFoundSlugs),
+      '- likely hit the', MAX_ITERATIONS, 'iteration cap without the model ever giving a final answer.'
+    )
     return NextResponse.json(
       { error: 'AI service error. Please try again.' },
       { status: 500 }
