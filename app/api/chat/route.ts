@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { isRequestAuthorized } from '@/lib/auth'
+import { AUDIENCE_TOOL, type AudienceEstimate } from '@/lib/tools'
 
 const RATE_LIMIT_WINDOW = 60 * 60 // 1 hour in seconds
 const RATE_LIMIT_MAX = 15 // messages per window
@@ -51,6 +52,9 @@ async function logConversation(entry: {
   assistantMessage: string
   unlocked: boolean
   timestamp: string
+  // A separate top-level field from patterns below - this is an estimate
+  // about the visitor, not a detected behavior of the response itself.
+  audienceEstimate: AudienceEstimate | null
   patterns: {
     cited_sources: boolean
     source_count: number
@@ -128,6 +132,7 @@ export async function POST(req: NextRequest) {
       assistantMessage: '',
       unlocked: false,
       timestamp: new Date().toISOString(),
+      audienceEstimate: null,
       patterns: {
         cited_sources: false,
         source_count: 0,
@@ -145,7 +150,7 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  const { messages, sessionId, messageIndex } = await req.json()
+  const { messages, sessionId, messageIndex, audienceContext } = await req.json()
   if (!messages || !Array.isArray(messages)) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
   }
@@ -166,12 +171,23 @@ export async function POST(req: NextRequest) {
   const { SITE_SOURCES, formatSourcesForPrompt } = await import('@/lib/sources')
   const { formatReflectionsForPrompt } = await import('@/lib/reflections')
 
-  const basePrompt = (unlocked
+  const basePromptWithoutAudience = (unlocked
     ? PUBLIC_SYSTEM_PROMPT + '\n\n' + PROTECTED_SYSTEM_PROMPT
     : PUBLIC_SYSTEM_PROMPT
   )
     .replace('{{SOURCES}}', formatSourcesForPrompt())
     .replace('{{REFLECTIONS}}', formatReflectionsForPrompt())
+
+  // If the client is carrying a running audience estimate from a previous
+  // turn, pass it along as context - a working estimate to revise, never a
+  // fact injected as if it were confirmed. Absent or malformed input is
+  // treated as no prior estimate, not an error.
+  const incomingAudience: AudienceEstimate | null =
+    audienceContext && typeof audienceContext === 'object' ? audienceContext : null
+
+  const basePrompt = incomingAudience
+    ? `${basePromptWithoutAudience}\n\n---\n\nCURRENT AUDIENCE ESTIMATE (from a previous turn - revise this, don't treat it as settled): ${JSON.stringify(incomingAudience)}`
+    : basePromptWithoutAudience
 
   // Call Anthropic
   const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -186,6 +202,12 @@ export async function POST(req: NextRequest) {
       max_tokens: 1024,
       system: basePrompt,
       messages,
+      tools: [AUDIENCE_TOOL],
+      // Left as the API default (auto) rather than forced - forcing a
+      // specific tool risks suppressing the accompanying text reply
+      // depending on model behavior, which isn't something that can be
+      // verified without live API access. If the model doesn't reliably
+      // call this tool in practice, that's the first thing to revisit.
     }),
   })
 
@@ -196,7 +218,35 @@ export async function POST(req: NextRequest) {
   }
 
   const data = await response.json()
-  const assistantMessage = data.content?.[0]?.text ?? ''
+  const contentBlocks: Array<{ type: string; text?: string; name?: string; input?: unknown }> =
+    data.content ?? []
+
+  const textBlock = contentBlocks.find(b => b.type === 'text')
+  const assistantMessage = textBlock?.text ?? ''
+
+  // Defense in depth: the model could in principle call the audience tool
+  // without also producing a text reply, despite the system prompt now
+  // explicitly requiring both - this happened at least once during testing,
+  // rendering as a silent blank chat bubble with no error anywhere. Catch it
+  // here regardless of whether the prompt wording alone reliably prevents it.
+  if (assistantMessage.trim().length === 0) {
+    console.error('Anthropic response had no text content — likely a tool-only response. Full content:', JSON.stringify(contentBlocks))
+    return NextResponse.json(
+      { error: 'AI service error. Please try again.' },
+      { status: 500 }
+    )
+  }
+
+  const audienceToolCall = contentBlocks.find(
+    b => b.type === 'tool_use' && b.name === 'report_audience'
+  )
+  // If the model didn't call the tool this turn, carry the prior estimate
+  // forward rather than resetting to unknown - a missing report says
+  // nothing new, it isn't itself a signal that the prior estimate was wrong.
+  const audienceEstimate: AudienceEstimate =
+    (audienceToolCall?.input as AudienceEstimate | undefined) ??
+    incomingAudience ??
+    { audience: 'unknown', confidence: 0, depth: 'surface', suggest_contact: false }
 
   // Extract cited source IDs in order of first appearance
   const seenIds: number[] = []
@@ -306,11 +356,17 @@ export async function POST(req: NextRequest) {
     assistantMessage: renumberedMessage,
     unlocked,
     timestamp: new Date().toISOString(),
+    audienceEstimate,
     patterns,
   })
 
   return NextResponse.json(
-    { message: renumberedMessage, sources: citedSources, remaining },
+    {
+      message: renumberedMessage,
+      sources: citedSources,
+      remaining,
+      audience: audienceEstimate,
+    },
     { headers: { 'X-RateLimit-Remaining': String(remaining) } }
   )
 }

@@ -10,6 +10,7 @@ import ChatInput from '../components/ChatInput'
 import SourceInspector from '../components/SourceInspector'
 import Heading from '../components/Heading'
 import type { SiteSource } from '@/lib/sources'
+import type { AudienceEstimate } from '@/lib/tools'
 
 const RATE_LIMIT_WARN_THRESHOLD = 4 // show warning when this many or fewer responses remain - matches the documented 25% threshold (25% of 15 = 3.75, rounded to 4)
 const RATE_LIMIT_MAX = 15 // matches app/api/chat/route.ts RATE_LIMIT_MAX exactly
@@ -25,13 +26,14 @@ interface Message {
   sources?: SiteSource[]
   retryContent?: string // set on a failed assistant message - the user content to resend on retry
   turnIndex?: number // the messageIndex sent to the backend for this turn - used to correlate feedback
+  suggestContact?: boolean // true when this response is a natural point to suggest reaching out to Ali directly
 }
 
 const SUGGESTED_QUESTIONS = [
-  'What makes Ali different from other designers?',
-  'What is his experience with AI product design?',
-  'Has he worked at enterprise scale?',
-  'Is Ali available for full-time roles?',
+  'Paste a job description to see if it\'s a fit',
+  'Ask about the reasoning behind a specific decision',
+  'What stack or approach did you use to build this?',
+  'What got cut, and why?',
 ]
 
 export default function ChatPage() {
@@ -63,6 +65,7 @@ export default function ChatPage() {
   const sessionIdRef = useRef<string>(generateSessionId())
   // Track turn number within this session
   const messageIndexRef = useRef<number>(0)
+  const audienceRef = useRef<AudienceEstimate | null>(null)
 
   const [isMobile, setIsMobile] = useState(false)
   useEffect(() => {
@@ -187,6 +190,7 @@ export default function ChatPage() {
           messages: allMessages.map(({ role, content }) => ({ role, content })),
           sessionId: sessionIdRef.current,
           messageIndex: currentMessageIndex,
+          audienceContext: audienceRef.current,
         }),
         signal: controller.signal,
       })
@@ -204,11 +208,15 @@ export default function ChatPage() {
 
       setGenerationPhase('generating')
       const data = await res.json()
+      if (data.audience) {
+        audienceRef.current = data.audience
+      }
       setMessages(prev => [...prev, {
         role: 'assistant',
         content: data.message,
         sources: data.sources ?? [],
         turnIndex: currentMessageIndex,
+        suggestContact: data.audience?.suggest_contact === true,
       }])
       if (typeof data.remaining === 'number') {
         setRemaining(data.remaining)
@@ -587,6 +595,22 @@ export default function ChatPage() {
                         </button>
                       </>
                     )}
+                  </div>
+                )}
+                {msg.suggestContact && (
+                  <div style={{ marginTop: 6 }}>
+                    <button
+                      onClick={() => setContactModalOpen(true)}
+                      style={{
+                        fontSize: 'var(--font-size-xs)', fontWeight: 500,
+                        color: 'var(--color-accent)',
+                        background: 'none', border: 'none', cursor: 'pointer',
+                        padding: 0, fontFamily: 'var(--font-sans)',
+                        textDecoration: 'underline',
+                      }}
+                    >
+                      Reach out to Ali directly →
+                    </button>
                   </div>
                 )}
                 {msg.retryContent && i === messages.length - 1 && (
