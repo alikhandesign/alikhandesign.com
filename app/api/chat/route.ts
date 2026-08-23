@@ -170,6 +170,7 @@ export async function POST(req: NextRequest) {
   const { PUBLIC_SYSTEM_PROMPT, PROTECTED_SYSTEM_PROMPT } = await import('@/lib/systemPrompt')
   const { SITE_SOURCES, formatSourcesForPrompt } = await import('@/lib/sources')
   const { formatReflectionsForPrompt } = await import('@/lib/reflections')
+  const { formatSkillsMatrixForPrompt } = await import('@/lib/skillsMatrix')
 
   const basePromptWithoutAudience = (unlocked
     ? PUBLIC_SYSTEM_PROMPT + '\n\n' + PROTECTED_SYSTEM_PROMPT
@@ -177,6 +178,7 @@ export async function POST(req: NextRequest) {
   )
     .replace('{{SOURCES}}', formatSourcesForPrompt())
     .replace('{{REFLECTIONS}}', formatReflectionsForPrompt())
+    .replace('{{SKILLS_MATRIX}}', formatSkillsMatrixForPrompt())
 
   // If the client is carrying a running audience estimate from a previous
   // turn, pass it along as context - a working estimate to revise, never a
