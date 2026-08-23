@@ -27,6 +27,7 @@ interface Message {
   retryContent?: string // set on a failed assistant message - the user content to resend on retry
   turnIndex?: number // the messageIndex sent to the backend for this turn - used to correlate feedback
   suggestContact?: boolean // true when this response is a natural point to suggest reaching out to Ali directly
+  caseStudyPointer?: { slug: string; title: string; url: string } | null // set when this response points toward a specific case study for more depth
 }
 
 const SUGGESTED_QUESTIONS = [
@@ -217,6 +218,7 @@ export default function ChatPage() {
         sources: data.sources ?? [],
         turnIndex: currentMessageIndex,
         suggestContact: data.audience?.suggest_contact === true,
+        caseStudyPointer: data.caseStudyPointer ?? null,
       }])
       if (typeof data.remaining === 'number') {
         setRemaining(data.remaining)
@@ -611,6 +613,21 @@ export default function ChatPage() {
                     >
                       Reach out to Ali directly →
                     </button>
+                  </div>
+                )}
+                {msg.caseStudyPointer && (
+                  <div style={{ marginTop: 6 }}>
+                    <Link
+                      href={msg.caseStudyPointer.url}
+                      style={{
+                        fontSize: 'var(--font-size-xs)', fontWeight: 500,
+                        color: 'var(--color-accent)',
+                        textDecoration: 'underline',
+                        fontFamily: 'var(--font-sans)',
+                      }}
+                    >
+                      Read the full {msg.caseStudyPointer.title} case study →
+                    </Link>
                   </div>
                 )}
                 {msg.retryContent && i === messages.length - 1 && (

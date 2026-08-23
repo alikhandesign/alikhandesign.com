@@ -45,8 +45,20 @@ export const AUDIENCE_TOOL = {
         description:
           "True only when this specific response reaches a natural point where reaching out to Ali directly is the right next step - the visitor asks how to get in touch, expresses clear interest in following up, or the conversation reaches a genuine positive fit assessment with an obvious next step. Examples of what should trigger this: \"How do I get in touch with him?\", \"Can I reach out about this role?\", \"What's the best way to follow up?\". Do not set this reflexively on every response - most responses should have this false.",
       },
+      fit_verdict: {
+        type: 'string',
+        enum: ['strong_fit', 'partial_fit', 'no_fit', 'not_applicable'],
+        description:
+          "Only populated when this turn involved an actual JD-matching exchange - the visitor pasted or clearly described a job description and is asking for a fit read. Use 'not_applicable' for every other kind of turn, including ordinary questions about experience or projects. This is a deliberately coarse, categorical read, not a numeric score - never infer or state a percentage anywhere in your visible reply, only ever one of these four categories internally. strong_fit: the role's core requirements clearly match Ali's documented experience. partial_fit: meaningful overlap exists but a real gap does too (domain, seniority, or a specific named hard requirement). no_fit: the role's core requirements don't match at all.",
+      },
+      case_study_pointer: {
+        type: 'string',
+        enum: ['', ...CASE_STUDY_SLUGS],
+        description:
+          "Exact project slug from the index to point the visitor toward for more detail, only if there's a natural one for this specific response - the visitor asked something broader than one project fully answers, or a specific case study would give them meaningfully more depth than what's already in this reply. Use an empty string when no specific project is worth pointing to this turn - most responses should have this empty. Never invent a slug; only use one that appears exactly in the index.",
+      },
     },
-    required: ['audience', 'confidence', 'depth', 'suggest_contact'],
+    required: ['audience', 'confidence', 'depth', 'suggest_contact', 'fit_verdict', 'case_study_pointer'],
   },
 } as const
 
@@ -55,6 +67,8 @@ export interface AudienceEstimate {
   confidence: number
   depth: 'surface' | 'technical' | 'business'
   suggest_contact: boolean
+  fit_verdict: 'strong_fit' | 'partial_fit' | 'no_fit' | 'not_applicable'
+  case_study_pointer: string
 }
 
 // lookup_case_study - retrieves deeper detail on one specific project, only
