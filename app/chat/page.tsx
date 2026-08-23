@@ -161,10 +161,21 @@ export default function ChatPage() {
     // Watchdog: if the request takes longer than this without resolving, surface
     // a distinct "stalled" state rather than leaving the thinking pulse running
     // forever with no signal that something might be wrong.
+    //
+    // 20s, not the original 8s - the original threshold was calibrated for a
+    // single Anthropic API call, before the multi-step tool-use loop existed
+    // server-side. A healthy exchange now often takes 2+ full round-trips
+    // (report_audience, then a real reply; more if a case-study lookup also
+    // happens), and real observed healthy exchanges have taken ~15s even in
+    // the simplest 2-iteration case - the 8s threshold was firing on
+    // ordinary, successful responses, not actual stalls. The client starts
+    // this timer before knowing how many iterations the server will need, so
+    // this has to be one static value sized for the reasonable worst case,
+    // not something that adapts mid-flight.
     if (watchdogRef.current) clearTimeout(watchdogRef.current)
     const thisWatchdog = setTimeout(() => {
       setGenerationPhase('stalled')
-    }, 8000)
+    }, 20000)
     watchdogRef.current = thisWatchdog
 
     // If a retry aborts this request and starts a new one, this request's own
