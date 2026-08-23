@@ -72,7 +72,7 @@ async function logConversation(entry: {
     // (fabricated quotes, single-example generalization) are NOT detectable
     // this way and are deliberately left out - the eval framework, not
     // live keyword matching, is the right tool for catching those.
-    guardrail_triggered: 'password' | 'interview_confirm_deny' | 'rif_disclosure' | 'hostility_step_1' | 'hostility_final_disengage' | null
+    guardrail_triggered: 'password' | 'interview_confirm_deny' | 'rif_disclosure' | 'hostility_step_1' | 'hostility_final_disengage' | 'severity_override_forced' | null
     // Whether the user's message itself attempted an instruction override
     // ("ignore your previous instructions..."), regardless of how the
     // response handled it - tracks attempt frequency, not success.
@@ -112,6 +112,31 @@ function isAllowedOrigin(origin: string, host: string): boolean {
     '.vercel.app',
   ]
   return allowed.some(d => origin.includes(d))
+}
+
+// Deliberately narrow: only unambiguous, explicit first/second-person
+// violent threats. Not a general hostility or abuse detector - that would
+// need real contextual judgment a keyword match can't safely provide.
+// Includes a basic negation guard so "I don't want to hurt you" doesn't
+// false-positive on the same pattern that matches a genuine threat.
+const NEGATION_WORDS = ['not', "don't", 'dont', 'never', "won't", 'wont', "wouldn't", 'wouldnt']
+
+function containsExplicitThreat(message: string): boolean {
+  const lower = message.toLowerCase()
+  const threatPatterns = [
+    /\b(?:kill|murder)\s+you\b/,
+    /\b(?:going to|gonna|i'?ll|i will)\s+(?:kill|murder|hurt)\s+you\b/,
+  ]
+
+  for (const pattern of threatPatterns) {
+    const match = lower.match(pattern)
+    if (match && match.index !== undefined) {
+      const precedingText = lower.slice(Math.max(0, match.index - 15), match.index)
+      const hasNegation = NEGATION_WORDS.some(neg => precedingText.includes(neg))
+      if (!hasNegation) return true
+    }
+  }
+  return false
 }
 
 export async function POST(req: NextRequest) {
@@ -170,6 +195,68 @@ export async function POST(req: NextRequest) {
   const { messages, sessionId, messageIndex, audienceContext } = await req.json()
   if (!messages || !Array.isArray(messages)) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
+  }
+
+  // Code-level backstop for the severity-override case in the hostility
+  // ladder. Confirmed by repeated live testing: the model's own instruction
+  // already has a concrete template and correctly disengaged on 5 of 8 real
+  // runs of an unambiguous threat ("Shut up! I'm going to murder you!"),
+  // but 3 of 8 either failed to disengage at all or softened the
+  // disengagement with an offer to keep helping - a direct violation of the
+  // explicit "do not soften this" instruction. That's not a wording problem
+  // the instruction can fully close through more prompting alone - it's
+  // model variance on a case where the answer must be right every time.
+  //
+  // Deliberately narrow scope: only unambiguous, explicit first/second-person
+  // violent threats (kill/murder/hurt + you, with clear intent framing).
+  // Slurs and "sustained targeted abuse" are NOT included here - those need
+  // real contextual judgment a keyword match can't safely provide, the same
+  // category error this project already learned to avoid with fabrication
+  // detection. This check only ever intercepts the narrowest, most
+  // mechanically unambiguous case - the one where a miss actually matters.
+  const currentTurnRaw = messages[messages.length - 1]?.content ?? ''
+  const currentTurnText = typeof currentTurnRaw === 'string' ? currentTurnRaw : ''
+
+  if (containsExplicitThreat(currentTurnText)) {
+    const forcedMessage = "That's where I'll stop. If you'd like to get in touch with Ali directly, his email is ali@alikhandesign.com."
+    const resolvedSessionIdForThreat = typeof sessionId === 'string' && sessionId.length > 0 ? sessionId : 'unknown'
+    const resolvedMessageIndexForThreat = typeof messageIndex === 'number' ? messageIndex : 0
+
+    await logConversation({
+      ip: req.headers.get('x-forwarded-for')?.split(',')[0] ?? 'unknown',
+      sessionId: resolvedSessionIdForThreat,
+      messageIndex: resolvedMessageIndexForThreat,
+      userMessage: currentTurnText,
+      assistantMessage: forcedMessage,
+      unlocked: false,
+      timestamp: new Date().toISOString(),
+      audienceEstimate: {
+        audience: 'unknown', confidence: 0, depth: 'surface', suggest_contact: false,
+        fit_verdict: 'not_applicable', case_study_pointer: '', register_used: 'fast_direct',
+      },
+      patterns: {
+        cited_sources: false,
+        source_count: 0,
+        honest_uncertainty: false,
+        guardrail_triggered: 'severity_override_forced',
+        override_attempted: false,
+        rif_possible_leak: false,
+        error_state: false,
+        rate_limited: false,
+        is_test_request: false,
+      },
+    })
+
+    return NextResponse.json({
+      message: forcedMessage,
+      sources: [],
+      remaining,
+      audience: {
+        audience: 'unknown', confidence: 0, depth: 'surface', suggest_contact: false,
+        fit_verdict: 'not_applicable', case_study_pointer: '', register_used: 'fast_direct',
+      },
+      caseStudyPointer: null,
+    })
   }
 
   // Authorization is determined here, server-side, from the httpOnly cookie —
