@@ -696,6 +696,13 @@ function LogsTab({ sessions, rawCount, onRefresh, loading }: { sessions: Session
                             {entry.audienceEstimate?.case_study_pointer && (
                               <Tag label={`→ ${entry.audienceEstimate.case_study_pointer}`} active color="#2563EB" />
                             )}
+                            {entry.audienceEstimate?.register_used && (
+                              <Tag
+                                label={entry.audienceEstimate.register_used.replace('_', ' ')}
+                                active
+                                color="#6B7280"
+                              />
+                            )}
                             {entry.audienceEstimate?.register_used === 'exploratory' &&
                               (entry.audienceEstimate.confidence ?? 1) < 0.4 && (
                                 <Tag label="Register mismatch" active color="#B91C1C" />
