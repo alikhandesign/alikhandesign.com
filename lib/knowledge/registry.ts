@@ -20,6 +20,7 @@ import { SIGNIFY_REBRAND_DETAIL } from './caseStudies/signifyRebrand'
 import { HONEST_DESIGN_SYSTEM_DETAIL } from './caseStudies/honestDesignSystem'
 import { PATTERN_LIBRARY_DETAIL } from './caseStudies/patternLibrary'
 import { THE_PORTFOLIO_DETAIL } from './caseStudies/thePortfolio'
+import { PORTFOLIO_ASSISTANT_DETAIL } from './caseStudies/portfolioAssistant'
 
 export const CASE_STUDY_REGISTRY: Record<string, CaseStudyDetail> = {
   'ai-agent': AI_AGENT_DETAIL,
@@ -34,6 +35,7 @@ export const CASE_STUDY_REGISTRY: Record<string, CaseStudyDetail> = {
   'honest-design-system': HONEST_DESIGN_SYSTEM_DETAIL,
   'pattern-library': PATTERN_LIBRARY_DETAIL,
   'the-portfolio': THE_PORTFOLIO_DETAIL,
+  'portfolio-assistant': PORTFOLIO_ASSISTANT_DETAIL,
 }
 
 export function getCaseStudyDetail(slug: string): CaseStudyDetail | null {

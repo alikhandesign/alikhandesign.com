@@ -145,6 +145,17 @@ export const CASE_STUDY_INDEX: CaseStudyIndexEntry[] = [
       roleType: ['AI interaction design', 'design engineering'],
     },
   },
+  {
+    slug: 'portfolio-assistant',
+    title: 'The Portfolio Assistant',
+    oneLineSummary:
+      'The AI chatbot on this site itself - a real, shipped example of system prompt design, guardrails, an automated eval framework, native tool-calling, on-demand retrieval, and prompt caching, with a real, tested debugging history behind it.',
+    tags: {
+      skills: ['AI interaction design', 'prompt engineering', 'evaluation methodology', 'guardrail design'],
+      stack: ['Claude API', 'Next.js', 'TypeScript', 'Vercel', 'Upstash Redis'],
+      roleType: ['AI interaction design', 'design engineering'],
+    },
+  },
 ]
 
 export function formatIndexForPrompt(): string {
