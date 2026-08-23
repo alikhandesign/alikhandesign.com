@@ -185,9 +185,24 @@ export async function POST(req: NextRequest) {
   const incomingAudience: AudienceEstimate | null =
     audienceContext && typeof audienceContext === 'object' ? audienceContext : null
 
-  const basePrompt = incomingAudience
-    ? `${basePromptWithoutAudience}\n\n---\n\nCURRENT AUDIENCE ESTIMATE (from a previous turn - revise this, don't treat it as settled): ${JSON.stringify(incomingAudience)}`
-    : basePromptWithoutAudience
+  // Deliberately kept as two SEPARATE system blocks, not one interpolated
+  // string. Prompt caching requires the cached prefix to be byte-identical
+  // across requests - the old approach glued the audience estimate directly
+  // into the middle of one string, which changes on nearly every request and
+  // would have made the "prefix" never actually match, defeating caching
+  // entirely. Splitting them means the large, genuinely static block (this
+  // one, ~78k characters) can be marked as a cache breakpoint, while the
+  // small, per-turn-varying block sits after it, uncached, exactly where
+  // dynamic content belongs relative to a cache boundary.
+  const systemBlocks: Array<{ type: 'text'; text: string; cache_control?: { type: 'ephemeral' } }> = [
+    { type: 'text', text: basePromptWithoutAudience, cache_control: { type: 'ephemeral' } },
+  ]
+  if (incomingAudience) {
+    systemBlocks.push({
+      type: 'text',
+      text: `\n\n---\n\nCURRENT AUDIENCE ESTIMATE (from a previous turn - revise this, don't treat it as settled): ${JSON.stringify(incomingAudience)}`,
+    })
+  }
 
   // Both tools are sent every turn - report_audience for tone calibration,
   // lookup_case_study for on-demand project detail. Anthropic's API requires
@@ -200,12 +215,52 @@ export async function POST(req: NextRequest) {
   const { getCaseStudyDetail } = await import('@/lib/knowledge/registry')
   const { CASE_STUDY_INDEX } = await import('@/lib/knowledge/index')
 
+  // Tools never change turn to turn, so they're always cacheable - marking
+  // the LAST tool caches the whole array as a prefix (tools render before
+  // system in Anthropic's request hierarchy: tools -> system -> messages).
+  const cachedTools = [
+    AUDIENCE_TOOL,
+    { ...CASE_STUDY_LOOKUP_TOOL, cache_control: { type: 'ephemeral' as const } },
+  ]
+
   type AnthropicContentBlock = {
     type: string
     text?: string
     name?: string
     input?: unknown
     id?: string
+  }
+
+  // Anthropic allows a maximum of 4 cache_control breakpoints per request,
+  // total, across tools + system + messages combined - exceeding it is a
+  // hard 400 error, confirmed by real-world reports of exactly this
+  // happening on multi-turn tool sessions that marked a new breakpoint on
+  // every message instead of reusing one. Tools (1) + the static system
+  // block (1) already use 2 of the 4. This function applies exactly ONE
+  // more, sliding: always on whatever is CURRENTLY the last message before
+  // a call, never left behind on an old position as the loop's message
+  // array grows across iterations. That's 3 breakpoints total, regardless
+  // of how many iterations the loop runs - never accumulating, never at
+  // risk of exceeding the limit.
+  function withTrailingCacheControl(msgs: unknown[]): unknown[] {
+    if (msgs.length === 0) return msgs
+    const cloned = [...msgs]
+    const last = cloned[cloned.length - 1] as { role: string; content: unknown }
+    const content = last.content
+    if (typeof content === 'string') {
+      cloned[cloned.length - 1] = {
+        ...last,
+        content: [{ type: 'text', text: content, cache_control: { type: 'ephemeral' } }],
+      }
+    } else if (Array.isArray(content) && content.length > 0) {
+      const newContent = content.map((block, i) =>
+        i === content.length - 1
+          ? { ...(block as object), cache_control: { type: 'ephemeral' } }
+          : block
+      )
+      cloned[cloned.length - 1] = { ...last, content: newContent }
+    }
+    return cloned
   }
 
   async function callAnthropic(currentMessages: unknown[]) {
@@ -219,9 +274,9 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         model: 'claude-haiku-4-5',
         max_tokens: 1024,
-        system: basePrompt,
-        messages: currentMessages,
-        tools: [AUDIENCE_TOOL, CASE_STUDY_LOOKUP_TOOL],
+        system: systemBlocks,
+        messages: withTrailingCacheControl(currentMessages),
+        tools: cachedTools,
         // Left as the API default (auto) rather than forced - forcing a
         // specific tool risks suppressing the accompanying text reply,
         // confirmed as a real risk during testing of report_audience alone.
@@ -230,7 +285,18 @@ export async function POST(req: NextRequest) {
     if (!res.ok) {
       return { ok: false as const, errorText: await res.text() }
     }
-    return { ok: true as const, data: await res.json() }
+    const data = await res.json()
+    // Real, checkable confirmation that caching is actually happening, not
+    // just configured - cache_read_input_tokens should be a large majority
+    // of total input tokens on any call after the first in a warm window.
+    if (data.usage) {
+      console.log(
+        `Cache usage: read=${data.usage.cache_read_input_tokens ?? 0}, ` +
+        `write=${data.usage.cache_creation_input_tokens ?? 0}, ` +
+        `uncached=${data.usage.input_tokens ?? 0}`
+      )
+    }
+    return { ok: true as const, data }
   }
 
   function performLookup(input: { slug?: string; lens?: string }): { content: string; found: boolean } {
