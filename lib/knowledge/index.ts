@@ -146,3 +146,10 @@ export const CASE_STUDY_INDEX: CaseStudyIndexEntry[] = [
     },
   },
 ]
+
+export function formatIndexForPrompt(): string {
+  return CASE_STUDY_INDEX.map((entry) => {
+    const allTags = [...entry.tags.skills, ...entry.tags.stack, ...entry.tags.roleType].join(', ')
+    return `[${entry.slug}] ${entry.title} — ${entry.oneLineSummary} (tags: ${allTags})`
+  }).join('\n')
+}

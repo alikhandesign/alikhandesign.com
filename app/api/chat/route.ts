@@ -189,63 +189,211 @@ export async function POST(req: NextRequest) {
     ? `${basePromptWithoutAudience}\n\n---\n\nCURRENT AUDIENCE ESTIMATE (from a previous turn - revise this, don't treat it as settled): ${JSON.stringify(incomingAudience)}`
     : basePromptWithoutAudience
 
-  // Call Anthropic
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': process.env.ANTHROPIC_API_KEY!,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5',
-      max_tokens: 1024,
-      system: basePrompt,
-      messages,
-      tools: [AUDIENCE_TOOL],
-      // Left as the API default (auto) rather than forced - forcing a
-      // specific tool risks suppressing the accompanying text reply
-      // depending on model behavior, which isn't something that can be
-      // verified without live API access. If the model doesn't reliably
-      // call this tool in practice, that's the first thing to revisit.
-    }),
-  })
+  // Both tools are sent every turn - report_audience for tone calibration,
+  // lookup_case_study for on-demand project detail. Anthropic's API requires
+  // every tool_use block in a response to get a matching tool_result before
+  // the conversation can continue, so both need handling below even though
+  // only lookup_case_study's result actually needs to inform what the model
+  // says next - report_audience's own report doesn't need feeding back,
+  // just acknowledging so the API requirement is satisfied.
+  const { CASE_STUDY_LOOKUP_TOOL } = await import('@/lib/tools')
+  const { getCaseStudyDetail } = await import('@/lib/knowledge/registry')
 
-  if (!response.ok) {
-    const err = await response.text()
-    console.error('Anthropic error:', err)
-    return NextResponse.json({ error: 'AI service error. Please try again.' }, { status: 500 })
+  type AnthropicContentBlock = {
+    type: string
+    text?: string
+    name?: string
+    input?: unknown
+    id?: string
   }
 
-  const data = await response.json()
-  const contentBlocks: Array<{ type: string; text?: string; name?: string; input?: unknown }> =
-    data.content ?? []
+  async function callAnthropic(currentMessages: unknown[]) {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY!,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5',
+        max_tokens: 1024,
+        system: basePrompt,
+        messages: currentMessages,
+        tools: [AUDIENCE_TOOL, CASE_STUDY_LOOKUP_TOOL],
+        // Left as the API default (auto) rather than forced - forcing a
+        // specific tool risks suppressing the accompanying text reply,
+        // confirmed as a real risk during testing of report_audience alone.
+      }),
+    })
+    if (!res.ok) {
+      return { ok: false as const, errorText: await res.text() }
+    }
+    return { ok: true as const, data: await res.json() }
+  }
 
-  const textBlock = contentBlocks.find(b => b.type === 'text')
-  const assistantMessage = textBlock?.text ?? ''
+  function performLookup(input: { slug?: string; lens?: string }): { content: string; found: boolean } {
+    const slug = typeof input.slug === 'string' ? input.slug : ''
+    const lens = typeof input.lens === 'string' ? input.lens : 'all'
+    const detail = getCaseStudyDetail(slug)
+    if (!detail) {
+      return {
+        found: false,
+        content: `No detailed record exists yet for project "${slug}". Only use what's already in the index summary, and be honest that deeper detail isn't available for this project yet - never fabricate detail to fill the gap.`,
+      }
+    }
+    if (lens === 'all') {
+      return {
+        found: true,
+        content: JSON.stringify({
+          outcome: detail.outcome,
+          businessConstraint: detail.businessConstraint,
+          technicalConstraint: detail.technicalConstraint,
+          doNotFabricate: detail.doNotFabricate,
+        }),
+      }
+    }
+    const lensMap: Record<string, string> = {
+      outcome: detail.outcome,
+      business_constraint: detail.businessConstraint,
+      technical_constraint: detail.technicalConstraint,
+      do_not_fabricate: detail.doNotFabricate.join('\n'),
+    }
+    return { found: true, content: lensMap[lens] ?? `Unrecognized lens "${lens}" requested.` }
+  }
 
-  // Defense in depth: the model could in principle call the audience tool
-  // without also producing a text reply, despite the system prompt now
-  // explicitly requiring both - this happened at least once during testing,
-  // rendering as a silent blank chat bubble with no error anywhere. Catch it
-  // here regardless of whether the prompt wording alone reliably prevents it.
+  // The multi-step loop. A turn that only calls report_audience ends after
+  // one iteration, identical to how this worked before lookup_case_study
+  // existed. A turn that also calls lookup_case_study needs at least one
+  // more round-trip to Anthropic to get the model's real answer using what
+  // was retrieved - each extra round-trip is a genuine additional API call,
+  // and therefore additional latency and cost, worth knowing given this is
+  // strictly more expensive than a turn that never needs a lookup.
+  const MAX_ITERATIONS = 4
+  const currentMessages: unknown[] = [...messages]
+  // The most recent non-empty text seen across ANY iteration - not just the
+  // final one. Confirmed by testing: the model can write its full, real
+  // answer on the same iteration as a trailing tool_use call (typically
+  // report_audience, which is always pending a tool_result on every turn),
+  // so stop_reason='tool_use' does NOT mean no real answer exists yet - it
+  // only means the API is still waiting on a tool result before this
+  // exchange is fully closed out. A 1621-character and a 1491-character
+  // real answer were both observed appearing on iterations whose
+  // stop_reason was still 'tool_use', and were being silently discarded
+  // before this fix, in favor of a later iteration that had nothing further
+  // to say because the real answer had already been given.
+  let latestText: string | null = null
+  let latestAudienceEstimate: AudienceEstimate | null = incomingAudience
+  let iterationError: string | null = null
+  // Tracks slugs that already came back with no record this request - a
+  // programmatic backstop, not just a prompt instruction, since a repeated
+  // lookup for the same known-missing project produced an actual observed
+  // failure (looping to the iteration cap) in testing.
+  const notFoundSlugs = new Set<string>()
+
+  for (let iteration = 0; iteration < MAX_ITERATIONS; iteration++) {
+    const result = await callAnthropic(currentMessages)
+
+    if (!result.ok) {
+      console.error('Anthropic error:', result.errorText)
+      iterationError = 'AI service error. Please try again.'
+      break
+    }
+
+    const contentBlocks: AnthropicContentBlock[] = result.data.content ?? []
+    const textBlock = contentBlocks.find(b => b.type === 'text')
+    const toolUseBlocks = contentBlocks.filter(b => b.type === 'tool_use')
+
+    // Full visibility into every iteration, not just the final one - a real
+    // gap when a prior "no text on the final iteration" failure happened
+    // with only a lookup's own success/failure logged, nothing about what
+    // happened on the iterations in between.
+    console.log(
+      `Iteration ${iteration + 1}: stop_reason=${result.data.stop_reason}, ` +
+      `hasText=${!!textBlock?.text}, textLength=${textBlock?.text?.length ?? 0}, ` +
+      `toolCalls=[${toolUseBlocks.map(b => b.name).join(', ')}]`
+    )
+
+    if (textBlock?.text && textBlock.text.trim().length > 0) {
+      latestText = textBlock.text
+    }
+
+    const audienceCall = toolUseBlocks.find(b => b.name === 'report_audience')
+    if (audienceCall) {
+      latestAudienceEstimate = audienceCall.input as AudienceEstimate
+    }
+
+    if (result.data.stop_reason !== 'tool_use') {
+      // Model is done - latestText already holds the real answer, whether
+      // it appeared on this exact iteration or an earlier one
+      console.log(`Loop finished after ${iteration + 1} iteration(s), stop_reason: ${result.data.stop_reason}`)
+      break
+    }
+
+    // Model wants to continue - a tool_result is required for every
+    // tool_use block in this response before the API will proceed, not just
+    // the ones whose content actually matters to what happens next.
+    currentMessages.push({ role: 'assistant', content: contentBlocks })
+
+    const toolResults = toolUseBlocks.map(block => {
+      if (block.name === 'lookup_case_study') {
+        const input = (block.input ?? {}) as { slug?: string; lens?: string }
+        const slug = typeof input.slug === 'string' ? input.slug : ''
+        console.log('lookup_case_study called:', JSON.stringify(input))
+
+        if (notFoundSlugs.has(slug)) {
+          console.log('Repeated lookup for already-not-found slug, escalating:', slug)
+          return {
+            type: 'tool_result',
+            tool_use_id: block.id,
+            content: `You already checked "${slug}" and were told no detailed record exists. Stop calling this tool for this project - answer now using only the index summary.`,
+          }
+        }
+
+        const lookupResult = performLookup(input)
+        console.log('Lookup result for', slug, ':', lookupResult.found ? 'found' : 'not found')
+        if (!lookupResult.found) {
+          notFoundSlugs.add(slug)
+        }
+        return {
+          type: 'tool_result',
+          tool_use_id: block.id,
+          content: lookupResult.content,
+        }
+      }
+      if (block.name === 'report_audience') {
+        return { type: 'tool_result', tool_use_id: block.id, content: 'Acknowledged.' }
+      }
+      return { type: 'tool_result', tool_use_id: block.id, content: 'Unrecognized tool.', is_error: true }
+    })
+
+    currentMessages.push({ role: 'user', content: toolResults })
+  }
+
+  if (iterationError) {
+    return NextResponse.json({ error: iterationError }, { status: 500 })
+  }
+
+  const assistantMessage = latestText ?? ''
+
+  // Same defense in depth as before lookup_case_study existed: a turn that
+  // ends without real text - whether from hitting MAX_ITERATIONS, or the
+  // model finishing with only a tool call and no text - must never silently
+  // render as a blank chat bubble.
   if (assistantMessage.trim().length === 0) {
-    console.error('Anthropic response had no text content — likely a tool-only response. Full content:', JSON.stringify(contentBlocks))
+    console.error(
+      'Loop ended with no text content. notFoundSlugs seen this request:',
+      Array.from(notFoundSlugs),
+      '- likely hit the', MAX_ITERATIONS, 'iteration cap without the model ever giving a final answer.'
+    )
     return NextResponse.json(
       { error: 'AI service error. Please try again.' },
       { status: 500 }
     )
   }
 
-  const audienceToolCall = contentBlocks.find(
-    b => b.type === 'tool_use' && b.name === 'report_audience'
-  )
-  // If the model didn't call the tool this turn, carry the prior estimate
-  // forward rather than resetting to unknown - a missing report says
-  // nothing new, it isn't itself a signal that the prior estimate was wrong.
   const audienceEstimate: AudienceEstimate =
-    (audienceToolCall?.input as AudienceEstimate | undefined) ??
-    incomingAudience ??
+    latestAudienceEstimate ??
     { audience: 'unknown', confidence: 0, depth: 'surface', suggest_contact: false }
 
   // Extract cited source IDs in order of first appearance
