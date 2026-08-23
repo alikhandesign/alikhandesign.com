@@ -463,7 +463,7 @@ export async function POST(req: NextRequest) {
     latestAudienceEstimate ??
     {
       audience: 'unknown', confidence: 0, depth: 'surface', suggest_contact: false,
-      fit_verdict: 'not_applicable', case_study_pointer: '',
+      fit_verdict: 'not_applicable', case_study_pointer: '', register_used: 'fast_direct',
     }
 
   // Resolve the pointer slug (if any) into a title and URL the client can
