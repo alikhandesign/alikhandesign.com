@@ -85,6 +85,10 @@ async function logConversation(entry: {
     rif_possible_leak: boolean
     error_state: boolean
     rate_limited: boolean
+    // True when this request used the testing bypass secret to skip the
+    // rate limit - lets the admin dashboard exclude deliberate test
+    // traffic from metrics meant to reflect real visitor behavior.
+    is_test_request: boolean
   }
 }) {
   try {
@@ -118,9 +122,21 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
+  // Testing bypass: a random secret, sent only by the local testing script
+  // (never by the live site's own browser-side code, so real visitors have
+  // no path to it), lets rate limiting be skipped for deliberate test
+  // traffic. Bypassed requests are tagged distinctly in the log
+  // (is_test_request: true) so they don't silently mix into the real
+  // Dashboard metrics meant to reflect genuine visitor behavior.
+  const testingSecret = process.env.TESTING_BYPASS_SECRET
+  const providedSecret = req.headers.get('x-testing-bypass')
+  const isTestRequest = Boolean(testingSecret && providedSecret && providedSecret === testingSecret)
+
   // Rate limiting
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0] ?? 'unknown'
-  const { allowed, remaining } = await checkRateLimit(ip)
+  const { allowed, remaining } = isTestRequest
+    ? { allowed: true, remaining: RATE_LIMIT_MAX }
+    : await checkRateLimit(ip)
 
   if (!allowed) {
     // Log the rate limit hit so we can see where sessions are hitting walls
@@ -142,6 +158,7 @@ export async function POST(req: NextRequest) {
         rif_possible_leak: false,
         error_state: false,
         rate_limited: true,
+        is_test_request: isTestRequest,
       },
     })
     return NextResponse.json(
@@ -578,6 +595,7 @@ export async function POST(req: NextRequest) {
     rif_possible_leak: rifPossibleLeak,
     error_state: renumberedMessage.includes('Something went wrong on my end'),
     rate_limited: false,
+    is_test_request: isTestRequest,
   }
 
   await logConversation({
