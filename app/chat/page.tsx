@@ -31,10 +31,10 @@ interface Message {
 }
 
 const SUGGESTED_QUESTIONS = [
-  'Paste a job description to see if it\'s a fit',
-  'Ask about the reasoning behind a specific decision',
-  'What stack or approach did you use to build this?',
-  'What got cut, and why?',
+  'I have a job description — is Ali a fit?',
+  'Tell me about a real trade-off on one of Ali\'s projects.',
+  'What\'s the technical architecture behind this chatbot?',
+  'What did you decide not to build, and why?',
 ]
 
 export default function ChatPage() {
@@ -547,6 +547,39 @@ export default function ChatPage() {
                   sources={msg.sources}
                   activeSourceId={msg.sources === inspectorSources ? activeSourceId : null}
                   onBadgeClick={(id) => handleBadgeClick(msg.sources ?? [], id)}
+                  footer={
+                    (msg.suggestContact || msg.caseStudyPointer) ? (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                        {msg.suggestContact && (
+                          <button
+                            onClick={() => setContactModalOpen(true)}
+                            style={{
+                              fontSize: 'var(--font-size-xs)', fontWeight: 500,
+                              color: 'var(--color-accent)',
+                              background: 'none', border: 'none', cursor: 'pointer',
+                              padding: 0, fontFamily: 'var(--font-sans)',
+                              textDecoration: 'underline', textAlign: 'left',
+                            }}
+                          >
+                            Reach out to Ali directly →
+                          </button>
+                        )}
+                        {msg.caseStudyPointer && (
+                          <Link
+                            href={msg.caseStudyPointer.url}
+                            style={{
+                              fontSize: 'var(--font-size-xs)', fontWeight: 500,
+                              color: 'var(--color-accent)',
+                              textDecoration: 'underline',
+                              fontFamily: 'var(--font-sans)',
+                            }}
+                          >
+                            Read the full {msg.caseStudyPointer.title} case study →
+                          </Link>
+                        )}
+                      </div>
+                    ) : undefined
+                  }
                 />
                 {msg.role === 'assistant' && !msg.retryContent && (
                   <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: 2, marginTop: 4 }}>
@@ -608,37 +641,6 @@ export default function ChatPage() {
                         </button>
                       </>
                     )}
-                  </div>
-                )}
-                {msg.suggestContact && (
-                  <div style={{ marginTop: 6 }}>
-                    <button
-                      onClick={() => setContactModalOpen(true)}
-                      style={{
-                        fontSize: 'var(--font-size-xs)', fontWeight: 500,
-                        color: 'var(--color-accent)',
-                        background: 'none', border: 'none', cursor: 'pointer',
-                        padding: 0, fontFamily: 'var(--font-sans)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Reach out to Ali directly →
-                    </button>
-                  </div>
-                )}
-                {msg.caseStudyPointer && (
-                  <div style={{ marginTop: 6 }}>
-                    <Link
-                      href={msg.caseStudyPointer.url}
-                      style={{
-                        fontSize: 'var(--font-size-xs)', fontWeight: 500,
-                        color: 'var(--color-accent)',
-                        textDecoration: 'underline',
-                        fontFamily: 'var(--font-sans)',
-                      }}
-                    >
-                      Read the full {msg.caseStudyPointer.title} case study →
-                    </Link>
                   </div>
                 )}
                 {msg.retryContent && i === messages.length - 1 && (
