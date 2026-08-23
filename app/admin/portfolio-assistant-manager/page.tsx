@@ -20,6 +20,7 @@ interface AudienceEstimate {
   suggest_contact: boolean
   fit_verdict?: 'strong_fit' | 'partial_fit' | 'no_fit' | 'not_applicable'
   case_study_pointer?: string
+  register_used?: 'fast_direct' | 'exploratory'
 }
 
 interface LogEntry {
@@ -221,6 +222,22 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
       s => s.finalAudience?.case_study_pointer && s.finalAudience.case_study_pointer !== ''
     ).length
 
+    // Checked per entry, not just each session's final estimate - a mismatch
+    // on any single message is the meaningful unit here, and only checking
+    // the session's last state would miss earlier messages in the same
+    // session. This checks exactly the one rule the system prompt actually
+    // states (low confidence should default to fast_direct), not a broader
+    // "correctness" rule about register that was never explicitly specified -
+    // 0.4 is a reasonable, documented cutoff for "genuinely low" on a 0-1
+    // scale, not a value the model itself needs to know or apply.
+    const REGISTER_MISMATCH_CONFIDENCE_THRESHOLD = 0.4
+    const registerCheckedEntries = allEntries.filter(e => e.audienceEstimate?.register_used)
+    const registerMismatchCount = registerCheckedEntries.filter(
+      e =>
+        (e.audienceEstimate!.confidence ?? 1) < REGISTER_MISMATCH_CONFIDENCE_THRESHOLD &&
+        e.audienceEstimate!.register_used === 'exploratory'
+    ).length
+
     const pct = (n: number, d: number) => d === 0 ? '—' : `${Math.round((n / d) * 100)}%`
 
     // Sessions per day, most recent 14 days present in the data
@@ -240,6 +257,7 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
       thumbsUpCount, thumbsDownCount, totalFeedback,
       guardrailCounts, guardrailLabels, audienceCounts, audienceLabels, suggestContactCount,
       fitVerdictCounts, fitVerdictLabels, caseStudyPointerCount,
+      registerCheckedEntries: registerCheckedEntries.length, registerMismatchCount,
       pct, days, maxDayCount,
     }
   }, [sessions])
@@ -334,6 +352,24 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
                 <span style={{ color: 'var(--color-text-muted)' }}>{count}</span>
               </div>
             ))}
+          </div>
+        )}
+      </div>
+
+      <div style={{ padding: '1.25rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', marginBottom: 'var(--space-6)' }}>
+        <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-4)' }}>
+          Register consistency — checks the one explicit rule: low confidence should default to the fast, direct register
+        </p>
+        {stats.registerCheckedEntries === 0 ? (
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-faint)' }}>No entries with this field yet.</p>
+        ) : (
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--font-size-sm)' }}>
+            <span style={{ color: 'var(--color-text)' }}>
+              {stats.registerMismatchCount} mismatch{stats.registerMismatchCount !== 1 ? 'es' : ''} out of {stats.registerCheckedEntries} checked
+            </span>
+            <span style={{ color: stats.registerMismatchCount > 0 ? '#B91C1C' : 'var(--color-text-muted)' }}>
+              {stats.pct(stats.registerMismatchCount, stats.registerCheckedEntries)}
+            </span>
           </div>
         )}
       </div>
@@ -660,6 +696,10 @@ function LogsTab({ sessions, rawCount, onRefresh, loading }: { sessions: Session
                             {entry.audienceEstimate?.case_study_pointer && (
                               <Tag label={`→ ${entry.audienceEstimate.case_study_pointer}`} active color="#2563EB" />
                             )}
+                            {entry.audienceEstimate?.register_used === 'exploratory' &&
+                              (entry.audienceEstimate.confidence ?? 1) < 0.4 && (
+                                <Tag label="Register mismatch" active color="#B91C1C" />
+                              )}
                             <Tag label="Possible RIF leak" active={entry.patterns?.rif_possible_leak ?? false} color="#B91C1C" />
                             {entry.feedback === 'down' && <Tag label="👎" active color="#B91C1C" />}
                             {entry.feedback === 'up' && <Tag label="👍" active color="#4A6130" />}

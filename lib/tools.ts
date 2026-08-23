@@ -57,8 +57,14 @@ export const AUDIENCE_TOOL = {
         description:
           "Exact project slug from the index to point the visitor toward for more detail, only if there's a natural one for this specific response - the visitor asked something broader than one project fully answers, or a specific case study would give them meaningfully more depth than what's already in this reply. Use an empty string when no specific project is worth pointing to this turn - most responses should have this empty. Never invent a slug; only use one that appears exactly in the index.",
       },
+      register_used: {
+        type: 'string',
+        enum: ['fast_direct', 'exploratory'],
+        description:
+          "Which register this specific response actually used - fast_direct for a short, direct, structured answer; exploratory for a slower, more discursive one that sits with nuance or admits more ambiguity. Report honestly what this response actually did, not what it should have done - this is a self-check, not a target to hit.",
+      },
     },
-    required: ['audience', 'confidence', 'depth', 'suggest_contact', 'fit_verdict', 'case_study_pointer'],
+    required: ['audience', 'confidence', 'depth', 'suggest_contact', 'fit_verdict', 'case_study_pointer', 'register_used'],
   },
 } as const
 
@@ -69,6 +75,7 @@ export interface AudienceEstimate {
   suggest_contact: boolean
   fit_verdict: 'strong_fit' | 'partial_fit' | 'no_fit' | 'not_applicable'
   case_study_pointer: string
+  register_used: 'fast_direct' | 'exploratory'
 }
 
 // lookup_case_study - retrieves deeper detail on one specific project, only
