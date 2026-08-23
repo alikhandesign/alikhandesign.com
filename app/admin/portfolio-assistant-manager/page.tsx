@@ -18,6 +18,8 @@ interface AudienceEstimate {
   confidence: number
   depth: 'surface' | 'technical' | 'business'
   suggest_contact: boolean
+  fit_verdict?: 'strong_fit' | 'partial_fit' | 'no_fit' | 'not_applicable'
+  case_study_pointer?: string
 }
 
 interface LogEntry {
@@ -199,6 +201,26 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
     }
     const suggestContactCount = sessions.filter(s => s.finalAudience?.suggest_contact).length
 
+    // Only counted among sessions that actually had a JD-matching exchange -
+    // "not_applicable" is the overwhelming majority of ordinary sessions and
+    // would drown out the signal if included, same reasoning as why
+    // guardrailCounts only counts sessions where a guardrail actually fired.
+    const fitVerdictCounts = new Map<string, number>()
+    for (const s of sessions) {
+      const v = s.finalAudience?.fit_verdict
+      if (v && v !== 'not_applicable') {
+        fitVerdictCounts.set(v, (fitVerdictCounts.get(v) ?? 0) + 1)
+      }
+    }
+    const fitVerdictLabels: Record<string, string> = {
+      strong_fit: 'Strong fit',
+      partial_fit: 'Partial fit',
+      no_fit: 'No fit',
+    }
+    const caseStudyPointerCount = sessions.filter(
+      s => s.finalAudience?.case_study_pointer && s.finalAudience.case_study_pointer !== ''
+    ).length
+
     const pct = (n: number, d: number) => d === 0 ? '—' : `${Math.round((n / d) * 100)}%`
 
     // Sessions per day, most recent 14 days present in the data
@@ -217,6 +239,7 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
       rateLimitedSessions, unlockedSessions, overrideAttemptSessions, rifLeakSessions,
       thumbsUpCount, thumbsDownCount, totalFeedback,
       guardrailCounts, guardrailLabels, audienceCounts, audienceLabels, suggestContactCount,
+      fitVerdictCounts, fitVerdictLabels, caseStudyPointerCount,
       pct, days, maxDayCount,
     }
   }, [sessions])
@@ -290,6 +313,24 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
             {Array.from(stats.audienceCounts.entries()).sort((a, b) => b[1] - a[1]).map(([key, count]) => (
               <div key={key} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--font-size-sm)' }}>
                 <span style={{ color: 'var(--color-text)' }}>{stats.audienceLabels[key] ?? key}</span>
+                <span style={{ color: 'var(--color-text-muted)' }}>{count}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div style={{ padding: '1.25rem', background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)', marginBottom: 'var(--space-6)' }}>
+        <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-4)' }}>
+          Fit verdicts (JD-matching exchanges only) — {stats.caseStudyPointerCount} session{stats.caseStudyPointerCount !== 1 ? 's' : ''} pointed to a specific case study
+        </p>
+        {stats.fitVerdictCounts.size === 0 ? (
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-faint)' }}>No JD-matching exchanges in this window.</p>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+            {Array.from(stats.fitVerdictCounts.entries()).sort((a, b) => b[1] - a[1]).map(([key, count]) => (
+              <div key={key} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 'var(--font-size-sm)' }}>
+                <span style={{ color: 'var(--color-text)' }}>{stats.fitVerdictLabels[key] ?? key}</span>
                 <span style={{ color: 'var(--color-text-muted)' }}>{count}</span>
               </div>
             ))}
@@ -608,6 +649,16 @@ function LogsTab({ sessions, rawCount, onRefresh, loading }: { sessions: Session
                             )}
                             {entry.audienceEstimate?.suggest_contact && (
                               <Tag label="Contact suggested" active color="#4A6130" />
+                            )}
+                            {entry.audienceEstimate?.fit_verdict && entry.audienceEstimate.fit_verdict !== 'not_applicable' && (
+                              <Tag
+                                label={entry.audienceEstimate.fit_verdict.replace(/_/g, ' ')}
+                                active
+                                color={entry.audienceEstimate.fit_verdict === 'no_fit' ? '#B91C1C' : '#4A6130'}
+                              />
+                            )}
+                            {entry.audienceEstimate?.case_study_pointer && (
+                              <Tag label={`→ ${entry.audienceEstimate.case_study_pointer}`} active color="#2563EB" />
                             )}
                             <Tag label="Possible RIF leak" active={entry.patterns?.rif_possible_leak ?? false} color="#B91C1C" />
                             {entry.feedback === 'down' && <Tag label="👎" active color="#B91C1C" />}

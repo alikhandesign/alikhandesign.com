@@ -27,6 +27,7 @@ interface Message {
   retryContent?: string // set on a failed assistant message - the user content to resend on retry
   turnIndex?: number // the messageIndex sent to the backend for this turn - used to correlate feedback
   suggestContact?: boolean // true when this response is a natural point to suggest reaching out to Ali directly
+  caseStudyPointer?: { slug: string; title: string; url: string } | null // set when this response points toward a specific case study for more depth
 }
 
 const SUGGESTED_QUESTIONS = [
@@ -160,10 +161,21 @@ export default function ChatPage() {
     // Watchdog: if the request takes longer than this without resolving, surface
     // a distinct "stalled" state rather than leaving the thinking pulse running
     // forever with no signal that something might be wrong.
+    //
+    // 20s, not the original 8s - the original threshold was calibrated for a
+    // single Anthropic API call, before the multi-step tool-use loop existed
+    // server-side. A healthy exchange now often takes 2+ full round-trips
+    // (report_audience, then a real reply; more if a case-study lookup also
+    // happens), and real observed healthy exchanges have taken ~15s even in
+    // the simplest 2-iteration case - the 8s threshold was firing on
+    // ordinary, successful responses, not actual stalls. The client starts
+    // this timer before knowing how many iterations the server will need, so
+    // this has to be one static value sized for the reasonable worst case,
+    // not something that adapts mid-flight.
     if (watchdogRef.current) clearTimeout(watchdogRef.current)
     const thisWatchdog = setTimeout(() => {
       setGenerationPhase('stalled')
-    }, 8000)
+    }, 20000)
     watchdogRef.current = thisWatchdog
 
     // If a retry aborts this request and starts a new one, this request's own
@@ -217,6 +229,7 @@ export default function ChatPage() {
         sources: data.sources ?? [],
         turnIndex: currentMessageIndex,
         suggestContact: data.audience?.suggest_contact === true,
+        caseStudyPointer: data.caseStudyPointer ?? null,
       }])
       if (typeof data.remaining === 'number') {
         setRemaining(data.remaining)
@@ -611,6 +624,21 @@ export default function ChatPage() {
                     >
                       Reach out to Ali directly →
                     </button>
+                  </div>
+                )}
+                {msg.caseStudyPointer && (
+                  <div style={{ marginTop: 6 }}>
+                    <Link
+                      href={msg.caseStudyPointer.url}
+                      style={{
+                        fontSize: 'var(--font-size-xs)', fontWeight: 500,
+                        color: 'var(--color-accent)',
+                        textDecoration: 'underline',
+                        fontFamily: 'var(--font-sans)',
+                      }}
+                    >
+                      Read the full {msg.caseStudyPointer.title} case study →
+                    </Link>
                   </div>
                 )}
                 {msg.retryContent && i === messages.length - 1 && (

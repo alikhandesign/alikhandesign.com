@@ -198,6 +198,7 @@ export async function POST(req: NextRequest) {
   // just acknowledging so the API requirement is satisfied.
   const { CASE_STUDY_LOOKUP_TOOL } = await import('@/lib/tools')
   const { getCaseStudyDetail } = await import('@/lib/knowledge/registry')
+  const { CASE_STUDY_INDEX } = await import('@/lib/knowledge/index')
 
   type AnthropicContentBlock = {
     type: string
@@ -394,7 +395,22 @@ export async function POST(req: NextRequest) {
 
   const audienceEstimate: AudienceEstimate =
     latestAudienceEstimate ??
-    { audience: 'unknown', confidence: 0, depth: 'surface', suggest_contact: false }
+    {
+      audience: 'unknown', confidence: 0, depth: 'surface', suggest_contact: false,
+      fit_verdict: 'not_applicable', case_study_pointer: '',
+    }
+
+  // Resolve the pointer slug (if any) into a title and URL the client can
+  // render directly - the client has no copy of the index itself, so this
+  // has to happen server-side. An unresolvable slug (shouldn't happen, given
+  // the tool's enum constraint, but never trust that alone) resolves to
+  // null rather than sending a broken pointer to the client.
+  const pointerEntry = audienceEstimate.case_study_pointer
+    ? CASE_STUDY_INDEX.find((entry: { slug: string }) => entry.slug === audienceEstimate.case_study_pointer)
+    : undefined
+  const caseStudyPointer = pointerEntry
+    ? { slug: pointerEntry.slug, title: pointerEntry.title, url: `/work/${pointerEntry.slug}` }
+    : null
 
   // Extract cited source IDs in order of first appearance
   const seenIds: number[] = []
@@ -514,6 +530,7 @@ export async function POST(req: NextRequest) {
       sources: citedSources,
       remaining,
       audience: audienceEstimate,
+      caseStudyPointer,
     },
     { headers: { 'X-RateLimit-Remaining': String(remaining) } }
   )
