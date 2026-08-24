@@ -31,6 +31,7 @@ interface LogEntry {
   assistantMessage: string
   unlocked: boolean
   timestamp: string
+  commitSha?: string
   patterns?: PatternTags
   audienceEstimate?: AudienceEstimate | null
   feedback?: 'up' | 'down' // attached at correlation time from the separate feedback records, not logged directly
@@ -609,6 +610,14 @@ function LogsTab({ sessions, rawCount, onRefresh, loading }: { sessions: Session
                       {durationMin > 0 ? ` · ${durationMin}m` : ''}
                     </span>
                     <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-faint)' }}>{session.ip}</span>
+                    {firstMessage?.commitSha && firstMessage.commitSha !== 'local' && (
+                      <span style={{
+                        fontSize: 'var(--font-size-xs)', color: 'var(--color-text-faint)',
+                        fontFamily: 'var(--font-mono)',
+                      }}>
+                        {firstMessage.commitSha.slice(0, 7)}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -754,6 +763,8 @@ export default function PortfolioAssistantManagerPage() {
   const [rawCount, setRawCount] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [clearConfirmOpen, setClearConfirmOpen] = useState(false)
+  const [clearing, setClearing] = useState(false)
 
   const fetchLogs = async () => {
     setLoading(true)
@@ -773,6 +784,20 @@ export default function PortfolioAssistantManagerPage() {
     }
   }
 
+  const handleClearLogs = async () => {
+    setClearing(true)
+    try {
+      const res = await fetch('/api/admin/clear-logs', { method: 'POST' })
+      if (!res.ok) throw new Error()
+      setClearConfirmOpen(false)
+      await fetchLogs()
+    } catch {
+      setError('Failed to clear logs. Try again.')
+    } finally {
+      setClearing(false)
+    }
+  }
+
   useEffect(() => {
     fetchLogs()
   }, [])
@@ -789,24 +814,76 @@ export default function PortfolioAssistantManagerPage() {
         <h1 className="font-serif" style={{ fontSize: 'var(--font-size-3xl)', fontWeight: 400 }}>Portfolio Assistant manager</h1>
       </div>
 
-      <div style={{ display: 'flex', gap: 'var(--space-2)', marginBottom: 'var(--space-6)', borderBottom: '1px solid var(--color-border)' }}>
-        {TABS.map(t => (
-          <button
-            key={t.key}
-            onClick={() => setTab(t.key)}
-            style={{
-              padding: '0.625rem 1rem', fontSize: 'var(--font-size-sm)',
-              fontWeight: tab === t.key ? 500 : 400,
-              color: tab === t.key ? 'var(--color-text)' : 'var(--color-text-muted)',
-              background: 'transparent', border: 'none',
-              borderBottom: tab === t.key ? '2px solid var(--color-text)' : '2px solid transparent',
-              marginBottom: -1, cursor: 'pointer', fontFamily: 'var(--font-sans)',
-            }}
-          >
-            {t.label}
-          </button>
-        ))}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-6)', borderBottom: '1px solid var(--color-border)' }}>
+        <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
+          {TABS.map(t => (
+            <button
+              key={t.key}
+              onClick={() => setTab(t.key)}
+              style={{
+                padding: '0.625rem 1rem', fontSize: 'var(--font-size-sm)',
+                fontWeight: tab === t.key ? 500 : 400,
+                color: tab === t.key ? 'var(--color-text)' : 'var(--color-text-muted)',
+                background: 'transparent', border: 'none',
+                borderBottom: tab === t.key ? '2px solid var(--color-text)' : '2px solid transparent',
+                marginBottom: -1, cursor: 'pointer', fontFamily: 'var(--font-sans)',
+              }}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+        <button
+          onClick={() => setClearConfirmOpen(true)}
+          style={{
+            fontSize: 'var(--font-size-xs)', color: '#B91C1C',
+            background: 'none', border: 'none', cursor: 'pointer',
+            padding: '0.5rem', fontFamily: 'var(--font-sans)',
+            textDecoration: 'underline',
+          }}
+        >
+          Clear all logs
+        </button>
       </div>
+
+      {clearConfirmOpen && (
+        <div style={{
+          padding: '1rem', marginBottom: 'var(--space-6)',
+          background: '#fdecec', border: '1px solid #B91C1C',
+          borderRadius: 'var(--radius-sm)',
+        }}>
+          <p style={{ fontSize: 'var(--font-size-sm)', color: '#791F1F', marginBottom: '0.75rem' }}>
+            This permanently deletes every logged conversation and feedback entry. This cannot be undone. Are you sure?
+          </p>
+          <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
+            <button
+              onClick={handleClearLogs}
+              disabled={clearing}
+              style={{
+                fontSize: 'var(--font-size-sm)', fontWeight: 500,
+                color: '#fff', background: '#B91C1C', border: 'none',
+                borderRadius: 'var(--radius-sm)', padding: '0.5rem 1rem',
+                cursor: clearing ? 'default' : 'pointer', fontFamily: 'var(--font-sans)',
+                opacity: clearing ? 0.6 : 1,
+              }}
+            >
+              {clearing ? 'Clearing…' : 'Yes, delete everything'}
+            </button>
+            <button
+              onClick={() => setClearConfirmOpen(false)}
+              disabled={clearing}
+              style={{
+                fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)',
+                background: 'none', border: '1px solid var(--color-border)',
+                borderRadius: 'var(--radius-sm)', padding: '0.5rem 1rem',
+                cursor: 'pointer', fontFamily: 'var(--font-sans)',
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
 
       {loading && sessions.length === 0 && (
         <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}>Loading…</p>
