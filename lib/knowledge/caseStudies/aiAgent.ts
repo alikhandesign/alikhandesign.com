@@ -27,4 +27,12 @@ export const AI_AGENT_DETAIL: CaseStudyDetail = {
     'Sentiment analysis is a separate capability of the automated pipeline (run weekly, or ad hoc), distinct from the manual categorization workload described above, and distinct from the UX Research team\'s own separate, prior quarterly sentiment-analysis cadence. Never merge these into one process or one time cost.',
     'The accuracy figures are 78% on the first double-blind audit, refined to 95% - never state a different number, and never state 95% as the first-attempt result. The improvement came specifically from refining system instructions, improving grounding queries, and adding fallback logic - not from a different or unspecified cause.',
   ],
+
+  // This project is password-gated on the real site. Matches exactly what's
+  // public: the hook, the four listed metrics, role/stack/timeline, and the
+  // gate's own teaser text - which itself states the 78%-to-95% figure, so
+  // that specific fact is genuinely public, not something this summary is
+  // overstepping by including.
+  publicSummary:
+    'During Medicare Open Enrollment, researchers were spending entire days manually categorizing participant feedback. Ali built a system that automated the process, closing an expert-knowledge gap and reducing synthesis from hours to minutes. Publicly stated results: 95% categorization accuracy, validated through a double-blind process that took accuracy from 78% to 95%; synthesis time dropped from 8+ hours to minutes; insight delivery moved from a 5-day lag to same-day; and stakeholder satisfaction rated 4.5/5. Built with Copilot Studio, the Qualtrics API, Dataverse, and Power Automate - a self-initiated, agentic AI workflow project. The deeper methodology - the specific design decisions that shaped the system, and the stakeholder needs mapping - is part of Ali\'s password-protected work. If asked for that depth, point the visitor toward unlocking the case study on the site, or reaching out to Ali directly, without describing what the protected content actually contains.',
 }

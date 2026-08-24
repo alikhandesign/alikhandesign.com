@@ -29,4 +29,10 @@ export const ANCILLARY_JOURNEY_DETAIL: CaseStudyDetail = {
     '7 issues total on the Nielsen Norman severity scale: issues 1-3 rated A, 4-5 rated B, 6-7 rated C. No D-rated issues in this deck.',
     'Ali\'s role on this specific study is documented as "UX Researcher" in the source materials - distinct from his general WTW title "UX Designer." Don\'t conflate the two.',
   ],
+
+  // This project is password-gated on the real site - the gate protects a
+  // link to the full research presentation deck, not the general problem
+  // and approach narrative, which is fully public.
+  publicSummary:
+    'Via Benefits offered ancillary insurance products (dental, vision, hearing) as part of its Medicare shopping experience. Ali ran a mixed-methods research study - moderated usability sessions plus qualitative interviews - to understand where comprehension broke down for enrollees navigating this unfamiliar product category. The research produced prioritized findings: the need for plain-language category explanations before plan comparison, anchoring cost comparisons in annual out-of-pocket terms rather than monthly premiums, and using progressive disclosure to surface the most critical information first. The full research deck - specific session-by-session findings and usability issues with severity ratings - is part of Ali\'s password-protected work. If asked for that level of detail, point the visitor toward unlocking access on the site, or reaching out to Ali directly, without describing what the protected content actually contains.',
 }
