@@ -586,18 +586,6 @@ export async function POST(req: NextRequest) {
       fit_verdict: 'not_applicable', case_study_pointer: '', register_used: 'fast_direct',
     }
 
-  // Resolve the pointer slug (if any) into a title and URL the client can
-  // render directly - the client has no copy of the index itself, so this
-  // has to happen server-side. An unresolvable slug (shouldn't happen, given
-  // the tool's enum constraint, but never trust that alone) resolves to
-  // null rather than sending a broken pointer to the client.
-  const pointerEntry = audienceEstimate.case_study_pointer
-    ? CASE_STUDY_INDEX.find((entry: { slug: string }) => entry.slug === audienceEstimate.case_study_pointer)
-    : undefined
-  const caseStudyPointer = pointerEntry
-    ? { slug: pointerEntry.slug, title: pointerEntry.title, url: `/work/${pointerEntry.slug}` }
-    : null
-
   // Extract cited source IDs in order of first appearance
   const seenIds: number[] = []
   for (const match of assistantMessage.matchAll(/\[(\d+)\]/g)) {
@@ -628,6 +616,28 @@ export async function POST(req: NextRequest) {
       return source ? { ...source, id: index + 1 } : null
     })
     .filter((s): s is NonNullable<typeof s> => s !== null)
+
+  // Resolve the pointer slug (if any) into a title and URL the client can
+  // render directly - the client has no copy of the index itself, so this
+  // has to happen server-side. An unresolvable slug (shouldn't happen, given
+  // the tool's enum constraint, but never trust that alone) resolves to
+  // null rather than sending a broken pointer to the client.
+  //
+  // Grounded to an actual citation, not just the model's own judgment: found
+  // during real testing that the pointer could appear even when nothing in
+  // the visible reply actually referenced that project - the model's
+  // instruction to reach for a pointer "when it would add depth" is
+  // inherently subjective, and this makes the display itself conditional on
+  // a real, mechanical fact (was this project actually cited here), not
+  // just trusting the model's judgment to be well-calibrated every time.
+  const pointerEntry = audienceEstimate.case_study_pointer
+    ? CASE_STUDY_INDEX.find((entry: { slug: string }) => entry.slug === audienceEstimate.case_study_pointer)
+    : undefined
+  const pointerUrl = pointerEntry ? `/work/${pointerEntry.slug}` : null
+  const pointerIsCited = pointerUrl ? citedSources.some(s => s.url === pointerUrl) : false
+  const caseStudyPointer = pointerEntry && pointerIsCited
+    ? { slug: pointerEntry.slug, title: pointerEntry.title, url: pointerUrl! }
+    : null
 
   // Detect which patterns fired in this response
   const lowerMessage = renumberedMessage.toLowerCase()

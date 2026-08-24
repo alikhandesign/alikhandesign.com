@@ -8,6 +8,7 @@ interface ChatBubbleProps {
   sources?: SiteSource[]
   activeSourceId?: number | null
   onBadgeClick?: (id: number) => void
+  footer?: React.ReactNode
 }
 
 function parseContent(content: string): Array<{ type: 'text'; value: string } | { type: 'cite'; id: number }> {
@@ -31,7 +32,7 @@ function parseContent(content: string): Array<{ type: 'text'; value: string } | 
   return parts
 }
 
-export default function ChatBubble({ role, content, sources = [], activeSourceId, onBadgeClick }: ChatBubbleProps) {
+export default function ChatBubble({ role, content, sources = [], activeSourceId, onBadgeClick, footer }: ChatBubbleProps) {
   const parts = role === 'assistant' ? parseContent(content) : null
 
   return (
@@ -77,6 +78,15 @@ export default function ChatBubble({ role, content, sources = [], activeSourceId
             </button>
           )
         }) : content}
+        {footer && (
+          <div style={{
+            marginTop: '0.5rem',
+            paddingTop: '0.5rem',
+            borderTop: role === 'assistant' ? '1px solid var(--color-border)' : 'none',
+          }}>
+            {footer}
+          </div>
+        )}
       </div>
     </div>
   )
