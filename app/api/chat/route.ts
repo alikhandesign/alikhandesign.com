@@ -419,9 +419,36 @@ export async function POST(req: NextRequest) {
     return { ok: true as const, data }
   }
 
+  // These project slugs are password-gated on the real site (their /work/
+  // page is wrapped in PasswordGate) - confirmed directly against every
+  // page in app/work/ rather than assumed. lookup_case_study was built
+  // entirely independently of the site's unlock system and never checked
+  // this at all, meaning every visitor - unlocked or not - could get full
+  // four-lens detail on these projects through the chatbot, bypassing the
+  // same gate the real pages enforce. Found via direct testing: a locked
+  // visitor asked about Ancillary Journey research results and received
+  // full, specific findings that are supposed to require the password.
+  const GATED_CASE_STUDY_SLUGS = new Set([
+    'ai-agent',
+    'ancillary-journey',
+    'design-handoff',
+    'honest-design-system',
+    'ihe-portal',
+    'llm-prompts',
+    'people-first',
+  ])
+
   function performLookup(input: { slug?: string; lens?: string }): { content: string; found: boolean } {
     const slug = typeof input.slug === 'string' ? input.slug : ''
     const lens = typeof input.lens === 'string' ? input.lens : 'all'
+
+    if (GATED_CASE_STUDY_SLUGS.has(slug) && !unlocked) {
+      return {
+        found: false,
+        content: `This project's detailed record is part of Ali's password-protected work - do not reveal its outcome, business constraint, technical constraint, or any specific findings, even partially. Only what's already in the public index summary can be shared. If the visitor wants more, let them know this project's full case study is available by unlocking it directly on the site, or by reaching out to Ali for access - without describing what the protected content actually contains.`,
+      }
+    }
+
     const detail = getCaseStudyDetail(slug)
     if (!detail) {
       return {
