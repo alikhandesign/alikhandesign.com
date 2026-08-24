@@ -17,4 +17,12 @@ export const IHE_PORTAL_DETAIL: CaseStudyDetail = {
     'The "10,000+ clinicians" figure refers to the scheduling network coordinated across, not clinicians using the portal as end users - the portal itself is member-facing. Never phrase this as if clinicians were the portal\'s users.',
     'The six barrier categories are specific and should not be paraphrased into a different or shorter list - redundancy with existing care, clinical inferiority, the one-sided exchange problem, scam skepticism, negative past experiences, and frequency/harassment.',
   ],
+
+  // This project is password-gated on the real site - the gate protects the
+  // entire detailed narrative (all six barrier category descriptions, the
+  // reframe story, design details, and the 61% renewal figure specifically,
+  // which is not part of the public metrics). Only the hook and three
+  // headline metrics are genuinely public.
+  publicSummary:
+    'Signify Health partners with health plans to offer eligible Medicare members a free in-home health evaluation, but many eligible members were declining. Ali ran qualitative research to understand why, and the findings led to a trust-first portal redesign. Publicly stated results: 73 NPS post-visit satisfaction, 3.5M+ annual evaluations completed, and six distinct barrier categories identified in the research (the categories themselves, and any other specific figures, are not public). Ali\'s role was UX Researcher and Designer. The specific barrier categories, the redesign\'s reframe and design details, and any metrics beyond what\'s listed here are part of Ali\'s password-protected work. If asked for that depth, point the visitor toward unlocking access on the site, or reaching out to Ali directly, without describing what the protected content actually contains.',
 }

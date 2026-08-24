@@ -31,4 +31,12 @@ export interface CaseStudyDetail {
   // should have at least one honest, verified fact stated here as a floor,
   // rather than leaving the field to imply nothing needs guarding.
   doNotFabricate: string[]
+  // Only present for projects gated by PasswordGate on the real site. This
+  // is what a locked visitor gets instead of the full four lenses - built
+  // to match, fact for fact, exactly what's genuinely visible on the real
+  // page before the gate (hook, public metrics, gate teaser text), not a
+  // paraphrase or approximation of it. The principle: what the chatbot can
+  // discuss unlocked should match what the site itself shows unlocked,
+  // nothing more.
+  publicSummary?: string
 }

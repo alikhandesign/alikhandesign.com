@@ -17,4 +17,11 @@ export const PEOPLE_FIRST_DETAIL: CaseStudyDetail = {
     'The "originally wanted it bigger, scoped down for engineering feasibility" story is real and documented (Ali\'s own reflection) - but it describes a fully sequential household shopping flow being scoped to a person-by-person flow, not any other framing. Do not alter these specifics.',
     'The outcome figures are exact: 45% faster time-to-convert (2m 55s to 1m 36s), 15% lift in enrollments, 50% reduction in rage clicks, 33% increase in task completion. Do not round differently or restate as approximate.',
   ],
+
+  // This project is password-gated on the real site - the gate protects the
+  // detailed narrative (the stakeholder-pivot story, research synthesis
+  // detail, and the reflection). All four headline metrics are genuinely
+  // public, matching the top-level metrics prop on the real page exactly.
+  publicSummary:
+    'Via Benefits\' Medicare shopping experience made users choose an insurance product category before they could see any plans, even though most users didn\'t know which category applied to them. Ali led research (FullStory analysis and user interviews) diagnosing this as an identity-first, not product-first, problem, and redesigned the entry point accordingly. Publicly stated results: 45% faster time-to-convert, a 15% lift in total enrollments, a 50% reduction in rage clicks, and a 33% increase in task completion. Ali was the lead UX designer and researcher on this project. The specific stakeholder-pivot story, the research synthesis detail, and the reflection are part of Ali\'s password-protected work. If asked for that depth, point the visitor toward unlocking access on the site, or reaching out to Ali directly, without describing what the protected content actually contains.',
 }
