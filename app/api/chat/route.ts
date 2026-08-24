@@ -52,6 +52,12 @@ async function logConversation(entry: {
   assistantMessage: string
   unlocked: boolean
   timestamp: string
+  // Which deployed version of the code produced this entry, so any logged
+  // conversation can be traced back to the exact commit that was live when
+  // it happened - closes a real gap where reviewing an old log entry gave
+  // no way to know whether it predated or postdated a given fix without
+  // manually reconstructing the timeline from commit timestamps.
+  commitSha: string
   // A separate top-level field from patterns below - this is an estimate
   // about the visitor, not a detected behavior of the response itself.
   audienceEstimate: AudienceEstimate | null
@@ -147,6 +153,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
+  // Vercel's own commit SHA, automatically populated on every deployment -
+  // requires "Enable access to System Environment Variables" checked in
+  // project settings. Falls back to 'local' for local dev, where this
+  // variable is never set.
+  const commitSha = process.env.VERCEL_GIT_COMMIT_SHA ?? 'local'
+
   // Testing bypass: a random secret, sent only by the local testing script
   // (never by the live site's own browser-side code, so real visitors have
   // no path to it), lets rate limiting be skipped for deliberate test
@@ -173,6 +185,7 @@ export async function POST(req: NextRequest) {
       assistantMessage: '',
       unlocked: false,
       timestamp: new Date().toISOString(),
+      commitSha,
       audienceEstimate: null,
       patterns: {
         cited_sources: false,
@@ -230,6 +243,7 @@ export async function POST(req: NextRequest) {
       assistantMessage: forcedMessage,
       unlocked: false,
       timestamp: new Date().toISOString(),
+      commitSha,
       audienceEstimate: {
         audience: 'unknown', confidence: 0, depth: 'surface', suggest_contact: false,
         fit_verdict: 'not_applicable', case_study_pointer: '', register_used: 'fast_direct',
@@ -693,6 +707,7 @@ export async function POST(req: NextRequest) {
     assistantMessage: renumberedMessage,
     unlocked,
     timestamp: new Date().toISOString(),
+    commitSha,
     audienceEstimate,
     patterns,
   })
