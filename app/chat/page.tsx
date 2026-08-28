@@ -194,10 +194,21 @@ export default function ChatPage() {
     const currentMessageIndex = messageIndexRef.current
     messageIndexRef.current += 1
 
+    // Lets browser-based testing (not just the script) get tagged as
+    // is_test_request too - append ?testSecret=<the same PORTFOLIO_TESTING_SECRET>
+    // to the /chat URL when testing manually, so it doesn't pollute real
+    // visitor metrics. Read fresh per-request rather than cached, since it's
+    // just a URL param, not app state.
+    const testSecret = new URLSearchParams(window.location.search).get('testSecret')
+    const requestHeaders: Record<string, string> = { 'Content-Type': 'application/json' }
+    if (testSecret) {
+      requestHeaders['X-Testing-Bypass'] = testSecret
+    }
+
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: requestHeaders,
         body: JSON.stringify({
           messages: allMessages.map(({ role, content }) => ({ role, content })),
           sessionId: sessionIdRef.current,
