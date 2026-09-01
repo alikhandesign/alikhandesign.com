@@ -1,0 +1,29 @@
+---
+description: Protect production by using cursor/ feature branches and PRs into main
+alwaysApply: true
+---
+
+# Git workflow (Cursor)
+
+This site ships from GitHub `main`. Do not treat local `main` as a working branch.
+
+## Required flow
+
+1. Fetch and branch from up-to-date `origin/main`.
+2. Create a short-lived branch named `cursor/<short-task-name>` (example: `cursor/git-workflow-rule`).
+3. Commit and push only that branch. Open a PR into `main`. Delete the branch after merge.
+4. Start the next task from a fresh `origin/main`. Do not reuse one standing `cursor` branch.
+
+Claude uses `preview/<task>`. Do not stack Cursor work on an unmerged `preview/*` branch unless the task depends on that work.
+
+## Never
+
+- Commit, merge, or push directly to `main`.
+- Force-push `main` or rewrite published history on `main`.
+- Clone this repo into a nested `alikhandesign.com/` folder. The workspace is the repo root.
+
+## Examples
+
+- OK: `cursor/case-study-copy` → PR → merge to `main`
+- Not OK: committing site changes on `main`
+- Not OK: a permanent branch named `cursor` that accumulates unrelated tasks
