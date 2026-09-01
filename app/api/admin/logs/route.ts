@@ -15,7 +15,9 @@ export async function GET(req: NextRequest) {
   try {
     const kv = getKV()
     const [logKeys, feedbackKeys] = await Promise.all([
-      kv.lrange<string>('log:index', 0, 99),
+      // Match chat retention (ltrim 0, 999). The dashboard previously only
+      // read 100 keys, which made date filters and the 14-day chart incomplete.
+      kv.lrange<string>('log:index', 0, 999),
       kv.lrange<string>('feedback:index', 0, 999),
     ])
 
