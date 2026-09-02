@@ -4,6 +4,7 @@ import './globals.css'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
 import { Analytics } from '@vercel/analytics/next'
+import UmamiScript from './components/UmamiScript'
 
 const dmSerifDisplay = DM_Serif_Display({
   weight: ['400'],
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
         <Footer />
         <Analytics />
+        <UmamiScript />
       </body>
     </html>
   )
