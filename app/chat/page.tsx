@@ -11,6 +11,7 @@ import SourceInspector from '../components/SourceInspector'
 import Heading from '../components/Heading'
 import type { SiteSource } from '@/lib/sources'
 import type { AudienceEstimate } from '@/lib/tools'
+import { track } from '@/lib/umami'
 
 const RATE_LIMIT_WARN_THRESHOLD = 4 // show warning when this many or fewer responses remain - matches the documented 25% threshold (25% of 15 = 3.75, rounded to 4)
 const RATE_LIMIT_MAX = 15 // matches app/api/chat/route.ts RATE_LIMIT_MAX exactly
@@ -287,6 +288,7 @@ export default function ChatPage() {
     const newMessages = [...messages, userMessage]
     setMessages(newMessages)
     setInput('')
+    track('assistant_message')
 
     await performRequest(newMessages, text.trim())
   }
@@ -762,7 +764,10 @@ export default function ChatPage() {
             {isEmpty && (
               <SuggestedPrompts
                 prompts={SUGGESTED_QUESTIONS}
-                onSelect={sendMessage}
+                onSelect={(prompt) => {
+                  track('assistant_suggested_prompt', { prompt })
+                  sendMessage(prompt)
+                }}
               />
             )}
 
