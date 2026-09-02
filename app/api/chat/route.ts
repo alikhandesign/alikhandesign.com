@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { isRequestAuthorized } from '@/lib/auth'
+import { getRequestGeo } from '@/lib/requestGeo'
 import { AUDIENCE_TOOL, type AudienceEstimate } from '@/lib/tools'
 
 const RATE_LIMIT_WINDOW = 60 * 60 // 1 hour in seconds
@@ -46,6 +47,9 @@ async function checkRateLimit(ip: string): Promise<{ allowed: boolean; remaining
 
 async function logConversation(entry: {
   ip: string
+  country: string | null
+  region: string | null
+  city: string | null
   sessionId: string
   messageIndex: number
   userMessage: string
@@ -158,6 +162,7 @@ export async function POST(req: NextRequest) {
   // project settings. Falls back to 'local' for local dev, where this
   // variable is never set.
   const commitSha = process.env.VERCEL_GIT_COMMIT_SHA ?? 'local'
+  const geo = getRequestGeo(req)
 
   // Testing bypass: a random secret, sent only by the local testing script
   // (never by the live site's own browser-side code, so real visitors have
@@ -179,6 +184,9 @@ export async function POST(req: NextRequest) {
     // Log the rate limit hit so we can see where sessions are hitting walls
     await logConversation({
       ip,
+      country: geo.country,
+      region: geo.region,
+      city: geo.city,
       sessionId: 'unknown',
       messageIndex: -1,
       userMessage: '',
@@ -236,7 +244,10 @@ export async function POST(req: NextRequest) {
     const resolvedMessageIndexForThreat = typeof messageIndex === 'number' ? messageIndex : 0
 
     await logConversation({
-      ip: req.headers.get('x-forwarded-for')?.split(',')[0] ?? 'unknown',
+      ip,
+      country: geo.country,
+      region: geo.region,
+      city: geo.city,
       sessionId: resolvedSessionIdForThreat,
       messageIndex: resolvedMessageIndexForThreat,
       userMessage: currentTurnText,
@@ -753,6 +764,9 @@ export async function POST(req: NextRequest) {
 
   await logConversation({
     ip,
+    country: geo.country,
+    region: geo.region,
+    city: geo.city,
     sessionId: resolvedSessionId,
     messageIndex: resolvedMessageIndex,
     userMessage,
