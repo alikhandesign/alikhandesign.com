@@ -4,7 +4,7 @@ import CaseStudyPage from '@/app/components/CaseStudyPage'
 import SectionIntro from '@/app/components/SectionIntro'
 import Body from '@/app/components/Body'
 import StatCard from '@/app/components/StatCard'
-import ProjectImage from '@/app/components/ProjectImage'
+import { ProjectImage } from '@/app/components/Lightbox'
 import PullQuote from '@/app/components/PullQuote'
 import PasswordGate from '@/app/components/PasswordGate'
 
@@ -29,7 +29,7 @@ const INSIDE = [
 
 function FullCaseStudy() {
   return (
-    <div>
+    <div style={{ maxWidth: 680 }}>
 
       <section id="the-context" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro
