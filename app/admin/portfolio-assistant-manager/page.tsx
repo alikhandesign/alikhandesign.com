@@ -75,6 +75,57 @@ interface Session {
 }
 
 type ClearIntent = 'since-10m' | 'since-1h' | 'sessions' | 'all'
+type FlagKey = 'cited' | 'guardrail' | 'rif_leak' | 'error' | 'rate_limited' | 'unlocked' | 'thumbs_down' | 'test'
+
+const FLAG_PILLS: { key: FlagKey; label: string }[] = [
+  { key: 'cited', label: 'Citations used' },
+  { key: 'guardrail', label: 'Guardrail triggered' },
+  { key: 'rif_leak', label: 'Possible RIF leak' },
+  { key: 'error', label: 'Error state' },
+  { key: 'rate_limited', label: 'Rate limited' },
+  { key: 'unlocked', label: 'Unlocked' },
+  { key: 'thumbs_down', label: 'Thumbs down' },
+  { key: 'test', label: 'Test traffic' },
+]
+
+const workFilterPill: CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '0.4rem',
+  paddingTop: '0.4rem',
+  paddingBottom: '0.4rem',
+  paddingLeft: '0.875rem',
+  paddingRight: '0.875rem',
+  fontSize: 'var(--font-size-xs)',
+  fontWeight: 500,
+  letterSpacing: '0.04em',
+  color: 'var(--color-text)',
+  border: '1px solid var(--color-border)',
+  borderRadius: 'var(--radius-sm)',
+  cursor: 'pointer',
+  background: 'transparent',
+  fontFamily: 'var(--font-sans)',
+  transition: 'background 0.15s, color 0.15s',
+}
+
+const workFilterPillActive: CSSProperties = {
+  ...workFilterPill,
+  background: 'var(--color-text)',
+  border: '1px solid var(--color-text)',
+  color: 'var(--color-bg)',
+  paddingRight: '0.5rem',
+}
+
+function sessionMatchesFlag(session: Session, key: FlagKey): boolean {
+  if (key === 'cited') return session.flags.cited_sources
+  if (key === 'guardrail') return session.flags.guardrails_triggered.length > 0
+  if (key === 'rif_leak') return session.flags.rif_possible_leak
+  if (key === 'error') return session.flags.error_state
+  if (key === 'rate_limited') return session.flags.rate_limited
+  if (key === 'unlocked') return session.flags.unlocked
+  if (key === 'thumbs_down') return session.flags.thumbs_down
+  return session.isTest
+}
 
 const fieldLabelStyle: CSSProperties = {
   display: 'block',
@@ -353,14 +404,53 @@ function DashboardTab({ sessions, rawCount }: { sessions: Session[]; rawCount: n
         <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)', lineHeight: 1.6, margin: 0 }}>
           Computed from the most recent {rawCount} logged messages ({stats.totalSessions} sessions). Retention is the last 1000 entries. Chat sessions only — not site pageviews.
         </p>
-        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', whiteSpace: 'nowrap' }}>
-          <input
-            type="checkbox"
-            checked={includeTest}
-            onChange={e => setIncludeTest(e.target.checked)}
-          />
-          Include test requests{hiddenTestCount > 0 ? ` (${hiddenTestCount} hidden)` : ''}
-        </label>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={includeTest}
+          onClick={() => setIncludeTest(v => !v)}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: 0,
+            border: 'none',
+            background: 'none',
+            cursor: 'pointer',
+            flexShrink: 0,
+            fontFamily: 'var(--font-sans)',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          <span
+            aria-hidden="true"
+            style={{
+              position: 'relative',
+              width: 28,
+              height: 16,
+              borderRadius: 999,
+              background: includeTest ? 'var(--color-text)' : 'var(--color-border-mid)',
+              flexShrink: 0,
+              transition: 'background var(--transition-base)',
+            }}
+          >
+            <span
+              style={{
+                position: 'absolute',
+                top: 2,
+                left: includeTest ? 14 : 2,
+                width: 12,
+                height: 12,
+                borderRadius: '50%',
+                background: 'var(--color-bg)',
+                transition: 'left var(--transition-base)',
+              }}
+            />
+          </span>
+          <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}>
+            Include tests{!includeTest && hiddenTestCount > 0 ? ` (${hiddenTestCount} hidden)` : ''}
+          </span>
+        </button>
       </div>
 
       {stats.rifLeakSessions > 0 && (
@@ -574,7 +664,7 @@ function LogsTab({
 }) {
   const [expandedSession, setExpandedSession] = useState<string | null>(null)
   const [expandedEntry, setExpandedEntry] = useState<string | null>(null)
-  const [filter, setFilter] = useState<'all' | 'cited' | 'guardrail' | 'rif_leak' | 'error' | 'rate_limited' | 'unlocked' | 'thumbs_down' | 'test'>('all')
+  const [selectedFlags, setSelectedFlags] = useState<Set<FlagKey>>(new Set())
   const [search, setSearch] = useState('')
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
@@ -587,15 +677,10 @@ function LogsTab({
   }, [sessions])
 
   const filteredSessions = sessions.filter(s => {
-    if (filter === 'all') {}
-    else if (filter === 'cited' && !s.flags.cited_sources) return false
-    else if (filter === 'guardrail' && s.flags.guardrails_triggered.length === 0) return false
-    else if (filter === 'rif_leak' && !s.flags.rif_possible_leak) return false
-    else if (filter === 'error' && !s.flags.error_state) return false
-    else if (filter === 'rate_limited' && !s.flags.rate_limited) return false
-    else if (filter === 'unlocked' && !s.flags.unlocked) return false
-    else if (filter === 'thumbs_down' && !s.flags.thumbs_down) return false
-    else if (filter === 'test' && !s.isTest) return false
+    if (selectedFlags.size > 0) {
+      const anyFlag = Array.from(selectedFlags).some(key => sessionMatchesFlag(s, key))
+      if (!anyFlag) return false
+    }
 
     if (search.trim()) {
       const q = search.toLowerCase()
@@ -628,19 +713,32 @@ function LogsTab({
     [filteredSessions],
   )
 
-  const FILTERS: { key: typeof filter; label: string; color?: string }[] = [
-    { key: 'all', label: 'All sessions' },
-    { key: 'cited', label: 'Citations used', color: '#2563EB' },
-    { key: 'guardrail', label: 'Guardrail triggered', color: '#92600A' },
-    { key: 'rif_leak', label: 'Possible RIF leak', color: '#B91C1C' },
-    { key: 'error', label: 'Error state', color: '#B91C1C' },
-    { key: 'rate_limited', label: 'Rate limited', color: '#6B21A8' },
-    { key: 'unlocked', label: 'Unlocked', color: '#4A6130' },
-    { key: 'thumbs_down', label: 'Thumbs down', color: '#B91C1C' },
-    { key: 'test', label: 'Test traffic', color: '#6B7280' },
-  ]
+  const filtersActive = Boolean(search || dateFrom || dateTo || countryFilter || selectedFlags.size > 0)
 
-  const filtersActive = Boolean(search || dateFrom || dateTo || countryFilter)
+  const toggleFlag = (key: FlagKey) => {
+    setSelectedFlags(prev => {
+      const next = new Set(prev)
+      if (next.has(key)) next.delete(key)
+      else next.add(key)
+      return next
+    })
+  }
+
+  const deselectFlag = (key: FlagKey) => {
+    setSelectedFlags(prev => {
+      const next = new Set(prev)
+      next.delete(key)
+      return next
+    })
+  }
+
+  const resetAllFilters = () => {
+    setSearch('')
+    setCountryFilter('')
+    setDateFrom('')
+    setDateTo('')
+    setSelectedFlags(new Set())
+  }
 
   const toggleSelected = (sessionId: string, checked: boolean) => {
     const next = new Set(selectedIds)
@@ -671,7 +769,7 @@ function LogsTab({
       </div>
 
       <div style={{ display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap', alignItems: 'flex-end', marginBottom: 'var(--space-4)' }}>
-        <div style={{ flex: '2 1 180px' }}>
+        <div style={{ flex: '1 1 140px', minWidth: 140 }}>
           <label htmlFor="log-search" style={fieldLabelStyle}>Search</label>
           <input
             id="log-search"
@@ -682,7 +780,7 @@ function LogsTab({
             style={{ ...compactInputStyle, width: '100%' }}
           />
         </div>
-        <div style={{ flex: '1 1 140px' }}>
+        <div style={{ flex: '0 1 130px' }}>
           <label htmlFor="log-country" style={fieldLabelStyle}>Country</label>
           <select
             id="log-country"
@@ -696,67 +794,110 @@ function LogsTab({
             ))}
           </select>
         </div>
-        <fieldset style={{
-          flex: '0 1 auto', margin: 0, padding: 0, border: 'none',
-          display: 'flex', gap: 'var(--space-2)', alignItems: 'flex-end',
+        <div style={{
+          flex: '0 0 auto',
+          display: 'flex', gap: 'var(--space-2)', alignItems: 'center',
         }}>
-          <legend style={{ ...fieldLabelStyle, padding: 0 }}>Date range</legend>
-          <div>
-            <label htmlFor="log-date-from" style={{ ...fieldLabelStyle, textTransform: 'none', letterSpacing: 0 }}>From</label>
-            <input
-              id="log-date-from"
-              type="date"
-              value={dateFrom}
-              onChange={e => setDateFrom(e.target.value)}
-              style={{ ...compactInputStyle, width: 132 }}
-            />
-          </div>
-          <div>
-            <label htmlFor="log-date-to" style={{ ...fieldLabelStyle, textTransform: 'none', letterSpacing: 0 }}>To</label>
-            <input
-              id="log-date-to"
-              type="date"
-              value={dateTo}
-              onChange={e => setDateTo(e.target.value)}
-              style={{ ...compactInputStyle, width: 132 }}
-            />
-          </div>
-        </fieldset>
-        {filtersActive && (
-          <button
-            onClick={() => { setSearch(''); setCountryFilter(''); setDateFrom(''); setDateTo('') }}
-            style={{
-              padding: '0.3rem 0.75rem', fontSize: 'var(--font-size-xs)',
-              border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)',
-              background: 'transparent', cursor: 'pointer', fontFamily: 'var(--font-sans)',
-              color: 'var(--color-text-muted)', height: 30,
-            }}
+          <label
+            htmlFor="log-date-from"
+            style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', fontFamily: 'var(--font-sans)', whiteSpace: 'nowrap' }}
           >
-            Clear
-          </button>
-        )}
+            From
+          </label>
+          <input
+            id="log-date-from"
+            type="date"
+            value={dateFrom}
+            onChange={e => setDateFrom(e.target.value)}
+            style={{ ...compactInputStyle, width: 132 }}
+          />
+          <label
+            htmlFor="log-date-to"
+            style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', fontFamily: 'var(--font-sans)', whiteSpace: 'nowrap' }}
+          >
+            To
+          </label>
+          <input
+            id="log-date-to"
+            type="date"
+            value={dateTo}
+            onChange={e => setDateTo(e.target.value)}
+            style={{ ...compactInputStyle, width: 132 }}
+          />
+        </div>
       </div>
 
       <div style={{ marginBottom: 'var(--space-2)' }}>
         <p style={fieldLabelStyle}>Session flags</p>
-        <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap', marginBottom: 'var(--space-6)' }}>
-          {FILTERS.map(f => (
+        <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap', alignItems: 'center', marginBottom: 'var(--space-6)' }}>
+          {FLAG_PILLS.map(f => {
+            const selected = selectedFlags.has(f.key)
+            return (
+              <span
+                key={f.key}
+                style={selected ? workFilterPillActive : workFilterPill}
+              >
+                <button
+                  type="button"
+                  onClick={() => toggleFlag(f.key)}
+                  aria-pressed={selected}
+                  style={{
+                    all: 'unset',
+                    cursor: 'pointer',
+                    font: 'inherit',
+                    color: 'inherit',
+                    letterSpacing: 'inherit',
+                    fontWeight: 'inherit',
+                  }}
+                >
+                  {f.label}
+                </button>
+                {selected && (
+                  <button
+                    type="button"
+                    aria-label={`Remove ${f.label}`}
+                    onClick={() => deselectFlag(f.key)}
+                    style={{
+                      all: 'unset',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '1rem',
+                      height: '1rem',
+                      marginLeft: '0.1rem',
+                      fontSize: '0.75rem',
+                      lineHeight: 1,
+                      fontWeight: 500,
+                      color: 'inherit',
+                      opacity: 0.75,
+                    }}
+                  >
+                    ×
+                  </button>
+                )}
+              </span>
+            )
+          })}
+          {filtersActive && (
             <button
-              key={f.key}
-              onClick={() => setFilter(f.key)}
+              type="button"
+              onClick={resetAllFilters}
               style={{
-                fontSize: 'var(--font-size-xs)', padding: '0.35rem 0.75rem',
-                border: `1px solid ${filter === f.key ? (f.color ?? 'var(--color-text)') : 'var(--color-border)'}`,
-                borderRadius: 'var(--radius-sm)',
-                background: filter === f.key ? (f.color ? `${f.color}12` : 'var(--color-surface)') : 'transparent',
-                color: filter === f.key ? (f.color ?? 'var(--color-text)') : 'var(--color-text-muted)',
-                cursor: 'pointer', fontFamily: 'var(--font-sans)', fontWeight: filter === f.key ? 500 : 400,
-                transition: 'all 0.12s',
+                fontSize: 'var(--font-size-xs)',
+                color: 'var(--color-text-muted)',
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                cursor: 'pointer',
+                fontFamily: 'var(--font-sans)',
+                textDecoration: 'underline',
+                textUnderlineOffset: 3,
               }}
             >
-              {f.label}
+              Reset all
             </button>
-          ))}
+          )}
         </div>
       </div>
 
@@ -1103,14 +1244,14 @@ export default function PortfolioAssistantManagerPage() {
           ))}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', paddingBottom: '0.35rem' }}>
-          <label htmlFor="clear-logs" style={{ fontSize: 'var(--font-size-xs)', color: '#B91C1C' }}>Clear logs</label>
+          <label htmlFor="clear-logs" style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', fontFamily: 'var(--font-sans)' }}>Clear logs</label>
           <select
             id="clear-logs"
             value={clearIntent}
             onChange={e => setClearIntent(e.target.value as ClearIntent | '')}
             style={{
               fontSize: 'var(--font-size-xs)', fontFamily: 'var(--font-sans)',
-              color: '#B91C1C', background: 'var(--color-surface)',
+              color: 'var(--color-text-muted)', background: 'var(--color-surface)',
               border: '1px solid var(--color-border)', borderRadius: 'var(--radius-sm)',
               padding: '0.35rem 0.5rem',
             }}
@@ -1129,10 +1270,10 @@ export default function PortfolioAssistantManagerPage() {
       {confirm && (
         <div style={{
           padding: '1rem', marginBottom: 'var(--space-6)',
-          background: '#fdecec', border: '1px solid #B91C1C',
+          background: 'var(--color-accent-bg)', border: '1px solid var(--color-accent)',
           borderRadius: 'var(--radius-sm)',
         }}>
-          <p style={{ fontSize: 'var(--font-size-sm)', color: '#791F1F', marginBottom: '0.75rem' }}>
+          <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-accent)', marginBottom: '0.75rem' }}>
             {confirm.title}
           </p>
           <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
@@ -1141,7 +1282,7 @@ export default function PortfolioAssistantManagerPage() {
               disabled={clearing}
               style={{
                 fontSize: 'var(--font-size-sm)', fontWeight: 500,
-                color: '#fff', background: '#B91C1C', border: 'none',
+                color: 'var(--color-bg)', background: 'var(--color-accent)', border: 'none',
                 borderRadius: 'var(--radius-sm)', padding: '0.5rem 1rem',
                 cursor: clearing ? 'default' : 'pointer', fontFamily: 'var(--font-sans)',
                 opacity: clearing ? 0.6 : 1,
@@ -1153,8 +1294,8 @@ export default function PortfolioAssistantManagerPage() {
               onClick={() => setClearIntent('')}
               disabled={clearing}
               style={{
-                fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)',
-                background: 'none', border: '1px solid var(--color-border)',
+                fontSize: 'var(--font-size-sm)', color: 'var(--color-text)',
+                background: 'transparent', border: '1px solid var(--color-border)',
                 borderRadius: 'var(--radius-sm)', padding: '0.5rem 1rem',
                 cursor: 'pointer', fontFamily: 'var(--font-sans)',
               }}
