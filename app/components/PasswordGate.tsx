@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import SectionLabel from './SectionLabel'
+import { track } from '@/lib/umami'
 
 interface PasswordGateProps {
   children: React.ReactNode
@@ -51,6 +52,7 @@ export default function PasswordGate({ children, title, description, inside, onU
       if (res.ok) {
         setUnlocked(true)
         setError(false)
+        track('password_unlock')
         onUnlock?.()
       } else {
         setError(true)
