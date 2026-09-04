@@ -371,3 +371,34 @@ button:focus-visible {
   white-space: nowrap;
   border: 0;
 }
+
+/* ─── Before / After Quote ───────────────────────────────────────────────── */
+/* Only the parts inline styles can't express: the wrapping row and the
+   container query that stacks on the component's own width. */
+
+.ba-quote { container-type: inline-size; }
+
+.ba-quote__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+.ba-quote__side { flex: 1 1 250px; min-width: 0; }
+
+.ba-quote__arrow {
+  flex: 0 0 auto;
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  color: var(--color-text);
+  transform: rotate(0deg);
+}
+
+@container (max-width: 620px) {
+  .ba-quote__side { flex-basis: 100%; }
+  .ba-quote__arrow { transform: rotate(90deg); }
+}
