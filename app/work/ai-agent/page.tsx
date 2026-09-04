@@ -342,23 +342,28 @@ function FullCaseStudy() {
           heading="Three problems that reinforced each other"
         />
         <Body>
-          <strong>The synthesis tax.</strong>
-          {` A researcher spent a full day each week on categorization, cleanup, and redaction. That was 20% of weekly capacity going to work that required domain expertise they didn't have, producing outputs that arrived too late to act on.`}
-        </Body>
-        <Body>
-          <strong>The expert gap.</strong>
-          {` Categorization was really a routing decision. Choosing a bucket meant deciding which team owned the problem, and the people making that call weren't subject-matter experts on every product feature. Getting it wrong sent feedback to a team that couldn't act on it while the team that could never saw it. It also corrupted every trend report built on those categories, which is how a real pattern gets buried and a phantom one gets reported.`}
-        </Body>
-        <Body>
-          <strong>The distribution lag.</strong>
-          {` Insights sat in a spreadsheet until the Monday post. Feedback arriving on a Monday waited a full week before anyone outside the research team saw it. During Open Enrollment the cycle stayed the same length, but ten times the volume meant ten times as many issues sitting undelivered.`}
-        </Body>
-        <Body mb={false}>
-          {`I ran into the expert gap myself. I helped with the feedback process from time to time, and I worked on the Shopping and Quoting team, so I was closer to the product than most researchers were. That proximity still had limits. If a comment touched a known technical limitation in another team's domain, I might file it as a bug when it wasn't one. The person doing the categorization couldn't know what they didn't know. That's structural.`}
+          {`These three problems didn't happen in isolation. Each one made the other two worse.`}
         </Body>
         <Emphasis>
-          {`Researcher hours were the smallest part of the cost. Feedback that arrives late and miscategorized is a compliance and retention risk. The signal that something is failing a participant reaches the people who can fix it after the window to fix it has closed.`}
+          <strong>The synthesis tax.</strong>
+          {` A researcher spent a full day each week on categorization, cleanup, and redaction. That was 20% of weekly capacity going to work that required domain expertise they didn't have, producing outputs that arrived too late to act on.`}
         </Emphasis>
+        <Emphasis>
+          <strong>The expert gap.</strong>
+          {` Categorization was really a routing decision. Choosing a bucket meant deciding which team owned the problem, and the people making that call weren't subject-matter experts on every product feature. Getting it wrong sent feedback to a team that couldn't act on it while the team that could never saw it. It also corrupted every trend report built on those categories, which is how a real pattern gets buried and a phantom one gets reported.`}
+        </Emphasis>
+        <Emphasis>
+          <strong>The distribution lag.</strong>
+          {` Insights sat in a spreadsheet until the Monday post. Feedback arriving on a Monday waited a full week before anyone outside the research team saw it. During Open Enrollment the cycle stayed the same length, but ten times the volume meant ten times as many issues sitting undelivered.`}
+        </Emphasis>
+        <Body>
+          {`I ran into the expert gap myself. I helped with the feedback process from time to time, and I worked on the Shopping and Quoting team, so I was closer to the product than most researchers were. That proximity still had limits. If a comment touched a known technical limitation in another team's domain, I might file it as a bug when it wasn't one. The person doing the categorization couldn't know what they didn't know. That's structural.`}
+        </Body>
+        <Body mb={false}>
+          {`Researcher hours were the smallest part of the cost. `}
+          <strong>{`Feedback that arrives late and miscategorized is a compliance and retention risk.`}</strong>
+          {` The signal that something is failing a participant reaches the people who can fix it after the window to fix it has closed.`}
+        </Body>
       </section>
 
       <section id="the-reframe" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
@@ -428,16 +433,16 @@ function FullCaseStudy() {
           {`Pre-categorization handled structure. Product context handled the expert gap itself. Three examples make the difference concrete.`}
         </Body>
         <Body>
-          <strong>&ldquo;How do I keep my plan?&rdquo;</strong>
-          {` reads as an enrollment question, and the fix looks like a clearer re-enrollment flow. Most Medicare plans renew automatically. The member is describing anxiety about whether action is needed, and a better enrollment flow doesn't touch it.`}
+          {`&ldquo;How do I keep my plan?&rdquo; reads as an enrollment question, and the fix looks like a clearer re-enrollment flow. Most Medicare plans renew automatically. `}
+          <strong>{`The member is describing anxiety about whether action is needed, and a better enrollment flow doesn't touch it.`}</strong>
         </Body>
         <Body>
-          <strong>&ldquo;My current plan is showing the wrong price.&rdquo;</strong>
-          {` reads as a bug, so it becomes a ticket and engineering hunts a display error. Premium data is frozen at the enrollment date because carriers don't provide year-over-year updates. Nothing is broken, so there's nothing to fix in code.`}
+          {`&ldquo;My current plan is showing the wrong price.&rdquo; reads as a bug, so it becomes a ticket and engineering hunts a display error. Premium data is frozen at the enrollment date because carriers don't provide year-over-year updates. `}
+          <strong>{`Nothing is broken, so there's nothing to fix in code.`}</strong>
         </Body>
         <Body>
-          <strong>&ldquo;I can't get through to anyone.&rdquo;</strong>
-          {` reads as a scheduling problem, so appointment booking gets more prominent. During Open Enrollment members could call without an appointment, and the site never told them. Call volume doesn't move and the communication gap stays open.`}
+          {`&ldquo;I can't get through to anyone.&rdquo; reads as a scheduling problem, so appointment booking gets more prominent. During Open Enrollment members could call without an appointment, and the site never told them. `}
+          <strong>{`Call volume doesn't move and the communication gap stays open.`}</strong>
         </Body>
         <Body mb={false}>
           {`In each case the miscategorization does more than misroute feedback. It produces confident, well-intentioned design work aimed at a problem the member doesn't have. Grounding the agent in the Via Benefits product sites alongside the feedback table is what let it tell these apart, and it's the kind of product context a researcher had no reliable way to get.`}
@@ -545,7 +550,7 @@ function FullCaseStudy() {
         >
           <StatCard value="8+ hrs → min" label="Weekly synthesis time" />
           <StatCard value="95%" label="Categorization & synthesis accuracy" />
-          <StatCard value="Up to 7 days → same day" label="Insight delivery lag" />
+          <StatCard value="7 days → same day" label="Insight delivery lag" />
           <StatCard value="20%" label="Research capacity returned" />
           <StatCard value="128" label="Conversation sessions" />
           <StatCard value="4.3 / 5" label="Stakeholder satisfaction" />
@@ -575,10 +580,10 @@ function FullCaseStudy() {
           {`The technology here is accessible to most product teams today. None of it was the hard part. The hard part was making AI trustworthy enough that people were willing to delegate real decisions to it, which meant earning legal sign-off before writing the first line of the system prompt, building a validation methodology rigorous enough to change a skeptic's mind, and designing fallback behavior that kept humans in the loop where they needed to be.`}
         </Body>
         <Body>
-          {`The system still doesn't tailor its answers to who's asking. I mapped each stakeholder's tolerance for ambiguity during the build, and that shaped the responses and the output formats, but the agent itself makes no judgment about its audience mid-conversation. Copilot supports that. I didn't build it. A researcher and a VP get the same handling of an uncertain answer when they need different things from it.`}
+          {`The first thing I'd build is the gap I already know about: the system doesn't tailor its answers to who's asking. I mapped each stakeholder's tolerance for ambiguity during the build, and that shaped the responses and the output formats, but the agent itself makes no judgment about its audience mid-conversation. Copilot supports that. I didn't build it. A researcher and a VP get the same handling of an uncertain answer when they need different things from it.`}
         </Body>
         <Body>
-          {`The next thing I'd do is give it more to look at: AI-generated FullStory session summaries, call center agent notes, and call transcripts. Each brings its own privacy problem, and transcripts are the hardest, since nearly every call opens with identity verification. I'd also split it into two agents, one for ingestion and one for synthesis, so a change to the interpretive half couldn't destabilize the compliance-critical one. And it's still entirely pull-based. Nobody hears about a spike unless they go looking.`}
+          {`After that, I'd give it more to look at: AI-generated FullStory session summaries, call center agent notes, and call transcripts. Each brings its own privacy problem, and transcripts are the hardest, since nearly every call opens with identity verification. I'd also split it into two agents, one for ingestion and one for synthesis, so a change to the interpretive half couldn't destabilize the compliance-critical one. And it's still entirely pull-based. Nobody hears about a spike unless they go looking.`}
         </Body>
         <Body mb={false}>
           {`Design isn't always about creating better interfaces. Sometimes the highest-leverage opportunity is redesigning how work gets done, understanding the people inside the organization as well as the customers. The skeptic-to-advocate arc came down to evidence. The AI being impressive would never have been enough.`}
@@ -601,7 +606,7 @@ export default function AIAgentPage() {
       metrics={[
         { value: '95%', label: 'Categorization & synthesis accuracy' },
         { value: '8+ hrs → min', label: 'Synthesis time' },
-        { value: 'Up to 7 days → same day', label: 'Insight delivery' },
+        { value: '7 days → same day', label: 'Insight delivery' },
         { value: '4.3 / 5', label: 'Stakeholder satisfaction' },
       ]}
       details={[

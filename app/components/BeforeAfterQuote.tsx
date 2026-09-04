@@ -21,17 +21,15 @@ export default function BeforeAfterQuote({
 }: BeforeAfterQuoteProps) {
   const labelStyle = {
     fontSize: 'var(--font-size-2xl)',
-    fontWeight: 'var(--font-weight-semibold)' as any,
+    fontWeight: 600,
     lineHeight: 'var(--line-height-tight)',
     color: 'var(--color-text)',
-    marginBottom: 'var(--space-4)',
   }
 
   const quoteStyle = {
     fontSize: 'var(--font-size-base)',
     lineHeight: 1.4,
     color: 'var(--color-text)',
-    marginBottom: 'var(--space-4)',
   }
 
   const attributionStyle = {
@@ -50,37 +48,32 @@ export default function BeforeAfterQuote({
         textAlign: 'center' as const,
       }}
     >
-      <div className="ba-quote__row">
-        <div className="ba-quote__side">
-          <p style={labelStyle}>{beforeLabel}</p>
-          <blockquote style={quoteStyle}>{beforeQuote}</blockquote>
-          <figcaption style={attributionStyle}>{beforeAttribution}</figcaption>
-        </div>
+      <div className="ba-quote__grid">
+        <p className="ba-quote__label-left" style={labelStyle}>{beforeLabel}</p>
+        <blockquote className="ba-quote__quote-left" style={quoteStyle}>{beforeQuote}</blockquote>
+        <figcaption className="ba-quote__attr-left" style={attributionStyle}>{beforeAttribution}</figcaption>
 
-        <div className="ba-quote__arrow" aria-hidden="true">
-          &rarr;
-        </div>
+        <div className="ba-quote__arrow" aria-hidden="true">&rarr;</div>
 
-        <div className="ba-quote__side">
-          <p style={labelStyle}>{afterLabel}</p>
-          <blockquote style={quoteStyle}>
-            {afterStruckQuote && (
+        <p className="ba-quote__label-right" style={labelStyle}>{afterLabel}</p>
+        <blockquote className="ba-quote__quote-right" style={quoteStyle}>
+          {afterStruckQuote && (
+            <>
               <span
                 style={{
-                  display: 'block',
                   textDecoration: 'line-through',
                   textDecorationSkipInk: 'none' as any,
                   color: 'var(--color-text-muted)',
-                  marginBottom: 'var(--space-2)',
                 }}
               >
                 {afterStruckQuote}
               </span>
-            )}
-            {afterQuote}
-          </blockquote>
-          <figcaption style={attributionStyle}>{afterAttribution}</figcaption>
-        </div>
+              <br />
+            </>
+          )}
+          {afterQuote}
+        </blockquote>
+        <figcaption className="ba-quote__attr-right" style={attributionStyle}>{afterAttribution}</figcaption>
       </div>
 
       {note && (

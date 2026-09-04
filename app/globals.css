@@ -373,24 +373,36 @@ button:focus-visible {
 }
 
 /* ─── Before / After Quote ───────────────────────────────────────────────── */
-/* Only the parts inline styles can't express: the wrapping row and the
-   container query that stacks on the component's own width. */
+/* CSS Grid rather than flexbox: label, quote, and attribution each share
+   a row across both columns, so each row's height is set by whichever
+   side is taller. That's what keeps the two sides level regardless of
+   how long either quote is. Background stays whatever the component
+   sets inline; this only handles structure. */
 
 .ba-quote { container-type: inline-size; }
 
-.ba-quote__row {
-  display: flex;
-  flex-wrap: wrap;
+.ba-quote__grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-areas:
+    "labelL  arrow labelR"
+    "quoteL  arrow quoteR"
+    "attrL   arrow attrR";
   align-items: center;
-  justify-content: center;
-  gap: var(--space-6);
-  width: 100%;
+  column-gap: var(--space-6);
+  row-gap: var(--space-2);
 }
 
-.ba-quote__side { flex: 1 1 250px; min-width: 0; }
+.ba-quote__label-left  { grid-area: labelL; }
+.ba-quote__label-right { grid-area: labelR; }
+.ba-quote__quote-left  { grid-area: quoteL; }
+.ba-quote__quote-right { grid-area: quoteR; }
+.ba-quote__attr-left   { grid-area: attrL; }
+.ba-quote__attr-right  { grid-area: attrR; }
 
 .ba-quote__arrow {
-  flex: 0 0 auto;
+  grid-area: arrow;
+  justify-self: center;
   font-size: var(--font-size-3xl);
   font-weight: var(--font-weight-semibold);
   line-height: 1;
@@ -398,7 +410,21 @@ button:focus-visible {
   transform: rotate(0deg);
 }
 
-@container (max-width: 620px) {
-  .ba-quote__side { flex-basis: 100%; }
-  .ba-quote__arrow { transform: rotate(90deg); }
+@container (max-width: 560px) {
+  .ba-quote__grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "labelL"
+      "quoteL"
+      "attrL"
+      "arrow"
+      "labelR"
+      "quoteR"
+      "attrR";
+    row-gap: var(--space-3);
+  }
+  .ba-quote__arrow {
+    transform: rotate(90deg);
+    margin: var(--space-1) 0;
+  }
 }

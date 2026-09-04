@@ -293,7 +293,7 @@ export function ProjectImage({ src, alt, caption, allImages, imageIndex = 0 }: P
         tabIndex={0}
         aria-label={`View full size: ${alt}`}
         onKeyDown={e => e.key === 'Enter' && setOpen(true)}
-        style={{ cursor: 'zoom-in', marginBottom: '0.5rem' }}
+        style={{ cursor: 'zoom-in', margin: '2rem 0' }}
       >
         <img
           src={src}
