@@ -479,6 +479,11 @@ function FullCaseStudy() {
           {`Building this meant accepting that categorization would sometimes be wrong and redaction would sometimes miss. The two failures get different treatment, deliberately, because `}
           <strong>{`the severity of the failure sets the severity of the intervention.`}</strong>
         </Body>
+        <CalloutCard
+          variant="light"
+          title="A human stays in the loop for both failures"
+          body="I could have automated both failure paths away: auto-purge anything flagged as sensitive, auto-discard anything the agent couldn't categorize. I built a person into both instead. A false positive on redaction should be reviewed, not erased. A miscategorized comment should be caught, not hidden. Automating either one trades a small, visible problem for a larger, invisible one."
+        />
         <Body>
           {`Sensitive records never reach the agent and instead fire an alert to me and the researchers. The alert deliberately doesn't contain the flagged content, since putting suspected PHI in a Teams message to warn people about PHI would relocate the problem rather than solve it.`}
         </Body>
