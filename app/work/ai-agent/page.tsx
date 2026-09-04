@@ -262,7 +262,7 @@ function Emphasis({ children }: { children: React.ReactNode }) {
       style={{
         borderLeft: '2px solid var(--color-accent)',
         paddingLeft: 'var(--space-5)',
-        margin: '2rem 0 0',
+        margin: '2rem 0',
       }}
     >
       <Body mb={false}>{children}</Body>
@@ -378,7 +378,9 @@ function FullCaseStudy() {
           {`But a faster version of the same flawed process just produces wrong answers more quickly. The synthesis tax and the distribution lag were symptoms. The expert gap was the thing underneath them. Speed alone would leave it untouched.`}
         </Body>
         <Body mb={false}>
-          {`So the question I actually had to answer was: can AI speed up synthesis while categorizing feedback more accurately than the researchers could? That second half is where the design work lived.`}
+          {`So the question I actually had to answer was: `}
+          <strong>{`can AI speed up synthesis while categorizing feedback more accurately than the researchers could?`}</strong>
+          {` That second half is where the design work lived.`}
         </Body>
       </section>
 
@@ -409,7 +411,9 @@ function FullCaseStudy() {
           {`Pattern queries are reliable for anything with a predictable shape. They are far less reliable for names, and the hardest cases are contextual. A provider's name only counts as PHI beside a participant's own. "I was not able to add Dr. Chen to the provider list" is not PHI. "I was not able to add Susan's oncologist, Dr. Chen, to her provider list" is. No regex expresses that distinction, so a second pass on Azure OpenAI Service read each record on export, flagging anything it wasn't sure about and withholding it from the agent entirely.`}
         </Body>
         <Body mb={false}>
-          {`Legal never asked for auditability. I built it anyway, because a compliance policy you can't demonstrate is one you're asking people to take on faith. Being able to prove redaction had happened is what turned a hard no into a sign-off.`}
+          {`Legal never asked for auditability. I built it anyway, because `}
+          <strong>{`a compliance policy you can't demonstrate is one you're asking people to take on faith.`}</strong>
+          {` Being able to prove redaction had happened is what turned a hard no into a sign-off.`}
         </Body>
         <ProjectImage
           src="/images/work/ai-agent/redaction-policy.png"
@@ -432,18 +436,18 @@ function FullCaseStudy() {
         <Body>
           {`Pre-categorization handled structure. Product context handled the expert gap itself. Three examples make the difference concrete.`}
         </Body>
-        <Body>
-          {`&ldquo;How do I keep my plan?&rdquo; reads as an enrollment question, and the fix looks like a clearer re-enrollment flow. Most Medicare plans renew automatically. `}
+        <Emphasis>
+          {`“How do I keep my plan?” reads as an enrollment question, and the fix looks like a clearer re-enrollment flow. Most Medicare plans renew automatically. `}
           <strong>{`The member is describing anxiety about whether action is needed, and a better enrollment flow doesn't touch it.`}</strong>
-        </Body>
-        <Body>
-          {`&ldquo;My current plan is showing the wrong price.&rdquo; reads as a bug, so it becomes a ticket and engineering hunts a display error. Premium data is frozen at the enrollment date because carriers don't provide year-over-year updates. `}
+        </Emphasis>
+        <Emphasis>
+          {`“My current plan is showing the wrong price.” reads as a bug, so it becomes a ticket and engineering hunts a display error. Premium data is frozen at the enrollment date because carriers don't provide year-over-year updates. `}
           <strong>{`Nothing is broken, so there's nothing to fix in code.`}</strong>
-        </Body>
-        <Body>
-          {`&ldquo;I can't get through to anyone.&rdquo; reads as a scheduling problem, so appointment booking gets more prominent. During Open Enrollment members could call without an appointment, and the site never told them. `}
+        </Emphasis>
+        <Emphasis>
+          {`“I can’t get through to anyone.” reads as a scheduling problem, so appointment booking gets more prominent. During Open Enrollment members could call without an appointment, and the site never told them. `}
           <strong>{`Call volume doesn't move and the communication gap stays open.`}</strong>
-        </Body>
+        </Emphasis>
         <Body mb={false}>
           {`In each case the miscategorization does more than misroute feedback. It produces confident, well-intentioned design work aimed at a problem the member doesn't have. Grounding the agent in the Via Benefits product sites alongside the feedback table is what let it tell these apart, and it's the kind of product context a researcher had no reliable way to get.`}
         </Body>
@@ -472,7 +476,8 @@ function FullCaseStudy() {
 
         <SubHead>Human in the loop</SubHead>
         <Body>
-          {`Building this meant accepting that categorization would sometimes be wrong and redaction would sometimes miss. The two failures get different treatment, deliberately, because the severity of the failure sets the severity of the intervention.`}
+          {`Building this meant accepting that categorization would sometimes be wrong and redaction would sometimes miss. The two failures get different treatment, deliberately, because `}
+          <strong>{`the severity of the failure sets the severity of the intervention.`}</strong>
         </Body>
         <Body>
           {`Sensitive records never reach the agent and instead fire an alert to me and the researchers. The alert deliberately doesn't contain the flagged content, since putting suspected PHI in a Teams message to warn people about PHI would relocate the problem rather than solve it.`}
@@ -506,7 +511,8 @@ function FullCaseStudy() {
           heading="78% to 95%: trust has to be earned"
         />
         <Body>
-          {`I didn't ask stakeholders to trust the AI. I built a methodology to prove it deserved trust, and I built it with the researchers most skeptical of it. A validation method the skeptics helped construct is much harder to dismiss than one handed to them.`}
+          {`I didn't ask stakeholders to trust the AI. I built a methodology to prove it deserved trust, and I built it with the researchers most skeptical of it. `}
+          <strong>{`A validation method the skeptics helped construct is much harder to dismiss than one handed to them.`}</strong>
         </Body>
         <Body>
           {`I categorized and synthesized a full week of raw feedback. The agent did the same set independently. Both outputs were stripped of origin labels, set side by side as Set A and Set B, and reviewed blind by PMs who marked whether the two agreed on the domain and on the summary. The accuracy figure is that agreement rate.`}
@@ -521,12 +527,12 @@ function FullCaseStudy() {
         />
         <BeforeAfterQuote
           beforeLabel="Before validation"
-          beforeQuote="&ldquo;This will never be as good as human analysis&rdquo;"
-          beforeAttribution="&ndash; Lead UX Researcher"
+          beforeQuote="“This will never be as good as human analysis”"
+          beforeAttribution="– Lead UX Researcher"
           afterLabel="After the 95% result"
-          afterStruckQuote="&ldquo;This revolutionary AI will transform everything!&rdquo;"
-          afterQuote="&ldquo;This is cool!&rdquo;"
-          afterAttribution="&ndash; Same Lead UX Researcher"
+          afterStruckQuote="“This revolutionary AI will transform everything!”"
+          afterQuote="“This is cool!”"
+          afterAttribution="– Same Lead UX Researcher"
           note="Okay, maybe not that dramatic. But the skepticism was real, and the validation changed minds."
         />
         <SubHead>Why 95% and not higher</SubHead>
@@ -577,7 +583,9 @@ function FullCaseStudy() {
           heading="An AI project that isn't really about AI"
         />
         <Body>
-          {`The technology here is accessible to most product teams today. None of it was the hard part. The hard part was making AI trustworthy enough that people were willing to delegate real decisions to it, which meant earning legal sign-off before writing the first line of the system prompt, building a validation methodology rigorous enough to change a skeptic's mind, and designing fallback behavior that kept humans in the loop where they needed to be.`}
+          {`The technology here is accessible to most product teams today. None of it was the hard part. `}
+          <strong>{`The hard part was making AI trustworthy enough that people were willing to delegate real decisions to it,`}</strong>
+          {` which meant earning legal sign-off before writing the first line of the system prompt, building a validation methodology rigorous enough to change a skeptic's mind, and designing fallback behavior that kept humans in the loop where they needed to be.`}
         </Body>
         <Body>
           {`The first thing I'd build is the gap I already know about: the system doesn't tailor its answers to who's asking. I mapped each stakeholder's tolerance for ambiguity during the build, and that shaped the responses and the output formats, but the agent itself makes no judgment about its audience mid-conversation. Copilot supports that. I didn't build it. A researcher and a VP get the same handling of an uncertain answer when they need different things from it.`}
@@ -607,7 +615,6 @@ export default function AIAgentPage() {
         { value: '95%', label: 'Categorization & synthesis accuracy' },
         { value: '8+ hrs → min', label: 'Synthesis time' },
         { value: '7 days → same day', label: 'Insight delivery' },
-        { value: '4.3 / 5', label: 'Stakeholder satisfaction' },
       ]}
       details={[
         { label: 'My Role', value: 'AI Product Design & Systems Design (self-initiated, cross-functional)' },

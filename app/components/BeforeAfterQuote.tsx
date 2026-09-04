@@ -42,7 +42,6 @@ export default function BeforeAfterQuote({
     <figure
       className="ba-quote"
       style={{
-        background: 'var(--color-surface-subtle)',
         padding: 'var(--space-8) var(--space-6)',
         margin: '2rem 0',
         textAlign: 'center' as const,
@@ -50,13 +49,13 @@ export default function BeforeAfterQuote({
     >
       <div className="ba-quote__grid">
         <p className="ba-quote__label-left" style={labelStyle}>{beforeLabel}</p>
-        <blockquote className="ba-quote__quote-left" style={quoteStyle}>{beforeQuote}</blockquote>
+        <blockquote className="ba-quote__quote-left font-serif" style={quoteStyle}>{beforeQuote}</blockquote>
         <figcaption className="ba-quote__attr-left" style={attributionStyle}>{beforeAttribution}</figcaption>
 
         <div className="ba-quote__arrow" aria-hidden="true">&rarr;</div>
 
         <p className="ba-quote__label-right" style={labelStyle}>{afterLabel}</p>
-        <blockquote className="ba-quote__quote-right" style={quoteStyle}>
+        <blockquote className="ba-quote__quote-right font-serif" style={quoteStyle}>
           {afterStruckQuote && (
             <>
               <span
