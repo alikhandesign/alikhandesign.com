@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef, useId } from 'react'
+import { useState, useRef, useId, useEffect } from 'react'
 import { getNextWork } from '@/app/work.config'
 import CaseStudyPage from '@/app/components/CaseStudyPage'
 import SectionIntro from '@/app/components/SectionIntro'
@@ -90,10 +90,50 @@ const FIELDS: { key: keyof StakeholderData; label: string }[] = [
 
 function StakeholderNeeds() {
   const [activeIndex, setActiveIndex] = useState(0)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const [hoveredChevron, setHoveredChevron] = useState<'left' | 'right' | null>(null)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(false)
   const tabListRef = useRef<HTMLDivElement>(null)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
   const baseId = useId()
   const active = STAKEHOLDERS[activeIndex]
+
+  function updateScrollAffordances() {
+    const list = tabListRef.current
+    if (!list) return
+    const maxScroll = list.scrollWidth - list.clientWidth
+    setCanScrollLeft(list.scrollLeft > 1)
+    setCanScrollRight(maxScroll - list.scrollLeft > 1)
+  }
+
+  function scrollTabs(direction: -1 | 1) {
+    const list = tabListRef.current
+    if (!list) return
+    const amount = Math.max(list.clientWidth * 0.65, 160)
+    list.scrollBy({ left: direction * amount, behavior: 'smooth' })
+  }
+
+  useEffect(() => {
+    const list = tabListRef.current
+    if (!list) return
+    updateScrollAffordances()
+    const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return
+      e.preventDefault()
+      list.scrollLeft += e.deltaY
+    }
+    const onScroll = () => updateScrollAffordances()
+    list.addEventListener('wheel', onWheel, { passive: false })
+    list.addEventListener('scroll', onScroll, { passive: true })
+    const ro = new ResizeObserver(() => updateScrollAffordances())
+    ro.observe(list)
+    return () => {
+      list.removeEventListener('wheel', onWheel)
+      list.removeEventListener('scroll', onScroll)
+      ro.disconnect()
+    }
+  }, [])
 
   function scrollTabIntoView(index: number) {
     const tab = tabRefs.current[index]
@@ -148,11 +188,14 @@ function StakeholderNeeds() {
           style={{
             display: 'flex',
             overflowX: 'auto',
+            overflowY: 'hidden',
+            overscrollBehavior: 'contain',
             borderBottom: '1px solid var(--color-border)',
           }}
         >
           {STAKEHOLDERS.map((s, i) => {
             const isActive = i === activeIndex
+            const isHovered = hoveredIndex === i && !isActive
             return (
               <button
                 key={s.label}
@@ -164,22 +207,22 @@ function StakeholderNeeds() {
                 tabIndex={isActive ? 0 : -1}
                 onClick={() => selectTab(i)}
                 onKeyDown={e => handleKeyDown(e, i)}
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
                 style={{
                   flexShrink: 0,
                   padding: '0.75rem 1.25rem',
                   background: 'transparent',
                   border: 'none',
-                  borderBottom: isActive
-                    ? '2px solid var(--color-accent)'
-                    : '2px solid transparent',
+                  borderBottom: `2px solid ${isActive ? 'var(--color-accent)' : isHovered ? 'var(--color-border-mid)' : 'transparent'}`,
                   marginBottom: -1,
                   cursor: 'pointer',
                   fontFamily: 'var(--font-sans)',
                   fontSize: 'var(--font-size-sm)',
-                  fontWeight: isActive ? 600 : 400,
-                  color: isActive ? 'var(--color-accent)' : 'var(--color-text-muted)',
+                  fontWeight: isActive ? 600 : isHovered ? 500 : 400,
+                  color: isActive ? 'var(--color-accent)' : isHovered ? 'var(--color-text-mid)' : 'var(--color-text-muted)',
                   whiteSpace: 'nowrap',
-                  transition: 'color 0.15s, border-color 0.15s',
+                  transition: 'color var(--transition-base), border-color var(--transition-base)',
                 }}
               >
                 {s.label}
@@ -187,18 +230,68 @@ function StakeholderNeeds() {
             )
           })}
         </div>
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            width: 64,
-            height: 'calc(100% - 1px)',
-            background: 'linear-gradient(to right, transparent, var(--color-bg))',
-            pointerEvents: 'none',
-          }}
-        />
+        {canScrollLeft && (
+          <button
+            type="button"
+            aria-label="Scroll stakeholder tabs left"
+            onClick={() => scrollTabs(-1)}
+            onMouseEnter={() => setHoveredChevron('left')}
+            onMouseLeave={() => setHoveredChevron(null)}
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              zIndex: 1,
+              height: 'calc(100% - 1px)',
+              width: 44,
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              paddingLeft: 6,
+              fontSize: 22,
+              lineHeight: 1,
+              color: hoveredChevron === 'left' ? 'var(--color-text-mid)' : 'var(--color-text-muted)',
+              background: 'linear-gradient(to left, transparent, var(--color-bg) 42%)',
+              transition: 'color var(--transition-base)',
+            }}
+          >
+            ‹
+          </button>
+        )}
+        {canScrollRight && (
+          <button
+            type="button"
+            aria-label="Scroll stakeholder tabs right"
+            onClick={() => scrollTabs(1)}
+            onMouseEnter={() => setHoveredChevron('right')}
+            onMouseLeave={() => setHoveredChevron(null)}
+            style={{
+              position: 'absolute',
+              right: 0,
+              top: 0,
+              zIndex: 1,
+              height: 'calc(100% - 1px)',
+              width: 44,
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              paddingRight: 6,
+              fontSize: 22,
+              lineHeight: 1,
+              color: hoveredChevron === 'right' ? 'var(--color-text-mid)' : 'var(--color-text-muted)',
+              background: 'linear-gradient(to right, transparent, var(--color-bg) 42%)',
+              transition: 'color var(--transition-base)',
+            }}
+          >
+            ›
+          </button>
+        )}
       </div>
       <div
         id={`${baseId}-panel`}
