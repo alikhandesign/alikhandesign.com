@@ -356,7 +356,10 @@ button:focus-visible {
 }
 
 /* ─── StakeholderNeeds tablist scrollbar ─────────────────── */
-[role="tablist"] { scrollbar-width: none; }
+[role="tablist"] {
+  scrollbar-width: none;
+  overflow-y: hidden;
+}
 [role="tablist"]::-webkit-scrollbar { display: none; }
 
 /* ─── Visually hidden (screen-reader only) ───────────────── */
