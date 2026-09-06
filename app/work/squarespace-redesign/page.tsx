@@ -158,7 +158,7 @@ export default function SquarespaceRedesignPage() {
   return (
     <CaseStudyPage
       title="From Checkboxes to Conversations"
-      company="Squarespace · Self-initiated · 2026"
+      company="Ali Khan Design · Self-Initiated · Q1–Q2 2026"
       tags={['AI Design', 'UX Research', 'Interaction Design']}
       hook="I didn't set out to audit Squarespace's AI. I set out to redesign my portfolio. What I found instead became this case study — a documented audit of Blueprint AI across two user journeys, twenty distinct failure modes, and a redesign grounded in the principles I use every time I work with AI as a design tool."
       metrics={[
@@ -168,10 +168,10 @@ export default function SquarespaceRedesignPage() {
         { value: '4', label: 'Design principles' },
       ]}
       details={[
-        { label: 'My Role', value: 'Solo — UX Research, Interaction Design, Prototyping' },
+        { label: 'My Role', value: 'UX Researcher, Interaction Designer' },
         { label: 'Methods', value: 'Comparative audit, failure mode taxonomy, interaction design' },
         { label: 'Tools', value: 'Claude, Figma, Next.js, Vercel' },
-        { label: 'Type', value: 'Self-initiated, 2026' },
+        { label: 'Status', value: 'Shipped audit; findings feeding into AI Interface Pattern Library' },
       ]}
       sections={['the-context', 'the-problem', 'the-research', 'the-insight', 'the-design', 'the-outcomes', 'the-reflection']}
       heroImage="/images/work/squarespace-redesign/hero-before-after.jpg"
