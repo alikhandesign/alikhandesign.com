@@ -68,7 +68,7 @@ function FullCaseStudy() {
           Via Benefits is Willis Towers Watson&apos;s individual benefits marketplace, used by Medicare-eligible retirees and pre-Medicare individuals to shop for health insurance coverage. The platform handles hundreds of thousands of enrollments annually, which makes every friction point in the funnel a business problem as well as a user one.
         </Body>
         <Body>
-          The domain is unusually unforgiving. Medicare, Medicare Advantage, and Medicare supplement are three different things with overlapping names, and the distinctions carry real financial consequences. This isn&apos;t a matter of shoppers being uninformed. When <a href="https://www.commonwealthfund.org/publications/surveys/2024/feb/what-do-medicare-beneficiaries-value-about-their-coverage" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-accent)', textDecoration: 'underline', fontWeight: 500 }}>researchers preparing a Commonwealth Fund survey</a> sat down with people already enrolled in Medicare and checked their answers against their own insurance cards, they found people confusing traditional Medicare with Medicare Advantage, and Medicare Advantage with Medigap. Even people currently enrolled couldn&apos;t reliably say which kind of coverage they had.
+          The domain is unusually unforgiving. Medicare, Medicare Advantage, and Medicare supplement are three different things with overlapping names, and the distinctions carry real financial consequences. This isn&apos;t a matter of shoppers being uninformed. When <a href="https://www.commonwealthfund.org/publications/surveys/2024/feb/what-do-medicare-beneficiaries-value-about-their-coverage" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-accent)', textDecoration: 'underline', fontWeight: 500 }}>researchers preparing a Commonwealth Fund survey</a>{' '}sat down with people already enrolled in Medicare and checked their answers against their own insurance cards, they found people confusing traditional Medicare with Medicare Advantage, and Medicare Advantage with Medigap. Even people currently enrolled couldn&apos;t reliably say which kind of coverage they had.
         </Body>
         <Body>
           Layer onto that an audience in their sixties and beyond, many of them navigating this for the first time, under an annual deadline, on a decision they can&apos;t easily reverse for a year.
@@ -113,7 +113,7 @@ function FullCaseStudy() {
         />
 
         <Body>
-          The structure had a name internally: product-first. You told the site what you wanted to buy, and only then would it show you anything. <strong>I assumed the framework was sound and the execution wasn&apos;t.</strong> So I redesigned the Select Products page three times inside it and ran 15 unmoderated sessions in UserLytics, five participants per version, run consecutively so each round could build on what the last one showed. I tracked task completion and ran SUS on every version, so each iteration had a baseline to move against. One leaned on copy, explaining the differences between plan types and what it took to be eligible for each. One added an &quot;I don&apos;t know, show me all plan types&quot; option for people who couldn&apos;t answer the question. One kept the question but flattened the answer set, presenting every plan type as an option from the start.
+          The structure had a name internally: product-first. You told the site what you wanted to buy, and only then would it show you anything. <strong>I assumed the framework was sound and the execution wasn&apos;t.</strong>{' '}So I redesigned the Select Products page three times inside it and ran 15 unmoderated sessions in UserLytics, five participants per version, run consecutively so each round could build on what the last one showed. I tracked task completion and ran SUS on every version, so each iteration had a baseline to move against. One leaned on copy, explaining the differences between plan types and what it took to be eligible for each. One added an &quot;I don&apos;t know, show me all plan types&quot; option for people who couldn&apos;t answer the question. One kept the question but flattened the answer set, presenting every plan type as an option from the start.
         </Body>
         <Body>
           Task completion and SUS barely moved across all three. Three consecutive rounds, each informed by the last, and the same hesitation showed up at the same step every time. <strong>The problem survived every version of the page I built, which meant it wasn&apos;t in the page.</strong>
@@ -190,7 +190,7 @@ function FullCaseStudy() {
         />
 
         <ProjectImage
-          src="/images/work/people-first/hero.jpg"
+          src="/images/work/people-first/design-after.jpg"
           alt="The redesigned Prepare to Shop page, showing the identity-first household and coverage selector"
           caption="After: the redesigned selector leads with who the coverage is for, then surfaces eligible benefit types directly, no category guess required."
         />
