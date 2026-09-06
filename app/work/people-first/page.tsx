@@ -175,7 +175,7 @@ function FullCaseStudy() {
         <Body>
           Medicare-specific details, an MBI and Part A and B effective dates, stayed optional. You could browse plans without them and only needed them to enroll. That kept the hardest information to produce out of the way until the point it was genuinely required, which is the same principle the rest of the page runs on.
         </Body>
-        <Body mb={false}>
+        <Body>
           For people who still weren&apos;t sure, the &quot;I don&apos;t know, show me all plan types&quot; option from the second of the three tested versions stayed available as a fallback. Testing had already moved past it as a starting point, but that didn&apos;t mean cutting it entirely.
         </Body>
 
