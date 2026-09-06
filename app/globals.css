@@ -95,6 +95,12 @@ body {
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+#main-content {
+  flex: 1 0 auto;
 }
 img { max-width: 100%; display: block; }
 a { color: inherit; }
