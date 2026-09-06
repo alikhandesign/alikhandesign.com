@@ -690,7 +690,7 @@ export default function AIAgentPage() {
   return (
     <CaseStudyPage
       title="AI Feedback & Insights Agent"
-      company="Willis Towers Watson · Individual Marketplace · 2025–2026"
+      company="WTW · Individual Marketplace · Q4 2025–Q1 2026"
       tags={['Agentic Workflow Design', 'AI Design', 'UX Research']}
       hook="During Medicare Open Enrollment, researchers were spending entire days manually categorizing participant feedback. I realized the bottleneck wasn't the volume, it was the workflow. So I built a system that automated the process, covered the researchers' product blind spots, and reduced synthesis from hours to minutes."
       heroImage="/images/work/ai-agent/hero.png"
@@ -701,10 +701,10 @@ export default function AIAgentPage() {
         { value: '7 days → same day', label: 'Insight delivery' },
       ]}
       details={[
-        { label: 'My Role', value: 'AI Product Design & Systems Design (self-initiated, cross-functional)' },
-        { label: 'Stack', value: 'Copilot Studio (GPT-5), Qualtrics API and TextIQ, Azure OpenAI Service, Dataverse, Power Automate' },
-        { label: 'Timeline', value: '2025–2026' },
-        { label: 'Type', value: 'Agentic AI workflow, internal tooling' },
+        { label: 'My Role', value: 'AI Product Designer, Systems Designer, Copilot Studio Developer' },
+        { label: 'Methods', value: 'Agentic workflow design, human-in-the-loop system design, prompt engineering' },
+        { label: 'Tools', value: 'Copilot Studio (GPT-5), Qualtrics API, TextIQ, Azure OpenAI Service, Dataverse, Power Automate' },
+        { label: 'Status', value: 'Shipped, in production use' },
       ]}
       sections={SECTIONS}
       cta={{ title: 'Want to talk through the methodology or the build?' }}

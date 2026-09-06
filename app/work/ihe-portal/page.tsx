@@ -129,7 +129,7 @@ export default function IHEPortalPage() {
   return (
     <CaseStudyPage
       title="IHE Scheduling Portal"
-      company="Signify Health · CVS Health"
+      company="Signify Health · Member Experience · Q4 2022"
       tags={['Case Study', 'UX Research', 'UX Design']}
       hook="A free in-home health evaluation sounds like an obvious yes. A licensed clinician comes to your home, reviews your medications, checks your vitals, and coordinates with your doctor — at no cost. So why were millions of eligible members saying no?"
       metrics={[
@@ -138,10 +138,10 @@ export default function IHEPortalPage() {
         { value: '6', label: 'Barrier categories identified' },
       ]}
       details={[
-        { label: 'My Role', value: 'UX Researcher & Designer' },
-        { label: 'Methods', value: 'Qualitative Interviews, Thematic Synthesis' },
-        { label: 'Focus', value: 'Trust-First Design, Barrier Removal' },
-        { label: 'Output', value: 'Research findings + Portal redesign' },
+        { label: 'My Role', value: 'Lead UX Designer' },
+        { label: 'Methods', value: 'Qualitative Interviews, Thematic Synthesis, Value-Led Information Architecture' },
+        { label: 'Tools', value: 'Google Meet, Adobe XD, Miro' },
+        { label: 'Status', value: 'Shipped redesigned scheduling portal' },
       ]}
       sections={SECTIONS}
       heroImage="/images/work/ihe-portal/ihe-portal-hero.jpg"

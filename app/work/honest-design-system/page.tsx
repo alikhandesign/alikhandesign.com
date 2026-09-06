@@ -158,7 +158,7 @@ export default function HonestDesignSystemPage() {
   return (
     <CaseStudyPage
       title="Honest Design System"
-      company="Self-initiated · 2025–2026"
+      company="Ali Khan Design · Self-Initiated · Q4 2025–Ongoing"
       tags={['Case Study', 'Design Systems', 'Design Technologist']}
       hook="Most portfolio sites are built on templates. This one is built on a design system — 39 components, a two-layer token architecture, and a Figma library that matches production code 1:1."
       heroImage="/images/honest-ds-hero.png"
@@ -170,9 +170,9 @@ export default function HonestDesignSystemPage() {
         { value: '1:1', label: 'Figma-to-code parity' },
       ]}
       details={[
-        { label: 'My Role', value: 'Designer and engineer' },
-        { label: 'Stack', value: 'Next.js, React, TypeScript, CSS custom properties, Storybook' },
-        { label: 'Timeline', value: '2025–2026' },
+        { label: 'My Role', value: 'Design Systems Designer & Engineer' },
+        { label: 'Methods', value: 'Design systems architecture & governance' },
+        { label: 'Tools', value: 'Next.js, React, TypeScript, CSS custom properties, Storybook, Figma' },
         { label: 'Status', value: 'Deployed to production' },
       ]}
       sections={SECTIONS}

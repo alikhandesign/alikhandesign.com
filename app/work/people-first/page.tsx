@@ -256,7 +256,7 @@ export default function PeopleFirstPage() {
   return (
     <CaseStudyPage
       title="People-First Enrollment Redesign"
-      company="Via Benefits · WTW · 2023"
+      company="WTW · Via Benefits · Q2 2023"
       tags={['UX Research', 'Product Strategy']}
       hook="What happens when a product is designed around how the business works instead of how people think? For Medicare and Individual and Family Plan enrollees navigating health insurance, the answer was abandonment, frustration, and a flood of support calls that didn't need to happen."
       heroImage="/images/work/people-first/hero.jpg"
@@ -268,10 +268,10 @@ export default function PeopleFirstPage() {
         { value: '33%', label: 'Increase in task completion' },
       ]}
       details={[
-        { label: 'My Role', value: 'Product Strategy, UX Design & Research' },
-        { label: 'Timeline', value: 'Q2 2023' },
-        { label: 'Team', value: '1 Designer, 1 PM, 4 Engineers' },
-        { label: 'Methods', value: 'FullStory Analysis, Unmoderated and Moderated Testing, SUS Benchmarking, User Interviews' },
+        { label: 'My Role', value: 'UX Designer & Researcher, Product Strategist' },
+        { label: 'Methods', value: 'Behavioral Analytics, Unmoderated and Moderated Testing, SUS Benchmarking, User Interviews' },
+        { label: 'Tools', value: 'FullStory, UserLytics, Figma' },
+        { label: 'Status', value: 'Shipped redesigned user flow' },
       ]}
       sections={SECTIONS}
       cta={{ title: 'Interested in how this came together?' }}

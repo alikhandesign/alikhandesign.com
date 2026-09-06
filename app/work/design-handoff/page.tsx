@@ -24,12 +24,12 @@ function GatedGallery() {
 export default function Page() {
   return <ProjectPage
     title="Design Handoff Checklist"
-    company="Willis Towers Watson"
+    company="WTW · Individual Marketplace · Q2 2025"
     tags={['Process Design', 'Design Systems', 'Workflow Optimization']}
     hero="/images/work/design-handoff/design-handoff-hero.jpg"
     heroFit="natural"
     hook={"At enterprise scale, the gap between what design hands off and what engineering builds isn't a talent problem — it's a black box. I built a developer-first handoff protocol that closed it, standardizing 15 teams around a single source of truth and a mobile-first bar every ticket had to clear before it was \"ready.\""}
-    details={[{ label: 'Company', value: 'Willis Towers Watson' }, { label: 'Role', value: 'Senior UX Designer' }, { label: 'Disciplines', value: 'Process Design, Design Systems, Workflow Optimization' }, { label: 'Output', value: 'Ready-for-Dev checklist, Knowledge Base, and Customization Pipeline' }]}
+    details={[{ label: 'My Role', value: 'Lead Process & Systems Designer' }, { label: 'Methods', value: 'Contextual Inquiry, User Interviews, Cross-Team Leadership & Pattern Shaping, Education, Governance' }, { label: 'Tools', value: 'Jira' }, { label: 'Status', value: 'Shipped Ready-for-Dev checklist, Knowledge Base & Customization Pipeline' }]}
     sections={[
       { label: 'The Brief', title: 'A design-to-dev handoff protocol for 15 teams', body: ["At enterprise scale — 15 teams, 150+ developers, 15 designers — delivery had stalled under years of accumulated process debt. Handoff was a black box: components got reused inconsistently across teams, or skipped altogether, producing a \"Frankenstein\" UI where one team's primary button was another team's secondary link. A cultural assumption that our (older) user base didn't use mobile devices meant there was no responsive documentation at all — FullStory data showed the resulting frustration directly, in the mobile and tablet sessions that were happening anyway."] },
       { label: 'The Problem', title: 'An alignment gap, not a tooling gap', body: ["Despite having a shared component library, teams treated it as a suggestion rather than a standard. The \"Desktop-Only\" myth meant no team had ever documented mobile breakpoints or interaction states, so developers guessed at layout behavior on smaller screens. And because handoff lived as tribal knowledge in each designer's files, work became an indecipherable maze the moment a designer went on vacation or left the company — stalling engineering until someone could reverse-engineer intent."] },

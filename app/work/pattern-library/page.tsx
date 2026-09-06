@@ -374,7 +374,7 @@ export default function PatternLibraryPage() {
   return (
     <CaseStudyPage
       title="AI Interface Pattern Library"
-      company="Self-initiated · 2025–2026"
+      company="Ali Khan Design · Self-Initiated · Q2 2026"
       tags={['Case Study', 'AI Design', 'UX Research', 'Design Systems']}
       hook="For 40 years, interface design has operated on one assumption: software does what you tell it. AI doesn't. The output is probabilistic, failure is often silent, and the user's relationship with the interface is defined less by commands than by negotiation. But the products being built on top of these models are still designed as if the old assumption holds — the same loading spinners, the same error states, the same correction flows, all inherited from systems that never had to guess. I audited six of them to find out exactly where that breaks down, and built a pattern library from what I found."
       heroImage="/images/work/pattern-library/hero-audit-grid.jpg"
@@ -386,10 +386,10 @@ export default function PatternLibraryPage() {
         { value: 'Public', label: 'Empirically grounded' },
       ]}
       details={[
-        { label: 'My Role', value: 'Senior Product Designer (self-initiated)' },
+        { label: 'My Role', value: 'AI Interaction Designer & Researcher' },
         { label: 'Methods', value: 'Competitive audit, heuristic analysis, pattern definition' },
         { label: 'Tools', value: 'Next.js, React, Storybook, Figma' },
-        { label: 'Status', value: 'Phase 1 complete — conversational AI patterns' },
+        { label: 'Status', value: 'Phase 1 complete / Phase 2 (agentic workflow patterns) in progress' },
       ]}
       sections={SECTIONS}
       cta={{ title: 'Want to talk through the research or the patterns?' }}
