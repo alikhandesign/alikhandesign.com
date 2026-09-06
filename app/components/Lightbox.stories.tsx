@@ -13,9 +13,15 @@ import { ProjectImage } from './Lightbox'
  * - **Multi-image**: dot indicators appear at the bottom. Each dot has a 44px
  *   tall touch target for mobile. The active dot expands to a 20px pill. Left/right
  *   arrow buttons appear on desktop and are hidden on mobile via media query.
- *   Swipe left/right navigates on touch devices.
+ *   Swipe left/right navigates on touch devices **only when the image is not
+ *   zoomed**.
  * - Keyboard: `Escape` closes, `ArrowLeft`/`ArrowRight` navigates.
  * - Clicking the backdrop closes the lightbox; clicking the image does not.
+ * - **Zoom and pan**: click the image to zoom in at that point (2.5×). Scroll
+ *   wheel zooms toward the cursor (1×–4×). Once zoomed, the cursor is a grab
+ *   hand — click-drag pans. A click without dragging (under 5px) zooms back
+ *   out. Pan is clamped so the image cannot be dragged entirely off-screen.
+ *   On touch, one-finger drag pans when zoomed; swipe-to-navigate stays 1× only.
  *
  * ## Design rationale
  * Lightbox in a case study is for zooming, not browsing. Case study images
@@ -28,6 +34,8 @@ import { ProjectImage } from './Lightbox'
  * - Backdrop: `rgba(28, 28, 26, 0.95)` (matches `--color-bg-dark` at near-full opacity)
  * - Active dot: `#89181A` (`--color-accent`)
  * - Inactive dot: `rgba(255,255,255,0.3)`
+ * - Close/arrow fill: `rgba(28, 28, 26, 0.9)` with `0 1px 8px rgba(0,0,0,0.45)` shadow
+ *   so cream icons stay readable on light zoomed images. Hover adds a 12% white overlay.
  * - Close/arrow border: `rgba(255,255,255,0.2)`
  * - Caption color: `rgba(255,255,255,0.65)`
  * - Counter color: `rgba(255,255,255,0.5)`

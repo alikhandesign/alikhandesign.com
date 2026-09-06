@@ -15,54 +15,150 @@ interface LightboxProps {
   onClose: () => void
 }
 
+const DRAG_THRESHOLD = 5
+const CLICK_ZOOM = 2.5
+const MAX_ZOOM = 4
+const CHROME_FILL = 'rgba(28, 28, 26, 0.9)'
+const CHROME_HOVER = 'linear-gradient(rgba(255,255,255,0.12), rgba(255,255,255,0.12)), rgba(28, 28, 26, 0.9)'
+const CHROME_SHADOW = '0 1px 8px rgba(0,0,0,0.45)'
+
+function clampPan(x: number, y: number, zoom: number, width: number, height: number) {
+  if (zoom <= 1) return { x: 0, y: 0 }
+  return {
+    x: Math.min(0, Math.max(width * (1 - zoom), x)),
+    y: Math.min(0, Math.max(height * (1 - zoom), y)),
+  }
+}
+
 function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
   const [current, setCurrent] = useState(initialIndex)
   const [loaded, setLoaded] = useState(false)
   const [zoom, setZoom] = useState(1)
-  const [origin, setOrigin] = useState({ x: 50, y: 50 })
+  const [pan, setPan] = useState({ x: 0, y: 0 })
+  const [dragging, setDragging] = useState(false)
+  const frameRef = useRef<HTMLDivElement>(null)
+  const zoomRef = useRef(1)
+  const panRef = useRef({ x: 0, y: 0 })
+  const pointerRef = useRef({
+    id: null as number | null,
+    startX: 0,
+    startY: 0,
+    lastX: 0,
+    lastY: 0,
+    moved: false,
+  })
   const touchStartX = useRef<number>(0)
   const touchEndX = useRef<number>(0)
 
-  const resetZoom = () => { setZoom(1); setOrigin({ x: 50, y: 50 }) }
+  zoomRef.current = zoom
+  panRef.current = pan
+
+  const resetZoom = useCallback(() => {
+    zoomRef.current = 1
+    panRef.current = { x: 0, y: 0 }
+    setZoom(1)
+    setPan({ x: 0, y: 0 })
+  }, [])
+
+  const zoomAt = useCallback((clientX: number, clientY: number, nextZoom: number) => {
+    const frame = frameRef.current
+    if (!frame || nextZoom <= 1) {
+      resetZoom()
+      return
+    }
+    const z = zoomRef.current
+    const rect = frame.getBoundingClientRect()
+    const cx = clientX - rect.left
+    const cy = clientY - rect.top
+    const factor = nextZoom / z
+    const nextPan = clampPan(
+      cx - (cx - panRef.current.x) * factor,
+      cy - (cy - panRef.current.y) * factor,
+      nextZoom,
+      frame.offsetWidth,
+      frame.offsetHeight,
+    )
+    zoomRef.current = nextZoom
+    panRef.current = nextPan
+    setZoom(nextZoom)
+    setPan(nextPan)
+  }, [resetZoom])
 
   const prev = useCallback(() => {
     setLoaded(false)
     resetZoom()
     setCurrent(i => (i - 1 + images.length) % images.length)
-  }, [images.length])
+  }, [images.length, resetZoom])
 
   const next = useCallback(() => {
     setLoaded(false)
     resetZoom()
     setCurrent(i => (i + 1) % images.length)
-  }, [images.length])
-
-  const originFromEvent = (e: { clientX: number; clientY: number; currentTarget: HTMLElement }) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    return {
-      x: ((e.clientX - rect.left) / rect.width) * 100,
-      y: ((e.clientY - rect.top) / rect.height) * 100,
-    }
-  }
-
-  const handleImageClick = (e: React.MouseEvent<HTMLImageElement>) => {
-    e.stopPropagation()
-    if (zoom > 1) {
-      resetZoom()
-    } else {
-      setOrigin(originFromEvent(e))
-      setZoom(2.5)
-    }
-  }
+  }, [images.length, resetZoom])
 
   const handleWheel = (e: React.WheelEvent<HTMLImageElement>) => {
     e.stopPropagation()
     e.preventDefault()
-    setOrigin(originFromEvent(e))
-    setZoom(z => {
-      const next = z - e.deltaY * 0.0015
-      return Math.min(4, Math.max(1, next))
-    })
+    const nextZoom = Math.min(MAX_ZOOM, Math.max(1, zoomRef.current - e.deltaY * 0.0015))
+    zoomAt(e.clientX, e.clientY, nextZoom)
+  }
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLImageElement>) => {
+    if (e.button !== 0) return
+    e.stopPropagation()
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId)
+    } catch {
+      // Synthetic events (tests) may not support capture
+    }
+    pointerRef.current = {
+      id: e.pointerId,
+      startX: e.clientX,
+      startY: e.clientY,
+      lastX: e.clientX,
+      lastY: e.clientY,
+      moved: false,
+    }
+  }
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLImageElement>) => {
+    if (pointerRef.current.id !== e.pointerId) return
+    const dx = e.clientX - pointerRef.current.lastX
+    const dy = e.clientY - pointerRef.current.lastY
+    pointerRef.current.lastX = e.clientX
+    pointerRef.current.lastY = e.clientY
+    const dist = Math.hypot(
+      e.clientX - pointerRef.current.startX,
+      e.clientY - pointerRef.current.startY,
+    )
+    if (dist > DRAG_THRESHOLD) pointerRef.current.moved = true
+    if (zoomRef.current <= 1 || !pointerRef.current.moved) return
+    e.preventDefault()
+    setDragging(true)
+    const frame = frameRef.current
+    const nextPan = clampPan(
+      panRef.current.x + dx,
+      panRef.current.y + dy,
+      zoomRef.current,
+      frame?.offsetWidth ?? 0,
+      frame?.offsetHeight ?? 0,
+    )
+    panRef.current = nextPan
+    setPan(nextPan)
+  }
+
+  const endPointer = (e: React.PointerEvent<HTMLImageElement>) => {
+    if (pointerRef.current.id !== e.pointerId) return
+    const moved = pointerRef.current.moved
+    pointerRef.current.id = null
+    setDragging(false)
+    if (e.currentTarget.hasPointerCapture?.(e.pointerId)) {
+      e.currentTarget.releasePointerCapture(e.pointerId)
+    }
+    if (e.type === 'pointercancel') return
+    if (moved && zoomRef.current > 1) return
+    if (zoomRef.current > 1) resetZoom()
+    else zoomAt(e.clientX, e.clientY, CLICK_ZOOM)
   }
 
   useEffect(() => {
@@ -113,15 +209,16 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
         aria-label="Close lightbox"
         style={{
           position: 'absolute', top: '1.25rem', right: '1.25rem',
-          background: 'transparent', border: '1px solid rgba(255,255,255,0.2)',
+          background: CHROME_FILL, border: '1px solid rgba(255,255,255,0.2)',
           color: '#FAF8F5', borderRadius: '50%',
           width: 40, height: 40, cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: 18, lineHeight: 1, zIndex: 10,
+          boxShadow: CHROME_SHADOW,
           transition: 'background 0.2s',
         }}
-        onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
-        onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+        onMouseEnter={e => (e.currentTarget.style.background = CHROME_HOVER)}
+        onMouseLeave={e => (e.currentTarget.style.background = CHROME_FILL)}
       >✕</button>
 
       {/* Counter — only shown when multiple images */}
@@ -145,14 +242,15 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
           style={{
             position: 'absolute', left: '1.25rem', top: '50%',
             transform: 'translateY(-50%)',
-            background: 'transparent', border: '1px solid rgba(255,255,255,0.2)',
+            background: CHROME_FILL, border: '1px solid rgba(255,255,255,0.2)',
             color: '#FAF8F5', borderRadius: '50%',
             width: 44, height: 44, cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 18, transition: 'background 0.2s',
+            fontSize: 18, boxShadow: CHROME_SHADOW,
+            transition: 'background 0.2s',
           }}
-          onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
-          onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+          onMouseEnter={e => (e.currentTarget.style.background = CHROME_HOVER)}
+          onMouseLeave={e => (e.currentTarget.style.background = CHROME_FILL)}
         >‹</button>
       )}
 
@@ -166,7 +264,10 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
           paddingBottom: images.length > 1 ? '3.5rem' : 0,
         }}
       >
-        <div style={{ position: 'relative', maxWidth: '100%', maxHeight: '70vh' }}>
+        <div
+          ref={frameRef}
+          style={{ position: 'relative', maxWidth: '100%', maxHeight: '70vh' }}
+        >
           {!loaded && (
             <div style={{
               position: 'absolute', inset: 0,
@@ -180,19 +281,25 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
           <img
             src={img.src}
             alt={img.alt}
+            draggable={false}
             onLoad={() => setLoaded(true)}
-            onClick={handleImageClick}
             onWheel={handleWheel}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={endPointer}
+            onPointerCancel={endPointer}
             style={{
               maxWidth: '90vw', maxHeight: '68vh',
               objectFit: 'contain',
               borderRadius: 4,
               display: 'block',
               opacity: loaded ? 1 : 0,
-              transform: `scale(${zoom})`,
-              transformOrigin: `${origin.x}% ${origin.y}%`,
-              transition: zoom === 1 ? 'opacity 0.3s, transform 0.2s ease' : 'opacity 0.3s',
-              cursor: zoom > 1 ? 'zoom-out' : 'zoom-in',
+              transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+              transformOrigin: '0 0',
+              transition: dragging ? 'opacity 0.3s' : 'opacity 0.3s, transform 0.2s ease',
+              cursor: zoom > 1 ? (dragging ? 'grabbing' : 'grab') : 'zoom-in',
+              touchAction: 'none',
+              userSelect: 'none',
             }}
           />
         </div>
@@ -215,14 +322,15 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
           style={{
             position: 'absolute', right: '1.25rem', top: '50%',
             transform: 'translateY(-50%)',
-            background: 'transparent', border: '1px solid rgba(255,255,255,0.2)',
+            background: CHROME_FILL, border: '1px solid rgba(255,255,255,0.2)',
             color: '#FAF8F5', borderRadius: '50%',
             width: 44, height: 44, cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 18, transition: 'background 0.2s',
+            fontSize: 18, boxShadow: CHROME_SHADOW,
+            transition: 'background 0.2s',
           }}
-          onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
-          onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+          onMouseEnter={e => (e.currentTarget.style.background = CHROME_HOVER)}
+          onMouseLeave={e => (e.currentTarget.style.background = CHROME_FILL)}
         >›</button>
       )}
 
