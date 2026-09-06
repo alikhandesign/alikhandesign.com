@@ -13,9 +13,15 @@ import { ProjectImage } from './Lightbox'
  * - **Multi-image**: dot indicators appear at the bottom. Each dot has a 44px
  *   tall touch target for mobile. The active dot expands to a 20px pill. Left/right
  *   arrow buttons appear on desktop and are hidden on mobile via media query.
- *   Swipe left/right navigates on touch devices.
+ *   Swipe left/right navigates on touch devices **only when the image is not
+ *   zoomed**.
  * - Keyboard: `Escape` closes, `ArrowLeft`/`ArrowRight` navigates.
  * - Clicking the backdrop closes the lightbox; clicking the image does not.
+ * - **Zoom and pan**: click the image to zoom in at that point (2.5×). Scroll
+ *   wheel zooms toward the cursor (1×–4×). Once zoomed, the cursor is a grab
+ *   hand — click-drag pans. A click without dragging (under 5px) zooms back
+ *   out. Pan is clamped so the image cannot be dragged entirely off-screen.
+ *   On touch, one-finger drag pans when zoomed; swipe-to-navigate stays 1× only.
  *
  * ## Design rationale
  * Lightbox in a case study is for zooming, not browsing. Case study images
