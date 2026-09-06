@@ -9,6 +9,7 @@ import StatCard from '@/app/components/StatCard'
 import { ProjectImage } from '@/app/components/Lightbox'
 import BeforeAfterQuote from '@/app/components/BeforeAfterQuote'
 import PasswordGate from '@/app/components/PasswordGate'
+import FadeOut from '@/app/components/FadeOut'
 
 // ─── StakeholderNeeds (local component) ──────────────────────────────────────
 
@@ -382,37 +383,9 @@ const INSIDE = [
 
 // ─── Pre-gate preview ────────────────────────────────────────────────────────
 
-function Preview() {
-  return (
-    <div style={{ maxWidth: 680, marginBottom: '3rem' }}>
-      <Body>
-        {`Researchers at Via Benefits spent a full day every week reading participant feedback and sorting it by hand. During Medicare Open Enrollment, that volume increased tenfold.`}
-      </Body>
-      <Body>
-        {`The obvious fix was speed. But sorting feedback is really a routing decision, choosing which team owns a problem, and the people making that call weren't experts in every product area. "How do I keep my plan?" reads like an enrollment question. Most Medicare plans renew automatically, so a clearer enrollment flow solves nothing. Miscategorization didn't only misroute feedback. It produced confident design work aimed at problems members didn't have.`}
-      </Body>
-      <Body>
-        {`So the real question wasn't whether AI could go faster. It was whether AI could be faster and more accurate at once.`}
-      </Body>
-      <Body>
-        {`I built an agent that reads participant feedback, categorizes it against the product taxonomy WTW already used internally, and answers questions about it in Microsoft Teams. Legal refused the first version outright, since the data carried names, Social Security numbers, and Medicare IDs. The redaction policy I designed in response became the architecture, enforced before data ever left the feedback system rather than trusted to a model downstream.`}
-      </Body>
-      <Body>
-        {`To prove it worked, I ran a double-blind audit built with the researchers most skeptical of it. My categorizations and the agent's were stripped of origin labels and graded by product managers. The first round came back at 78%. Several cycles of tuning later, they could no longer reliably tell which set was mine.`}
-      </Body>
-      <Body mb={false}>
-        {`Weekly synthesis dropped from eight hours to minutes. Insight delivery went from up to a week to same day. The research team got back a fifth of its capacity.`}
-      </Body>
-    </div>
-  )
-}
-
-// ─── Full case study (behind the gate) ───────────────────────────────────────
-
-function FullCaseStudy() {
+function FreePreview() {
   return (
     <div style={{ maxWidth: 680 }}>
-
       <section id="the-context" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro
           label="The Context"
@@ -452,12 +425,25 @@ function FullCaseStudy() {
         <Body>
           {`I ran into the expert gap myself. I helped with the feedback process from time to time, and I worked on the Shopping and Quoting team, so I was closer to the product than most researchers were. That proximity still had limits. If a comment touched a known technical limitation in another team's domain, I might file it as a bug when it wasn't one. The person doing the categorization couldn't know what they didn't know. That's structural.`}
         </Body>
-        <Body mb={false}>
-          {`Researcher hours were the smallest part of the cost. `}
-          <strong>{`Feedback that arrives late and miscategorized is a compliance and retention risk.`}</strong>
-          {` The signal that something is failing a participant reaches the people who can fix it after the window to fix it has closed.`}
-        </Body>
+        <FadeOut>
+          <Body mb={false}>
+            {`Researcher hours were the smallest part of the cost. `}
+            <strong>{`Feedback that arrives late and miscategorized is a compliance and retention risk.`}</strong>
+            {` The signal that something is failing a participant reaches the people who can fix it after the window to fix it has closed.`}
+          </Body>
+        </FadeOut>
       </section>
+
+
+    </div>
+  )
+}
+
+// ─── Full case study (behind the gate) ───────────────────────────────────────
+
+function FullCaseStudy() {
+  return (
+    <div style={{ maxWidth: 680 }}>
 
       <section id="the-reframe" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro
@@ -724,7 +710,7 @@ export default function AIAgentPage() {
       cta={{ title: 'Want to talk through the methodology or the build?' }}
       next={getNextWork('ai-agent')!}
     >
-      <Preview />
+      <FreePreview />
       <PasswordGate
         onUnlock={() => {}}
         title="Ready to see how it came together?"
