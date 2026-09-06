@@ -6,6 +6,7 @@ import Body from '@/app/components/Body'
 import StatCard from '@/app/components/StatCard'
 import { ProjectImage } from '@/app/components/Lightbox'
 import PullQuote from '@/app/components/PullQuote'
+import CalloutCard from '@/app/components/CalloutCard'
 import PasswordGate from '@/app/components/PasswordGate'
 import FadeOut from '@/app/components/FadeOut'
 
@@ -150,7 +151,7 @@ function FullCaseStudy() {
           heading="A people-first entry point that stopped asking users to sort themselves"
         />
         <Body>
-          The first direction I explored, and the one I ended up cutting, came straight out of the household finding: a batch selector where you&apos;d choose everyone you were shopping for upfront, then resolve eligibility for each person. It matched what participants described more literally than anything else I sketched.
+          The first direction I explored, and the one I ended up cutting, came straight out of the household finding: a batch selector where you&apos;d choose everyone you were shopping for upfront, then resolve eligibility for each person. It followed what people described in interviews more closely than anything else I sketched.
         </Body>
 
         <ProjectImage
@@ -159,8 +160,14 @@ function FullCaseStudy() {
           caption="The direction I cut: select every household member at once, with eligibility resolved per person. It failed on system constraints, not on user fit."
         />
 
+        <CalloutCard
+          variant="light"
+          title="Cut on infrastructure, not on fit"
+          body="This was the direction that matched what people described in interviews most literally, and it's the one I killed. The system had no way to shop for a household in one pass. What survived the cut was the premise underneath it: ask who you're shopping for before what you're buying, just applied one person at a time instead of all at once."
+        />
+
         <Body>
-          Via Benefits&apos; systems couldn&apos;t support a multi-person batch workflow at the time, and changing that was outside what this project could take on. I cut it. What carried forward was the premise underneath it, that the entry point should ask who rather than what, applied to one person at a time instead of all at once.
+          Via Benefits&apos; systems couldn&apos;t support a multi-person batch workflow at the time, and changing that was outside what this project could take on. I cut it. What carried forward was the same basic idea behind it, just resolved one person at a time instead of all at once.
         </Body>
         <Body>
           The page that shipped, called People-First internally, opens by asking who you&apos;re shopping for: yourself, or a household member. Returning users are already known to the system, so nothing further is required. New users provide date of birth and zip code at that step, which is information the flow was collecting anyway, just later. From there the system resolves eligibility in the background and surfaces what that person can actually buy, rather than everything Via Benefits offers.
@@ -168,9 +175,15 @@ function FullCaseStudy() {
         <Body>
           Medicare-specific details, an MBI and Part A and B effective dates, stayed optional. You could browse plans without them and only needed them to enroll. That kept the hardest information to produce out of the way until the point it was genuinely required, which is the same principle the rest of the page runs on.
         </Body>
-        <Body mb={false}>
-          For people who still weren&apos;t sure, the &quot;I don&apos;t know, show me all plan types&quot; option from the second of the three tested versions shipped as an escape hatch. It was available to anyone who wanted it without becoming the default path, which was the version of &quot;show everything&quot; that testing had already ruled out as a starting point.
+        <Body>
+          For people who still weren&apos;t sure, the &quot;I don&apos;t know, show me all plan types&quot; option from the second of the three tested versions stayed available as a fallback. Testing had already moved past it as a starting point, but that didn&apos;t mean cutting it entirely.
         </Body>
+
+        <CalloutCard
+          variant="light"
+          title="An escape hatch, never the default"
+          body={"\"I don't know, show me all plan types\" is the one piece that survived from the three rejected redesigns. It shipped as an opt-in a shopper could reach for, not the default anyone saw first, since testing had already shown a show-everything default doesn't work on its own."}
+        />
 
         <ProjectImage
           src="/images/work/people-first/sketch-01.jpg"
