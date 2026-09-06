@@ -34,6 +34,8 @@ import { ProjectImage } from './Lightbox'
  * - Backdrop: `rgba(28, 28, 26, 0.95)` (matches `--color-bg-dark` at near-full opacity)
  * - Active dot: `#89181A` (`--color-accent`)
  * - Inactive dot: `rgba(255,255,255,0.3)`
+ * - Close/arrow fill: `rgba(28, 28, 26, 0.9)` with `0 1px 8px rgba(0,0,0,0.45)` shadow
+ *   so cream icons stay readable on light zoomed images. Hover adds a 12% white overlay.
  * - Close/arrow border: `rgba(255,255,255,0.2)`
  * - Caption color: `rgba(255,255,255,0.65)`
  * - Counter color: `rgba(255,255,255,0.5)`

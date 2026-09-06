@@ -18,6 +18,9 @@ interface LightboxProps {
 const DRAG_THRESHOLD = 5
 const CLICK_ZOOM = 2.5
 const MAX_ZOOM = 4
+const CHROME_FILL = 'rgba(28, 28, 26, 0.9)'
+const CHROME_HOVER = 'linear-gradient(rgba(255,255,255,0.12), rgba(255,255,255,0.12)), rgba(28, 28, 26, 0.9)'
+const CHROME_SHADOW = '0 1px 8px rgba(0,0,0,0.45)'
 
 function clampPan(x: number, y: number, zoom: number, width: number, height: number) {
   if (zoom <= 1) return { x: 0, y: 0 }
@@ -206,15 +209,16 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
         aria-label="Close lightbox"
         style={{
           position: 'absolute', top: '1.25rem', right: '1.25rem',
-          background: 'transparent', border: '1px solid rgba(255,255,255,0.2)',
+          background: CHROME_FILL, border: '1px solid rgba(255,255,255,0.2)',
           color: '#FAF8F5', borderRadius: '50%',
           width: 40, height: 40, cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: 18, lineHeight: 1, zIndex: 10,
+          boxShadow: CHROME_SHADOW,
           transition: 'background 0.2s',
         }}
-        onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
-        onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+        onMouseEnter={e => (e.currentTarget.style.background = CHROME_HOVER)}
+        onMouseLeave={e => (e.currentTarget.style.background = CHROME_FILL)}
       >✕</button>
 
       {/* Counter — only shown when multiple images */}
@@ -238,14 +242,15 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
           style={{
             position: 'absolute', left: '1.25rem', top: '50%',
             transform: 'translateY(-50%)',
-            background: 'transparent', border: '1px solid rgba(255,255,255,0.2)',
+            background: CHROME_FILL, border: '1px solid rgba(255,255,255,0.2)',
             color: '#FAF8F5', borderRadius: '50%',
             width: 44, height: 44, cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 18, transition: 'background 0.2s',
+            fontSize: 18, boxShadow: CHROME_SHADOW,
+            transition: 'background 0.2s',
           }}
-          onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
-          onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+          onMouseEnter={e => (e.currentTarget.style.background = CHROME_HOVER)}
+          onMouseLeave={e => (e.currentTarget.style.background = CHROME_FILL)}
         >‹</button>
       )}
 
@@ -317,14 +322,15 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
           style={{
             position: 'absolute', right: '1.25rem', top: '50%',
             transform: 'translateY(-50%)',
-            background: 'transparent', border: '1px solid rgba(255,255,255,0.2)',
+            background: CHROME_FILL, border: '1px solid rgba(255,255,255,0.2)',
             color: '#FAF8F5', borderRadius: '50%',
             width: 44, height: 44, cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 18, transition: 'background 0.2s',
+            fontSize: 18, boxShadow: CHROME_SHADOW,
+            transition: 'background 0.2s',
           }}
-          onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
-          onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+          onMouseEnter={e => (e.currentTarget.style.background = CHROME_HOVER)}
+          onMouseLeave={e => (e.currentTarget.style.background = CHROME_FILL)}
         >›</button>
       )}
 
