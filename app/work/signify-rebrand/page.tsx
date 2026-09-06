@@ -5,11 +5,11 @@ import ProjectPage from '@/app/components/ProjectPage'
 export default function Page() {
   return <ProjectPage
     title="Signify Health Rebrand"
-    company="Signify Health"
+    company="Signify Health · Q4 2019–Q1 2020"
     tags={['Brand Design', 'Web Design']}
     hook="A rebrand isn't just a new logo. It's a statement about who you've become. When Signify Health's mission evolved, the visual identity needed to catch up — and the website needed to prove the change was real."
     hero="/images/work/signify-rebrand/signify-rebrand-homepage-mockup.jpg"
-    details={[{ label: 'Company', value: 'Signify Health' }, { label: 'Partner', value: 'W2O Group' }, { label: 'Role', value: 'Brand & Web Designer' }, { label: 'Outcome', value: '50% increase in website traffic' }]}
+    details={[{ label: 'My Role', value: 'Website & Brand Designer' }, { label: 'Methods', value: 'Brand translation, IA & navigation design' }, { label: 'Tools', value: 'HubSpot CMS, HubL' }, { label: 'Status', value: 'Shipped rebrand & website relaunch' }]}
     sections={[
       { label: 'The Brief', title: 'Translating a new brand into a live digital experience', body: ['Signify Health was expanding its scope and needed a brand refresh that reflected its evolved position in the healthcare ecosystem. In partnership with W2O Group, I contributed to the visual identity redesign and led the website redesign — ensuring the new brand translated from guidelines into a live digital experience.'] },
       { label: 'The Problem', title: 'A brand that no longer reflected the mission', body: ['The existing brand and website were built for an earlier, narrower version of what Signify Health did. As the company\'s mission expanded to include a broader range of home-based care services, the visual identity and digital presence felt misaligned. The website wasn\'t communicating the full scope or credibility of what Signify Health had become.'] },
