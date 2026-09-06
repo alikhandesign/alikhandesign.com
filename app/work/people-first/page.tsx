@@ -21,7 +21,7 @@ const SECTIONS = [
 
 const INSIDE = [
   'The FullStory funnel and custom events behind the diagnosis',
-  'Session replay evidence of ineligible shopping paths',
+  'What session replay revealed about ineligible shopping paths',
   'All three failed redesigns, and what each one tried',
   "The interview synthesis, in participants' own words",
   'Wireframes for the direction I cut',
@@ -68,7 +68,7 @@ function FullCaseStudy() {
           Via Benefits is Willis Towers Watson&apos;s individual benefits marketplace, used by Medicare-eligible retirees and pre-Medicare individuals to shop for health insurance coverage. The platform handles hundreds of thousands of enrollments annually, which makes every friction point in the funnel a business problem as well as a user one.
         </Body>
         <Body>
-          The domain is unusually unforgiving. Medicare, Medicare Advantage, and Medicare supplement are three different things with overlapping names, and the distinctions carry real financial consequences. This isn&apos;t a matter of shoppers being uninformed. When <a href="https://www.commonwealthfund.org/publications/surveys/2024/feb/what-do-medicare-beneficiaries-value-about-their-coverage" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-accent)', textDecoration: 'none', fontWeight: 500 }}>researchers preparing a Commonwealth Fund survey</a> sat down with people already enrolled in Medicare and checked their answers against their own insurance cards, they found people confusing traditional Medicare with Medicare Advantage, and Medicare Advantage with Medigap. People who were already living the answer couldn&apos;t reliably give it.
+          The domain is unusually unforgiving. Medicare, Medicare Advantage, and Medicare supplement are three different things with overlapping names, and the distinctions carry real financial consequences. This isn&apos;t a matter of shoppers being uninformed. When <a href="https://www.commonwealthfund.org/publications/surveys/2024/feb/what-do-medicare-beneficiaries-value-about-their-coverage" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-accent)', textDecoration: 'underline', fontWeight: 500 }}>researchers preparing a Commonwealth Fund survey</a> sat down with people already enrolled in Medicare and checked their answers against their own insurance cards, they found people confusing traditional Medicare with Medicare Advantage, and Medicare Advantage with Medigap. Even people currently enrolled couldn&apos;t reliably say which kind of coverage they had.
         </Body>
         <Body>
           Layer onto that an audience in their sixties and beyond, many of them navigating this for the first time, under an annual deadline, on a decision they can&apos;t easily reverse for a year.
@@ -279,7 +279,7 @@ export default function PeopleFirstPage() {
         { value: '33%', label: 'Increase in task completion' },
       ]}
       details={[
-        { label: 'My Role', value: 'UX Design & Research' },
+        { label: 'My Role', value: 'Product Strategy, UX Design & Research' },
         { label: 'Timeline', value: 'Q2 2023' },
         { label: 'Team', value: '1 Designer, 1 PM, 4 Engineers' },
         { label: 'Methods', value: 'FullStory Analysis, Unmoderated and Moderated Testing, SUS Benchmarking, User Interviews' },
@@ -292,7 +292,7 @@ export default function PeopleFirstPage() {
       <PasswordGate
         onUnlock={() => {}}
         title="Ready to see how it came together?"
-        description="Thirty moderated sessions, a first direction that had to be cut, and a mandate the organization treated as settled until someone checked. Enrollments went up 15%."
+        description="Thirty usability sessions, a first direction that had to be cut, and a mandate the organization treated as settled until someone checked. Enrollments went up 15%."
         inside={INSIDE}
       >
         <FullCaseStudy />
