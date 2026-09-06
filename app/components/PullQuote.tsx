@@ -4,21 +4,27 @@ interface PullQuoteProps {
 
 export default function PullQuote({ children }: PullQuoteProps) {
   return (
-    <div style={{
-      borderLeft: '3px solid var(--color-accent)',
-      padding: '1.25rem 1.5rem',
-      margin: '2rem 0',
-      background: 'var(--color-surface)',
-      borderRadius: '0 var(--radius-sm) var(--radius-sm) 0',
+    <div className="pull-quote" style={{
+      margin: '4rem auto',
+      maxWidth: '32rem',
+      textAlign: 'center',
     }}>
       <p className="font-serif" style={{
-        fontSize: 'var(--font-size-xl)',
+        fontSize: 'var(--font-size-2xl)',
         color: 'var(--color-text)',
         lineHeight: 1.5,
-        fontStyle: 'italic',
+        fontStyle: 'normal',
+        textWrap: 'balance',
+        margin: 0,
       }}>
-        {children}
+        &ldquo;{children}&rdquo;
       </p>
+      <div style={{
+        width: '3rem',
+        height: '2px',
+        background: 'var(--color-accent)',
+        margin: '1.5rem auto 0',
+      }} />
     </div>
   )
 }

@@ -101,6 +101,7 @@ a { color: inherit; }
 
 /* ─── Typography ─────────────────────────────────────────── */
 .font-serif { font-family: var(--font-serif); }
+.pull-quote:last-child { margin-bottom: 0 !important; }
 .eyebrow {
   font-size: var(--font-size-xs);
   letter-spacing: var(--letter-spacing-lg);
