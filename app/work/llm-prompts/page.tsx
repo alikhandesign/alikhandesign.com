@@ -23,12 +23,12 @@ function GatedGallery() {
 export default function Page() {
   return <ProjectPage
     title="LLM Prompt Engineering for Website Audits"
-    company="Willis Towers Watson"
+    company="WTW · Individual Marketplace · Q3 2025"
     tags={['AI Workflow', 'AI Design']}
     hook={"The organization had a definition of \"legal\" but no definition of \"done\" — quality checks stopped at accessibility compliance, so unpolished work shipped and stayed shipped. I built an AI-driven audit engine that turned four departments' buried standards into a live, weighted scorecard any team could run in seconds."}
     hero="/images/work/llm-prompts/llm-prompts-hero.jpg"
     heroFit="natural"
-    details={[{ label: 'Company', value: 'Willis Towers Watson' }, { label: 'Role', value: 'Senior UX Designer' }, { label: 'Disciplines', value: 'Prompt Engineering, Context Engineering' }, { label: 'Output', value: 'AI-driven, cross-functional audit engine' }]}
+    details={[{ label: 'My Role', value: 'Prompt Engineer, Systems Designer, Process Designer' }, { label: 'Methods', value: 'Rubric design, cross-disciplinary standard-setting' }, { label: 'Tools', value: 'Microsoft Copilot (Edge sidebar)' }, { label: 'Status', value: 'Shipped cross-functional audit engine (UX, engineering, accessibility, content)' }]}
     sections={[
       { label: 'The Brief', title: 'A scalable way to enforce standards across four disciplines', body: ['The initial ask was for UX audits — a way to check pages against design standards without relying on one person\'s manual review. During discovery, I found the same gap existed in engineering, accessibility, and content strategy: standards existed, but they were buried in documentation nobody had time to cross-reference mid-sprint. I proposed expanding the project into a unified auditing system covering all four disciplines.'] },
       { label: 'The Problem', title: 'A culture of compliance, not quality', body: ['The organization only enforced audits for legally mandated accessibility checks, so design and content standards carried no institutional weight. Developers could bypass documented patterns under deadline pressure, a single writer was responsible for maintaining a unified voice across years of content, and there was no official record of non-legal defects — so functional-but-unpolished work simply stayed in production. Quality was treated as optional because no one was accountable for it.'] },

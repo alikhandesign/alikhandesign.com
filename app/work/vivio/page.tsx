@@ -4,14 +4,14 @@ import ProjectPage from '@/app/components/ProjectPage'
 export default function Page() {
   return <ProjectPage
     title="Vivio Clinical App"
-    company="Ventric Health"
+    company="Ventric Health · Vivio · Q1–Q3 2023"
     tags={['Product Design', 'Design Systems', 'Native iOS']}
     hook="Designing a clinical tool for heart failure diagnosis without a research budget meant working from secondary sources, SME walkthroughs, and a clear constraint: a wrong reading presented as reliable is worse than no reading at all."
     details={[
-      { label: 'Company', value: 'Ventric Health' },
-      { label: 'Platform', value: 'Native iOS (iPad)' },
-      { label: 'Role', value: 'Lead Product Designer' },
-      { label: 'Deliverables', value: 'Design System, Native iOS App' },
+      { label: 'My Role', value: 'Lead Product Designer' },
+      { label: 'Methods', value: 'Secondary research, SME walkthroughs, failure-mode mapping, Design Systems Architecture & Governance, Apple Human Interface Guidelines' },
+      { label: 'Tools', value: 'Native iOS (iPad), Figma' },
+      { label: 'Status', value: 'Shipped native iOS app + design system, FDA-cleared' },
     ]}
     sections={[
       {

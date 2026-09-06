@@ -371,16 +371,16 @@ export default function PortfolioAssistantPage() {
   return (
     <CaseStudyPage
       title="Portfolio Assistant"
-      company="Self-initiated · 2026"
+      company="Ali Khan Design · Self-Initiated · Q2 2026–Ongoing"
       tags={['AI Product Design', 'Behavior Design', 'Evaluation & Testing']}
       hook="Most portfolio chatbots are a thin wrapper around an API call. I wanted the substance behind mine, what it says, what it won't say, how it fails, to hold up to the same scrutiny as any other project on this site."
       heroImage="/images/work/portfolio-assistant/hero-chat-in-action.jpg"
       heroImageAlt="The Portfolio Assistant mid-conversation"
       details={[
-        { label: 'My Role', value: 'Design & development, self-initiated' },
-        { label: 'Stack', value: 'Next.js, Vercel, Claude Haiku 4.5, Upstash Redis' },
-        { label: 'Timeline', value: '2026' },
-        { label: 'Type', value: 'Conversational AI, portfolio tooling' },
+        { label: 'My Role', value: 'Conversational AI Designer & Developer, UX Writer' },
+        { label: 'Methods', value: 'System-prompt design, tone/guardrail design, LLM-as-a-Judge evaluation, UX writing' },
+        { label: 'Tools', value: 'Claude API, Next.js, Vercel, Upstash Redis' },
+        { label: 'Status', value: 'Shipped, continuously refined based on visitor feedback' },
       ]}
       sections={SECTIONS}
       cta={{ title: 'Want to talk through the methodology or the build?' }}

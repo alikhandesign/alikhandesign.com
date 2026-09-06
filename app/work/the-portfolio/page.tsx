@@ -123,7 +123,7 @@ export default function ThePortfolioPage() {
   return (
     <CaseStudyPage
       title="The Portfolio Is the Product"
-      company="Self-initiated · 2026"
+      company="Ali Khan Design · Self-Initiated · Q2 2026"
       tags={['Case Study', 'Design Technologist', 'AI-Native Workflow', 'Product Thinking']}
       hook="Most designers build a portfolio to show their work. I built one to demonstrate how I work — from scratch, with a custom design system, using AI as an execution layer rather than a design substitute. Under two weeks from first decision to shipped site."
       heroImage="/images/portfolio-site-hero.png"
@@ -136,9 +136,9 @@ export default function ThePortfolioPage() {
       ]}
       details={[
         { label: 'My Role', value: 'Product Designer, Design Technologist' },
-        { label: 'Stack', value: 'Next.js, React, Vercel, CSS custom properties, Figma' },
-        { label: 'Timeline', value: 'Under 2 weeks, concept to shipped' },
-        { label: 'Type', value: 'Self-initiated · 2026' },
+        { label: 'Methods', value: 'Product strategy, UX design, visual design, component-driven development, UX writing' },
+        { label: 'Tools', value: 'Next.js, React, Vercel, CSS custom properties, Figma' },
+        { label: 'Status', value: 'Shipped in under 2 weeks, concept to launch' },
       ]}
       sections={SECTIONS}
       cta={{ title: 'Interested in how this came together?' }}

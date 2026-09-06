@@ -34,12 +34,12 @@ function PresentationLink() {
 export default function Page() {
   return <ProjectPage
     title="Optimizing the Ancillary Insurance Journey"
-    company="Willis Towers Watson"
+    company="WTW · Via Benefits · Q2 2024"
     tags={['Usability Research', 'Mixed-Methods Research']}
     hook="Medicare enrollees shopping for dental, vision, and hearing coverage face a product category most people have never had to think about before. My research set out to understand where the confusion lived — and what it would take to remove it."
     hero="/images/work/ancillary-journey/ancillary-journey-session.jpg"
     heroFit="natural"
-    details={[{ label: 'Company', value: 'Willis Towers Watson' }, { label: 'Role', value: 'UX Researcher' }, { label: 'Methods', value: 'Moderated Usability Sessions, Qualitative Interviews' }, { label: 'Disciplines', value: 'Usability Research, Mixed-Methods Research' }]}
+    details={[{ label: 'My Role', value: 'UX Researcher' }, { label: 'Methods', value: 'Moderated usability sessions, qualitative interviews' }, { label: 'Tools', value: 'UserLytics, Zoom, FigJam' }, { label: 'Status', value: 'Actionable insights delivered, design improvements proposed' }]}
     sections={[
       { label: 'The Brief', title: 'A deep dive into ancillary insurance navigation', body: ['Via Benefits offered ancillary insurance products — dental, vision, and hearing coverage — as part of its broader Medicare shopping experience. The team needed a qualitative deep dive into how enrollees actually navigated this category, where comprehension broke down, and what could be done to streamline the decision-making process.'] },
       { label: 'The Problem', title: 'An experience that assumed product literacy no one had', body: ['Ancillary insurance is genuinely confusing. Unlike medical coverage, most Medicare enrollees haven\'t shopped for standalone dental or vision plans before. They arrive without a mental model for how these products work, what they cover, or how to compare them. The existing experience assumed a level of product literacy that most users simply didn\'t have.'] },
