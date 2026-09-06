@@ -7,6 +7,7 @@ import StatCard from '@/app/components/StatCard'
 import { ProjectImage } from '@/app/components/Lightbox'
 import PullQuote from '@/app/components/PullQuote'
 import PasswordGate from '@/app/components/PasswordGate'
+import FadeOut from '@/app/components/FadeOut'
 
 const SECTIONS = [
   'the-context',
@@ -31,34 +32,9 @@ const INSIDE = [
 
 // ─── Pre-gate preview ────────────────────────────────────────────────────────
 
-function Preview() {
-  return (
-    <div style={{ maxWidth: 680, marginBottom: '3rem' }}>
-      <Body>
-        The first page of Via Benefits&apos; shopping flow asked people to choose between Medicare plans and Individual and Family Plans before it would show them anything. Most shoppers couldn&apos;t answer that question. Worse, the system let them shop products they were never eligible to buy, and only told them afterward.
-      </Body>
-      <Body>
-        I assumed it was a clarity problem and redesigned the page three times inside the existing framework. Fifteen unmoderated sessions later, all three performed about the same. The problem survived every version I built, which meant it wasn&apos;t in the page.
-      </Body>
-      <Body>
-        Interviews reframed it. Asked how they would start shopping on the site, people described themselves, not products. They knew who they were shopping for. What they didn&apos;t know was which products they were eligible to buy, and that was something we could work out ourselves.
-      </Body>
-      <Body>
-        The redesign asked who you were shopping for and filtered to what you could actually buy. The PMs told me it would never ship, because the organization believed in a product-first model and the Head of Product was its advocate. So I ran a second round of testing, took the results to him directly, and found out he had never said it had to be product-first.
-      </Body>
-      <Body mb={false}>
-        One change in how we framed the product model, and enrollments went up 15%.
-      </Body>
-    </div>
-  )
-}
-
-// ─── Full case study (behind the gate) ───────────────────────────────────────
-
-function FullCaseStudy() {
+function FreePreview() {
   return (
     <div style={{ maxWidth: 680 }}>
-
       <section id="the-context" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro
           label="The Context"
@@ -86,10 +62,23 @@ function FullCaseStudy() {
         <Body>
           My mandate was broad: improve the enrollment experience. What existed was a stale backlog that hadn&apos;t been meaningfully prioritized in a long time, and no shared view of where the shopping flow was actually failing. Different people had different theories, none of them evidenced.
         </Body>
-        <Body mb={false}>
-          That absence was the real starting problem. Before I could improve anything, I had to find out what was broken, and the team had no reliable way to answer that question.
-        </Body>
+        <FadeOut>
+          <Body mb={false}>
+            That absence was the real starting problem. Before I could improve anything, I had to find out what was broken, and the team had no reliable way to answer that question.
+          </Body>
+        </FadeOut>
       </section>
+
+
+    </div>
+  )
+}
+
+// ─── Full case study (behind the gate) ───────────────────────────────────────
+
+function FullCaseStudy() {
+  return (
+    <div style={{ maxWidth: 680 }}>
 
       <section id="the-research" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro
@@ -288,7 +277,7 @@ export default function PeopleFirstPage() {
       cta={{ title: 'Interested in how this came together?' }}
       next={getNextWork('people-first')!}
     >
-      <Preview />
+      <FreePreview />
       <PasswordGate
         onUnlock={() => {}}
         title="Ready to see how it came together?"
