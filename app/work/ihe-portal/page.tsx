@@ -3,11 +3,12 @@ import { getNextWork } from '@/app/work.config'
 import CaseStudyPage from '@/app/components/CaseStudyPage'
 import PasswordGate from '@/app/components/PasswordGate'
 import SectionIntro from '@/app/components/SectionIntro'
+import SubHead from '@/app/components/SubHead'
 import Body from '@/app/components/Body'
 import PullQuote from '@/app/components/PullQuote'
 import StatCard from '@/app/components/StatCard'
 import CalloutCard from '@/app/components/CalloutCard'
-import { GalleryGrid, ProjectImage } from '@/app/components/Lightbox'
+import { ProjectImage } from '@/app/components/Lightbox'
 
 const IMG = '/images/work/ihe-portal'
 
@@ -15,7 +16,7 @@ const SECTIONS = [
   'the-context',
   'the-problem',
   'the-research',
-  'the-findings',
+  'the-insight',
   'the-reframe',
   'the-design',
   'the-outcomes',
@@ -33,46 +34,38 @@ type Barrier = { title: string; text: string; quote?: string }
 
 const VALUE_BARRIERS: Barrier[] = [
   {
-    title: 'Redundancy with existing care',
-    text: "The most common objection. Members who saw their PCP regularly couldn't understand what an IHE added.",
+    title: 'Redundancy with existing care.',
+    text: 'The most common objection. Members who saw their PCP regularly couldn\u2019t understand what an IHE added.',
     quote: 'They come and take your blood pressure and ask how you\u2019re doing. I need it. I get that at the dr.',
   },
   {
-    title: 'Not a replacement for a PCP visit',
-    text: "Members knew what the visiting clinician couldn't do: no blood draws, no EKGs, no prescriptions.",
+    title: 'Not a replacement for a PCP visit.',
+    text: 'Members knew what the visiting clinician couldn\u2019t do: no blood draws, no EKGs, no prescriptions.',
     quote: 'Why would I want a doctor who can\u2019t even prescribe an aspirin for me, let alone a prescription.',
   },
   {
-    title: 'Health literacy',
+    title: 'Health literacy.',
     text: 'Some members didn\u2019t understand what was actually available to them. One member described struggling with prescription costs without realizing a Signify Health clinician could connect them to Social Care Coordination for help paying.',
   },
 ]
 
 const TRUST_BARRIERS: Barrier[] = [
   {
-    title: 'Brand unfamiliarity',
+    title: 'Brand unfamiliarity.',
     text: 'Members recognized their insurance carrier, not \u201CSignify Health,\u201D so an unfamiliar name asking for personal information read as unverifiable before it read as risky.',
   },
   {
-    title: 'Negative past experiences',
+    title: 'Negative past experiences.',
     text: 'A prior unremarkable IHE made someone resistant to trying again.',
   },
   {
-    title: 'Frequency and harassment',
+    title: 'Frequency and harassment.',
     text: 'Repeated outreach calls wore members down to a flat no.',
   },
   {
-    title: 'Financial anxiety',
+    title: 'Financial anxiety.',
     text: 'A belief that a \u201Cfree\u201D service was quietly driving up their premiums.',
     quote: 'It comes out of the premium I have to pay. That\u2019s why our healthcare is so high right now.',
-  },
-]
-
-const BRIDGE_BARRIER: Barrier[] = [
-  {
-    title: 'The one-sided exchange problem',
-    text: 'Members described past visits as a one-way street: extensive personal and medical information given, and nothing offered back in return. Not purely a value problem or purely a trust problem. It\u2019s what happens when nothing has proven its worth to someone yet, so they stop extending trust by default.',
-    quote: 'It was useless because my husband was giving him all this information about himself, but they didn\u2019t really offer anything... waste of time really.',
   },
 ]
 
@@ -91,87 +84,53 @@ const OUTCOME_STATS: [string, string][] = [
 
 const LESSONS: [string, string][] = [
   [
-    'Trust and value aren\u2019t separate problems',
+    'Trust and value aren\u2019t separate problems.',
     'Trust is what\u2019s left over once value has been demonstrated. Any time a product asks someone to give something before they understand what they\u2019ll get back, it\u2019s building the exact distrust it\u2019s trying to overcome.',
   ],
   [
-    'Compromise doesn\u2019t mean compromising the user',
+    'Compromise doesn\u2019t mean compromising the user.',
     'I kept the primary CTA to satisfy business stakeholders and added the \u201CHere\u2019s how\u201D path alongside it. I don\u2019t always have to kill a rigid business requirement to save the user experience. Sometimes I just build a better door next to it.',
   ],
   [
-    'Designing for skepticism, not just usability',
+    'Designing for skepticism, not just usability.',
     'For a Medicare-eligible population, the primary friction wasn\u2019t a confusing UI or poor contrast. It was an inherent, justified skepticism of unsolicited contact. Designing for emotional friction rather than functional friction is a different problem than the one I was trained to look for.',
   ],
   [
-    'The danger of isolated metrics',
+    'The danger of isolated metrics.',
     'Looking at the IHE in a vacuum made it look like the demographic simply didn\u2019t want free services. Placing it next to SCC proved otherwise. Evaluating a service in isolation often hides the actual behavioral drivers.',
   ],
 ]
+
+// ─── Local helpers ───────────────────────────────────────────────────────────
+
+// Shared style for member quotes and interview-guide questions, so both read
+// the same way throughout the case study.
+const quoteStyle = {
+  fontSize: 'var(--font-size-sm)',
+  color: 'var(--color-text-muted)',
+  lineHeight: 1.7,
+  fontStyle: 'italic' as const,
+  paddingLeft: '1rem',
+  borderLeft: '2px solid var(--color-border)',
+  margin: '0 0 1.25rem',
+}
+
+function Quote({ children }: { children: React.ReactNode }) {
+  return <p style={quoteStyle}>{children}</p>
+}
 
 function BarrierList({ items }: { items: Barrier[] }) {
   return (
     <>
       {items.map(({ title, text, quote }) => (
-        <div
-          key={title}
-          style={{
-            marginBottom: '1.5rem',
-            paddingBottom: '1.5rem',
-            borderBottom: '1px solid var(--color-border)',
-          }}
-        >
-          <h3
-            style={{
-              fontSize: 'var(--font-size-sm)',
-              fontWeight: 600,
-              color: 'var(--color-text)',
-              marginBottom: '0.4rem',
-            }}
-          >
-            {title}
-          </h3>
-          <p
-            style={{
-              fontSize: 'var(--font-size-md)',
-              color: 'var(--color-text-muted)',
-              lineHeight: 1.7,
-            }}
-          >
-            {text}
-          </p>
-          {quote && (
-            <p
-              style={{
-                fontSize: 'var(--font-size-sm)',
-                color: 'var(--color-text-mid)',
-                lineHeight: 1.6,
-                fontStyle: 'italic',
-                marginTop: '0.75rem',
-                paddingLeft: '1rem',
-                borderLeft: '2px solid var(--color-border)',
-              }}
-            >
-              &ldquo;{quote}&rdquo;
-            </p>
-          )}
+        <div key={title}>
+          <Body mb={!quote}>
+            <strong style={{ color: 'var(--color-text)', fontWeight: 600 }}>{title}</strong> {text}
+          </Body>
+          {quote && <Quote>&ldquo;{quote}&rdquo;</Quote>}
         </div>
       ))}
     </>
-  )
-}
-
-function ClusterHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <p
-      style={{
-        fontSize: 'var(--font-size-sm)',
-        fontWeight: 600,
-        color: 'var(--color-text)',
-        margin: '2rem 0 1.25rem',
-      }}
-    >
-      {children}
-    </p>
   )
 }
 
@@ -210,6 +169,7 @@ function FullCaseStudy() {
 
         <CalloutCard
           variant="light"
+          titleSize="md"
           title="Four cohorts instead of one"
           body="The straightforward version of this study is interviewing people who said no and cataloguing their objections. I structured it as a comparison instead: members who declined both the IHE and SCC, declined the IHE only, declined the SCC only, and accepted both. Studying the decline in isolation would only ever produce a list of complaints. Studying it against the service members were saying yes to is what made the contrast legible."
         />
@@ -224,48 +184,37 @@ function FullCaseStudy() {
           The interview guide was written to open the decision up rather than ask members to defend it. Three questions did most of the work:
         </Body>
 
-        <ul style={{ margin: '0 0 1.5rem', paddingLeft: '1.25rem', listStyle: 'none' }}>
-          {GUIDE_QUESTIONS.map(q => (
-            <li
-              key={q}
-              style={{
-                fontSize: 'var(--font-size-md)',
-                color: 'var(--color-text-muted)',
-                lineHeight: 1.7,
-                fontStyle: 'italic',
-                marginBottom: '0.6rem',
-                paddingLeft: '1rem',
-                borderLeft: '2px solid var(--color-border)',
-              }}
-            >
-              {q}
-            </li>
-          ))}
-        </ul>
+        {GUIDE_QUESTIONS.map(q => <Quote key={q}>{q}</Quote>)}
 
         <Body mb={false}>
           The first one produced a finding I hadn&apos;t gone in looking for: several members didn&apos;t recognize &ldquo;Signify Health&rdquo; as an entity at all. They knew their insurance carrier. Outreach from an unfamiliar name read as suspect before it ever got the chance to explain itself, especially for an elderly, Medicare-eligible population already primed to be wary of unsolicited contact. That&apos;s distinct from general scam anxiety: it&apos;s not &ldquo;this could be a scam,&rdquo; it&apos;s &ldquo;I don&apos;t know who&apos;s asking.&rdquo;
         </Body>
       </section>
 
-      <section id="the-findings" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
-        <SectionIntro label="The Findings" heading="Two different problems wearing one barrier list" />
+      <section id="the-insight" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
+        <SectionIntro label="The Insight" heading="Two different problems wearing one barrier list" />
         <Body mb={false}>
           Eight distinct barriers to enrollment came out of the research, and looking at them together, they split into two genuinely different problems.
         </Body>
 
-        <ClusterHeading>Members didn&apos;t believe the visit offered real value</ClusterHeading>
+        <SubHead>Members didn&apos;t believe the visit offered real value</SubHead>
         <BarrierList items={VALUE_BARRIERS} />
 
-        <ClusterHeading>Members didn&apos;t trust the outreach itself</ClusterHeading>
+        <SubHead>Members didn&apos;t trust the outreach itself</SubHead>
         <BarrierList items={TRUST_BARRIERS} />
 
-        <ClusterHeading>Sitting between both clusters, and the finding that mattered most</ClusterHeading>
-        <BarrierList items={BRIDGE_BARRIER} />
+        <SubHead>Sitting between both clusters, the finding that mattered most</SubHead>
+        <Body>
+          <strong style={{ color: 'var(--color-text)', fontWeight: 600 }}>The one-sided exchange problem.</strong> Members described past visits as a one-way street: extensive personal and medical information given, and nothing offered back in return.
+        </Body>
 
         <PullQuote>
-          Members weren&apos;t afraid of the visit. They just didn&apos;t believe it was worth their time. And they had good reason to think that.
+          It was useless because my husband was giving him all this information about himself, but they didn&apos;t really offer anything... waste of time really.
         </PullQuote>
+
+        <Body mb={false}>
+          This is not purely a value problem or purely a trust problem. It&apos;s what happens when nothing has proven its worth to someone yet, so they stop extending trust by default. Members weren&apos;t afraid of the visit. They just didn&apos;t believe it was worth their time, and they had good reason to think that.
+        </Body>
       </section>
 
       <section id="the-reframe" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
@@ -290,8 +239,9 @@ function FullCaseStudy() {
           I didn&apos;t get rid of the dedicated scheduling page. I designed around it: three pages, each doing one job, all supporting the same goal of getting someone to schedule.
         </Body>
 
+        <SubHead>Home, identity and top-level trust</SubHead>
         <Body>
-          <strong>Home, identity and top-level trust.</strong> The homepage leads with who Signify Health is before it leads with what to do. &ldquo;Here&apos;s how&rdquo; and &ldquo;Schedule your visit&rdquo; sit together in the hero, and immediately below them, &ldquo;Invited in by millions, 10 years running&rdquo; and four credibility cards make the case for the visit before the page asks for anything.
+          The homepage leads with who Signify Health is before it leads with what to do. &ldquo;Here&apos;s how&rdquo; and &ldquo;Schedule your visit&rdquo; sit together in the hero, and immediately below them, &ldquo;Invited in by millions, 10 years running&rdquo; and four credibility cards make the case for the visit before the page asks for anything.
         </Body>
         <ProjectImage
           src={`${IMG}/ihe-scheduling-portal-home-display.webp`}
@@ -301,12 +251,14 @@ function FullCaseStudy() {
         />
         <CalloutCard
           variant="light"
+          titleSize="md"
           title={'"Schedule your visit" stayed, "Here\u2019s how" got added'}
           body={'Business stakeholders had a standing requirement that the scheduler stay prominent and easy to find, and that requirement predated this project. I honored it rather than fighting it, and added a secondary path next to it, "Here\u2019s how," for members who weren\u2019t ready to commit yet. The primary CTA didn\u2019t move. A second door opened next to it.'}
         />
 
+        <SubHead>What We Do, the value proof</SubHead>
         <Body>
-          <strong>What We Do, the value proof.</strong> This page carries the weight the research said was missing: &ldquo;5 things In-Home Health Visits provide,&rdquo; a category-by-category breakdown of what&apos;s actually included (wellness assessments, screenings, care coordination), video testimonials with transcripts, and Google Reviews. This is where &ldquo;redundancy with existing care&rdquo; and &ldquo;not a replacement for a PCP visit&rdquo; get answered with specifics instead of a general reassurance.
+          This page carries the weight the research said was missing: &ldquo;5 things In-Home Health Visits provide,&rdquo; a category-by-category breakdown of what&apos;s actually included (wellness assessments, screenings, care coordination), video testimonials with transcripts, and Google Reviews. This is where &ldquo;redundancy with existing care&rdquo; and &ldquo;not a replacement for a PCP visit&rdquo; get answered with specifics instead of a general reassurance.
         </Body>
         <ProjectImage
           src={`${IMG}/ihe-scheduling-portal-what-we-do-display.webp`}
@@ -316,41 +268,42 @@ function FullCaseStudy() {
         />
         <CalloutCard
           variant="light"
+          titleSize="md"
           title="Value got its own page"
           body={'I could have put the value case directly on the homepage, folded into the hero. I gave it a dedicated page instead, reached through "Here\u2019s how." Value that has to compete with a hero image and a primary CTA for attention gets skimmed. Value that\u2019s the entire point of a page gets read.'}
         />
 
+        <SubHead>Scheduling, member-controlled, not a callback</SubHead>
         <Body>
-          <strong>Scheduling, member-controlled, not a callback.</strong> Two ways to schedule, both member-initiated: online, or by phone on their own timeline. Removing the callback-request model addressed the frequency and harassment barrier directly, since members were no longer waiting on outreach they didn&apos;t ask for.
+          Two ways to schedule, both member-initiated: online, or by phone on their own timeline. Removing the callback-request model addressed the frequency and harassment barrier directly, since members were no longer waiting on outreach they didn&apos;t ask for.
         </Body>
         <ProjectImage
           src={`${IMG}/ihe-scheduling-portal-scheduler-display.webp`}
           lightboxSrc={`${IMG}/ihe-scheduling-portal-scheduler-lightbox.webp`}
+          bordered
           alt="The redesigned scheduling page, restating the cost and scope of the visit before asking who the visit is for"
           caption="The scheduling page repeats the value case before asking anything: no cost, doesn't replace your doctor, and exactly what the clinician will do. The financial anxiety and redundancy barriers get answered again at the point of commitment."
         />
 
+        <SubHead>Visit prep, closing the loop after commitment</SubHead>
         <Body mb={false}>
-          <strong>Visit prep, closing the loop after commitment.</strong> Separate &ldquo;Get Ready for Your Upcoming Signify Health Visit&rdquo; and &ldquo;Preparing for Your Signify Health Video Visit&rdquo; pages walk members through exactly what to expect, by format, down to a pre-visit device checklist for video visits.
+          Separate &ldquo;Get Ready for Your Upcoming Signify Health Visit&rdquo; and &ldquo;Preparing for Your Signify Health Video Visit&rdquo; pages walk members through exactly what to expect, by format, down to a pre-visit device checklist for video visits.
         </Body>
-        <GalleryGrid images={[
-          {
-            src: `${IMG}/ihe-scheduling-portal-in-person-display.webp`,
-            lightboxSrc: `${IMG}/ihe-scheduling-portal-in-person-lightbox.webp`,
-            alt: 'Redesigned page preparing members for an in-person visit, with clear step-by-step guidance',
-            caption: 'After, in-person visit prep, addressing what to have ready and what will happen in the home.',
-            focus: 'top',
-          },
-          {
-            src: `${IMG}/ihe-scheduling-portal-video-visit-display.webp`,
-            lightboxSrc: `${IMG}/ihe-scheduling-portal-video-visit-lightbox.webp`,
-            alt: 'Redesigned page preparing members for a video visit, with device and connectivity guidance',
-            caption: 'After, video visit prep, handling the tech requirements that in-person members never face.',
-            focus: 'top',
-          },
-        ]} />
+        <ProjectImage
+          src={`${IMG}/ihe-scheduling-portal-in-person-display.webp`}
+          lightboxSrc={`${IMG}/ihe-scheduling-portal-in-person-lightbox.webp`}
+          alt="The in-person visit section, listing what to prepare in the home before a clinician arrives"
+          caption="In-person prep answers the questions only an in-home visit raises: where to sit, securing pets, which medications and testing tools to have out."
+        />
+        <ProjectImage
+          src={`${IMG}/ihe-scheduling-portal-video-visit-display.webp`}
+          lightboxSrc={`${IMG}/ihe-scheduling-portal-video-visit-lightbox.webp`}
+          alt="The video visit technology check and the steps to take ten minutes before the call"
+          caption="Video prep opens with a technology check and an escape hatch to switch to an in-home visit, then walks through the ten minutes before the call. None of this applies to an in-person visit."
+        />
         <CalloutCard
           variant="light"
+          titleSize="md"
           title="Prep pages split by visit type, not generic"
           body={'A single generic "what to expect" page would have been faster to build. I split it into separate in-person and video-visit prep pages instead, each addressing the specific uncertainty of that format: what to have ready in person, versus tech requirements for video. The value-cluster barriers don\u2019t fully resolve at the scheduling decision. They resolve right before the visit, when the details actually matter.'}
         />
@@ -373,14 +326,9 @@ function FullCaseStudy() {
         <Body>Four things from this project stayed with me.</Body>
 
         {LESSONS.map(([title, text]) => (
-          <div key={title} style={{ marginBottom: '1.75rem' }}>
-            <h3 style={{ fontSize: 'var(--font-size-sm)', fontWeight: 600, color: 'var(--color-text)', marginBottom: '0.4rem' }}>
-              {title}
-            </h3>
-            <p style={{ fontSize: 'var(--font-size-md)', color: 'var(--color-text-muted)', lineHeight: 1.7 }}>
-              {text}
-            </p>
-          </div>
+          <Body key={title}>
+            <strong style={{ color: 'var(--color-text)', fontWeight: 600 }}>{title}</strong> {text}
+          </Body>
         ))}
 
         <Body>

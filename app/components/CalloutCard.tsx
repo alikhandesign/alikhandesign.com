@@ -2,10 +2,13 @@ interface CalloutCardProps {
   title: string
   body: string
   variant?: 'dark' | 'light'
+  /** 'sm' is the compact uppercase label. 'md' is a larger sentence-case title for case study use. */
+  titleSize?: 'sm' | 'md'
 }
 
-export default function CalloutCard({ title, body, variant = 'dark' }: CalloutCardProps) {
+export default function CalloutCard({ title, body, variant = 'dark', titleSize = 'sm' }: CalloutCardProps) {
   const isDark = variant === 'dark'
+  const isLargeTitle = titleSize === 'md'
 
   return (
     <div style={{
@@ -21,12 +24,15 @@ export default function CalloutCard({ title, body, variant = 'dark' }: CalloutCa
       }),
     }}>
       <p style={{
-        fontSize: 'var(--font-size-xs)',
-        letterSpacing: 'var(--letter-spacing-md)',
-        textTransform: 'uppercase' as const,
+        fontSize: isLargeTitle ? 'var(--font-size-md)' : 'var(--font-size-xs)',
+        ...(isLargeTitle ? {} : {
+          letterSpacing: 'var(--letter-spacing-md)',
+          textTransform: 'uppercase' as const,
+        }),
         color: isDark ? 'var(--color-bg)' : 'var(--color-text)',
         fontWeight: 'var(--font-weight-semibold)' as any,
-        marginBottom: '0.35rem',
+        marginBottom: isLargeTitle ? '0.5rem' : '0.35rem',
+        lineHeight: isLargeTitle ? 1.35 : undefined,
       }}>
         {title}
       </p>
