@@ -9,6 +9,7 @@ import PullQuote from '@/app/components/PullQuote'
 import StatCard from '@/app/components/StatCard'
 import CalloutCard from '@/app/components/CalloutCard'
 import { ProjectImage } from '@/app/components/Lightbox'
+import FadeOut from '@/app/components/FadeOut'
 
 const IMG = '/images/work/ihe-portal'
 
@@ -134,7 +135,9 @@ function BarrierList({ items }: { items: Barrier[] }) {
   )
 }
 
-function FullCaseStudy() {
+// ─── Pre-gate preview ────────────────────────────────────────────────────────
+
+function FreePreview() {
   return (
     <div style={{ maxWidth: 680 }}>
 
@@ -156,10 +159,22 @@ function FullCaseStudy() {
         <Body>
           Too many eligible members were declining a free In-Home Health Evaluation that, by every available measure, benefited them. Yet those same members were actively enrolling in Social Care Coordination, a separate, non-medical support offering. The contrast was the real mystery: a population willing to accept social help was firmly shutting the door on clinical care.
         </Body>
-        <Body mb={false}>
-          No one on the team had a validated answer for why. Before any redesign could target the true barrier, we had to figure out what SCC was doing right that the IHE was getting wrong.
-        </Body>
+        <FadeOut>
+          <Body mb={false}>
+            No one on the team had a validated answer for why. Before any redesign could target the true barrier, we had to figure out what SCC was doing right that the IHE was getting wrong.
+          </Body>
+        </FadeOut>
       </section>
+
+    </div>
+  )
+}
+
+// ─── Full case study (behind the gate) ───────────────────────────────────────
+
+function FullCaseStudy() {
+  return (
+    <div style={{ maxWidth: 680 }}>
 
       <section id="the-research" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
         <SectionIntro label="The Research" heading="A comparative study, not just a list of complaints" />
@@ -367,6 +382,7 @@ export default function IHEPortalPage() {
       cta={{ title: 'Interested in how this came together?' }}
       next={getNextWork('ihe-portal')!}
     >
+      <FreePreview />
       <PasswordGate
         onUnlock={() => {}}
         title="Ready to see how it came together?"
