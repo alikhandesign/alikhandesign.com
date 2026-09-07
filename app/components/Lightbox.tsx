@@ -390,9 +390,11 @@ interface ProjectImageProps {
   imageIndex?: number
   /** Higher-resolution source used only in the expanded lightbox view. Falls back to `src`. */
   lightboxSrc?: string
+  /** Adds a hairline border. Use when the screenshot's background matches the page background. */
+  bordered?: boolean
 }
 
-export function ProjectImage({ src, alt, caption, allImages, imageIndex = 0, lightboxSrc }: ProjectImageProps) {
+export function ProjectImage({ src, alt, caption, allImages, imageIndex = 0, lightboxSrc, bordered = false }: ProjectImageProps) {
   const [open, setOpen] = useState(false)
   const images = allImages || [{ src, alt, caption, lightboxSrc }]
 
@@ -415,6 +417,7 @@ export function ProjectImage({ src, alt, caption, allImages, imageIndex = 0, lig
             borderRadius: 4,
             display: 'block',
             transition: 'filter 0.3s, brightness 0.3s',
+            ...(bordered ? { border: '1px solid var(--color-border-mid)' } : {}),
           }}
 
         />
@@ -450,13 +453,17 @@ export function GalleryGrid({ images }: GalleryGridProps) {
 
   const open = (i: number) => { setActiveIndex(i); setLightboxOpen(true) }
 
+  // Two images read as a pair, so they get equal columns and a shared aspect
+  // ratio rather than the asymmetric 2/3 + 1/3 split the 3-column grid produces.
+  const isPair = images.length === 2
+
   return (
     <>
-      <div className="gallery-grid">
+      <div className={isPair ? 'gallery-grid gallery-grid-pair' : 'gallery-grid'}>
         {images.map((img, i) => (
           <div
             key={i}
-            className={images.length === 1 ? 'gallery-grid-item-full' : i === 0 ? 'gallery-grid-item-wide' : ''}
+            className={images.length === 1 ? 'gallery-grid-item-full' : isPair ? '' : i === 0 ? 'gallery-grid-item-wide' : ''}
             onClick={() => open(i)}
             role="button"
             tabIndex={0}
@@ -466,7 +473,7 @@ export function GalleryGrid({ images }: GalleryGridProps) {
           >
             <div style={{
               width: '100%',
-              aspectRatio: i === 0 ? '16/9' : '4/3',
+              aspectRatio: isPair ? '4/5' : i === 0 ? '16/9' : '4/3',
               background: 'var(--color-border)',
               borderRadius: 4,
               overflow: 'hidden',
