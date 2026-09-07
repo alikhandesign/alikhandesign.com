@@ -7,6 +7,8 @@ interface LightboxImage {
   alt: string
   caption?: string
   focus?: string
+  /** Higher-resolution source used only in the expanded lightbox view. Falls back to `src`. */
+  lightboxSrc?: string
 }
 
 interface LightboxProps {
@@ -279,7 +281,7 @@ function Lightbox({ images, initialIndex = 0, onClose }: LightboxProps) {
             </div>
           )}
           <img
-            src={img.src}
+            src={img.lightboxSrc || img.src}
             alt={img.alt}
             draggable={false}
             onLoad={() => setLoaded(true)}
@@ -386,11 +388,13 @@ interface ProjectImageProps {
   caption?: string
   allImages?: LightboxImage[]
   imageIndex?: number
+  /** Higher-resolution source used only in the expanded lightbox view. Falls back to `src`. */
+  lightboxSrc?: string
 }
 
-export function ProjectImage({ src, alt, caption, allImages, imageIndex = 0 }: ProjectImageProps) {
+export function ProjectImage({ src, alt, caption, allImages, imageIndex = 0, lightboxSrc }: ProjectImageProps) {
   const [open, setOpen] = useState(false)
-  const images = allImages || [{ src, alt, caption }]
+  const images = allImages || [{ src, alt, caption, lightboxSrc }]
 
   return (
     <>
