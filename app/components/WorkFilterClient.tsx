@@ -17,6 +17,7 @@ interface CaseStudyItem {
   outcomes: Outcome[]
   href: string
   image: string
+  imageFit?: 'cover' | 'contain'
 }
 
 interface ProjectItem {
