@@ -222,7 +222,7 @@ def check_assertion(assertion, response_text, payload):
 # --------------------------------------------------------------------------
 
 def judge_response(rubric, prompt, response_text):
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    api_key = (os.environ.get("ANTHROPIC_API_KEY") or "").strip()
     if not api_key:
         return None, "ANTHROPIC_API_KEY not set - judged check skipped"
 
@@ -261,6 +261,16 @@ def judge_response(rubric, prompt, response_text):
         text = re.sub(r"^```(?:json)?|```$", "", text, flags=re.MULTILINE).strip()
         verdict = json.loads(text)
         return bool(verdict.get("pass")), verdict.get("reason", "")
+    except urllib.error.HTTPError as e:
+        # Surface the API's own error message. A bare "HTTP Error 401" says
+        # nothing about whether the key is wrong, expired, or lacks access,
+        # and that distinction is the whole diagnosis.
+        try:
+            body = json.loads(e.read().decode("utf-8"))
+            detail = body.get("error", {}).get("message", str(body))[:200]
+        except Exception:
+            detail = "(no response body)"
+        return None, f"judge HTTP {e.code}: {detail}"
     except Exception as e:
         # A judge failure is not a scenario failure - report it as unknown
         # rather than silently counting it either way.
@@ -314,30 +324,46 @@ def run_scenario(scenario, target, use_judge):
             if not ok:
                 failures.append(detail)
 
-        judged = None
+        # An inconclusive judge is tracked separately from a real failure.
+        # Recording "the check could not run" as "the check failed" writes a
+        # harness problem into the log as a product problem - the same class
+        # of error as stamping a result with the wrong commit. Loud, but not
+        # lying: it still blocks a clean result, it just says what happened.
+        inconclusive = []
         if use_judge and scenario.get("rubric"):
             judged, reason = judge_response(scenario["rubric"], turns[-1], final_text)
             if judged is False:
                 failures.append(f"judge: {reason}")
             elif judged is None:
-                failures.append(f"judge inconclusive: {reason}")
+                inconclusive.append(f"judge could not run: {reason}")
 
         attempts.append({
             "run": run_index + 1,
-            "passed": len(failures) == 0,
+            "passed": len(failures) == 0 and len(inconclusive) == 0,
+            "failed": len(failures) > 0,
             "failures": failures,
+            "inconclusive": inconclusive,
             "response": final_text,
             "audience": final_payload.get("audience"),
         })
 
     passed_count = sum(1 for a in attempts if a["passed"])
+    failed_count = sum(1 for a in attempts if a.get("failed"))
+    inconclusive_count = sum(1 for a in attempts if a.get("inconclusive"))
     return {
         "id": scenario["id"],
         "category": scenario.get("category", ""),
         "runs": len(attempts),
         "passed": passed_count,
+        "failed": failed_count,
+        "inconclusive": inconclusive_count,
         "pass_rate": round(passed_count / len(attempts), 3) if attempts else 0.0,
         "fully_consistent": passed_count == len(attempts) and len(attempts) > 0,
+        # Distinguishes "this behavior is broken" from "this check did not
+        # run at all" - the second is not evidence about the product.
+        "status": ("pass" if passed_count == len(attempts) and attempts
+                   else "fail" if failed_count
+                   else "inconclusive"),
         "attempts": attempts,
     }
 
@@ -358,15 +384,18 @@ def append_history_row(report, history_path="HISTORY.md"):
         return False
 
     s = report["summary"]
-    failing = [r["id"] for r in report["results"] if not r["fully_consistent"]]
 
-    if failing:
-        notes = "FAIL: " + ", ".join(failing)
-        for r in report["results"]:
-            if r["id"] in failing:
-                notes += f" ({r['id']} {r['passed']}/{r['runs']})"
-    else:
-        notes = "all consistent"
+    failed_ids = [r["id"] for r in report["results"] if r.get("status") == "fail"]
+    incon_ids = [r["id"] for r in report["results"] if r.get("status") == "inconclusive"]
+    parts = []
+    if failed_ids:
+        parts.append("FAIL: " + ", ".join(
+            f"{r['id']} {r['passed']}/{r['runs']}"
+            for r in report["results"] if r["id"] in failed_ids))
+    if incon_ids:
+        # Explicitly not counted as a failure - the check did not run.
+        parts.append("INCONCLUSIVE (check did not run): " + ", ".join(incon_ids))
+    notes = " · ".join(parts) if parts else "all consistent"
     if not report["judge_enabled"]:
         notes += " · assertions only"
     # Pipes would break the table; strip rather than escape.
@@ -441,11 +470,13 @@ def main():
         print(f"  {label} ...", flush=True)
         res = run_scenario(scenario, args.target, use_judge)
         results.append(res)
-        mark = "OK  " if res["fully_consistent"] else "FAIL"
+        mark = {"pass": "OK   ", "fail": "FAIL ", "inconclusive": "INCON"}[res["status"]]
         print(f"    {mark} {res['passed']}/{res['runs']}")
         for a in res["attempts"]:
             for fail in a["failures"]:
                 print(f"      run {a['run']}: {fail}")
+            for inc in a.get("inconclusive", []):
+                print(f"      run {a['run']}: [not a product failure] {inc}")
 
     deployed_sha = DEPLOYED_COMMIT["sha"]
     if deployed_sha:
@@ -467,6 +498,8 @@ def main():
     total_runs = sum(r["runs"] for r in results)
     total_passed = sum(r["passed"] for r in results)
     fully = sum(1 for r in results if r["fully_consistent"])
+    n_failed = sum(1 for r in results if r["status"] == "fail")
+    n_incon = sum(1 for r in results if r["status"] == "inconclusive")
 
     report = {
         "suite": suite["name"],
@@ -478,6 +511,8 @@ def main():
         "summary": {
             "scenarios": len(results),
             "fully_consistent": fully,
+            "failed": n_failed,
+            "inconclusive": n_incon,
             "total_runs": total_runs,
             "total_passed": total_passed,
             "run_pass_rate": round(total_passed / total_runs, 3) if total_runs else 0.0,
@@ -492,6 +527,11 @@ def main():
 
     print()
     print(f"Scenarios fully consistent: {fully}/{len(results)}")
+    if n_failed:
+        print(f"Scenarios failed:           {n_failed}")
+    if n_incon:
+        print(f"Scenarios INCONCLUSIVE:     {n_incon}  (check could not run - "
+              f"not evidence about the product)")
     print(f"Individual runs passed:     {total_passed}/{total_runs}")
     print(f"Saved: {out_path}")
 
