@@ -1,0 +1,83 @@
+{
+  "name": "signals",
+  "version": "v1",
+  "created": "2026-09-08",
+  "notes": "Covers the two tools directly, which the existing suites only touch incidentally. report_audience returns seven fields; before this suite only fit_verdict and case_study_pointer were asserted, each once and in one direction. lookup_case_study was exercised only through the two access-control scenarios. Nearly every assertion here targets a structured field rather than reply text, so this suite is almost entirely free to run - the model's own reported signal is more deterministic than its prose. Where a field is genuinely probabilistic (persona classification especially) the assertion is deliberately loose or the scenario repeats, rather than pinning an exact value and generating flaky failures.",
+  "scenarios": [
+    {
+      "id": "S1",
+      "category": "fit_verdict - positive direction",
+      "turns": ["We're hiring a Senior Product Designer to own end-to-end design for a healthcare enrollment product. You'll run your own research, work in a regulated environment, and partner closely with engineering on a shared design system."],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "not_equals", "field": "audience.fit_verdict", "value": "not_applicable" },
+        { "type": "one_of", "field": "audience.fit_verdict", "value": ["strong_fit", "partial_fit"] }
+      ],
+      "notes": "The existing suites only ever assert fit_verdict resolving to no_fit. This is the other direction: a JD squarely in Ali's background must produce a real positive verdict, not not_applicable. Deliberately does not pin strong vs partial - that distinction is a judgment call and pinning it would make the test flaky without testing anything real."
+    },
+    {
+      "id": "S2",
+      "category": "fit_verdict - not_applicable on a non-JD turn",
+      "turns": ["What tools does Ali use for research?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "equals", "field": "audience.fit_verdict", "value": "not_applicable" }
+      ],
+      "notes": "The third direction: an ordinary question is not a fit assessment and must not produce a verdict at all."
+    },
+    {
+      "id": "S3",
+      "category": "case_study_pointer - positive direction, self-referential",
+      "turns": ["Does Ali have experience building guardrails for AI systems?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "equals", "field": "audience.case_study_pointer", "value": "portfolio-assistant" }
+      ],
+      "notes": "Tests the self-referential recognition behavior, which had no coverage at all. A question about Ali's experience with something this assistant itself demonstrates should point at its own case study."
+    },
+    {
+      "id": "S4",
+      "category": "depth - technical question reads as technical",
+      "turns": ["What were the actual API and data constraints on the AI feedback agent, and how did they shape the architecture?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "one_of", "field": "audience.depth", "value": ["technical", "business"] }
+      ],
+      "notes": "Loose on purpose. The real requirement is that an explicitly technical question does not read as surface-level; which of the two deeper registers it picks is a judgment call, and pinning 'technical' exactly would fail on reasonable answers."
+    },
+    {
+      "id": "S5",
+      "category": "low confidence defaults to fast_direct",
+      "turns": ["hi"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "lt", "field": "audience.confidence", "value": 0.5 },
+        { "type": "equals", "field": "audience.register_used", "value": "fast_direct" }
+      ],
+      "notes": "The one explicit rule stated about register: when confidence is low, default to fast_direct rather than exploratory, because a recruiter reading a hedgy answer costs more than a hiring manager reading a crisp one. A bare greeting should produce low confidence, so this tests the rule and the confidence field together. If confidence comes back high on 'hi', that is itself a finding."
+    },
+    {
+      "id": "S6",
+      "category": "lookup_case_study - retrieves real four-lens detail",
+      "turns": ["What specifically did Ali's design handoff checklist require before a story could move to development?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "contains", "value": "breakpoint" },
+        { "type": "contains", "value": "state" }
+      ],
+      "notes": "design-handoff gates only an image gallery, so its substantive content is public and safe to assert on. The three requirements - mobile breakpoints, state logic, interaction logic - are specific enough that a generic answer will not contain them, which is what makes this a real test of retrieval rather than of general fluency.",
+      "rubric": "The response should describe the specific gate requirements (mobile breakpoints, state logic covering loading/error/empty, and interaction logic) rather than describing handoff generically. Vague process description without those specifics is a FAIL."
+    },
+    {
+      "id": "S7",
+      "category": "audience classification - JD paste reads as recruiter",
+      "runs": 3,
+      "turns": ["Sharing a role we're recruiting for — Staff Product Designer, fully remote, healthcare fintech. Let me know if this looks like a fit and I'll send the full description."],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "not_equals", "field": "audience.audience", "value": "engineer" }
+      ],
+      "notes": "The least deterministic assertion in this suite, and scoped accordingly. Persona classification is probabilistic by design and the system explicitly treats it as a running estimate, so pinning 'recruiter' exactly would produce flaky failures without testing anything meaningful. What IS meaningful is that an obvious recruiter signal does not classify as engineer. Runs three times because a single run of a probabilistic field says little."
+    }
+  ]
+}
