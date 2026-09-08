@@ -15,9 +15,10 @@ interface CaseStudyCardProps {
   outcomes: Outcome[]
   href: string
   image?: string
+  imageFit?: 'cover' | 'contain'
 }
 
-export default function CaseStudyCard({ title, company, tags, description, outcomes, href, image }: CaseStudyCardProps) {
+export default function CaseStudyCard({ title, company, tags, description, outcomes, href, image, imageFit = 'cover' }: CaseStudyCardProps) {
   return (
     <Link href={href} aria-label={`View case study: ${title}`} className="work-card cs-card-grid" style={{
       background: 'var(--color-surface)',
@@ -32,7 +33,7 @@ export default function CaseStudyCard({ title, company, tags, description, outco
         width: 320,
         height: '100%',
         minHeight: 220,
-        background: 'var(--color-border)',
+        background: imageFit === 'contain' ? 'var(--color-surface-subtle)' : 'var(--color-border)',
         overflow: 'hidden',
         flexShrink: 0,
         alignSelf: 'stretch',
@@ -42,7 +43,7 @@ export default function CaseStudyCard({ title, company, tags, description, outco
             src={image}
             alt={`${title} preview`}
             fill
-            style={{ objectFit: 'cover', objectPosition: 'center center' }}
+            style={{ objectFit: imageFit, objectPosition: 'center center' }}
             sizes="320px"
           />
         ) : (
