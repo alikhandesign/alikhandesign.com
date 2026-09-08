@@ -27,6 +27,7 @@ interface ProjectItem {
   desc: string
   href: string
   image: string
+  imageFit?: 'cover' | 'contain'
 }
 
 type Filter = 'all' | 'case-studies' | 'projects'
@@ -109,7 +110,7 @@ export default function WorkFilterClient({
             <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)', letterSpacing: '0.05em' }}>— {projects.length} selected works</span>
           </div>
           <div className="grid-proj">
-            {projects.map(p => <FeaturedProjectCard key={p.title} type="Project" title={p.title} company={p.company} description={p.desc} href={p.href} image={p.image} />)}
+            {projects.map(p => <FeaturedProjectCard key={p.title} type="Project" title={p.title} company={p.company} description={p.desc} href={p.href} image={p.image} imageFit={p.imageFit} />)}
           </div>
         </section>
       )}

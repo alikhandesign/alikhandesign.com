@@ -9,9 +9,10 @@ interface FeaturedProjectCardProps {
   description: string
   href: string
   image?: string
+  imageFit?: 'cover' | 'contain'
 }
 
-export default function FeaturedProjectCard({ type, title, company, description, href, image }: FeaturedProjectCardProps) {
+export default function FeaturedProjectCard({ type, title, company, description, href, image, imageFit = 'cover' }: FeaturedProjectCardProps) {
   const ctaLabel = type === 'Case Study' ? 'Read case study' : 'View project'
   return (
     <Link href={href} className="work-card" style={{
@@ -23,13 +24,13 @@ export default function FeaturedProjectCard({ type, title, company, description,
       color: 'inherit',
       display: 'block',
     }}>
-      <div style={{ position: 'relative', width: '100%', height: 200, background: 'var(--color-border)', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', width: '100%', height: 200, background: imageFit === 'contain' ? 'var(--color-surface-subtle)' : 'var(--color-border)', overflow: 'hidden' }}>
         {image ? (
           <Image
             src={image}
             alt={`${title} preview`}
             fill
-            style={{ objectFit: 'cover', objectPosition: 'center center' }}
+            style={{ objectFit: imageFit, objectPosition: 'center center' }}
             sizes="(max-width: 768px) 100vw, 50vw"
           />
         ) : (
