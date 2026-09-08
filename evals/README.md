@@ -114,9 +114,27 @@ it. Note that `internals.v1` depends on scenario order: INT-3 checks a cache
 read, which requires an earlier scenario to have warmed the cache. Run against
 a cold cache in isolation, it fails for a benign reason.
 
-**Setup:** add `PORTFOLIO_TESTING_SECRET` to the repository's Actions secrets,
-matching `TESTING_BYPASS_SECRET` in Vercel. Without it, CI runs are subject to
-rate limiting and get logged as real visitor traffic.
+**Setup:** two Actions secrets are required.
+
+`PORTFOLIO_TESTING_SECRET`, matching `TESTING_BYPASS_SECRET` in Vercel.
+Without it, runs are rate limited and get logged as real visitor traffic.
+
+`VERCEL_AUTOMATION_BYPASS_SECRET`. Vercel Deployment Protection blocks
+automated requests to preview deployments with a 401 SSO redirect — a browser
+can complete that challenge, a script cannot. Generate the secret under
+**Settings → Deployment Protection → Protection Bypass for Automation**, then
+add it both as an Actions secret and locally when testing a preview:
+
+```bash
+export VERCEL_AUTOMATION_BYPASS_SECRET=<the secret>
+```
+
+Production is not protected, so this is only needed for preview targets. The
+runner warns before starting if the target looks like a preview and the secret
+is missing, rather than letting a whole suite fail on 401s.
+
+Regenerating the secret invalidates existing deployments — they need a redeploy
+to pick up the new value.
 
 ## HISTORY.md is written automatically
 

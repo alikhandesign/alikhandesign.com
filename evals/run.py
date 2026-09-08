@@ -118,6 +118,14 @@ def send_turn(target, messages, session_id, message_index, audience_context=None
     secret = os.environ.get("PORTFOLIO_TESTING_SECRET")
     if secret:
         headers["X-Testing-Bypass"] = secret
+    # Vercel Deployment Protection blocks automated requests to preview
+    # deployments with a 401 SSO redirect - a browser can complete that
+    # challenge, a script cannot. Vercel's Protection Bypass for Automation
+    # is the supported way through: a project-level secret passed as this
+    # header. Only needed for previews; production is not protected.
+    vercel_bypass = (os.environ.get("VERCEL_AUTOMATION_BYPASS_SECRET") or "").strip()
+    if vercel_bypass:
+        headers["x-vercel-protection-bypass"] = vercel_bypass
 
     req = urllib.request.Request(
         endpoint, data=json.dumps(body).encode("utf-8"),
@@ -472,6 +480,11 @@ def main():
     if not os.environ.get("PORTFOLIO_TESTING_SECRET"):
         print("WARNING: PORTFOLIO_TESTING_SECRET not set - subject to rate "
               "limiting, and this run WILL be logged as real visitor traffic")
+    if ("vercel.app" in args.target
+            and not os.environ.get("VERCEL_AUTOMATION_BYPASS_SECRET")):
+        print("WARNING: targeting a Vercel preview without "
+              "VERCEL_AUTOMATION_BYPASS_SECRET set. If Deployment Protection "
+              "is enabled, every request will 401 before reaching the app.")
     print()
 
     results = []
@@ -531,7 +544,11 @@ def main():
     }
 
     os.makedirs(args.out_dir, exist_ok=True)
-    out_path = os.path.join(args.out_dir, f"{sha[:10]}.json")
+    # Preserve the -UNVERIFIED marker in the filename rather than truncating
+    # it off - a result whose version could not be confirmed should look
+    # different on disk, not just inside the file.
+    label = sha[:10] + ("-UNVERIFIED" if sha.endswith("-UNVERIFIED") else "")
+    out_path = os.path.join(args.out_dir, f"{label}.json")
     with open(out_path, "w") as f:
         json.dump(report, f, indent=2)
 
