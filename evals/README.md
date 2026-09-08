@@ -73,11 +73,19 @@ guessing, because a wrong SHA makes the history actively misleading.
 
 Results land in `results/<sha>.json` with full per-run detail.
 
-## After every run, add a row to HISTORY.md
+## HISTORY.md is written automatically
 
-This is the step that makes the whole thing worth having. `HISTORY.md` is the
-artifact you actually read to answer "when did this start failing" — the raw
-result files are for digging in once you know where to look.
+`run.py` appends a row to `HISTORY.md` after every run, newest first. This is
+automated deliberately: a history that depends on remembering to update it by
+hand develops gaps exactly where the interesting runs are — the rushed ones,
+which are also the ones most likely to be regressions.
+
+`HISTORY.md` is the artifact you actually read to answer "when did this start
+failing"; the raw result files are for digging in once you know where to look.
+Anything that needs more than a table cell goes in a prose section below the
+table.
+
+Pass `--no-history` to skip, or `--history <path>` to point elsewhere.
 
 ## Why runs are repeated
 
