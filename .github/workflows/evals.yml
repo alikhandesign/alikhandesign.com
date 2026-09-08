@@ -84,6 +84,10 @@ jobs:
         working-directory: evals
         env:
           PORTFOLIO_TESTING_SECRET: ${{ secrets.PORTFOLIO_TESTING_SECRET }}
+          # Without this, every request to a preview 401s on Vercel's SSO
+          # challenge before reaching the app. A browser can complete that
+          # flow; CI cannot.
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           TARGET: ${{ github.event.deployment_status.target_url }}
         run: |
           # --no-judge keeps this free and deterministic. Most guardrail
@@ -103,6 +107,10 @@ jobs:
         working-directory: evals
         env:
           PORTFOLIO_TESTING_SECRET: ${{ secrets.PORTFOLIO_TESTING_SECRET }}
+          # Without this, every request to a preview 401s on Vercel's SSO
+          # challenge before reaching the app. A browser can complete that
+          # flow; CI cannot.
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           TARGET: ${{ github.event.deployment_status.target_url }}
         run: |
           python3 run.py suites/behavior.v2.json \
