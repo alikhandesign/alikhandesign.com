@@ -102,6 +102,18 @@ is worse than no row — `HISTORY.md` stays a record of deliberate local runs.
 Repeatability suites are deliberately not run in CI. They are 20–24 messages
 each and exist to investigate a specific finding, not to gate every merge.
 
+### Server-side diagnostics
+
+The API returns four diagnostic headers, folded into `_diag` for assertions:
+`_diag.loop_iterations`, `_diag.tool_calls`, `_diag.cache_read_tokens`, and
+`_diag.cache_write_tokens`. `suites/internals.v1.json` asserts on them.
+
+This exists because prompt caching can regress completely silently — responses
+stay identical and only cost changes — so no behavioral suite would ever catch
+it. Note that `internals.v1` depends on scenario order: INT-3 checks a cache
+read, which requires an earlier scenario to have warmed the cache. Run against
+a cold cache in isolation, it fails for a benign reason.
+
 **Setup:** add `PORTFOLIO_TESTING_SECRET` to the repository's Actions secrets,
 matching `TESTING_BYPASS_SECRET` in Vercel. Without it, CI runs are subject to
 rate limiting and get logged as real visitor traffic.
