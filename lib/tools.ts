@@ -76,6 +76,17 @@ export interface AudienceEstimate {
   fit_verdict: 'strong_fit' | 'partial_fit' | 'no_fit' | 'not_applicable'
   case_study_pointer: string
   register_used: 'fast_direct' | 'exploratory'
+  // Server-set, never reported by the model. True means report_audience did
+  // not fire on any iteration of this turn and these values are the hardcoded
+  // fallback, not an estimate.
+  //
+  // Without this the two are indistinguishable: a genuine low-confidence read
+  // on an ambiguous message produces the same unknown / 0 / surface shape as
+  // a total tool failure. Every logged conversation where the tool silently
+  // did not fire has been counted as an honest "uncertain" read, and there is
+  // no way to separate them retroactively. This makes the distinction
+  // observable from here on.
+  is_fallback?: boolean
 }
 
 // lookup_case_study - retrieves deeper detail on one specific project, only

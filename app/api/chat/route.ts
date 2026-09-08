@@ -694,12 +694,23 @@ export async function POST(req: NextRequest) {
     )
   }
 
+  // report_audience is supposed to fire on every turn. When it does not, the
+  // fallback below is used - and is explicitly marked as such, so a silent
+  // tool failure can be told apart from a genuine low-confidence estimate in
+  // both the logs and the eval suites. Found by INT-2, which caught a turn
+  // where the model produced a long, correct, well-cited answer and simply
+  // skipped the tool call.
+  const audienceToolFired = latestAudienceEstimate !== null
   const audienceEstimate: AudienceEstimate =
     latestAudienceEstimate ??
     {
       audience: 'unknown', confidence: 0, depth: 'surface', suggest_contact: false,
       fit_verdict: 'not_applicable', case_study_pointer: '', register_used: 'fast_direct',
+      is_fallback: true,
     }
+  if (!audienceToolFired) {
+    console.warn('report_audience did not fire this turn - using fallback estimate.')
+  }
 
   // Extract cited source IDs in order of first appearance
   const seenIds: number[] = []
@@ -874,6 +885,7 @@ export async function POST(req: NextRequest) {
         // Diagnostics, so the eval suites can assert on things that are
         // otherwise invisible from outside. Deliberately headers rather than
         // body fields - none of this belongs in anything the chat UI renders.
+        'X-Audience-Tool-Fired': String(audienceToolFired),
         'X-Loop-Iterations': String(iterationsUsed),
         'X-Tool-Calls': String(toolCallsMade),
         'X-Cache-Read-Tokens': String(cacheRead),

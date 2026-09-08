@@ -138,6 +138,7 @@ def send_turn(target, messages, session_id, message_index, audience_context=None
                 "tool_calls": resp.headers.get("X-Tool-Calls"),
                 "cache_read_tokens": resp.headers.get("X-Cache-Read-Tokens"),
                 "cache_write_tokens": resp.headers.get("X-Cache-Write-Tokens"),
+                "audience_tool_fired": resp.headers.get("X-Audience-Tool-Fired"),
             }
             return resp.status, payload
     except urllib.error.HTTPError as e:

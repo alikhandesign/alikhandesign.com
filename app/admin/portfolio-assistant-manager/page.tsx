@@ -22,6 +22,11 @@ interface AudienceEstimate {
   fit_verdict?: 'strong_fit' | 'partial_fit' | 'no_fit' | 'not_applicable'
   case_study_pointer?: string
   register_used?: 'fast_direct' | 'exploratory'
+  // Server-set. True means report_audience never fired and these are default
+  // values, not an estimate - previously indistinguishable from a genuine
+  // low-confidence read, which means historical "unknown" counts include an
+  // unknown number of silent tool failures.
+  is_fallback?: boolean
 }
 
 interface LogEntry {
@@ -1067,7 +1072,10 @@ function LogsTab({
                               {entry.audienceEstimate?.case_study_pointer && (
                                 <Tag label={`→ ${entry.audienceEstimate.case_study_pointer}`} active color="#2563EB" />
                               )}
-                              {entry.audienceEstimate?.register_used && (
+                              {entry.audienceEstimate?.is_fallback && (
+                              <Tag label="No audience signal" active color="#B45309" />
+                            )}
+                            {entry.audienceEstimate?.register_used && (
                                 <Tag
                                   label={entry.audienceEstimate.register_used.replace('_', ' ')}
                                   active
