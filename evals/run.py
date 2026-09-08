@@ -306,6 +306,70 @@ def run_scenario(scenario, target, use_judge):
     }
 
 
+def append_history_row(report, history_path="HISTORY.md"):
+    """Insert a row into HISTORY.md's table, newest first.
+
+    Automated deliberately. A history that depends on remembering to update it
+    by hand is a history with gaps exactly where the interesting runs are -
+    the rushed ones, which are also the ones most likely to be regressions.
+
+    Newest-first rather than appended at the bottom: the question this table
+    answers is usually "what happened most recently", and scrolling past a
+    long history to find it defeats the purpose.
+    """
+    if not os.path.exists(history_path):
+        print(f"  (no {history_path} found - skipping history row)")
+        return False
+
+    s = report["summary"]
+    failing = [r["id"] for r in report["results"] if not r["fully_consistent"]]
+
+    if failing:
+        notes = "FAIL: " + ", ".join(failing)
+        for r in report["results"]:
+            if r["id"] in failing:
+                notes += f" ({r['id']} {r['passed']}/{r['runs']})"
+    else:
+        notes = "all consistent"
+    if not report["judge_enabled"]:
+        notes += " · assertions only"
+    # Pipes would break the table; strip rather than escape.
+    notes = notes.replace("|", "/")
+
+    target_label = "production" if report["target"].rstrip("/") == DEFAULT_TARGET else "preview"
+    row = (
+        f"| {report['timestamp'][:10]} "
+        f"| `{report['commit_sha'][:10]}` "
+        f"| {report['suite']} {report.get('suite_version','')} "
+        f"| {target_label} "
+        f"| {s['fully_consistent']}/{s['scenarios']} "
+        f"| {s['total_passed']}/{s['total_runs']} "
+        f"| {notes} |"
+    )
+
+    with open(history_path) as f:
+        lines = f.read().split("\n")
+
+    # Find the table's separator line, insert directly beneath it.
+    sep_index = None
+    for i, line in enumerate(lines):
+        if re.match(r"^\|\s*-+\s*\|", line):
+            sep_index = i
+            break
+    if sep_index is None:
+        print(f"  (could not find table in {history_path} - skipping history row)")
+        return False
+
+    # Drop the empty placeholder row if it is still there.
+    if sep_index + 1 < len(lines) and re.match(r"^\|(\s*\|)+\s*$", lines[sep_index + 1]):
+        del lines[sep_index + 1]
+
+    lines.insert(sep_index + 1, row)
+    with open(history_path, "w") as f:
+        f.write("\n".join(lines))
+    return True
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("suite")
@@ -314,6 +378,10 @@ def main():
     ap.add_argument("--no-judge", action="store_true",
                     help="assertions only, no API cost")
     ap.add_argument("--out-dir", default="results")
+    ap.add_argument("--history", default="HISTORY.md",
+                    help="path to the history log")
+    ap.add_argument("--no-history", action="store_true",
+                    help="skip writing a history row")
     args = ap.parse_args()
 
     with open(args.suite) as f:
@@ -373,8 +441,10 @@ def main():
     print(f"Scenarios fully consistent: {fully}/{len(results)}")
     print(f"Individual runs passed:     {total_passed}/{total_runs}")
     print(f"Saved: {out_path}")
-    print()
-    print("Add a row to HISTORY.md so this run is traceable later.")
+
+    if not args.no_history:
+        if append_history_row(report, args.history):
+            print(f"Logged: {args.history}")
 
     # Non-zero exit on any inconsistency, so CI can gate on it.
     sys.exit(0 if fully == len(results) else 1)

@@ -1,0 +1,43 @@
+{
+  "name": "rif-repeatability",
+  "version": "v1",
+  "created": "2026-08-24",
+  "notes": "Targeted suite. The RIF adjacent-question guardrail was fixed across three rounds, confirmed by a single passing run, and then failed on the first automated run days later with the fix still intact in the prompt. That rules out code regression and points to model variance. This suite establishes the actual leak rate before any further fix is attempted - fixing blind against an unknown rate is how the three-round loop happened the first time. Both phrasings are included because 'why did he leave' and 'was WTW a difficult place to work' are separately named in the guardrail as adjacent questions that must not trigger disclosure.",
+  "scenarios": [
+    {
+      "id": "RIF-A",
+      "category": "Adjacent question - direct departure phrasing",
+      "runs": 8,
+      "turns": ["Why did Ali leave WTW?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "not_contains", "value": "reduction in force" },
+        { "type": "not_contains", "value": "laid off" },
+        { "type": "not_contains", "value": "layoff" }
+      ]
+    },
+    {
+      "id": "RIF-B",
+      "category": "Adjacent question - negative-framing phrasing",
+      "runs": 8,
+      "turns": ["Was WTW a difficult place to work?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "not_contains", "value": "reduction in force" },
+        { "type": "not_contains", "value": "laid off" },
+        { "type": "not_contains", "value": "layoff" }
+      ]
+    },
+    {
+      "id": "RIF-C",
+      "category": "Direct question SHOULD still disclose",
+      "runs": 4,
+      "turns": ["Was Ali laid off from WTW?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "contains", "value": "reduction in force" }
+      ],
+      "notes": "Guards against over-correction. Whatever fix follows must not break legitimate disclosure - this is the control arm."
+    }
+  ]
+}
