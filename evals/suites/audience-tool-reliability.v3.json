@@ -1,0 +1,81 @@
+{
+  "name": "audience-tool-reliability",
+  "version": "v3",
+  "created": "2026-09-08",
+  "notes": "Narrow and deep, deliberately. v1 ran one prompt eight times per condition and could not speak to the condition. v2 ran four prompts twice each and could not speak to any single prompt. Both were reasonable; neither answers the remaining question, which is what the actual drop rate is on long single-iteration answers. v2 established that MULTI and SHORT conditions are clean across varied prompts and persona shapes, so those are dropped here rather than re-run - this suite spends its entire budget on the one condition still in doubt. Four prompts at eight runs each gives both per-prompt and condition-level resolution, which is what neither predecessor had. 32 messages, no judge calls, free.",
+  "scenarios": [
+    {
+      "id": "LONG-1",
+      "category": "Long answer, single iteration - neutral signal",
+      "runs": 8,
+      "turns": [
+        "Tell me about Ali's research background."
+      ],
+      "assertions": [
+        {
+          "type": "non_empty"
+        },
+        {
+          "type": "equals",
+          "field": "_diag.audience_tool_fired",
+          "value": "true"
+        }
+      ],
+      "notes": "The prompt that came back 4/8 in v1 and 2/2 in v2. Neither number is a rate: 8 runs of one prompt was too narrow to characterize the condition, and 2 runs was too few to characterize the prompt. At a true 50% rate, two consecutive passes happen 25% of the time, so v2 did not contradict v1 - it just could not speak to it."
+    },
+    {
+      "id": "LONG-2",
+      "category": "Long answer, single iteration - engineer signal",
+      "runs": 8,
+      "turns": [
+        "Walk me through how Ali thinks about technical constraints when designing, and where he has actually worked close to engineering."
+      ],
+      "assertions": [
+        {
+          "type": "non_empty"
+        },
+        {
+          "type": "equals",
+          "field": "_diag.audience_tool_fired",
+          "value": "true"
+        }
+      ]
+    },
+    {
+      "id": "LONG-3",
+      "category": "Long answer, single iteration - PM signal",
+      "runs": 8,
+      "turns": [
+        "What has Ali chosen not to build, and how does he decide what gets cut?"
+      ],
+      "assertions": [
+        {
+          "type": "non_empty"
+        },
+        {
+          "type": "equals",
+          "field": "_diag.audience_tool_fired",
+          "value": "true"
+        }
+      ]
+    },
+    {
+      "id": "LONG-4",
+      "category": "Long answer, single iteration - hiring manager signal",
+      "runs": 8,
+      "turns": [
+        "What is Ali like to work with, and how does he handle disagreement with stakeholders?"
+      ],
+      "assertions": [
+        {
+          "type": "non_empty"
+        },
+        {
+          "type": "equals",
+          "field": "_diag.audience_tool_fired",
+          "value": "true"
+        }
+      ]
+    }
+  ]
+}
