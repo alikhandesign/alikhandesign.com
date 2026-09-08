@@ -1,66 +1,100 @@
-# Automated Regression Eval Runner
+# Evals
 
-Runs the Regression Checklist from `portfolio-assistant-evals.md` against the
-real Anthropic API, using the exact model production runs (`claude-haiku-4-5`)
-and the current live system prompt, fetched fresh from GitHub every run - so
-this never tests a stale local copy.
+Automated behavior tests for the Portfolio Assistant.
 
-Each test case is graded automatically by a second, independent model
-(`claude-sonnet-4-6`) acting as a judge, given the case's expected behavior
-and the actual transcript. This is a real LLM-as-judge pattern, the same
-technique used in production AI evaluation pipelines - not a toy script.
+## What makes this different from the earlier eval framework
 
-## Setup
+The earlier framework called the Anthropic API directly with a reconstructed
+system prompt. That tests prompt wording, but it cannot see tool-calling, the
+multi-step loop, prompt caching, access control, or anything else that lives in
+the API route — which is now most of the system.
 
-```bash
-pip install --break-system-packages  # no third-party deps beyond stdlib
-export ANTHROPIC_API_KEY=sk-ant-...
-export GITHUB_TOKEN=ghp_...   # optional - only needed if the repo is private
-```
+This runner posts to a real `/api/chat` endpoint. It tests the deployed
+artifact.
 
-Never commit a `.env` file or any file containing a real API key to this
-repo. Set these as actual shell/environment variables, or use your local
-machine's secret manager.
-
-## Running it
+## Running
 
 ```bash
-cd evals
-python3 run_eval.py
+export PORTFOLIO_TESTING_SECRET=<the value set as TESTING_BYPASS_SECRET in Vercel>
+
+# against production
+python3 run.py suites/guardrails.v1.json
+
+# against a branch's Vercel preview deployment
+python3 run.py suites/guardrails.v1.json --target https://<preview-url>.vercel.app
+
+# assertions only — no judge calls, no API cost
+python3 run.py suites/guardrails.v1.json --no-judge
 ```
 
-This will:
-1. Fetch the current live system prompt from GitHub (`lib/systemPrompt.ts` + `lib/sources.ts`)
-2. Run all cases in `regression_cases.py` against the real API, turn by turn
-3. Grade each transcript automatically against its expected behavior
-4. Print a live summary as it runs
-5. Write a full report to `reports/eval-run-<timestamp>.json` and `.md`
+Setting `PORTFOLIO_TESTING_SECRET` does two things: skips rate limiting, and
+tags every request `is_test_request` so eval traffic never mixes into the
+metrics meant to reflect real visitors. Without it, runs are rate-limited and
+**will** be logged as genuine traffic.
 
-## What this does and doesn't replace
+Exit code is non-zero if any scenario is not fully consistent across its runs,
+so CI can gate on it.
 
-This automates the *mechanical* part of what's been manual all session -
-running a prompt, capturing a response, checking it against an expectation.
-It does not replace human judgment entirely: the judge model can be wrong,
-especially on genuinely subtle cases (tone, whether something reads as
-"warm" vs "cold"), and its verdicts are worth spot-checking, especially
-early on. Treat a `Fail` as a strong signal to look closely, and treat a
-`Pass` on something high-stakes (guardrail leaks especially) as worth an
-occasional manual read-through rather than blind trust.
+## The two kinds of check
 
-## Extending this
+A scenario can carry either or both.
 
-`regression_cases.py` currently holds the curated Regression Checklist
-subset (15 cases), not the full 28+ scenarios across all five batches. To
-add a case, add a dict to `REGRESSION_CASES` with `id`, `category`, `turns`
-(a list - multiple entries run as one growing conversation), and
-`expected_behavior` (a clear, specific description the judge model can
-grade against - vague expectations produce vague grading).
+**`assertions`** — programmatic string checks. Free, deterministic, no API
+call. Most guardrail failures are catchable this way, because the failure mode
+is usually "this specific thing leaked" or "this exact mandated response was
+not returned." Types: `equals`, `contains`, `not_contains`, `regex`,
+`non_empty`. An assertion can target a structured field instead of the reply
+text via `"field": "audience.fit_verdict"`.
 
-## Where this fits in the deployment workflow
+**`rubric`** — a natural-language standard handed to a judge model, for cases
+where correctness is genuinely subjective: is this trade-off real and specific,
+does this honesty tier hold under pressure. Costs an API call.
 
-Run this against a working branch's changes *before* opening a pull request
-to merge into `main` - this is the "merge gate" referenced in the
-deployment safety phase of this project. It isn't currently wired into CI
-(e.g. a GitHub Actions workflow that runs this automatically on every PR) -
-that's a natural next step once this has been run manually a few times and
-trusted.
+Reach for an assertion first. Only attach a rubric where a string check
+genuinely cannot do the job. Roughly half the current suite needs no judge at
+all.
+
+## Suites are immutable
+
+Once a suite file exists, it does not get edited. Changing a test means
+creating `guardrails.v2.json`, not modifying v1.
+
+The reason: a pass rate is only comparable across runs if the questions stayed
+the same. Editing a suite in place silently invalidates every historical score
+that referenced it, and you lose the ability to say when a behavior started
+failing — which is the entire point of keeping the history.
+
+## Version stamping
+
+Every result file is keyed by the commit SHA it ran against, resolved in this
+order: `EVAL_COMMIT_SHA`, `VERCEL_GIT_COMMIT_SHA`, `GITHUB_SHA`, then local
+`git rev-parse HEAD`, then `unknown`. It falls back to `unknown` rather than
+guessing, because a wrong SHA makes the history actively misleading.
+
+Results land in `results/<sha>.json` with full per-run detail.
+
+## After every run, add a row to HISTORY.md
+
+This is the step that makes the whole thing worth having. `HISTORY.md` is the
+artifact you actually read to answer "when did this start failing" — the raw
+result files are for digging in once you know where to look.
+
+## Why runs are repeated
+
+Some scenarios set `"runs": 8`. This is not caution for its own sake.
+
+A guardrail was previously tested once, passed, marked closed, and counted
+toward a 28-scenario suite that reached 100%. Retested later against a
+substantially changed system, it fully complied only 5 times out of 8. A single
+passing run could not distinguish "reliably correct" from "correct most of the
+time," and the difference mattered — it was a safety-relevant behavior.
+
+Whether that variance was always present or arrived with the architecture
+changes is not something the original single-run testing can now answer. That
+unanswerable question is the argument for this discipline.
+
+## Known limitation
+
+Access-control scenarios (B5, B6) assume the run is **not** unlocked. If the
+machine running them holds a valid case-study cookie, those scenarios will
+report false failures. The runner does not currently assert its own lock state.
