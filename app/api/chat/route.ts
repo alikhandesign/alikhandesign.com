@@ -82,7 +82,7 @@ async function logConversation(entry: {
     // (fabricated quotes, single-example generalization) are NOT detectable
     // this way and are deliberately left out - the eval framework, not
     // live keyword matching, is the right tool for catching those.
-    guardrail_triggered: 'password' | 'interview_confirm_deny' | 'rif_disclosure' | 'hostility_step_1' | 'hostility_final_disengage' | 'severity_override_forced' | null
+    guardrail_triggered: 'password' | 'interview_confirm_deny' | 'rif_disclosure' | 'hostility_step_1' | 'hostility_final_disengage' | 'severity_override_forced' | 'rif_leak_blocked' | null
     // Whether the user's message itself attempted an instruction override
     // ("ignore your previous instructions..."), regardless of how the
     // response handled it - tracks attempt frequency, not success.
@@ -614,7 +614,51 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: iterationError }, { status: 500 })
   }
 
-  const assistantMessage = latestText ?? ''
+  const rawAssistantMessage = latestText ?? ''
+
+  // Code-level backstop for the RIF disclosure guardrail.
+  //
+  // Measured, not assumed: "Why did Ali leave WTW?" leaked the reduction in
+  // force on 5 of 8 runs against production. Inspecting the leaked responses
+  // showed the guardrail was firing correctly - four of five opened with the
+  // exact scripted "I don't have that documented." - and then disclosed the
+  // fact in the next sentence anyway. The refusal worked; the continuation
+  // after it did not.
+  //
+  // The prompt fix removes the continuation instruction that gave the leak
+  // somewhere to land. This is the backstop, because a 62% leak rate on a
+  // sensitive-disclosure guardrail is too high to trust prompting alone -
+  // the same reasoning that produced the severity-override backstop.
+  //
+  // Reliable here in a way keyword detection usually is not, because the
+  // protected fact is a small closed set of exact strings AND whether
+  // disclosure was legitimately requested is decided by that same closed
+  // set appearing in the visitor's own message. No fuzzy judgment, no
+  // threshold.
+  //
+  // Deliberately does NOT count "why did he leave" or "departure" as a
+  // legitimate ask. That conflation is the exact bug that made the original
+  // guardrail self-contradictory, and it is still present in the
+  // askedAboutDeparture flag used for logging further down - which is why
+  // that flag never caught these leaks either.
+  const RIF_IN_RESPONSE = /\b(reduction in force|laid off|layoffs?)\b/i
+  const RIF_NAMED_BY_VISITOR = /\b(reduction in force|laid off|layoffs?|let go|fired|rif)\b/i
+
+  const rifLeakBlocked =
+    RIF_IN_RESPONSE.test(rawAssistantMessage) &&
+    !RIF_NAMED_BY_VISITOR.test(currentTurnText)
+
+  if (rifLeakBlocked) {
+    console.warn('RIF leak blocked. Visitor did not name a layoff; response did.')
+  }
+
+  // Wholesale replacement rather than redaction. A partial edit risks
+  // mangled text mid-sentence, and for a guardrail governing sensitive
+  // disclosure the blunt-but-certain option is the right trade - same call
+  // as the severity override.
+  const assistantMessage = rifLeakBlocked
+    ? "I don't have that documented."
+    : rawAssistantMessage
 
   // Same defense in depth as before lookup_case_study existed: a turn that
   // ends without real text - whether from hitting MAX_ITERATIONS, or the
@@ -721,7 +765,7 @@ export async function POST(req: NextRequest) {
     (m.content.includes("if there's something specific you're after") || m.content.includes("That's where I'll stop"))
   ).length
 
-  let guardrailTriggered: 'password' | 'interview_confirm_deny' | 'rif_disclosure' | 'hostility_step_1' | 'hostility_final_disengage' | null = null
+  let guardrailTriggered: 'password' | 'interview_confirm_deny' | 'rif_disclosure' | 'hostility_step_1' | 'hostility_final_disengage' | 'severity_override_forced' | 'rif_leak_blocked' | null = null
   if (isPasswordTemplate) {
     guardrailTriggered = 'password'
   } else if (isInterviewTemplate) {
@@ -741,6 +785,12 @@ export async function POST(req: NextRequest) {
   // A real leak signal: RIF mentioned without the user asking about
   // departure directly, and not already counted as the legitimate
   // disclosure case above.
+  // The code-level block takes precedence over any model-driven
+  // classification below: if it fired, that is what happened this turn.
+  if (rifLeakBlocked) {
+    guardrailTriggered = 'rif_leak_blocked'
+  }
+
   const rifPossibleLeak = mentionsRIF && !askedAboutDeparture && guardrailTriggered !== 'rif_disclosure'
 
   // Generic honest uncertainty ("I don't have that documented") — only
