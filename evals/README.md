@@ -73,6 +73,37 @@ guessing, because a wrong SHA makes the history actively misleading.
 
 Results land in `results/<sha>.json` with full per-run detail.
 
+## Running in CI
+
+`.github/workflows/evals.yml` runs `guardrails.v1` and `behavior.v2` against
+the Vercel preview deployment whenever a branch deploys, and posts the results
+as a PR comment.
+
+It only runs when the PR actually touched something that changes behavior —
+`lib/systemPrompt.ts`, `lib/skillsMatrix.ts`, `lib/reflections.ts`,
+`lib/sources.ts`, `lib/knowledge/`, or `app/api/chat/`. A UI-only or docs-only
+PR does not spend API calls.
+
+Two constraints of the `deployment_status` trigger shape how this works:
+
+- It does not support a `paths:` filter, so the changed-file check happens
+  inside the job rather than in the trigger.
+- Workflows on this trigger do not report as PR checks, so results are posted
+  as a comment via the API. The job still exits non-zero on failure, which
+  shows in the Actions tab.
+
+CI runs with `--no-judge` and `--no-history`. No judge because most guardrail
+failures are catchable by assertion, and free. No history because CI cannot
+commit back to the branch, and a row that only exists in an ephemeral runner
+is worse than no row — `HISTORY.md` stays a record of deliberate local runs.
+
+Repeatability suites are deliberately not run in CI. They are 20–24 messages
+each and exist to investigate a specific finding, not to gate every merge.
+
+**Setup:** add `PORTFOLIO_TESTING_SECRET` to the repository's Actions secrets,
+matching `TESTING_BYPASS_SECRET` in Vercel. Without it, CI runs are subject to
+rate limiting and get logged as real visitor traffic.
+
 ## HISTORY.md is written automatically
 
 `run.py` appends a row to `HISTORY.md` after every run, newest first. This is

@@ -1,0 +1,150 @@
+name: evals
+
+# Triggered when Vercel finishes a deployment, not on push. The suites test a
+# live endpoint - tools, the multi-step loop, caching, guardrails - so there is
+# nothing to test until something is actually deployed.
+#
+# Two known constraints of this trigger, both worked around below:
+#   1. `deployment_status` does not support a `paths:` filter, so the
+#      changed-file check has to happen inside the job.
+#   2. Workflows on this trigger do not report as PR checks, so results are
+#      posted as a PR comment via the API rather than relying on job status.
+on: deployment_status
+
+jobs:
+  evals:
+    if: >
+      github.event.deployment_status.state == 'success' &&
+      github.event.deployment.environment == 'Preview'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Find the PR for this deployment
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const sha = context.payload.deployment.sha
+            const res = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: sha,
+            })
+            const pr = res.data.find(p => p.state === 'open')
+            if (!pr) {
+              core.info('No open PR for this deployment - nothing to comment on.')
+              return ''
+            }
+            core.setOutput('number', String(pr.number))
+            return String(pr.number)
+
+      - name: Does this PR touch anything that affects behavior?
+        id: relevant
+        if: steps.pr.outputs.number != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const files = await github.paginate(
+              github.rest.pulls.listFiles,
+              { owner: context.repo.owner, repo: context.repo.repo,
+                pull_number: Number('${{ steps.pr.outputs.number }}') }
+            )
+            // Only these actually change what the assistant says. A UI-only or
+            // docs-only PR does not need 20 API calls spent on it.
+            const watched = [
+              'lib/systemPrompt.ts',
+              'lib/skillsMatrix.ts',
+              'lib/reflections.ts',
+              'lib/sources.ts',
+              'lib/knowledge/',
+              'app/api/chat/',
+            ]
+            const hits = files
+              .map(f => f.filename)
+              .filter(n => watched.some(w => n.startsWith(w)))
+            core.setOutput('run', hits.length > 0 ? 'yes' : 'no')
+            core.info(hits.length ? `Behavior files changed:\n${hits.join('\n')}`
+                                  : 'No behavior-affecting files changed.')
+
+      - name: Set up Python
+        if: steps.relevant.outputs.run == 'yes'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run guardrails suite
+        id: guardrails
+        if: steps.relevant.outputs.run == 'yes'
+        continue-on-error: true
+        working-directory: evals
+        env:
+          PORTFOLIO_TESTING_SECRET: ${{ secrets.PORTFOLIO_TESTING_SECRET }}
+          TARGET: ${{ github.event.deployment_status.target_url }}
+        run: |
+          # --no-judge keeps this free and deterministic. Most guardrail
+          # failures are "this leaked" or "this exact response was not
+          # returned", which assertions catch without a judge call.
+          # --no-history because CI cannot commit back to the branch, and a
+          # history row that only exists in an ephemeral runner is worse than
+          # none - HISTORY.md stays a record of deliberate local runs.
+          python3 run.py suites/guardrails.v1.json \
+            --target "$TARGET" --no-judge --no-history \
+            | tee guardrails.out
+
+      - name: Run behavior suite
+        id: behavior
+        if: steps.relevant.outputs.run == 'yes'
+        continue-on-error: true
+        working-directory: evals
+        env:
+          PORTFOLIO_TESTING_SECRET: ${{ secrets.PORTFOLIO_TESTING_SECRET }}
+          TARGET: ${{ github.event.deployment_status.target_url }}
+        run: |
+          python3 run.py suites/behavior.v2.json \
+            --target "$TARGET" --no-judge --no-history \
+            | tee behavior.out
+
+      - name: Comment results on the PR
+        if: steps.relevant.outputs.run == 'yes' && steps.pr.outputs.number != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs')
+            const read = p => { try { return fs.readFileSync(p, 'utf8') } catch { return '(did not run)' } }
+            const g = read('evals/guardrails.out')
+            const b = read('evals/behavior.out')
+            const failed = '${{ steps.guardrails.outcome }}' === 'failure' ||
+                           '${{ steps.behavior.outcome }}' === 'failure'
+            const header = failed
+              ? '### Evals: failures found\nA scenario was not consistent across its runs. Details below.'
+              : '### Evals: all consistent'
+            const body = [
+              header,
+              '',
+              `Target: ${{ github.event.deployment_status.target_url }}`,
+              '',
+              '<details><summary>guardrails.v1</summary>', '', '```', g, '```', '</details>',
+              '',
+              '<details><summary>behavior.v2</summary>', '', '```', b, '```', '</details>',
+              '',
+              '_Assertions only — rubric-judged checks are skipped in CI. Repeatability suites are not run here; they are for investigating a specific finding._',
+            ].join('\n')
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: Number('${{ steps.pr.outputs.number }}'),
+              body,
+            })
+
+      - name: Fail the job if any suite failed
+        if: >
+          steps.relevant.outputs.run == 'yes' &&
+          (steps.guardrails.outcome == 'failure' || steps.behavior.outcome == 'failure')
+        run: |
+          echo "One or more eval suites reported an inconsistency. See the PR comment."
+          exit 1
