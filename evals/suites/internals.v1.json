@@ -1,0 +1,40 @@
+{
+  "name": "internals",
+  "version": "v1",
+  "created": "2026-09-08",
+  "notes": "Asserts on server-side behavior that no other suite can reach: how many model calls a visitor turn actually took, and whether prompt caching is working. Both were console-logged already, which is fine for reading after the fact and useless for testing. Caching is the reason this suite exists - a caching regression is completely silent, since responses stay identical and only cost changes, so nothing in any other suite would ever notice. Entirely free to run: every assertion targets a response header, none call the judge. Scenario order matters here, which is unusual and deliberate - see INT-3.",
+  "scenarios": [
+    {
+      "id": "INT-1",
+      "category": "Loop stays within its cap",
+      "runs": 3,
+      "turns": ["What tools does Ali use for design?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "gte", "field": "_diag.loop_iterations", "value": 1 },
+        { "type": "lte", "field": "_diag.loop_iterations", "value": 4 }
+      ],
+      "notes": "MAX_ITERATIONS is 4. Hitting the cap means the loop is churning without resolving, which is the exact shape of the retry-loop bug found earlier - the model re-requesting a lookup for a project with no record until it ran out of iterations. Repeats three times because iteration count varies by whether the model chooses to look anything up."
+    },
+    {
+      "id": "INT-2",
+      "category": "report_audience fires on every turn",
+      "turns": ["Tell me about Ali's research background."],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "gte", "field": "_diag.tool_calls", "value": 1 }
+      ],
+      "notes": "report_audience is supposed to fire on every single turn without exception, so at least one tool call should always be recorded. Zero would mean the audience signal silently stopped being produced - which would not break any visible behavior, and so would not fail any other suite."
+    },
+    {
+      "id": "INT-3",
+      "category": "Prompt caching is actually reading from cache",
+      "turns": ["What is Ali's design philosophy?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "gt", "field": "_diag.cache_read_tokens", "value": 1000 }
+      ],
+      "notes": "The load-bearing scenario. The always-loaded prompt is roughly 78,000 characters; if caching works, a call in a warm window reads the large majority of that from cache rather than paying for it. A cache read near zero means the static prefix is no longer byte-identical between requests - the exact failure the static/dynamic block split exists to prevent, and one that changes nothing about what the assistant says. IMPORTANT: this depends on an earlier scenario having warmed the cache, which is why suite order matters and why INT-1 and INT-2 run first. Run in isolation against a cold cache, this will fail for a benign reason. The 1000-token floor is deliberately far below the expected value so that ordinary variation in cache window timing does not produce noise."
+    }
+  ]
+}

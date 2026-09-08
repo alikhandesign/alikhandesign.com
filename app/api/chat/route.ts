@@ -525,6 +525,17 @@ export async function POST(req: NextRequest) {
   let latestText: string | null = null
   let latestAudienceEstimate: AudienceEstimate | null = incomingAudience
   let iterationError: string | null = null
+  // Observability for two things that are otherwise invisible from outside
+  // the server: how many model calls a single visitor turn actually took,
+  // and whether prompt caching is really working. Both were logged to the
+  // console already, which is fine for reading after the fact and useless
+  // for asserting on. A caching regression in particular is silent - the
+  // responses stay identical and only cost changes - so without a way to
+  // observe it, no test can catch it.
+  let iterationsUsed = 0
+  let cacheRead = 0
+  let cacheWritten = 0
+  let toolCallsMade = 0
   // Tracks slugs that already came back with no record this request - a
   // programmatic backstop, not just a prompt instruction, since a repeated
   // lookup for the same known-missing project produced an actual observed
@@ -540,9 +551,16 @@ export async function POST(req: NextRequest) {
       break
     }
 
+    iterationsUsed = iteration + 1
+    if (result.data.usage) {
+      cacheRead += result.data.usage.cache_read_input_tokens ?? 0
+      cacheWritten += result.data.usage.cache_creation_input_tokens ?? 0
+    }
+
     const contentBlocks: AnthropicContentBlock[] = result.data.content ?? []
     const textBlock = contentBlocks.find(b => b.type === 'text')
     const toolUseBlocks = contentBlocks.filter(b => b.type === 'tool_use')
+    toolCallsMade += toolUseBlocks.length
 
     // Full visibility into every iteration, not just the final one - a real
     // gap when a prior "no text on the final iteration" failure happened
@@ -743,7 +761,13 @@ export async function POST(req: NextRequest) {
   const lowerUserMessage = userMessage.toLowerCase()
 
   // User-side signals — about what was asked, not how it was answered
-  const askedAboutDeparture = /why did (he|ali) leave|departure|layoff|reduction in force|let go|got fired/.test(lowerUserMessage)
+  // Deliberately does NOT include "why did he leave" or "departure". Those are
+  // adjacent questions the guardrail explicitly refuses to disclose on, so
+  // counting them as a legitimate ask meant rif_possible_leak stayed false
+  // through five real, confirmed leaks. Third instance of the same conflation:
+  // it was in the guardrail text, in the bio, and here. Matches the closed set
+  // the code-level backstop keys off, so all three now agree on what counts.
+  const askedAboutDeparture = /\b(reduction in force|laid off|layoffs?|let go|fired|rif)\b/i.test(lowerUserMessage)
   const overrideAttempted = /ignore (your |all )?(previous |prior )?instructions/.test(lowerUserMessage)
 
   // Response-side signals — matched against the exact mandated templates
@@ -847,6 +871,13 @@ export async function POST(req: NextRequest) {
         // Sent as a header rather than in the body so it stays out of
         // anything the chat UI renders.
         'X-Deployed-Commit': commitSha,
+        // Diagnostics, so the eval suites can assert on things that are
+        // otherwise invisible from outside. Deliberately headers rather than
+        // body fields - none of this belongs in anything the chat UI renders.
+        'X-Loop-Iterations': String(iterationsUsed),
+        'X-Tool-Calls': String(toolCallsMade),
+        'X-Cache-Read-Tokens': String(cacheRead),
+        'X-Cache-Write-Tokens': String(cacheWritten),
       },
     }
   )

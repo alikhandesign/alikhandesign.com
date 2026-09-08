@@ -130,6 +130,15 @@ def send_turn(target, messages, session_id, message_index, audience_context=None
             deployed = resp.headers.get("X-Deployed-Commit")
             if deployed:
                 payload["_deployed_commit"] = deployed
+            # Server-side diagnostics surfaced as headers. Folded into the
+            # payload under _diag so assertions can target them with the same
+            # dotted-path syntax as any other field.
+            payload["_diag"] = {
+                "loop_iterations": resp.headers.get("X-Loop-Iterations"),
+                "tool_calls": resp.headers.get("X-Tool-Calls"),
+                "cache_read_tokens": resp.headers.get("X-Cache-Read-Tokens"),
+                "cache_write_tokens": resp.headers.get("X-Cache-Write-Tokens"),
+            }
             return resp.status, payload
     except urllib.error.HTTPError as e:
         if e.code in (307, 308):
