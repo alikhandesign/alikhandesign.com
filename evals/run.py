@@ -55,6 +55,12 @@ DEFAULT_TARGET = "https://alikhandesign.com"
 JUDGE_MODEL = "claude-sonnet-4-6"
 DELAY_SECONDS = 2
 
+# Filled in from the X-Deployed-Commit response header - the version the
+# target is actually running, which is the only SHA worth stamping a result
+# with. Local git describes the machine running the test, not the system
+# under test, and the two silently disagree whenever a checkout is stale.
+DEPLOYED_COMMIT = {"sha": None}
+
 
 # --------------------------------------------------------------------------
 # version stamping
@@ -119,7 +125,12 @@ def send_turn(target, messages, session_id, message_index, audience_context=None
     )
     try:
         with urllib.request.urlopen(req, timeout=90) as resp:
-            return resp.status, json.loads(resp.read().decode("utf-8"))
+            payload = json.loads(resp.read().decode("utf-8"))
+            # The deployment reports the commit it is actually running.
+            deployed = resp.headers.get("X-Deployed-Commit")
+            if deployed:
+                payload["_deployed_commit"] = deployed
+            return resp.status, payload
     except urllib.error.HTTPError as e:
         if e.code in (307, 308):
             loc = e.headers.get("Location")
@@ -265,6 +276,8 @@ def run_scenario(scenario, target, use_judge):
                 break
             final_text = payload["message"]
             final_payload = payload
+            if payload.get("_deployed_commit"):
+                DEPLOYED_COMMIT["sha"] = payload["_deployed_commit"]
             conversation.append({"role": "assistant", "content": final_text})
             audience = payload.get("audience")
             time.sleep(DELAY_SECONDS)
@@ -410,6 +423,23 @@ def main():
         for a in res["attempts"]:
             for fail in a["failures"]:
                 print(f"      run {a['run']}: {fail}")
+
+    deployed_sha = DEPLOYED_COMMIT["sha"]
+    if deployed_sha:
+        if deployed_sha != sha:
+            print()
+            print(f"NOTE: local git is at {sha[:10]}, but the target is running "
+                  f"{deployed_sha[:10]}.")
+            print("      Stamping this result with the DEPLOYED commit - that is "
+                  "the system that was actually tested.")
+        sha = deployed_sha
+    else:
+        print()
+        print("WARNING: the target did not report a deployed commit "
+              "(no X-Deployed-Commit header).")
+        print("         Falling back to local git, which may not match what was "
+              "actually tested.")
+        sha = f"{sha}-UNVERIFIED"
 
     total_runs = sum(r["runs"] for r in results)
     total_passed = sum(r["passed"] for r in results)
