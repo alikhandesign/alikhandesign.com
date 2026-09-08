@@ -1,0 +1,41 @@
+{
+  "name": "audience-tool-reliability",
+  "version": "v1",
+  "created": "2026-09-08",
+  "notes": "Measures how often report_audience actually fires. INT-2 caught a single turn where it did not - the model produced a long, correct, well-cited answer and simply skipped the tool call, which no other suite could detect because nothing visible was wrong. One observation says nothing about the rate, and the rate decides the fix: occasional variance might warrant a prompt change, while a high rate points at forcing the tool call structurally. Deliberately not fixing before measuring. Assertions target X-Audience-Tool-Fired directly rather than inferring from the estimate's values, because the fallback is shaped exactly like a genuine low-confidence read - that ambiguity is the thing being fixed alongside this suite, and a test should not depend on the inference it exists to make unnecessary.",
+  "scenarios": [
+    {
+      "id": "AUD-A",
+      "category": "Ordinary informational question",
+      "runs": 8,
+      "turns": ["Tell me about Ali's research background."],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "equals", "field": "_diag.audience_tool_fired", "value": "true" }
+      ],
+      "notes": "The exact prompt INT-2 failed on, repeated to establish a rate. Long-answer questions are the working hypothesis for when the tool gets skipped - the model has a lot of visible work to do and drops the invisible part."
+    },
+    {
+      "id": "AUD-B",
+      "category": "Short question, minimal answer",
+      "runs": 8,
+      "turns": ["What is Ali's email address?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "equals", "field": "_diag.audience_tool_fired", "value": "true" }
+      ],
+      "notes": "The contrast case. If the tool fires reliably here but not on AUD-A, that supports the long-answer hypothesis and points the fix at the instruction rather than at forcing the call."
+    },
+    {
+      "id": "AUD-C",
+      "category": "Turn that also triggers a case study lookup",
+      "runs": 8,
+      "turns": ["What were the specific requirements in Ali's design handoff checklist?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "equals", "field": "_diag.audience_tool_fired", "value": "true" }
+      ],
+      "notes": "Tests whether a second tool competes with the first. A turn using lookup_case_study runs more iterations, and report_audience has to survive that - if this fails disproportionately, the interaction between the two tools is the problem rather than the instruction."
+    }
+  ]
+}
