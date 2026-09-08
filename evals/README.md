@@ -42,9 +42,11 @@ A scenario can carry either or both.
 **`assertions`** — programmatic string checks. Free, deterministic, no API
 call. Most guardrail failures are catchable this way, because the failure mode
 is usually "this specific thing leaked" or "this exact mandated response was
-not returned." Types: `equals`, `contains`, `not_contains`, `regex`,
-`non_empty`. An assertion can target a structured field instead of the reply
-text via `"field": "audience.fit_verdict"`.
+not returned." Types: `equals`, `not_equals`, `contains`, `not_contains`, `one_of`, `regex`,
+`non_empty`, and the numeric comparators `lt`, `gt`, `lte`, `gte`. An assertion
+can target a structured field instead of the reply text via
+`"field": "audience.fit_verdict"` — the model's own reported signal is far more
+deterministic than its prose, so field assertions make good, cheap tests.
 
 **`rubric`** — a natural-language standard handed to a judge model, for cases
 where correctness is genuinely subjective: is this trade-off real and specific,

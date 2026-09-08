@@ -191,6 +191,29 @@ def check_assertion(assertion, response_text, payload):
         ok = bool(haystack.strip())
         return ok, "expected a non-empty response"
 
+    if kind == "not_equals":
+        forbidden = assertion["value"]
+        ok = haystack.strip() != forbidden.strip()
+        return ok, f"must not equal {forbidden!r}, but did"
+
+    if kind == "one_of":
+        allowed = assertion["value"]
+        ok = haystack.strip() in allowed
+        return ok, f"expected one of {allowed!r}, got {haystack.strip()!r}"
+
+    # Numeric comparators, for fields like audience.confidence. A field that
+    # is not parseable as a number fails rather than silently passing - a
+    # comparison against a missing field should be loud, not quietly true.
+    if kind in ("lt", "gt", "lte", "gte"):
+        try:
+            actual = float(haystack.strip())
+        except (TypeError, ValueError):
+            return False, f"expected a number for {kind}, got {haystack.strip()!r}"
+        expected = float(assertion["value"])
+        ok = {"lt": actual < expected, "gt": actual > expected,
+              "lte": actual <= expected, "gte": actual >= expected}[kind]
+        return ok, f"expected {kind} {expected}, got {actual}"
+
     return False, f"unknown assertion type {kind!r}"
 
 
