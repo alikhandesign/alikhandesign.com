@@ -836,6 +836,18 @@ export async function POST(req: NextRequest) {
       audience: audienceEstimate,
       caseStudyPointer,
     },
-    { headers: { 'X-RateLimit-Remaining': String(remaining) } }
+    {
+      headers: {
+        'X-RateLimit-Remaining': String(remaining),
+        // The deployment reports its own version. The eval runner reads
+        // this rather than trusting local git, because the two can
+        // disagree - a stale local checkout stamped a run with a commit
+        // that was never the one being tested, which makes the eval
+        // history actively misleading rather than merely incomplete.
+        // Sent as a header rather than in the body so it stays out of
+        // anything the chat UI renders.
+        'X-Deployed-Commit': commitSha,
+      },
+    }
   )
 }
