@@ -1,0 +1,115 @@
+{
+  "name": "audience-tool-reliability",
+  "version": "v2",
+  "created": "2026-09-08",
+  "notes": "Supersedes v1, which had a design flaw worth naming: each scenario ran the SAME prompt eight times. That measures the reliability of one specific question deeply, not the reliability of the condition it was meant to represent. v1's AUD-C came back 8/8 and was read as 'multi-iteration turns fire reliably' - a generalization from a single instance. v2 keeps the same 24-message budget but distributes it across four different prompts per condition at two runs each, sampling the condition rather than one member of it. The trade is real and deliberate: per-prompt confidence drops (a single prompt showing 1/2 means little on its own), condition-level confidence rises. That is the right trade when the question is about the condition. Also varies audience signal within each condition - recruiter-shaped, engineer-shaped, PM-shaped, neutral - which v1 held constant without meaning to, making persona a third untested variable.",
+  "scenarios": [
+    {
+      "id": "LONG-1",
+      "category": "Long answer, single iteration - neutral signal",
+      "runs": 2,
+      "turns": ["Tell me about Ali's research background."],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "equals", "field": "_diag.audience_tool_fired", "value": "true" }
+      ],
+      "notes": "The v1 prompt that came back 4/8, carried forward as the anchor. If the condition is real, its siblings below should behave similarly."
+    },
+    {
+      "id": "LONG-2",
+      "category": "Long answer, single iteration - engineer signal",
+      "runs": 2,
+      "turns": ["Walk me through how Ali thinks about technical constraints when designing, and where he has actually worked close to engineering."],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "equals", "field": "_diag.audience_tool_fired", "value": "true" }
+      ]
+    },
+    {
+      "id": "LONG-3",
+      "category": "Long answer, single iteration - PM signal",
+      "runs": 2,
+      "turns": ["What has Ali chosen not to build, and how does he decide what gets cut?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "equals", "field": "_diag.audience_tool_fired", "value": "true" }
+      ]
+    },
+    {
+      "id": "LONG-4",
+      "category": "Long answer, single iteration - hiring manager signal",
+      "runs": 2,
+      "turns": ["What is Ali like to work with, and how does he handle disagreement with stakeholders?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "equals", "field": "_diag.audience_tool_fired", "value": "true" }
+      ]
+    },
+    {
+      "id": "SHORT-1",
+      "category": "Short answer - neutral signal",
+      "runs": 2,
+      "turns": ["What is Ali's email address?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "equals", "field": "_diag.audience_tool_fired", "value": "true" }
+      ],
+      "notes": "The v1 short-answer prompt, carried forward as the anchor for this condition."
+    },
+    {
+      "id": "SHORT-2",
+      "category": "Short answer - factual lookup",
+      "runs": 2,
+      "turns": ["What did Ali study in school?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "equals", "field": "_diag.audience_tool_fired", "value": "true" }
+      ]
+    },
+    {
+      "id": "MULTI-1",
+      "category": "Multi-iteration via lookup - neutral signal",
+      "runs": 2,
+      "turns": ["What were the specific requirements in Ali's design handoff checklist?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "gte", "field": "_diag.loop_iterations", "value": 2 },
+        { "type": "equals", "field": "_diag.audience_tool_fired", "value": "true" }
+      ],
+      "notes": "The v1 prompt that came back 8/8. The iteration assertion is new and load-bearing: v1 assumed this prompt triggered a lookup without ever verifying it. If loop_iterations comes back 1, the whole multi-iteration reading of v1 was built on an unchecked assumption."
+    },
+    {
+      "id": "MULTI-2",
+      "category": "Multi-iteration via lookup - different project",
+      "runs": 2,
+      "turns": ["What business constraint shaped the Vivio project, and what got cut because of it?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "gte", "field": "_diag.loop_iterations", "value": 2 },
+        { "type": "equals", "field": "_diag.audience_tool_fired", "value": "true" }
+      ]
+    },
+    {
+      "id": "MULTI-3",
+      "category": "Multi-iteration via lookup - self-referential",
+      "runs": 2,
+      "turns": ["How does this assistant handle guardrails, and what did Ali build to make them reliable?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "gte", "field": "_diag.loop_iterations", "value": 2 },
+        { "type": "equals", "field": "_diag.audience_tool_fired", "value": "true" }
+      ]
+    },
+    {
+      "id": "MULTI-4",
+      "category": "Multi-iteration via lookup - recruiter signal",
+      "runs": 2,
+      "turns": ["We are hiring a Staff Product Designer for a regulated healthcare product. Does Ali's Medicare enrollment work actually map to that?"],
+      "assertions": [
+        { "type": "non_empty" },
+        { "type": "equals", "field": "_diag.audience_tool_fired", "value": "true" }
+      ],
+      "notes": "No iteration assertion here - a JD-shaped question may or may not trigger a lookup, and asserting it would test the wrong thing. Included to vary persona within this condition rather than to confirm iteration count."
+    }
+  ]
+}
