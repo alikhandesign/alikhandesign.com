@@ -13,9 +13,22 @@ on: deployment_status
 
 jobs:
   evals:
+    # Vercel does not name the environment plain 'Preview'. It appends the
+    # project name with an en dash: 'Preview - alikhandesign-com'. An equality
+    # check silently never matched, and the job skipped on every deploy.
+    #
+    # This repo also deploys TWO Vercel projects - the site and the Storybook
+    # for the design system - so both fire deployment_status on every push.
+    # Matching the project name is not optional tidiness: without it the
+    # suites would run against the Storybook deployment, which has no
+    # /api/chat at all.
+    #
+    # startsWith avoids depending on the exact separator character, which is
+    # an en dash rather than a hyphen and is easy to get wrong.
     if: >
       github.event.deployment_status.state == 'success' &&
-      github.event.deployment.environment == 'Preview'
+      startsWith(github.event.deployment.environment, 'Preview') &&
+      contains(github.event.deployment.environment, 'alikhandesign-com')
     runs-on: ubuntu-latest
     permissions:
       contents: read
