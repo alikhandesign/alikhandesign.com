@@ -1,0 +1,48 @@
+{
+  "_comment": [
+    "Declares, for every project whose /work page is wrapped in PasswordGate, what is",
+    "actually behind that gate. The consistency check enforces the code against this",
+    "declaration rather than inferring intent from the presence of the component.",
+    "",
+    "This exists because the naive rule - page has a gate, therefore gate the chatbot -",
+    "is wrong. Some pages gate only an image gallery while all their narrative content",
+    "sits above the gate, public. A check cannot tell those apart by reading the JSX, so",
+    "the judgment gets written down once and verified thereafter.",
+    "",
+    "Adding a newly-gated project fails the check until it is declared here, which is the",
+    "point: the decision gets made deliberately rather than defaulting to whichever",
+    "behavior the omission happens to produce."
+  ],
+  "projects": {
+    "ai-agent": {
+      "gates": "narrative",
+      "reason": "The gate protects the design decisions and stakeholder mapping. Public above it: the hook, four metrics, and the gate's own teaser text, which itself states the 78-to-95 percent figure.",
+      "chatbot_must_gate": true
+    },
+    "ancillary-journey": {
+      "gates": "narrative",
+      "reason": "The gate protects the full research deck - session-by-session findings and usability issues with severity ratings. The general problem and approach are public.",
+      "chatbot_must_gate": true
+    },
+    "ihe-portal": {
+      "gates": "narrative",
+      "reason": "The gate protects the entire detailed narrative including all six barrier categories and the renewal figure. Only a hook and three headline metrics are public.",
+      "chatbot_must_gate": true
+    },
+    "people-first": {
+      "gates": "narrative",
+      "reason": "The gate protects the stakeholder-pivot story and research synthesis. All four headline metrics are public on the page.",
+      "chatbot_must_gate": true
+    },
+    "design-handoff": {
+      "gates": "images-only",
+      "reason": "The gate wraps an image gallery. Every substantive fact - the team and developer counts, the Jira gate requirements, the severity scale - is already public in the page sections above it. Nothing in the knowledge base needs restricting.",
+      "chatbot_must_gate": false
+    },
+    "llm-prompts": {
+      "gates": "images-only",
+      "reason": "Same shape as design-handoff: the gate wraps an image gallery and the narrative content is public above it.",
+      "chatbot_must_gate": false
+    }
+  }
+}

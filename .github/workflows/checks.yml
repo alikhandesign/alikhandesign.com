@@ -1,0 +1,28 @@
+name: checks
+
+# Runs on the pull request itself, not on deployment. These are static checks
+# against the source - they need no running system, so they should report as a
+# normal PR check and block merge, unlike the eval workflow which can only run
+# after a deploy and posts a comment instead.
+on:
+  pull_request:
+    paths:
+      - 'app/api/chat/**'
+      - 'app/work/**'
+      - 'lib/knowledge/**'
+      - 'checks/**'
+
+jobs:
+  gating-consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      # Enforces the one convention where a violation is a real content leak:
+      # a project gated on the site must be gated in the chatbot and must have
+      # a public summary to serve locked visitors instead. Free, deterministic,
+      # no API calls.
+      - name: Gating consistency
+        run: python3 checks/gating_consistency.py
