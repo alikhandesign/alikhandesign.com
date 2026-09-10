@@ -1,16 +1,18 @@
-export default function FadeOut({ children }: { children: React.ReactNode }) {
+export default function FadeOut({ children, active = true }: { children: React.ReactNode; active?: boolean }) {
   return (
     <div style={{ position: 'relative' }}>
       {children}
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to bottom, transparent 35%, var(--color-bg) 92%)',
-          pointerEvents: 'none',
-        }}
-      />
+      {active && (
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to bottom, transparent 35%, var(--color-bg) 92%)',
+            pointerEvents: 'none',
+          }}
+        />
+      )}
     </div>
   )
 }

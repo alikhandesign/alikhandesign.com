@@ -383,7 +383,7 @@ const INSIDE = [
 
 // ─── Pre-gate preview ────────────────────────────────────────────────────────
 
-function FreePreview() {
+function FreePreview({ unlocked }: { unlocked: boolean }) {
   return (
     <div style={{ maxWidth: 680 }}>
       <section id="the-context" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
@@ -425,7 +425,7 @@ function FreePreview() {
         <Body>
           {`I ran into the expert gap myself. I helped with the feedback process from time to time, and I worked on the Shopping and Quoting team, so I was closer to the product than most researchers were. That proximity still had limits. If a comment touched a known technical limitation in another team's domain, I might file it as a bug when it wasn't one. The person doing the categorization couldn't know what they didn't know. That's structural.`}
         </Body>
-        <FadeOut>
+        <FadeOut active={!unlocked}>
           <Body mb={false}>
             {`Researcher hours were the smallest part of the cost. `}
             <strong>{`Feedback that arrives late and miscategorized is a compliance and retention risk.`}</strong>
@@ -687,6 +687,7 @@ function FullCaseStudy() {
 }
 
 export default function AIAgentPage() {
+  const [unlocked, setUnlocked] = useState(false)
   return (
     <CaseStudyPage
       title="AI Feedback & Insights Agent"
@@ -710,9 +711,9 @@ export default function AIAgentPage() {
       cta={{ title: 'Want to talk through the methodology or the build?' }}
       next={getNextWork('ai-agent')!}
     >
-      <FreePreview />
+      <FreePreview unlocked={unlocked} />
       <PasswordGate
-        onUnlock={() => {}}
+        onUnlock={() => setUnlocked(true)}
         title="Ready to see how it came together?"
         description="The full case study covers the design decisions behind the system: how a Legal refusal became the architecture, how the agent closed a gap the researchers couldn't, and how the validation methodology got from 78% to 95%."
         inside={INSIDE}

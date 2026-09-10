@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react'
 import { getNextWork } from '@/app/work.config'
 import CaseStudyPage from '@/app/components/CaseStudyPage'
 import SectionIntro from '@/app/components/SectionIntro'
@@ -33,7 +34,7 @@ const INSIDE = [
 
 // ─── Pre-gate preview ────────────────────────────────────────────────────────
 
-function FreePreview() {
+function FreePreview({ unlocked }: { unlocked: boolean }) {
   return (
     <div style={{ maxWidth: 680 }}>
       <section id="the-context" style={{ marginBottom: '4rem', scrollMarginTop: '5rem' }}>
@@ -63,7 +64,7 @@ function FreePreview() {
         <Body>
           My mandate was broad: improve the enrollment experience. What existed was a stale backlog that hadn&apos;t been meaningfully prioritized in a long time, and no shared view of where the shopping flow was actually failing. Different people had different theories, none of them evidenced.
         </Body>
-        <FadeOut>
+        <FadeOut active={!unlocked}>
           <Body mb={false}>
             That absence was the real starting problem. Before I could improve anything, I had to find out what was broken, and the team had no reliable way to answer that question.
           </Body>
@@ -266,6 +267,7 @@ function FullCaseStudy() {
 }
 
 export default function PeopleFirstPage() {
+  const [unlocked, setUnlocked] = useState(false)
   return (
     <CaseStudyPage
       title="People-First Enrollment Redesign"
@@ -290,9 +292,9 @@ export default function PeopleFirstPage() {
       cta={{ title: 'Interested in how this came together?' }}
       next={getNextWork('people-first')!}
     >
-      <FreePreview />
+      <FreePreview unlocked={unlocked} />
       <PasswordGate
-        onUnlock={() => {}}
+        onUnlock={() => setUnlocked(true)}
         title="Ready to see how it came together?"
         description="Thirty usability sessions, a first direction that had to be cut, and a mandate the organization treated as settled until someone checked. Enrollments went up 15%."
         inside={INSIDE}
