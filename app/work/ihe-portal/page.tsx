@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react'
 import { getNextWork } from '@/app/work.config'
 import CaseStudyPage from '@/app/components/CaseStudyPage'
 import PasswordGate from '@/app/components/PasswordGate'
@@ -137,7 +138,7 @@ function BarrierList({ items }: { items: Barrier[] }) {
 
 // ─── Pre-gate preview ────────────────────────────────────────────────────────
 
-function FreePreview() {
+function FreePreview({ unlocked }: { unlocked: boolean }) {
   return (
     <div style={{ maxWidth: 680 }}>
 
@@ -159,7 +160,7 @@ function FreePreview() {
         <Body>
           Too many eligible members were declining a free In-Home Health Evaluation that, by every available measure, benefited them. Yet those same members were actively enrolling in Social Care Coordination, a separate, non-medical support offering. The contrast was the real mystery: a population willing to accept social help was firmly shutting the door on clinical care.
         </Body>
-        <FadeOut>
+        <FadeOut active={!unlocked}>
           <Body mb={false}>
             No one on the team had a validated answer for why. Before any redesign could target the true barrier, we had to figure out what SCC was doing right that the IHE was getting wrong.
           </Body>
@@ -359,6 +360,7 @@ function FullCaseStudy() {
 }
 
 export default function IHEPortalPage() {
+  const [unlocked, setUnlocked] = useState(false)
   return (
     <CaseStudyPage
       title="IHE Scheduling Portal"
@@ -382,9 +384,9 @@ export default function IHEPortalPage() {
       cta={{ title: 'Interested in how this came together?' }}
       next={getNextWork('ihe-portal')!}
     >
-      <FreePreview />
+      <FreePreview unlocked={unlocked} />
       <PasswordGate
-        onUnlock={() => {}}
+        onUnlock={() => setUnlocked(true)}
         title="Ready to see how it came together?"
         description="Eight barriers to enrollment, two very different root causes, and a redesign built to answer both."
         inside={INSIDE}
